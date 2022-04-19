@@ -10,5 +10,6 @@ namespace RPFBE.Model.DBEntity
         public int Id { get; set; }
         public string UserId { get; set; }
         public string FilePath { get; set; }
+        public string TagName { get; set; }
     }
 }

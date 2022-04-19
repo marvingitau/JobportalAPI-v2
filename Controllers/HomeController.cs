@@ -447,7 +447,8 @@ namespace RPFBE.Controllers
                     UserCV cvData = new UserCV
                     {
                         UserId = user.Id,
-                        FilePath = fileName
+                        FilePath = path,
+                        TagName = fileName,
 
                     };
                     dbContext.UserCVs.Add(cvData);

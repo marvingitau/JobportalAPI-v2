@@ -438,6 +438,7 @@ namespace RPFBE.Controllers
                 {
                     var specificCV = dbContext.UserCVs.Where(x => x.UserId == user.Id).FirstOrDefault();
                     specificCV.FilePath = path;
+                    specificCV.TagName = formFile.FileName;
                     await dbContext.SaveChangesAsync();
                     return StatusCode(StatusCodes.Status200OK, new Response { Status = "Succes", Message = "CV Updated" });
 
@@ -448,8 +449,7 @@ namespace RPFBE.Controllers
                     {
                         UserId = user.Id,
                         FilePath = path,
-                        TagName = fileName,
-
+                        TagName = formFile.FileName
                     };
                     dbContext.UserCVs.Add(cvData);
                     dbContext.SaveChanges();

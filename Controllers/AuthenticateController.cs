@@ -87,34 +87,43 @@ namespace RPFBE.Controllers
             var res = CodeUnitWebService.EmployeeAccount().LoginEmployeeAsync(model.EmployeeId, Cryptography.Hash(model.Password)).Result.return_value;
             if (res)
             {
-                var userExists = await userManager.FindByNameAsync(model.Username);
-                if (userExists != null)
-                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
-
-                ApplicationUser user = new ApplicationUser()
+                try
                 {
-                    Email = model.Email,
-                    SecurityStamp = Guid.NewGuid().ToString(),
-                    UserName = model.Username,
-                    EmployeeId = model.EmployeeId,
-                    Name = model.Username
-                };
-                var result = await userManager.CreateAsync(user, model.Password);
-                if (!result.Succeeded)
-                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
+                    var userExists = await userManager.FindByNameAsync(model.Username);
+                    if (userExists != null)
+                        return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
 
-                if (!await roleManager.RoleExistsAsync(UserRoles.Admin))
-                    await roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
-                if (!await roleManager.RoleExistsAsync(UserRoles.User))
-                    await roleManager.CreateAsync(new IdentityRole(UserRoles.User));
+                    ApplicationUser user = new ApplicationUser()
+                    {
+                        Email = model.Email,
+                        SecurityStamp = Guid.NewGuid().ToString(),
+                        UserName = model.Username,
+                        EmployeeId = model.EmployeeId,
+                        Name = model.Username
+                    };
+                    var result = await userManager.CreateAsync(user, model.Password);
+                    if (!result.Succeeded)
+                        return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed :"+result.Errors });
 
-                if (await roleManager.RoleExistsAsync(UserRoles.Admin))
-                {
-                    await userManager.AddToRoleAsync(user, UserRoles.Admin);
+                    if (!await roleManager.RoleExistsAsync(UserRoles.Admin))
+                        await roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
+                    if (!await roleManager.RoleExistsAsync(UserRoles.User))
+                        await roleManager.CreateAsync(new IdentityRole(UserRoles.User));
 
+                    if (await roleManager.RoleExistsAsync(UserRoles.Admin))
+                    {
+                        await userManager.AddToRoleAsync(user, UserRoles.Admin);
+
+                    }
+
+                    return Ok(new Response { Status = "Success", Message = "User created successfully!" });
                 }
+                catch (Exception x)
+                {
 
-                return Ok(new Response { Status = "Success", Message = "User created successfully!" });
+                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! :"+x.Message });
+                }
+               
             }
             else
             {
@@ -142,8 +151,8 @@ namespace RPFBE.Controllers
                 };
                 var result = await userManager.CreateAsync(user, model.Password);
                 if (!result.Succeeded)
-                    //return StatusCode(StatusCodes.Status208AlreadyReported, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
-                    return Ok(result);
+                    return StatusCode(StatusCodes.Status208AlreadyReported, new Response { Status = "Error", Message = "User creation failed; "+ result.Errors.ToString() });
+                    //return Ok(result);
 
                 return Ok(new Response { Status = "Success", Message = "User created successfully!" });
             }

@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using RecruitmentPortalBE.Auth;
+using RPFBE.Auth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +35,7 @@ namespace RPFBE
 
             services.AddControllers();
             // For Entity Framework  
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("RecruitmentPortalBE")));
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("RPFBE")));
 
             // For Identity  
             services.AddIdentity<ApplicationUser, IdentityRole>()
@@ -80,7 +80,7 @@ namespace RPFBE
 
             app.UseCors(options => options.AllowCredentials().AllowAnyHeader().AllowAnyMethod().WithOrigins(new[] { "https://localhost:3001" }));
 
-            app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

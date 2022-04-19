@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using RecruitmentPortalBE.Auth;
-using RecruitmentPortalBE.Model;
+using RPFBE.Auth;
+using RPFBE.Model;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -16,7 +16,7 @@ using System.Text;
 //using System.Linq;
 using System.Threading.Tasks;
 
-namespace RecruitmentPortalBE.Controllers
+namespace RPFBE.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -84,7 +84,7 @@ namespace RecruitmentPortalBE.Controllers
         [Route("register-admin")]
         public async Task<IActionResult> RegisterAdmin([FromBody] RegisterModel model)
         {
-            var res = CodeUnitWebService.EmployeeAccount().LoginEmployeeAsync(model.EmployeeId, model.Password).Result.return_value;
+            var res = CodeUnitWebService.EmployeeAccount().LoginEmployeeAsync(model.EmployeeId, Cryptography.Hash(model.Password)).Result.return_value;
             if (res)
             {
                 var userExists = await userManager.FindByNameAsync(model.Username);
@@ -118,7 +118,7 @@ namespace RecruitmentPortalBE.Controllers
             }
             else
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check ensure you exist in D365." });
             }
         }
 

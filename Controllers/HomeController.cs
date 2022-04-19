@@ -5,9 +5,9 @@
 //using Microsoft.AspNetCore.Mvc;
 //using Microsoft.Extensions.Logging;
 //using Newtonsoft.Json;
-//using RecruitmentPortalBE.Auth;
-//using RecruitmentPortalBE.Model;
-//using RecruitmentPortalBE.Model.DBEntity;
+//using RPFBE.Auth;
+//using RPFBE.Model;
+//using RPFBE.Model.DBEntity;
 //using System;
 //using System.Collections.Generic;
 //using System.IO;
@@ -22,9 +22,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using RecruitmentPortalBE.Auth;
-using RecruitmentPortalBE.Model;
-using RecruitmentPortalBE.Model.DBEntity;
+using RPFBE.Auth;
+using RPFBE.Model;
+using RPFBE.Model.DBEntity;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -32,7 +32,7 @@ using System.Linq;
 using System.ServiceModel;
 using System.Threading.Tasks;
 
-namespace RecruitmentPortalBE.Controllers
+namespace RPFBE.Controllers
 {
     //[Authorize(Roles =UserRoles.Admin)]
     [ApiController]
@@ -259,13 +259,14 @@ namespace RecruitmentPortalBE.Controllers
         }
 
 
-        //Checklist Documents
-        [Route("UploadCheck/{jobNo}")]
+        //Checklist Documents !(Roles="Admin")
+        [Authorize]
+        [Route("uploadcheck/{jobNo}")]
         [HttpPost]
         public async Task<IActionResult> SaveImage([FromForm] List<IFormFile> forms, string jobNo)
         {
             var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
-
+          
             try
             {
                 var subDirectory = "Files";
@@ -297,7 +298,8 @@ namespace RecruitmentPortalBE.Controllers
             }
             catch (Exception ex)
             {
-                return Ok(ex.Message);
+                return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "File upload failed :"+ex.Message });
+                
             }
 
         }

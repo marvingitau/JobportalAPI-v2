@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace RecruitmentPortalBE.Model
+namespace RPFBE.Model
 {
     public class RegisterModel
     {

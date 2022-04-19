@@ -4,16 +4,16 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
-using RecruitmentPortalBE.Auth;
-using RecruitmentPortalBE.Model;
-using RecruitmentPortalBE.Model.DBEntity;
+using RPFBE.Auth;
+using RPFBE.Model;
+using RPFBE.Model.DBEntity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace RecruitmentPortalBE.Controllers
+namespace RPFBE.Controllers
 {
     
     [Authorize]

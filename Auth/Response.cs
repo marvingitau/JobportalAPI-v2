@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace RecruitmentPortalBE.Auth
+namespace RPFBE.Auth
 {
     public class Response
     {

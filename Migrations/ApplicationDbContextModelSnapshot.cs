@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using RecruitmentPortalBE.Auth;
+using RPFBE.Auth;
 
 namespace RPFBE.Migrations
 {
@@ -150,7 +150,7 @@ namespace RPFBE.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("RecruitmentPortalBE.Auth.ApplicationUser", b =>
+            modelBuilder.Entity("RPFBE.Auth.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -224,7 +224,7 @@ namespace RPFBE.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("RecruitmentPortalBE.Model.DBEntity.AppliedJob", b =>
+            modelBuilder.Entity("RPFBE.Model.DBEntity.AppliedJob", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -257,7 +257,7 @@ namespace RPFBE.Migrations
                     b.ToTable("AppliedJobs");
                 });
 
-            modelBuilder.Entity("RecruitmentPortalBE.Model.DBEntity.JobSpecFile", b =>
+            modelBuilder.Entity("RPFBE.Model.DBEntity.JobSpecFile", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -281,7 +281,7 @@ namespace RPFBE.Migrations
                     b.ToTable("SpecFiles");
                 });
 
-            modelBuilder.Entity("RecruitmentPortalBE.Model.DBEntity.Profile", b =>
+            modelBuilder.Entity("RPFBE.Model.DBEntity.Profile", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -395,7 +395,7 @@ namespace RPFBE.Migrations
                     b.ToTable("Profiles");
                 });
 
-            modelBuilder.Entity("RecruitmentPortalBE.Model.DBEntity.Skill", b =>
+            modelBuilder.Entity("RPFBE.Model.DBEntity.Skill", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -416,7 +416,7 @@ namespace RPFBE.Migrations
                     b.ToTable("Skills");
                 });
 
-            modelBuilder.Entity("RecruitmentPortalBE.Model.DBEntity.UserCV", b =>
+            modelBuilder.Entity("RPFBE.Model.DBEntity.UserCV", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -445,7 +445,7 @@ namespace RPFBE.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("RecruitmentPortalBE.Auth.ApplicationUser", null)
+                    b.HasOne("RPFBE.Auth.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -454,7 +454,7 @@ namespace RPFBE.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("RecruitmentPortalBE.Auth.ApplicationUser", null)
+                    b.HasOne("RPFBE.Auth.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -469,7 +469,7 @@ namespace RPFBE.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RecruitmentPortalBE.Auth.ApplicationUser", null)
+                    b.HasOne("RPFBE.Auth.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -478,7 +478,7 @@ namespace RPFBE.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("RecruitmentPortalBE.Auth.ApplicationUser", null)
+                    b.HasOne("RPFBE.Auth.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

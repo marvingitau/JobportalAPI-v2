@@ -332,7 +332,20 @@ namespace RPFBE.Controllers
             try
             {
                 var dbres = dbContext.SpecFiles.Where(x => x.TagName == FID).FirstOrDefault();
-                return Ok(dbres.FilePath);
+                var file = dbres.FilePath;
+
+                // Response...
+                System.Net.Mime.ContentDisposition cd = new System.Net.Mime.ContentDisposition
+                {
+                    FileName = file,
+                    Inline = false // false = prompt the user for downloading;  true = browser to try to show the file inline
+                };
+                Response.Headers.Add("Content-Disposition", cd.ToString());
+                Response.Headers.Add("X-Content-Type-Options", "nosniff");
+
+                return File(System.IO.File.ReadAllBytes(file), "application/pdf");
+
+               // return Ok(dbres.FilePath);
             }
             catch (Exception)
             {
@@ -370,23 +383,38 @@ namespace RPFBE.Controllers
             try
             {
                 var dbres = dbContext.UserCVs.Where(x => x.UserId == user.Id).FirstOrDefault();
-                //var bytes = await System.IO.File.ReadAllBytesAsync(dbres.FilePath);
-                //return File(bytes, "application/pdf", Path.GetFileName(dbres.FilePath));
-                //if (filename == null)
-                //return Content("filename not present");
 
-                //var path = Path.Combine(
-                //               Directory.GetCurrentDirectory(),
-                //               "wwwroot", filename);
-                var path = dbres.FilePath;
+                /*var bytes = await System.IO.File.ReadAllBytesAsync(dbres.FilePath);
+                return File(bytes, "application/pdf", Path.GetFileName(dbres.FilePath));
+                if (filename == null)
+                    return Content("filename not present");
 
-                var memory = new MemoryStream();
-                using (var stream = new FileStream(path, FileMode.Open))
+                var path = Path.Combine(
+                               Directory.GetCurrentDirectory(),
+                               "wwwroot", filename);*/
+
+                //var path = dbres.FilePath;
+
+                //var memory = new MemoryStream();
+                //using (var stream = new FileStream(path, FileMode.Open))
+                //{
+                //    await stream.CopyToAsync(memory);
+                //}
+                //memory.Position = 0;
+                //return File(memory, "application/pdf", Path.GetFileName(path));
+
+                var file = dbres.FilePath;
+
+                // Response...
+                System.Net.Mime.ContentDisposition cd = new System.Net.Mime.ContentDisposition
                 {
-                    await stream.CopyToAsync(memory);
-                }
-                memory.Position = 0;
-                return File(memory, "application/pdf", Path.GetFileName(path));
+                    FileName = file,
+                    Inline = true // false = prompt the user for downloading;  true = browser to try to show the file inline
+                };
+                Response.Headers.Add("Content-Disposition", cd.ToString());
+                Response.Headers.Add("X-Content-Type-Options", "nosniff");
+
+                return File(System.IO.File.ReadAllBytes(file), "application/pdf");
 
 
 
@@ -406,8 +434,21 @@ namespace RPFBE.Controllers
             //var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
             try
             {
+                //var path = System.AppContext.BaseDirectory;
                 var dbres = dbContext.UserCVs.Where(x => x.UserId == UID).FirstOrDefault();
-                return Ok(dbres.FilePath);
+                var file = dbres.FilePath;
+
+                // Response...
+                System.Net.Mime.ContentDisposition cd = new System.Net.Mime.ContentDisposition
+                {
+                    FileName = file,
+                    Inline = true // false = prompt the user for downloading;  true = browser to try to show the file inline
+                };
+                Response.Headers.Add("Content-Disposition", cd.ToString());
+                Response.Headers.Add("X-Content-Type-Options", "nosniff");
+
+                return File(System.IO.File.ReadAllBytes(file), "application/pdf");
+                //return Ok(path);
             }
             catch (Exception)
             {
@@ -562,8 +603,8 @@ namespace RPFBE.Controllers
         {
             try
             {
-                var viewedCount = dbContext.AppliedJobs.Where(x => x.Viewed == true).Count();
-                var pendingCount = dbContext.AppliedJobs.Where(x => x.Viewed != true).Count();
+                var viewedCount = dbContext.AppliedJobs.Where(x => x.Viewed != true).Count();
+                var pendingCount = dbContext.AppliedJobs.Where(x => x.Viewed == true).Count();
 
                 return Ok(new { viewedCount, pendingCount });
             }

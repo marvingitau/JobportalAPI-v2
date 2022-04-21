@@ -1,19 +1,4 @@
-﻿//using Microsoft.AspNetCore.Authorization;
-//using Microsoft.AspNetCore.Hosting;
-//using Microsoft.AspNetCore.Http;
-//using Microsoft.AspNetCore.Identity;
-//using Microsoft.AspNetCore.Mvc;
-//using Microsoft.Extensions.Logging;
-//using Newtonsoft.Json;
-//using RPFBE.Auth;
-//using RPFBE.Model;
-//using RPFBE.Model.DBEntity;
-//using System;
-//using System.Collections.Generic;
-//using System.IO;
-//using System.Linq;
-//using System.Threading.Tasks;
-
+﻿using ClosedXML.Excel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Hosting;
@@ -26,10 +11,13 @@ using RPFBE.Auth;
 using RPFBE.Model;
 using RPFBE.Model.DBEntity;
 using System;
+using System.Buffers.Text;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.ServiceModel;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace RPFBE.Controllers
@@ -43,6 +31,7 @@ namespace RPFBE.Controllers
 
         private readonly ILogger<HomeController> _logger;
         private readonly IWebHostEnvironment webHostEnvironment;
+        private readonly ICodeUnitWebService codeUnitWebService;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly ApplicationDbContext dbContext;
 
@@ -50,13 +39,15 @@ namespace RPFBE.Controllers
          UserManager<ApplicationUser> userManager,
          ApplicationDbContext dbContext,
          ILogger<HomeController> logger,
-        IWebHostEnvironment webHostEnvironment
+        IWebHostEnvironment webHostEnvironment,
+        ICodeUnitWebService codeUnitWebService
       )
         {
             this.userManager = userManager;
             this.dbContext = dbContext;
             _logger = logger;
             this.webHostEnvironment = webHostEnvironment;
+            this.codeUnitWebService = codeUnitWebService;
         }
 
         [Route("posted-jobs")]
@@ -68,7 +59,7 @@ namespace RPFBE.Controllers
             {
                 //List<PostedJobModel> postedJobsList = new List<PostedJobModel>();
 
-                var result = await CodeUnitWebService.Client().GetPostedJobsAsync();
+                var result = await codeUnitWebService.Client().GetPostedJobsAsync();
                 dynamic postedJobs = JsonConvert.DeserializeObject<List<PostedJobModel>>(result.return_value);
 
                 foreach (var postedJob in postedJobs)
@@ -104,13 +95,13 @@ namespace RPFBE.Controllers
             try
             {
                 //Job Metadata
-                var jobMeta = CodeUnitWebService.Client().GetJobMetaAsync(ReqNo).Result.return_value;
+                var jobMeta = codeUnitWebService.Client().GetJobMetaAsync(ReqNo).Result.return_value;
                 JobMetaModel jobMetaDeserialize = JsonConvert.DeserializeObject<JobMetaModel>(jobMeta);
 
                 try
                 {
                     //Qualification
-                    var jobQualification = CodeUnitWebService.Client().GetPostedJobQualificationsAsync(jobMetaDeserialize.Jobno).Result.return_value;
+                    var jobQualification = codeUnitWebService.Client().GetPostedJobQualificationsAsync(jobMetaDeserialize.Jobno).Result.return_value;
                     dynamic jobQualificationDeserialize = JsonConvert.DeserializeObject(jobQualification);
                     foreach (var qualif in jobQualificationDeserialize)
                     {
@@ -134,7 +125,7 @@ namespace RPFBE.Controllers
                 try
                 {
                     //Requirements
-                    var jobRequirement = CodeUnitWebService.Client().GetPostedJobRequirementsAsync(jobMetaDeserialize.Jobno).Result.return_value;
+                    var jobRequirement = codeUnitWebService.Client().GetPostedJobRequirementsAsync(jobMetaDeserialize.Jobno).Result.return_value;
                     dynamic JobReqSerial = JsonConvert.DeserializeObject(jobRequirement);
                     foreach (var require in JobReqSerial)
                     {
@@ -156,7 +147,7 @@ namespace RPFBE.Controllers
                 try
                 {
                     //Task
-                    var jobTask = CodeUnitWebService.Client().GetJobTasksAsync(jobMetaDeserialize.Jobno).Result.return_value;
+                    var jobTask = codeUnitWebService.Client().GetJobTasksAsync(jobMetaDeserialize.Jobno).Result.return_value;
                     dynamic JobTaskSerial = JsonConvert.DeserializeObject(jobTask);
 
                     foreach (var task in JobTaskSerial)
@@ -179,7 +170,7 @@ namespace RPFBE.Controllers
                 try
                 {
                     //Checklist
-                    var jobChecklist = CodeUnitWebService.Client().GetChecklistAsync(ReqNo).Result.return_value;
+                    var jobChecklist = codeUnitWebService.Client().GetChecklistAsync(ReqNo).Result.return_value;
                     dynamic jobChecklistSerial = JsonConvert.DeserializeObject(jobChecklist);
 
                     foreach (var task in jobChecklistSerial)
@@ -272,29 +263,44 @@ namespace RPFBE.Controllers
                 var subDirectory = "Files";
                 var result = new List<FileUploadResult>();
                 var target = Path.Combine(webHostEnvironment.ContentRootPath, subDirectory);
-
-                foreach (var file in forms)
+                var dbCount = dbContext.SpecFiles.Where(x => x.UserId == user.Id && x.JobId == jobNo).Count();
+                if (dbCount <= 0)
                 {
-                    string fileName = Path.GetFileNameWithoutExtension(file.FileName) + Path.GetExtension(file.FileName);
-                    //string fileName = new String(Path.GetFileNameWithoutExtension(file.FileName).Take(17).ToArray()).Replace(' ', '-');
-                    //fileName = fileName + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(file.FileName);
-                    var path = Path.Combine(target, fileName);
-                    var stream = new FileStream(path, FileMode.Create);
-                    await file.CopyToAsync(stream);
-                    result.Add(new FileUploadResult() { Name = file.FileName, Length = file.Length });
-
-                    JobSpecFile specData = new JobSpecFile
+                    foreach (var file in forms)
                     {
-                        UserId = user.Id,
-                        JobId = jobNo,
-                        FilePath = path,
-                        TagName = fileName,
+                        string fileName = Path.GetFileNameWithoutExtension(file.FileName) + Path.GetExtension(file.FileName);
+                        //string fileName = new String(Path.GetFileNameWithoutExtension(file.FileName).Take(17).ToArray()).Replace(' ', '-');
+                        //fileName = fileName + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(file.FileName);
+                        var path = Path.Combine(target, fileName);
+                        //var stream = new FileStream(path, FileMode.Create);
+                        //await file.CopyToAsync(stream);
+                        //result.Add(new FileUploadResult() { Name = file.FileName, Length = file.Length });
 
-                    };
-                    dbContext.SpecFiles.Add(specData);
-                    dbContext.SaveChanges();
+                        using (FileStream stream = new FileStream(path, FileMode.Create))
+                        {
+                            file.CopyTo(stream);
+                            result.Add(new FileUploadResult() { Name = file.FileName, Length = file.Length });
+                            JobSpecFile specData = new JobSpecFile
+                            {
+                                UserId = user.Id,
+                                JobId = jobNo,
+                                FilePath = path,
+                                TagName = fileName,
+
+                            };
+                            dbContext.SpecFiles.Add(specData);
+                            dbContext.SaveChanges();
+
+                        }
+
+                    }
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "File Uploaded" });
                 }
-                return Ok(result);
+                else
+                {
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "File Uploaded Already" });
+                }
+               
             }
             catch (Exception ex)
             {
@@ -323,7 +329,7 @@ namespace RPFBE.Controllers
 
         }
 
-        //All users
+        //Admin & use for users so as to delete
         [Route("viewattachment/{FID}")]
         [HttpGet]
         public IActionResult ViewAttachment(string FID)
@@ -334,6 +340,7 @@ namespace RPFBE.Controllers
                 var dbres = dbContext.SpecFiles.Where(x => x.TagName == FID).FirstOrDefault();
                 var file = dbres.FilePath;
 
+                /*
                 // Response...
                 System.Net.Mime.ContentDisposition cd = new System.Net.Mime.ContentDisposition
                 {
@@ -344,12 +351,15 @@ namespace RPFBE.Controllers
                 Response.Headers.Add("X-Content-Type-Options", "nosniff");
 
                 return File(System.IO.File.ReadAllBytes(file), "application/pdf");
+                */
+                var stream = new FileStream(file, FileMode.Open);
+                return new FileStreamResult(stream, "application/pdf");
 
-               // return Ok(dbres.FilePath);
+                // return Ok(dbres.FilePath);
             }
             catch (Exception)
             {
-                return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "CV View failed" });
+                return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "Attachement View failed" });
             }
         }
 
@@ -364,6 +374,7 @@ namespace RPFBE.Controllers
             try
             {
                 var dbres = dbContext.SpecFiles.Where(x => x.UserId == UID).ToList();
+
                 return dbres;
             }
             catch (Exception)
@@ -375,6 +386,7 @@ namespace RPFBE.Controllers
         }
 
         //User View CV
+        [Authorize]
         [Route("viewcv")]
         [HttpGet]
         public async Task<IActionResult> ViewCV()
@@ -435,9 +447,14 @@ namespace RPFBE.Controllers
             try
             {
                 //var path = System.AppContext.BaseDirectory;
+            
                 var dbres = dbContext.UserCVs.Where(x => x.UserId == UID).FirstOrDefault();
+                if(dbres == null)
+                {
+                    return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "CV Not Uploaded" });
+                }
                 var file = dbres.FilePath;
-
+              
                 // Response...
                 System.Net.Mime.ContentDisposition cd = new System.Net.Mime.ContentDisposition
                 {
@@ -448,7 +465,12 @@ namespace RPFBE.Controllers
                 Response.Headers.Add("X-Content-Type-Options", "nosniff");
 
                 return File(System.IO.File.ReadAllBytes(file), "application/pdf");
-                //return Ok(path);
+                
+                /*
+                WebClient webclient = new WebClient();
+                var byteArr = webclient.DownloadData(file);
+                return File(byteArr, "application/pdf");
+                */
             }
             catch (Exception)
             {
@@ -472,9 +494,20 @@ namespace RPFBE.Controllers
                 string fileName = new String(Path.GetFileNameWithoutExtension(formFile.FileName).Take(10).ToArray()).Replace(' ', '-');
                 fileName = fileName + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(formFile.FileName);
                 var path = Path.Combine(target, fileName);
-                var stream = new FileStream(path, FileMode.Create);
-                await formFile.CopyToAsync(stream);
-                var respnuk = dbContext.UserCVs.Where(x => x.UserId == user.Id);
+                using (FileStream stream = new FileStream(path, FileMode.Create))
+                {
+                    formFile.CopyTo(stream);
+                }
+                //var stream = new FileStream(path, FileMode.Create);
+                //await formFile.CopyToAsync(stream);
+                //var respnuk = dbContext.UserCVs.Where(x => x.UserId == user.Id);
+
+                /* 
+                 * var host = HttpContext.Request.Host.ToUriComponent();
+                 * var url = $"{HttpContext.Request.Scheme}://{host}/{path}";
+                 * return Content(url);
+                */
+
                 if (dbContext.UserCVs.Where(x => x.UserId == user.Id).Count() > 0)
                 {
                     var specificCV = dbContext.UserCVs.Where(x => x.UserId == user.Id).FirstOrDefault();
@@ -590,7 +623,7 @@ namespace RPFBE.Controllers
 
             var employee = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
 
-            var jobAppId = CodeUnitWebService.Client().PostJobApplicationAsync(reqNo, employee.EmployeeId);
+            var jobAppId = codeUnitWebService.Client().PostJobApplicationAsync(reqNo, employee.EmployeeId);
             return Ok(jobAppId);
         }
 
@@ -640,7 +673,184 @@ namespace RPFBE.Controllers
             }
         }
 
+        [Route("env")]
+        [HttpGet]
+        public IActionResult GetDefault()
+        {
+            //string wwwPath = this.webHostEnvironment.WebRootPath;
+            //string contentPath = this.webHostEnvironment.ContentRootPath;
+            //return Ok(new { wwwPath, contentPath });
+            WebClient webclient = new WebClient();
+            var byteArr = webclient.DownloadData(@"A:\CODES\VS\RecruitmentPortalFolder\RPFBE\Files/CVs\Marvingita224125779.pdf");
+                //await wc.DownloadDataTaskAsync(fileURL);
+            return File(byteArr, "application/pdf");
 
+           // var stream = new FileStream(@"A:\CODES\VS\RecruitmentPortalFolder\RPFBE\Files/CVs\Marvingita224125779.pdf", FileMode.Open);
+            //return new FileStreamResult(stream, "application/pdf");
+        }
+
+        [Route("getcv/{UID}")]
+        [HttpGet]
+        public IActionResult GetGlobalCV(string UID)
+        {
+            try
+            {
+                //var path = System.AppContext.BaseDirectory;
+                var dbres = dbContext.UserCVs.Where(x => x.UserId == UID).FirstOrDefault();
+                var file = dbres.FilePath;
+
+                // Response...
+                System.Net.Mime.ContentDisposition cd = new System.Net.Mime.ContentDisposition
+                {
+                    FileName = file,
+                    Inline = true // false = prompt the user for downloading;  true = browser to try to show the file inline
+                };
+                Response.Headers.Add("Content-Disposition", cd.ToString());
+                Response.Headers.Add("X-Content-Type-Options", "nosniff");
+
+                return File(System.IO.File.ReadAllBytes(file), "application/pdf");
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "CV View failed" });
+            }
+        }
+
+        //Admin
+        [Route("getspec/{UID}")]
+        [HttpGet]
+        public IActionResult GetGlobalSpec(string UID)
+        {
+            try
+            {
+                //var path = System.AppContext.BaseDirectory;
+                var dbres = dbContext.SpecFiles.Where(x => x.TagName == UID).FirstOrDefault();
+                var file = dbres.FilePath;
+
+                // Response...
+                System.Net.Mime.ContentDisposition cd = new System.Net.Mime.ContentDisposition
+                {
+                    FileName = file,
+                    Inline = true // false = prompt the user for downloading;  true = browser to try to show the file inline
+                };
+                Response.Headers.Add("Content-Disposition", cd.ToString());
+                Response.Headers.Add("X-Content-Type-Options", "nosniff");
+
+                return File(System.IO.File.ReadAllBytes(file), "application/pdf");
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "Supporting Doc View failed" });
+            }
+        }
+
+
+        //Get Excel doc
+        //Admin
+        [Authorize]
+        [Route("getexcel/{title}")]
+        [HttpGet]
+        public IActionResult getExcel(string title)
+        {
+            try
+            {
+                //var results = dbContext.AppliedJobs.Where(x => x.JobTitle == title).ToList();
+                List<AppliedJob> appliedJobs= dbContext.AppliedJobs.ToList();
+                List<Profile> profiles = dbContext.Profiles.ToList();
+                List<JobSpecFile> jobSpecFiles = dbContext.SpecFiles.ToList();
+
+                var query = from appjob in appliedJobs
+                            join prof in profiles on appjob.UserId equals prof.UserId into tbl1
+                            //from t1 in tbl1.ToList()
+                            join jspec in jobSpecFiles on appjob.UserId equals jspec.UserId into tbl2
+                            //from t2 in tbl2.ToList()
+                            select new { appliedJobs = appjob, profiles = tbl1, jobSpecFiles = tbl2 };
+                var results = query.Where(x => x.appliedJobs.JobTitle == title).ToList();
+
+                //return Ok(results);
+                /*
+                var builder = new StringBuilder();
+                builder.AppendLine("Job,UID,Resume");
+
+                foreach (var result in results)
+                {
+                   //  = HYPERLINK("{HttpContext.Request.Host.ToUriComponent()}", "" / api / home / getcv / "")
+                    builder.AppendLine($"{result.JobTitle},{result.UserId},=HYPERLINK({HttpContext.Request.Host.ToUriComponent()}/api/home/getcv/{result.UserId})");
+                }
+
+                return File(Encoding.UTF8.GetBytes(builder.ToString()), "text/csv", "users.csv");
+
+                //return Ok("dd")
+                */
+
+                
+                //Excel Document
+                using (var workbook = new XLWorkbook())
+                {
+                    var worksheet = workbook.Worksheets.Add("Candidates");
+                    var currentRow = 1;
+                    worksheet.Cell(currentRow, 1).Value = "Job";
+                    worksheet.Cell(currentRow, 2).Value = "First Name";
+                    worksheet.Cell(currentRow, 3).Value = "Last Name";
+                    worksheet.Cell(currentRow, 4).Value = "Application Date";
+                    worksheet.Cell(currentRow, 5).Value = "Date of Birth";
+                    worksheet.Cell(currentRow, 6).Value = "Country";
+                    worksheet.Cell(currentRow, 7).Value = "Gender";
+                    worksheet.Cell(currentRow, 8).Value = "Disabled";
+                    worksheet.Cell(currentRow, 9).Value = "Professional Experience (Y)";
+                    worksheet.Cell(currentRow, 10).Value = "Resume";
+                    worksheet.Cell(currentRow, 11).Value = "Other Qualification";
+
+                    // From worksheet
+                    //var rngTable = workbook.Range("1A:1K");
+                    //rngTable.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                    //rngTable.Style.Font.Bold = true;
+                    //rngTable.Style.Fill.BackgroundColor = XLColor.Aqua;
+
+                    foreach (var r in results)
+                    {
+                        currentRow++;
+                        worksheet.Cell(currentRow, 1).Value = r.appliedJobs.JobTitle;
+                        worksheet.Cell(currentRow, 2).Value = r.profiles.FirstOrDefault() != null ? r.profiles.FirstOrDefault().FirstName : "";
+                        worksheet.Cell(currentRow, 3).Value = r.profiles.FirstOrDefault() != null ? r.profiles.FirstOrDefault().LastName : "";
+                        worksheet.Cell(currentRow, 4).Value = r.appliedJobs.ApplicationDate;
+                        worksheet.Cell(currentRow, 5).Value = r.profiles.FirstOrDefault() != null ? r.profiles.FirstOrDefault().DOB : "";
+                        worksheet.Cell(currentRow, 6).Value = r.profiles.FirstOrDefault() != null ? r.profiles.FirstOrDefault().Country : "";
+                        worksheet.Cell(currentRow, 7).Value = r.profiles.FirstOrDefault() != null ? r.profiles.FirstOrDefault().Gender : "";
+                        worksheet.Cell(currentRow, 8).Value = r.profiles.FirstOrDefault() != null ? r.profiles.FirstOrDefault().PersonWithDisability : "";
+                        worksheet.Cell(currentRow, 9).Value = r.profiles.FirstOrDefault() != null ? r.profiles.FirstOrDefault().Experience : "";
+                        worksheet.Cell(currentRow, 10).Value = "Resume";
+                        worksheet.Cell(currentRow, 10).Hyperlink = new XLHyperlink($"{HttpContext.Request.Host.ToUriComponent()}/api/home/getcv/{r.appliedJobs.UserId}", "Click to Open CV!");
+                        foreach(var spec in r.jobSpecFiles)
+                        {
+                            currentRow++;
+                            worksheet.Cell(currentRow, 11).Value = spec.TagName;
+                            worksheet.Cell(currentRow, 11).Hyperlink = new XLHyperlink($"{HttpContext.Request.Host.ToUriComponent()}/api/home/getspec/{spec.TagName}", "Click to Open");
+                        }
+                    }
+
+                    using (var stream = new MemoryStream())
+                    {
+                        workbook.SaveAs(stream);
+                        var content = stream.ToArray();
+
+                        return File(
+                            content,
+                            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                            "users.xlsx");
+                    }
+                }
+                
+                
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "Excel download failed" });
+            }
+           
+        }
 
     }
 }

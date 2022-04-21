@@ -9,5 +9,6 @@ namespace RPFBE.Auth
     {
         public string Status { get; set; }
         public string Message { get; set; }
+        public string ExtMessage { get; set; }
     }
 }

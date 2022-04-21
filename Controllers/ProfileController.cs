@@ -26,14 +26,15 @@ namespace RPFBE.Controllers
         private readonly ApplicationDbContext dbContext;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly IConfiguration configuration;
-
+        private readonly ICodeUnitWebService codeUnitWebService;
 
         public ProfileController(
             UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager,
             ApplicationDbContext dbContext,
             SignInManager<ApplicationUser> signInManager,
-            IConfiguration configuration
+            IConfiguration configuration,
+            ICodeUnitWebService codeUnitWebService
             )
         {
             this.userManager = userManager;
@@ -41,6 +42,7 @@ namespace RPFBE.Controllers
             this.dbContext = dbContext;
             this.signInManager = signInManager;
             this.configuration = configuration;
+            this.codeUnitWebService = codeUnitWebService;
         }
         [Route("index")]
         public async Task<IActionResult> Index()
@@ -158,6 +160,7 @@ namespace RPFBE.Controllers
                 var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
                 if (user.ProfileId == 0)
                 {
+                    profile.UserId = user.Id;
                     dbContext.Profiles.Add(profile);
                     await dbContext.SaveChangesAsync();
                     var pid = profile.Id;
@@ -240,13 +243,19 @@ namespace RPFBE.Controllers
             string JobAppCode = "";
             if (ModelState.IsValid)
             {
-
-                JobAppCode = CodeUnitWebService.Client().PostJobApplicationAsync(reqNo, employee.EmployeeId).Result.return_value;
-                var jobModel = dbContext.AppliedJobs.First(x => x.JobReqNo == reqNo);
-                jobModel.Viewed = true;
-                jobModel.JobAppplicationNo = JobAppCode;
-                await dbContext.SaveChangesAsync();
-                return Ok(JobAppCode);
+                try
+                {
+                    JobAppCode = codeUnitWebService.Client().PostJobApplicationAsync(reqNo, employee.EmployeeId).Result.return_value;
+                    var jobModel = dbContext.AppliedJobs.First(x => x.JobReqNo == reqNo);
+                    jobModel.Viewed = true;
+                    jobModel.JobAppplicationNo = JobAppCode;
+                    await dbContext.SaveChangesAsync();
+                    return Ok(JobAppCode);
+                }
+                catch(Exception ex)
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "Job Application Failed" });
+                }
             }
             else
             {
@@ -317,7 +326,7 @@ namespace RPFBE.Controllers
 
                     DateTime datetime = DateTime.ParseExact(auxDate, "MM/dd/yyyy", null);
 
-                    var res = CodeUnitWebService.Client().JobApplicationModifiedAsync(jobAppNo, textUserData, datetime).Result.return_value;
+                    var res = codeUnitWebService.Client().JobApplicationModifiedAsync(jobAppNo, textUserData, datetime).Result.return_value;
                     return Ok(res);
                 }
                 catch (Exception x)

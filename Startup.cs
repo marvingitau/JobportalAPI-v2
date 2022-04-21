@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using RPFBE.Auth;
+using RPFBE.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -73,6 +74,12 @@ namespace RPFBE
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]))
                 };
             });
+
+
+            //Nav Service options
+            services.Configure<WebserviceCreds>(Configuration.GetSection("NAVDetails"));
+
+            services.AddScoped<ICodeUnitWebService, CodeUnitWebService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -87,7 +94,7 @@ namespace RPFBE
 
             app.UseRouting();
 
-            app.UseCors(options => options.AllowCredentials().AllowAnyHeader().AllowAnyMethod().WithOrigins(new[] { "https://localhost:3001" }));
+            app.UseCors(options => options.AllowCredentials().AllowAnyHeader().AllowAnyMethod().WithOrigins(new[] { "http://localhost:3000" }));
 
             app.UseAuthentication();
 

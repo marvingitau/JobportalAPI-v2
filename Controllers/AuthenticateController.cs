@@ -25,12 +25,18 @@ namespace RPFBE.Controllers
         private readonly UserManager<ApplicationUser> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IConfiguration configuration;
+        private readonly ICodeUnitWebService codeUnitWebService;
 
-        public AuthenticateController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
+        public AuthenticateController(UserManager<ApplicationUser> userManager,
+            RoleManager<IdentityRole> roleManager,
+            IConfiguration configuration,
+            ICodeUnitWebService codeUnitWebService
+            )
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
             this.configuration = configuration;
+            this.codeUnitWebService = codeUnitWebService;
         }
         public IActionResult Index()
         {
@@ -76,7 +82,8 @@ namespace RPFBE.Controllers
                     user.Name,
                 });
             }
-            return Unauthorized();
+            return StatusCode(StatusCodes.Status401Unauthorized, new Response { Status = "Error", Message = "INVALID_USER" });
+            //return Unauthorized();
         }
 
 
@@ -84,7 +91,7 @@ namespace RPFBE.Controllers
         [Route("register-admin")]
         public async Task<IActionResult> RegisterAdmin([FromBody] RegisterModel model)
         {
-            var res = CodeUnitWebService.EmployeeAccount().LoginEmployeeAsync(model.EmployeeId, Cryptography.Hash(model.Password)).Result.return_value;
+            var res = codeUnitWebService.EmployeeAccount().LoginEmployeeAsync(model.EmployeeId, Cryptography.Hash(model.Password)).Result.return_value;
             if (res)
             {
                 try
@@ -127,7 +134,7 @@ namespace RPFBE.Controllers
             }
             else
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check ensure you exist in D365." });
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "INVALID_USER_D365" });
             }
         }
 
@@ -139,7 +146,7 @@ namespace RPFBE.Controllers
             {
                 var userExists = await userManager.FindByNameAsync(model.Username);
                 if (userExists != null)
-                    return StatusCode(StatusCodes.Status208AlreadyReported, new Response { Status = "Error", Message = "User already exists!" });
+                    return StatusCode(StatusCodes.Status208AlreadyReported, new Response { Status = "Error", Message = "USER_EXIST" });
 
                 ApplicationUser user = new ApplicationUser()
                 {
@@ -158,7 +165,7 @@ namespace RPFBE.Controllers
             }
             catch (Exception x)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again: "+x.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "CREATION_FAILED",ExtMessage= x.Message });
             }
            
         }

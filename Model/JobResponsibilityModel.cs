@@ -5,13 +5,11 @@ using System.Threading.Tasks;
 
 namespace RPFBE.Model
 {
-    public class JobQualificationModel
+    public class JobResponsibilityModel
     {
         public string Jobno { get; set; }
-        public string Mandantory { get; set; }
-        public string Description { get; set; }
-        public string Qficationcode { get; set; }
         public string Lineno { get; set; }
-
+        public string Responsibilitycode { get; set; }
+        public string Description { get; set; }
     }
 }

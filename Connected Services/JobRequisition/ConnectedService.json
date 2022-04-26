@@ -1,7 +1,7 @@
 {
   "ExtendedData": {
     "inputs": [
-      "http://DESKTOP-CSGLH1R:7347/PLATCORP/WS/Platcorp%20Training/Codeunit/JRWS"
+      "http://desktop-csglh1r:7347/PLATCORP/WS/Platcorp Training/Codeunit/JRWS"
     ],
     "collectionTypes": [
       "System.Array",

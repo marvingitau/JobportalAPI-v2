@@ -825,9 +825,9 @@ namespace RPFBE.Controllers
                         worksheet.Cell(currentRow, 10).Hyperlink = new XLHyperlink($"{HttpContext.Request.Host.ToUriComponent()}/api/home/getcv/{r.appliedJobs.UserId}", "Click to Open CV!");
                         foreach(var spec in r.jobSpecFiles)
                         {
-                            currentRow++;
                             worksheet.Cell(currentRow, 11).Value = spec.TagName;
                             worksheet.Cell(currentRow, 11).Hyperlink = new XLHyperlink($"{HttpContext.Request.Host.ToUriComponent()}/api/home/getspec/{spec.TagName}", "Click to Open");
+                            currentRow++;
                         }
                     }
 

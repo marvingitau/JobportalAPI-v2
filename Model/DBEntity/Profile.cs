@@ -42,6 +42,11 @@ namespace RPFBE.Model.DBEntity
         public string BankBranchCode { get; set; }
         public string BankBranchName { get; set; }
         public string Experience { get; set; }
+        public string WillingtoRelocate { get; set; }
+        public string HighestEducation{ get; set; }
+        public string CurrentSalary{ get; set; }
+        public string ExpectedSalary{ get; set; }
+
 
     }
 }

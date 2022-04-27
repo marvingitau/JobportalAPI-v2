@@ -471,7 +471,7 @@ namespace RPFBE.Controllers
                 reqArr[4] = string.IsNullOrEmpty(requisionModel.HOD)?"": requisionModel.HOD;
                 reqArr[5] = string.IsNullOrEmpty(requisionModel.HRManager)?"":requisionModel.HRManager;
                 reqArr[6] = string.IsNullOrEmpty(requisionModel.MD)?"": requisionModel.MD;
-                reqArr[7] = string.IsNullOrEmpty(requisionModel.Description)?"": requisionModel.Description;
+                reqArr[7] = string.IsNullOrEmpty(requisionModel.Description) ?"": requisionModel.Description;
                 reqArr[8] = string.IsNullOrEmpty(requisionModel.Reason)?"":requisionModel.Reason;
                 reqArr[9] = string.IsNullOrEmpty(requisionModel.Comment)?"":requisionModel.Comment;
 

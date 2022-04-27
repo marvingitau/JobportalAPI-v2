@@ -114,13 +114,62 @@ namespace RPFBE.Controllers
                 var profileModel = dbContext.Profiles.Where(x=>x.UserId== user.Id).FirstOrDefault();
                 var skillList = dbContext.Skills.Where(x => x.UserId == user.Id).ToList();
                 var userCV = dbContext.UserCVs.Where(x => x.UserId == user.Id).FirstOrDefault();
-                return Ok(new { usrModel, profileModel, skillList, userCV });
+
+                //get bankcode
+                List<BankModel> bankModels = new List<BankModel>();
+
+                var bankres = await codeUnitWebService.Client().GetBanksAsync();
+                dynamic bankserial = JsonConvert.DeserializeObject(bankres.return_value);
+
+                foreach (var bb in bankserial)
+                {
+                    BankModel bankModel = new BankModel
+                    {
+                        Value = bb.Code,
+                        Label = bb.Name,
+                    };
+                    bankModels.Add(bankModel);
+                }
+                
+                //get branch
+                return Ok(new { usrModel, profileModel, skillList, userCV , bankModels });
 
             }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "try failed"+ex.Message });
 
+            }
+        }
+
+        //get bank branch codes
+        [Route("getbranch/{code}")]
+        [HttpGet]
+        public async Task<IActionResult> Getbranchbank(string code ="0000")
+        {
+            try
+            {
+                List<BankBranchModel> bankBranches = new List<BankBranchModel>();
+                //bank branch list
+                var res = await codeUnitWebService.Client().GetBranchAsync(code);
+                dynamic resSerial = JsonConvert.DeserializeObject(res.return_value);
+
+                foreach (var bbranch in resSerial)
+                {
+                    BankBranchModel bank = new BankBranchModel
+                    {
+                        Value = bbranch.Branchcode,
+                        Label = bbranch.Branchname,
+                    };
+                    bankBranches.Add(bank);
+
+                }
+
+                return Ok(new { bankBranches });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "get branch failed" + ex.Message });
             }
         }
         //Admin
@@ -217,6 +266,12 @@ namespace RPFBE.Controllers
                         current.Experience = profile.Experience;
                         current.BankBranchName = profile.BankBranchName;
                         current.UserId = user.Id;
+
+                        current.WillingtoRelocate = profile.WillingtoRelocate;
+                        current.HighestEducation = profile.HighestEducation;
+                        current.CurrentSalary = profile.CurrentSalary;
+                        current.ExpectedSalary = profile.ExpectedSalary;
+
                         dbContext.Profiles.Update(current);
 
                         await dbContext.SaveChangesAsync();
@@ -273,7 +328,9 @@ namespace RPFBE.Controllers
             {
                 var user = await userManager.FindByIdAsync(UID);
                 Profile current = dbContext.Profiles.First(x => x.Id == user.ProfileId);
-                
+           
+               
+
                 try
                 {
                     //check DateTime.ParseExact(LeaveApplicationObj.LeaveStartDate, "MM/dd/yy", null)

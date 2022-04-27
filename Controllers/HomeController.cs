@@ -260,6 +260,11 @@ namespace RPFBE.Controllers
           
             try
             {
+                var profileExist = dbContext.Users.Where(x => x.Id == user.Id && x.ProfileId != 0).Count();
+                if (profileExist == 0)
+                {
+                    return StatusCode(StatusCodes.Status404NotFound, new Response { Status = "Success", Message = "Please Create your profile first" });
+                }
                 var subDirectory = "Files";
                 var result = new List<FileUploadResult>();
                 var target = Path.Combine(webHostEnvironment.ContentRootPath, subDirectory);
@@ -797,11 +802,15 @@ namespace RPFBE.Controllers
                     worksheet.Cell(currentRow, 4).Value = "Application Date";
                     worksheet.Cell(currentRow, 5).Value = "Date of Birth";
                     worksheet.Cell(currentRow, 6).Value = "Country";
-                    worksheet.Cell(currentRow, 7).Value = "Gender";
-                    worksheet.Cell(currentRow, 8).Value = "Disabled";
-                    worksheet.Cell(currentRow, 9).Value = "Professional Experience (Y)";
-                    worksheet.Cell(currentRow, 10).Value = "Resume";
-                    worksheet.Cell(currentRow, 11).Value = "Other Qualification";
+                    worksheet.Cell(currentRow, 7).Value = "Expected Salary";
+                    worksheet.Cell(currentRow, 8).Value = "Current Salary";
+                    worksheet.Cell(currentRow, 9).Value = "Highest Education Level";
+                    worksheet.Cell(currentRow, 10).Value = "Willing to relocate";
+                    worksheet.Cell(currentRow, 11).Value = "Gender";
+                    worksheet.Cell(currentRow, 12).Value = "Disabled";
+                    worksheet.Cell(currentRow, 13).Value = "Professional Experience (Y)";
+                    worksheet.Cell(currentRow, 14).Value = "Resume";
+                    worksheet.Cell(currentRow, 15).Value = "Other Qualification";
 
                     // From worksheet
                     //var rngTable = workbook.Range("1A:1K");
@@ -811,22 +820,34 @@ namespace RPFBE.Controllers
 
                     foreach (var r in results)
                     {
+                        char[] delimiterChars = { '-', 'T' };
+                        string text = r.profiles.FirstOrDefault().DOB;
+
+                        string[] words = text.Split(delimiterChars);
+                        string auxDate = words[1] + "/" + words[2] + "/" + words[0];
+
+                        DateTime datetime = DateTime.ParseExact(auxDate, "MM/dd/yyyy", null);
+
                         currentRow++;
                         worksheet.Cell(currentRow, 1).Value = r.appliedJobs.JobTitle;
                         worksheet.Cell(currentRow, 2).Value = r.profiles.FirstOrDefault() != null ? r.profiles.FirstOrDefault().FirstName : "";
                         worksheet.Cell(currentRow, 3).Value = r.profiles.FirstOrDefault() != null ? r.profiles.FirstOrDefault().LastName : "";
                         worksheet.Cell(currentRow, 4).Value = r.appliedJobs.ApplicationDate;
-                        worksheet.Cell(currentRow, 5).Value = r.profiles.FirstOrDefault() != null ? r.profiles.FirstOrDefault().DOB : "";
+                        worksheet.Cell(currentRow, 5).Value = auxDate;
                         worksheet.Cell(currentRow, 6).Value = r.profiles.FirstOrDefault() != null ? r.profiles.FirstOrDefault().Country : "";
-                        worksheet.Cell(currentRow, 7).Value = r.profiles.FirstOrDefault() != null ? r.profiles.FirstOrDefault().Gender : "";
-                        worksheet.Cell(currentRow, 8).Value = r.profiles.FirstOrDefault() != null ? r.profiles.FirstOrDefault().PersonWithDisability : "";
-                        worksheet.Cell(currentRow, 9).Value = r.profiles.FirstOrDefault() != null ? r.profiles.FirstOrDefault().Experience : "";
-                        worksheet.Cell(currentRow, 10).Value = "Resume";
-                        worksheet.Cell(currentRow, 10).Hyperlink = new XLHyperlink($"{HttpContext.Request.Host.ToUriComponent()}/api/home/getcv/{r.appliedJobs.UserId}", "Click to Open CV!");
+                        worksheet.Cell(currentRow, 7).Value = r.profiles.FirstOrDefault() != null ? r.profiles.FirstOrDefault().ExpectedSalary: "";
+                        worksheet.Cell(currentRow, 8).Value = r.profiles.FirstOrDefault() != null ? r.profiles.FirstOrDefault().CurrentSalary: "";
+                        worksheet.Cell(currentRow, 9).Value = r.profiles.FirstOrDefault() != null ? r.profiles.FirstOrDefault().HighestEducation: "";
+                        worksheet.Cell(currentRow, 10).Value = r.profiles.FirstOrDefault() != null ? r.profiles.FirstOrDefault().WillingtoRelocate : "";
+                        worksheet.Cell(currentRow, 11).Value = r.profiles.FirstOrDefault() != null ? r.profiles.FirstOrDefault().Gender : "";
+                        worksheet.Cell(currentRow, 12).Value = r.profiles.FirstOrDefault() != null ? r.profiles.FirstOrDefault().PersonWithDisability : "";
+                        worksheet.Cell(currentRow, 13).Value = r.profiles.FirstOrDefault() != null ? r.profiles.FirstOrDefault().Experience : "";
+                        worksheet.Cell(currentRow, 14).Value = "Resume";
+                        worksheet.Cell(currentRow, 14).Hyperlink = new XLHyperlink($"{HttpContext.Request.Host.ToUriComponent()}/api/home/getcv/{r.appliedJobs.UserId}", "Click to Open CV!");
                         foreach(var spec in r.jobSpecFiles)
                         {
-                            worksheet.Cell(currentRow, 11).Value = spec.TagName;
-                            worksheet.Cell(currentRow, 11).Hyperlink = new XLHyperlink($"{HttpContext.Request.Host.ToUriComponent()}/api/home/getspec/{spec.TagName}", "Click to Open");
+                            worksheet.Cell(currentRow, 15).Value = spec.TagName;
+                            worksheet.Cell(currentRow, 15).Hyperlink = new XLHyperlink($"{HttpContext.Request.Host.ToUriComponent()}/api/home/getspec/{spec.TagName}", "Click to Open");
                             currentRow++;
                         }
                     }

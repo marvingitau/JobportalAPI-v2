@@ -48,6 +48,10 @@ namespace JobRequisition
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.GetChecklist_Result> GetChecklistAsync(JobRequisition.GetChecklist request);
         
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JRWS:GetBanks", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.GetBanks_Result> GetBanksAsync(JobRequisition.GetBanks request);
+        
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JRWS:GetBranch", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.GetBranch_Result> GetBranchAsync(JobRequisition.GetBranch request);
@@ -474,6 +478,38 @@ namespace JobRequisition
         }
         
         public GetChecklist_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetBanks", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class GetBanks
+    {
+        
+        public GetBanks()
+        {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetBanks_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class GetBanks_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string return_value;
+        
+        public GetBanks_Result()
+        {
+        }
+        
+        public GetBanks_Result(string return_value)
         {
             this.return_value = return_value;
         }
@@ -1696,6 +1732,18 @@ namespace JobRequisition
             JobRequisition.GetChecklist inValue = new JobRequisition.GetChecklist();
             inValue.jobReqNo = jobReqNo;
             return ((JobRequisition.JRWS_Port)(this)).GetChecklistAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.GetBanks_Result> JobRequisition.JRWS_Port.GetBanksAsync(JobRequisition.GetBanks request)
+        {
+            return base.Channel.GetBanksAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.GetBanks_Result> GetBanksAsync()
+        {
+            JobRequisition.GetBanks inValue = new JobRequisition.GetBanks();
+            return ((JobRequisition.JRWS_Port)(this)).GetBanksAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]

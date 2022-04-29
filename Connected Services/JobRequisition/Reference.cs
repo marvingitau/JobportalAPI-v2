@@ -155,6 +155,14 @@ namespace JobRequisition
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JRWS:RemMandatoryDocs", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.RemMandatoryDocs_Result> RemMandatoryDocsAsync(JobRequisition.RemMandatoryDocs request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JRWS:GetJobDetails", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.GetJobDetails_Result> GetJobDetailsAsync(JobRequisition.GetJobDetails request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JRWS:GetRequisitionCard", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.GetRequisitionCard_Result> GetRequisitionCardAsync(JobRequisition.GetRequisitionCard request);
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -749,16 +757,21 @@ namespace JobRequisition
         [System.Xml.Serialization.XmlElementAttribute("datum")]
         public string[] datum;
         
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute("datumInt")]
+        public int[] datumInt;
+        
         public ModifyEmpRequisition()
         {
         }
         
-        public ModifyEmpRequisition(string reqNo, System.DateTime startDate, System.DateTime endDate, string[] datum)
+        public ModifyEmpRequisition(string reqNo, System.DateTime startDate, System.DateTime endDate, string[] datum, int[] datumInt)
         {
             this.reqNo = reqNo;
             this.startDate = startDate;
             this.endDate = endDate;
             this.datum = datum;
+            this.datumInt = datumInt;
         }
     }
     
@@ -1578,6 +1591,86 @@ namespace JobRequisition
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetJobDetails", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class GetJobDetails
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string jobno;
+        
+        public GetJobDetails()
+        {
+        }
+        
+        public GetJobDetails(string jobno)
+        {
+            this.jobno = jobno;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetJobDetails_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class GetJobDetails_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string return_value;
+        
+        public GetJobDetails_Result()
+        {
+        }
+        
+        public GetJobDetails_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetRequisitionCard", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class GetRequisitionCard
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string reqno;
+        
+        public GetRequisitionCard()
+        {
+        }
+        
+        public GetRequisitionCard(string reqno)
+        {
+            this.reqno = reqno;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetRequisitionCard_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class GetRequisitionCard_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string return_value;
+        
+        public GetRequisitionCard_Result()
+        {
+        }
+        
+        public GetRequisitionCard_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     public interface JRWS_PortChannel : JobRequisition.JRWS_Port, System.ServiceModel.IClientChannel
     {
@@ -1827,13 +1920,14 @@ namespace JobRequisition
             return base.Channel.ModifyEmpRequisitionAsync(request);
         }
         
-        public System.Threading.Tasks.Task<JobRequisition.ModifyEmpRequisition_Result> ModifyEmpRequisitionAsync(string reqNo, System.DateTime startDate, System.DateTime endDate, string[] datum)
+        public System.Threading.Tasks.Task<JobRequisition.ModifyEmpRequisition_Result> ModifyEmpRequisitionAsync(string reqNo, System.DateTime startDate, System.DateTime endDate, string[] datum, int[] datumInt)
         {
             JobRequisition.ModifyEmpRequisition inValue = new JobRequisition.ModifyEmpRequisition();
             inValue.reqNo = reqNo;
             inValue.startDate = startDate;
             inValue.endDate = endDate;
             inValue.datum = datum;
+            inValue.datumInt = datumInt;
             return ((JobRequisition.JRWS_Port)(this)).ModifyEmpRequisitionAsync(inValue);
         }
         
@@ -2095,6 +2189,32 @@ namespace JobRequisition
             JobRequisition.RemMandatoryDocs inValue = new JobRequisition.RemMandatoryDocs();
             inValue.lineno = lineno;
             return ((JobRequisition.JRWS_Port)(this)).RemMandatoryDocsAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.GetJobDetails_Result> JobRequisition.JRWS_Port.GetJobDetailsAsync(JobRequisition.GetJobDetails request)
+        {
+            return base.Channel.GetJobDetailsAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.GetJobDetails_Result> GetJobDetailsAsync(string jobno)
+        {
+            JobRequisition.GetJobDetails inValue = new JobRequisition.GetJobDetails();
+            inValue.jobno = jobno;
+            return ((JobRequisition.JRWS_Port)(this)).GetJobDetailsAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.GetRequisitionCard_Result> JobRequisition.JRWS_Port.GetRequisitionCardAsync(JobRequisition.GetRequisitionCard request)
+        {
+            return base.Channel.GetRequisitionCardAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.GetRequisitionCard_Result> GetRequisitionCardAsync(string reqno)
+        {
+            JobRequisition.GetRequisitionCard inValue = new JobRequisition.GetRequisitionCard();
+            inValue.reqno = reqno;
+            return ((JobRequisition.JRWS_Port)(this)).GetRequisitionCardAsync(inValue);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()

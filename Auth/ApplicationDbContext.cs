@@ -19,6 +19,8 @@ namespace RPFBE.Auth
         public DbSet<Skill> Skills { get; set; }
         public DbSet<JobSpecFile> SpecFiles { get; set; }  
         public DbSet<UserCV> UserCVs { get; set; }
+        public DbSet<RequisitionProgress> RequisitionProgress { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

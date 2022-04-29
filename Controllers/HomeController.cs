@@ -559,24 +559,32 @@ namespace RPFBE.Controllers
         [HttpGet]
         public ActionResult GetApplicants()
         {
-            var query = dbContext.AppliedJobs
-            .Join(
+            try
+            {
+                var query = dbContext.AppliedJobs
+                .Join(
                 dbContext.Users,
                 apps => apps.UserId,
                 user => user.Id,
                 (apps, user) => new
                 {
-                    UserId = user.Id,
-                    Viewed = apps.Viewed,
-                    Title = apps.JobTitle,
-                    Name = user.Name,
-                    AppDate = apps.ApplicationDate,
-                    ReqNo = apps.JobReqNo
+                UserId = user.Id,
+                Viewed = apps.Viewed,
+                Title = apps.JobTitle,
+                Name = user.Name,
+                AppDate = apps.ApplicationDate,
+                ReqNo = apps.JobReqNo
 
                 }
                 ).Where(x => x.Viewed != true).ToList();
 
-            return Ok(query);
+                return Ok(query);
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Applicants fetche failed " + x.Message });
+            }
+     
         }
         [Authorize]
         [Route("approvedapplicants")]

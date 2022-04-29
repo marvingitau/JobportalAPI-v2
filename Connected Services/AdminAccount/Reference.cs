@@ -61,6 +61,10 @@ namespace AdminAccount
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/EmployeeAccountWebService:LoginEmployee", ReplyAction="*")]
         System.Threading.Tasks.Task<AdminAccount.LoginEmployee_Result> LoginEmployeeAsync(AdminAccount.LoginEmployee request);
         
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/EmployeeAccountWebService:LoginEmployeeCo" +
+            "re", ReplyAction="*")]
+        System.Threading.Tasks.Task<AdminAccount.LoginEmployeeCore_Result> LoginEmployeeCoreAsync(AdminAccount.LoginEmployeeCore request);
+        
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/EmployeeAccountWebService:IsEmployeeDefau" +
             "ltPassword", ReplyAction="*")]
         System.Threading.Tasks.Task<AdminAccount.IsEmployeeDefaultPassword_Result> IsEmployeeDefaultPasswordAsync(AdminAccount.IsEmployeeDefaultPassword request);
@@ -565,6 +569,50 @@ namespace AdminAccount
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="LoginEmployeeCore", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/EmployeeAccountWebService", IsWrapped=true)]
+    public partial class LoginEmployeeCore
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/EmployeeAccountWebService", Order=0)]
+        public string empCode;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/EmployeeAccountWebService", Order=1)]
+        public string passcode;
+        
+        public LoginEmployeeCore()
+        {
+        }
+        
+        public LoginEmployeeCore(string empCode, string passcode)
+        {
+            this.empCode = empCode;
+            this.passcode = passcode;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="LoginEmployeeCore_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/EmployeeAccountWebService", IsWrapped=true)]
+    public partial class LoginEmployeeCore_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/EmployeeAccountWebService", Order=0)]
+        public string return_value;
+        
+        public LoginEmployeeCore_Result()
+        {
+        }
+        
+        public LoginEmployeeCore_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="IsEmployeeDefaultPassword", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/EmployeeAccountWebService", IsWrapped=true)]
     public partial class IsEmployeeDefaultPassword
     {
@@ -1023,6 +1071,20 @@ namespace AdminAccount
             inValue.employeeNoa46 = employeeNoa46;
             inValue.password = password;
             return ((AdminAccount.EmployeeAccountWebService_Port)(this)).LoginEmployeeAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<AdminAccount.LoginEmployeeCore_Result> AdminAccount.EmployeeAccountWebService_Port.LoginEmployeeCoreAsync(AdminAccount.LoginEmployeeCore request)
+        {
+            return base.Channel.LoginEmployeeCoreAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<AdminAccount.LoginEmployeeCore_Result> LoginEmployeeCoreAsync(string empCode, string passcode)
+        {
+            AdminAccount.LoginEmployeeCore inValue = new AdminAccount.LoginEmployeeCore();
+            inValue.empCode = empCode;
+            inValue.passcode = passcode;
+            return ((AdminAccount.EmployeeAccountWebService_Port)(this)).LoginEmployeeCoreAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]

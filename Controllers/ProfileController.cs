@@ -290,9 +290,9 @@ namespace RPFBE.Controllers
 
             }
         }
-        [Route("createapp/{reqNo}")]
+        [Route("createapp/{reqNo}/{UID}")]
         [HttpGet]
-        public async Task<IActionResult> CreateJobApplication(string reqNo )
+        public async Task<IActionResult> CreateJobApplication(string reqNo,string UID )
         {
             var employee = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
             string JobAppCode = "";
@@ -301,15 +301,19 @@ namespace RPFBE.Controllers
                 try
                 {
                     JobAppCode = codeUnitWebService.Client().PostJobApplicationAsync(reqNo, employee.EmployeeId).Result.return_value;
-                    var jobModel = dbContext.AppliedJobs.First(x => x.JobReqNo == reqNo);
+                    // var jobModel = dbContext.AppliedJobs.First(x => x.JobReqNo == reqNo);
+                    var jobModel = dbContext.AppliedJobs.Where(x => x.JobReqNo == reqNo && x.UserId ==UID).FirstOrDefault();
+
                     jobModel.Viewed = true;
                     jobModel.JobAppplicationNo = JobAppCode;
+                    // await dbContext.SaveChangesAsync();
+                    dbContext.AppliedJobs.Update(jobModel);
                     await dbContext.SaveChangesAsync();
                     return Ok(JobAppCode);
                 }
-                catch(Exception ex)
+                catch(Exception x)
                 {
-                    return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "Job Application Failed" });
+                    return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "Job Application Failed "+x.Message });
                 }
             }
             else
@@ -328,7 +332,8 @@ namespace RPFBE.Controllers
             {
                 var user = await userManager.FindByIdAsync(UID);
                 Profile current = dbContext.Profiles.First(x => x.Id == user.ProfileId);
-           
+                var Client = await userManager.FindByIdAsync(current.UserId);
+        
                
 
                 try
@@ -338,16 +343,18 @@ namespace RPFBE.Controllers
                  
 
                     //String Array
-                    string[] textUserData = new string[33];
+                    string[] textUserData = new string[35];
                     textUserData[0] = current.Gender;
                     textUserData[1] = current.PersonWithDisability;
                     textUserData[2] = "";
+
                     textUserData[3] = current.City;
                     textUserData[4] = current.Country;
                     textUserData[5] = current.County;
                     textUserData[6] = current.SubCounty;
                     textUserData[7] = current.ResidentialAddress;
                     textUserData[8] = current.MobilePhoneNo;
+
                     textUserData[9] = "";//current.MobilePhoneNoAlt;
                     textUserData[10] = current.BirthCertificateNo;
                     textUserData[11] = current.HudumaNo;
@@ -356,6 +363,7 @@ namespace RPFBE.Controllers
                     textUserData[14] = current.NHIFNo;
                     textUserData[15] = current.NSSFNo;
                     textUserData[16] = current.DriverLincenceNo;
+
                     textUserData[17] = current.MaritalStatus;
                     textUserData[18] = current.Citizenship;
                     textUserData[19] = current.Ethnicgroup;
@@ -374,6 +382,9 @@ namespace RPFBE.Controllers
                     textUserData[30] = current.SurName;
                     textUserData[31] = current.FirstName;
                     textUserData[32] = current.LastName;
+                    textUserData[33] = Client.Email;
+
+
 
                     char[] delimiterChars = { '-', 'T' };
                     string text = current.DOB;

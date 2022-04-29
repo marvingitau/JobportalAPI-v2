@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using RPFBE.Auth;
 using RPFBE.Model;
 using System;
@@ -91,8 +92,16 @@ namespace RPFBE.Controllers
         [Route("register-admin")]
         public async Task<IActionResult> RegisterAdmin([FromBody] RegisterModel model)
         {
-            var res = codeUnitWebService.EmployeeAccount().LoginEmployeeAsync(model.EmployeeId, Cryptography.Hash(model.Password)).Result.return_value;
-            if (res)
+            var res = await codeUnitWebService.EmployeeAccount().LoginEmployeeCoreAsync(model.EmployeeId, Cryptography.Hash(model.Password));
+            dynamic resSerial = JsonConvert.DeserializeObject(res.return_value);
+            LoginEmpCoreModel loginEmpCore = new LoginEmpCoreModel
+            {
+                Status = resSerial.Login,
+                Rank = resSerial.Rank
+            };
+
+        
+            if (loginEmpCore.Status)
             {
                 try
                 {
@@ -106,20 +115,21 @@ namespace RPFBE.Controllers
                         SecurityStamp = Guid.NewGuid().ToString(),
                         UserName = model.Username,
                         EmployeeId = model.EmployeeId,
-                        Name = model.Username
+                        Name = model.Username,
+                        Rank = loginEmpCore.Rank
                     };
                     var result = await userManager.CreateAsync(user, model.Password);
                     if (!result.Succeeded)
                         return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed :"+result.Errors });
 
-                    if (!await roleManager.RoleExistsAsync(UserRoles.Admin))
-                        await roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
+                    if (!await roleManager.RoleExistsAsync(loginEmpCore.Rank))
+                        await roleManager.CreateAsync(new IdentityRole(loginEmpCore.Rank));
                     if (!await roleManager.RoleExistsAsync(UserRoles.User))
                         await roleManager.CreateAsync(new IdentityRole(UserRoles.User));
 
-                    if (await roleManager.RoleExistsAsync(UserRoles.Admin))
+                    if (await roleManager.RoleExistsAsync(loginEmpCore.Rank))
                     {
-                        await userManager.AddToRoleAsync(user, UserRoles.Admin);
+                        await userManager.AddToRoleAsync(user, loginEmpCore.Rank);
 
                     }
 
@@ -128,7 +138,7 @@ namespace RPFBE.Controllers
                 catch (Exception x)
                 {
 
-                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! :"+x.Message });
+                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! :"+x.Data });
                 }
                
             }

@@ -19,5 +19,6 @@ namespace RPFBE.Model
         public string Description { get; set; }
         public string Reason { get; set; }
         public string Comment { get; set; }
+        public string RequestedNo { get; set; }
     }
 }

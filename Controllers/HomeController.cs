@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using RPFBE.Auth;
 using RPFBE.Model;
 using RPFBE.Model.DBEntity;
+using RPFBE.Model.Repository;
 using System;
 using System.Buffers.Text;
 using System.Collections.Generic;
@@ -32,6 +33,7 @@ namespace RPFBE.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IWebHostEnvironment webHostEnvironment;
         private readonly ICodeUnitWebService codeUnitWebService;
+        private readonly IMailService mailService;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly ApplicationDbContext dbContext;
 
@@ -40,7 +42,8 @@ namespace RPFBE.Controllers
          ApplicationDbContext dbContext,
          ILogger<HomeController> logger,
         IWebHostEnvironment webHostEnvironment,
-        ICodeUnitWebService codeUnitWebService
+        ICodeUnitWebService codeUnitWebService,
+        IMailService mailService
       )
         {
             this.userManager = userManager;
@@ -48,6 +51,7 @@ namespace RPFBE.Controllers
             _logger = logger;
             this.webHostEnvironment = webHostEnvironment;
             this.codeUnitWebService = codeUnitWebService;
+            this.mailService = mailService;
         }
 
         [Route("posted-jobs")]
@@ -544,6 +548,112 @@ namespace RPFBE.Controllers
         }
 
 
+        //HOD Upload justification file
+        [Authorize]
+        [Route("justificationupload/{reqNo}")]
+        [HttpPost]
+        public async Task<IActionResult> JustificationFile([FromForm] IFormFile formFile, string reqNo)
+        {
+
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+
+                var subDirectory = "Files/Reqfiles";
+                var target = Path.Combine(webHostEnvironment.ContentRootPath, subDirectory);
+                string fileName = new String(Path.GetFileNameWithoutExtension(formFile.FileName).Take(10).ToArray()).Replace(' ', '-');
+                fileName = fileName + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(formFile.FileName);
+                var path = Path.Combine(target, fileName);
+                using (FileStream stream = new FileStream(path, FileMode.Create))
+                {
+                    formFile.CopyTo(stream);
+                }
+      
+
+                /* 
+                 * var host = HttpContext.Request.Host.ToUriComponent();
+                 * var url = $"{HttpContext.Request.Scheme}://{host}/{path}";
+                 * return Content(url);
+                */
+
+                
+                if (dbContext.JustificationFiles.Where(x => x.UserId == user.Id && x.ReqNo == reqNo).Count() > 0)
+                {
+                    var specificFile = dbContext.JustificationFiles.Where(x => x.UserId == user.Id && x.ReqNo == reqNo).FirstOrDefault();
+                    specificFile.FilePath = path;
+                    specificFile.TagName = formFile.FileName;
+                    await dbContext.SaveChangesAsync();
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Succes", Message = "File Updated" });
+
+                }
+                else
+                {
+                    JustificationFile specData = new JustificationFile
+                    {
+                        UserId = user.Id,
+                        ReqNo = reqNo,
+                        FilePath = path,
+                        TagName = fileName,
+
+                    };
+                    dbContext.JustificationFiles.Add(specData);
+                    dbContext.SaveChanges();
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Succes", Message = "File Uploaded" });
+                }
+
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = x.Message });
+            }
+
+
+        }
+
+        //Admin View Justification
+        [Route("justificationfile/{reqID}")]
+        [HttpGet]
+        public IActionResult ViewJustificationFile(string reqID)
+        {
+            //var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+            try
+            {
+                //var path = System.AppContext.BaseDirectory;
+
+                var dbres = dbContext.JustificationFiles.Where(x => x.ReqNo == reqID).FirstOrDefault();
+                if (dbres == null)
+                {
+                    return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "File Not Uploaded" });
+                }
+                var file = dbres.FilePath;
+
+                // Response...
+                System.Net.Mime.ContentDisposition cd = new System.Net.Mime.ContentDisposition
+                {
+                    FileName = file,
+                    Inline = true // false = prompt the user for downloading;  true = browser to try to show the file inline
+                };
+                Response.Headers.Add("Content-Disposition", cd.ToString());
+                Response.Headers.Add("X-Content-Type-Options", "nosniff");
+
+                return File(System.IO.File.ReadAllBytes(file), "application/pdf");
+
+                /*
+                WebClient webclient = new WebClient();
+                var byteArr = webclient.DownloadData(file);
+                return File(byteArr, "application/pdf");
+                */
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "File View failed" });
+            }
+        }
+
+
+
 
 
         [Authorize]
@@ -780,7 +890,7 @@ namespace RPFBE.Controllers
                             join jspec in jobSpecFiles on appjob.UserId equals jspec.UserId into tbl2
                             //from t2 in tbl2.ToList()
                             select new { appliedJobs = appjob, profiles = tbl1, jobSpecFiles = tbl2 };
-                var results = query.Where(x => x.appliedJobs.JobTitle == title).ToList();
+                var results = query.Where(x => x.appliedJobs.JobTitle == title && x.appliedJobs.Viewed == false).ToList();
 
                 //return Ok(results);
                 /*
@@ -880,6 +990,68 @@ namespace RPFBE.Controllers
             }
            
         }
+
+        [HttpGet]
+        [Route("reset/{email}")]
+
+        //Get token
+        public async Task<IActionResult> RequestPasswordResetLink(string email)
+        {
+            var user = dbContext.Users.Where(x => x.Email == email).FirstOrDefault();
+            string host = HttpContext.Request.Host.ToUriComponent();
+            string protocol = HttpContext.Request.Scheme;
+           // return Ok(user);
+            if (user != null)
+            {
+                var code = await userManager.GeneratePasswordResetTokenAsync(user);
+
+                var link = $"{code}";
+                //var link = $"{protocol}/{host}/forgot?id={code}";
+
+                try
+                {
+                     await mailService.SendEmailPasswordReset(user.Email, link);
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Link Mailed" });
+                }
+                catch (Exception x)
+                {
+                    return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "Reset Link email failed: "+x.Message });
+                }
+                //logger.LogInformation($"An password reset email was sent to {user.Email}");
+            }
+            else
+            {
+                return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "User not found" });
+            }
+
+        }
+
+        //Use Token
+        [HttpPost]
+        [Route("forgotten")]
+        public async Task<IActionResult> RequestPasswordReset([FromBody] ForgottenModel forgottenModel)
+        {
+            try
+            {
+                var user = dbContext.Users.Where(x => x.Email == forgottenModel.Email).FirstOrDefault();
+                var resetPassResult = await userManager.ResetPasswordAsync(user, forgottenModel.Token, forgottenModel.Password);
+                if (resetPassResult.Succeeded)
+                {
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Passord reset Success" });
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "Password reset failed " });
+
+                }
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "Password reset failed "+x.Message });
+
+            }
+        }
+
 
     }
 }

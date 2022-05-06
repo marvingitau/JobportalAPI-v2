@@ -574,19 +574,19 @@ namespace AdminAccount
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/EmployeeAccountWebService", Order=0)]
-        public string empCode;
+        public string uname;
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/EmployeeAccountWebService", Order=1)]
-        public string passcode;
+        public string pcode;
         
         public LoginEmployeeCore()
         {
         }
         
-        public LoginEmployeeCore(string empCode, string passcode)
+        public LoginEmployeeCore(string uname, string pcode)
         {
-            this.empCode = empCode;
-            this.passcode = passcode;
+            this.uname = uname;
+            this.pcode = pcode;
         }
     }
     
@@ -1079,11 +1079,11 @@ namespace AdminAccount
             return base.Channel.LoginEmployeeCoreAsync(request);
         }
         
-        public System.Threading.Tasks.Task<AdminAccount.LoginEmployeeCore_Result> LoginEmployeeCoreAsync(string empCode, string passcode)
+        public System.Threading.Tasks.Task<AdminAccount.LoginEmployeeCore_Result> LoginEmployeeCoreAsync(string uname, string pcode)
         {
             AdminAccount.LoginEmployeeCore inValue = new AdminAccount.LoginEmployeeCore();
-            inValue.empCode = empCode;
-            inValue.passcode = passcode;
+            inValue.uname = uname;
+            inValue.pcode = pcode;
             return ((AdminAccount.EmployeeAccountWebService_Port)(this)).LoginEmployeeCoreAsync(inValue);
         }
         

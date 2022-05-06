@@ -1053,5 +1053,62 @@ namespace RPFBE.Controllers
         }
 
 
+        //HOD  Upload supporting Documents
+
+        [Route("hoduploadsupportingdocs/{ID}")]
+        [HttpPost]
+        public async Task<IActionResult> HODUploadSupportingDocs([FromForm] IFormFile formFile,string ID)
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+
+
+                var subDirectory = "Files/Monitoring";
+                var target = Path.Combine(webHostEnvironment.ContentRootPath, subDirectory);
+                string fileName = new String(Path.GetFileNameWithoutExtension(formFile.FileName).Take(10).ToArray()).Replace(' ', '-');
+                fileName = fileName + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(formFile.FileName);
+                var path = Path.Combine(target, fileName);
+                using (FileStream stream = new FileStream(path, FileMode.Create))
+                {
+                    formFile.CopyTo(stream);
+                }
+                
+                /* 
+                 * var host = HttpContext.Request.Host.ToUriComponent();
+                 * var url = $"{HttpContext.Request.Scheme}://{host}/{path}";
+                 * return Content(url);
+                */
+
+                if (dbContext.UserCVs.Where(x => x.UserId == user.Id).Count() > 0)
+                {
+                    var specificCV = dbContext.UserCVs.Where(x => x.UserId == user.Id).FirstOrDefault();
+                    specificCV.FilePath = path;
+                    specificCV.TagName = formFile.FileName;
+                    await dbContext.SaveChangesAsync();
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Succes", Message = "CV Updated" });
+
+                }
+                else
+                {
+                    UserCV cvData = new UserCV
+                    {
+                        UserId = user.Id,
+                        FilePath = path,
+                        TagName = formFile.FileName
+                    };
+                    dbContext.UserCVs.Add(cvData);
+                    dbContext.SaveChanges();
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Succes", Message = "CV Uploaded" });
+                }
+
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = x.Message });
+            }
+        }
+
     }
 }

@@ -140,6 +140,14 @@ namespace JobRequisition
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.SetChecklistMandatoryRequired_Result> SetChecklistMandatoryRequiredAsync(JobRequisition.SetChecklistMandatoryRequired request);
         
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JRWS:ApprovePublish", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.ApprovePublish_Result> ApprovePublishAsync(JobRequisition.ApprovePublish request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JRWS:RejectRequisition", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.RejectRequisition_Result> RejectRequisitionAsync(JobRequisition.RejectRequisition request);
+        
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JRWS:SetMandatoryDocs", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.SetMandatoryDocs_Result> SetMandatoryDocsAsync(JobRequisition.SetMandatoryDocs request);
@@ -163,6 +171,50 @@ namespace JobRequisition
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JRWS:GetRequisitionCard", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.GetRequisitionCard_Result> GetRequisitionCardAsync(JobRequisition.GetRequisitionCard request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JRWS:Countries", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.Countries_Result> CountriesAsync(JobRequisition.Countries request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JRWS:Counties", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.Counties_Result> CountiesAsync(JobRequisition.Counties request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JRWS:Subcounties", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.Subcounties_Result> SubcountiesAsync(JobRequisition.Subcounties request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JRWS:InsertPerformanceMonitoring", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.InsertPerformanceMonitoring_Result> InsertPerformanceMonitoringAsync(JobRequisition.InsertPerformanceMonitoring request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JRWS:ModifyPerformanceMonitoring", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.ModifyPerformanceMonitoring_Result> ModifyPerformanceMonitoringAsync(JobRequisition.ModifyPerformanceMonitoring request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JRWS:InsertPerformanceMonitoringLines", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.InsertPerformanceMonitoringLines_Result> InsertPerformanceMonitoringLinesAsync(JobRequisition.InsertPerformanceMonitoringLines request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JRWS:ModifyPerformanceMonitoringLines", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.ModifyPerformanceMonitoringLines_Result> ModifyPerformanceMonitoringLinesAsync(JobRequisition.ModifyPerformanceMonitoringLines request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JRWS:DeleteMonitoringLine", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.DeleteMonitoringLine_Result> DeleteMonitoringLineAsync(JobRequisition.DeleteMonitoringLine request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JRWS:GetPerformanceHeader", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.GetPerformanceHeader_Result> GetPerformanceHeaderAsync(JobRequisition.GetPerformanceHeader request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JRWS:GetPerformanceLine", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.GetPerformanceLine_Result> GetPerformanceLineAsync(JobRequisition.GetPerformanceLine request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JRWS:ApprovePerformanceMonitoring", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.ApprovePerformanceMonitoring_Result> ApprovePerformanceMonitoringAsync(JobRequisition.ApprovePerformanceMonitoring request);
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -419,15 +471,28 @@ namespace JobRequisition
         [System.Xml.Serialization.XmlElementAttribute(DataType="date")]
         public System.DateTime dOB;
         
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=3)]
+        public string venue;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(DataType="date")]
+        public System.DateTime interviewDate;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=5)]
+        public string interviewTime;
+        
         public JobApplicationModified()
         {
         }
         
-        public JobApplicationModified(string jobAppNo, string[] jobAppDataText, System.DateTime dOB)
+        public JobApplicationModified(string jobAppNo, string[] jobAppDataText, System.DateTime dOB, string venue, System.DateTime interviewDate, string interviewTime)
         {
             this.jobAppNo = jobAppNo;
             this.jobAppDataText = jobAppDataText;
             this.dOB = dOB;
+            this.venue = venue;
+            this.interviewDate = interviewDate;
+            this.interviewTime = interviewTime;
         }
     }
     
@@ -1422,6 +1487,86 @@ namespace JobRequisition
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ApprovePublish", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class ApprovePublish
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string reqno;
+        
+        public ApprovePublish()
+        {
+        }
+        
+        public ApprovePublish(string reqno)
+        {
+            this.reqno = reqno;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ApprovePublish_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class ApprovePublish_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string return_value;
+        
+        public ApprovePublish_Result()
+        {
+        }
+        
+        public ApprovePublish_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="RejectRequisition", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class RejectRequisition
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string reqno;
+        
+        public RejectRequisition()
+        {
+        }
+        
+        public RejectRequisition(string reqno)
+        {
+            this.reqno = reqno;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="RejectRequisition_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class RejectRequisition_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string return_value;
+        
+        public RejectRequisition_Result()
+        {
+        }
+        
+        public RejectRequisition_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="SetMandatoryDocs", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
     public partial class SetMandatoryDocs
     {
@@ -1671,6 +1816,458 @@ namespace JobRequisition
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="Countries", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class Countries
+    {
+        
+        public Countries()
+        {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="Countries_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class Countries_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string return_value;
+        
+        public Countries_Result()
+        {
+        }
+        
+        public Countries_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="Counties", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class Counties
+    {
+        
+        public Counties()
+        {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="Counties_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class Counties_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string return_value;
+        
+        public Counties_Result()
+        {
+        }
+        
+        public Counties_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="Subcounties", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class Subcounties
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string county;
+        
+        public Subcounties()
+        {
+        }
+        
+        public Subcounties(string county)
+        {
+            this.county = county;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="Subcounties_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class Subcounties_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string return_value;
+        
+        public Subcounties_Result()
+        {
+        }
+        
+        public Subcounties_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="InsertPerformanceMonitoring", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class InsertPerformanceMonitoring
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string manager;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=1)]
+        public string staff;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=2)]
+        public string attendee;
+        
+        public InsertPerformanceMonitoring()
+        {
+        }
+        
+        public InsertPerformanceMonitoring(string manager, string staff, string attendee)
+        {
+            this.manager = manager;
+            this.staff = staff;
+            this.attendee = attendee;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="InsertPerformanceMonitoring_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class InsertPerformanceMonitoring_Result
+    {
+        
+        public InsertPerformanceMonitoring_Result()
+        {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ModifyPerformanceMonitoring", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class ModifyPerformanceMonitoring
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string monitorNo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=1)]
+        public string support1;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=2)]
+        public string support2;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=3)]
+        public string recomms;
+        
+        public ModifyPerformanceMonitoring()
+        {
+        }
+        
+        public ModifyPerformanceMonitoring(string monitorNo, string support1, string support2, string recomms)
+        {
+            this.monitorNo = monitorNo;
+            this.support1 = support1;
+            this.support2 = support2;
+            this.recomms = recomms;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ModifyPerformanceMonitoring_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class ModifyPerformanceMonitoring_Result
+    {
+        
+        public ModifyPerformanceMonitoring_Result()
+        {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="InsertPerformanceMonitoringLines", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class InsertPerformanceMonitoringLines
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string monitorNo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=1)]
+        public string performanceParameter;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=2)]
+        public string currentPerformance;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=3)]
+        public string month1;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=4)]
+        public string month2;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=5)]
+        public string month3;
+        
+        public InsertPerformanceMonitoringLines()
+        {
+        }
+        
+        public InsertPerformanceMonitoringLines(string monitorNo, string performanceParameter, string currentPerformance, string month1, string month2, string month3)
+        {
+            this.monitorNo = monitorNo;
+            this.performanceParameter = performanceParameter;
+            this.currentPerformance = currentPerformance;
+            this.month1 = month1;
+            this.month2 = month2;
+            this.month3 = month3;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="InsertPerformanceMonitoringLines_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class InsertPerformanceMonitoringLines_Result
+    {
+        
+        public InsertPerformanceMonitoringLines_Result()
+        {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ModifyPerformanceMonitoringLines", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class ModifyPerformanceMonitoringLines
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string monitorNo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=1)]
+        public string performanceParameter;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=2)]
+        public string currentPerformance;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=3)]
+        public string month1;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=4)]
+        public string month2;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=5)]
+        public string month3;
+        
+        public ModifyPerformanceMonitoringLines()
+        {
+        }
+        
+        public ModifyPerformanceMonitoringLines(string monitorNo, string performanceParameter, string currentPerformance, string month1, string month2, string month3)
+        {
+            this.monitorNo = monitorNo;
+            this.performanceParameter = performanceParameter;
+            this.currentPerformance = currentPerformance;
+            this.month1 = month1;
+            this.month2 = month2;
+            this.month3 = month3;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ModifyPerformanceMonitoringLines_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class ModifyPerformanceMonitoringLines_Result
+    {
+        
+        public ModifyPerformanceMonitoringLines_Result()
+        {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="DeleteMonitoringLine", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class DeleteMonitoringLine
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string no;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=1)]
+        public string performanceParameter;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=2)]
+        public string currentPerformance;
+        
+        public DeleteMonitoringLine()
+        {
+        }
+        
+        public DeleteMonitoringLine(string no, string performanceParameter, string currentPerformance)
+        {
+            this.no = no;
+            this.performanceParameter = performanceParameter;
+            this.currentPerformance = currentPerformance;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="DeleteMonitoringLine_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class DeleteMonitoringLine_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string return_value;
+        
+        public DeleteMonitoringLine_Result()
+        {
+        }
+        
+        public DeleteMonitoringLine_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetPerformanceHeader", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class GetPerformanceHeader
+    {
+        
+        public GetPerformanceHeader()
+        {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetPerformanceHeader_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class GetPerformanceHeader_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string return_value;
+        
+        public GetPerformanceHeader_Result()
+        {
+        }
+        
+        public GetPerformanceHeader_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetPerformanceLine", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class GetPerformanceLine
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string pK;
+        
+        public GetPerformanceLine()
+        {
+        }
+        
+        public GetPerformanceLine(string pK)
+        {
+            this.pK = pK;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetPerformanceLine_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class GetPerformanceLine_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string return_value;
+        
+        public GetPerformanceLine_Result()
+        {
+        }
+        
+        public GetPerformanceLine_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ApprovePerformanceMonitoring", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class ApprovePerformanceMonitoring
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string pno;
+        
+        public ApprovePerformanceMonitoring()
+        {
+        }
+        
+        public ApprovePerformanceMonitoring(string pno)
+        {
+            this.pno = pno;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ApprovePerformanceMonitoring_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class ApprovePerformanceMonitoring_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string return_value;
+        
+        public ApprovePerformanceMonitoring_Result()
+        {
+        }
+        
+        public ApprovePerformanceMonitoring_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     public interface JRWS_PortChannel : JobRequisition.JRWS_Port, System.ServiceModel.IClientChannel
     {
@@ -1805,12 +2402,15 @@ namespace JobRequisition
             return base.Channel.JobApplicationModifiedAsync(request);
         }
         
-        public System.Threading.Tasks.Task<JobRequisition.JobApplicationModified_Result> JobApplicationModifiedAsync(string jobAppNo, string[] jobAppDataText, System.DateTime dOB)
+        public System.Threading.Tasks.Task<JobRequisition.JobApplicationModified_Result> JobApplicationModifiedAsync(string jobAppNo, string[] jobAppDataText, System.DateTime dOB, string venue, System.DateTime interviewDate, string interviewTime)
         {
             JobRequisition.JobApplicationModified inValue = new JobRequisition.JobApplicationModified();
             inValue.jobAppNo = jobAppNo;
             inValue.jobAppDataText = jobAppDataText;
             inValue.dOB = dOB;
+            inValue.venue = venue;
+            inValue.interviewDate = interviewDate;
+            inValue.interviewTime = interviewTime;
             return ((JobRequisition.JRWS_Port)(this)).JobApplicationModifiedAsync(inValue);
         }
         
@@ -2137,6 +2737,32 @@ namespace JobRequisition
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.ApprovePublish_Result> JobRequisition.JRWS_Port.ApprovePublishAsync(JobRequisition.ApprovePublish request)
+        {
+            return base.Channel.ApprovePublishAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.ApprovePublish_Result> ApprovePublishAsync(string reqno)
+        {
+            JobRequisition.ApprovePublish inValue = new JobRequisition.ApprovePublish();
+            inValue.reqno = reqno;
+            return ((JobRequisition.JRWS_Port)(this)).ApprovePublishAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.RejectRequisition_Result> JobRequisition.JRWS_Port.RejectRequisitionAsync(JobRequisition.RejectRequisition request)
+        {
+            return base.Channel.RejectRequisitionAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.RejectRequisition_Result> RejectRequisitionAsync(string reqno)
+        {
+            JobRequisition.RejectRequisition inValue = new JobRequisition.RejectRequisition();
+            inValue.reqno = reqno;
+            return ((JobRequisition.JRWS_Port)(this)).RejectRequisitionAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         System.Threading.Tasks.Task<JobRequisition.SetMandatoryDocs_Result> JobRequisition.JRWS_Port.SetMandatoryDocsAsync(JobRequisition.SetMandatoryDocs request)
         {
             return base.Channel.SetMandatoryDocsAsync(request);
@@ -2215,6 +2841,163 @@ namespace JobRequisition
             JobRequisition.GetRequisitionCard inValue = new JobRequisition.GetRequisitionCard();
             inValue.reqno = reqno;
             return ((JobRequisition.JRWS_Port)(this)).GetRequisitionCardAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.Countries_Result> JobRequisition.JRWS_Port.CountriesAsync(JobRequisition.Countries request)
+        {
+            return base.Channel.CountriesAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.Countries_Result> CountriesAsync()
+        {
+            JobRequisition.Countries inValue = new JobRequisition.Countries();
+            return ((JobRequisition.JRWS_Port)(this)).CountriesAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.Counties_Result> JobRequisition.JRWS_Port.CountiesAsync(JobRequisition.Counties request)
+        {
+            return base.Channel.CountiesAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.Counties_Result> CountiesAsync()
+        {
+            JobRequisition.Counties inValue = new JobRequisition.Counties();
+            return ((JobRequisition.JRWS_Port)(this)).CountiesAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.Subcounties_Result> JobRequisition.JRWS_Port.SubcountiesAsync(JobRequisition.Subcounties request)
+        {
+            return base.Channel.SubcountiesAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.Subcounties_Result> SubcountiesAsync(string county)
+        {
+            JobRequisition.Subcounties inValue = new JobRequisition.Subcounties();
+            inValue.county = county;
+            return ((JobRequisition.JRWS_Port)(this)).SubcountiesAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.InsertPerformanceMonitoring_Result> JobRequisition.JRWS_Port.InsertPerformanceMonitoringAsync(JobRequisition.InsertPerformanceMonitoring request)
+        {
+            return base.Channel.InsertPerformanceMonitoringAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.InsertPerformanceMonitoring_Result> InsertPerformanceMonitoringAsync(string manager, string staff, string attendee)
+        {
+            JobRequisition.InsertPerformanceMonitoring inValue = new JobRequisition.InsertPerformanceMonitoring();
+            inValue.manager = manager;
+            inValue.staff = staff;
+            inValue.attendee = attendee;
+            return ((JobRequisition.JRWS_Port)(this)).InsertPerformanceMonitoringAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.ModifyPerformanceMonitoring_Result> JobRequisition.JRWS_Port.ModifyPerformanceMonitoringAsync(JobRequisition.ModifyPerformanceMonitoring request)
+        {
+            return base.Channel.ModifyPerformanceMonitoringAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.ModifyPerformanceMonitoring_Result> ModifyPerformanceMonitoringAsync(string monitorNo, string support1, string support2, string recomms)
+        {
+            JobRequisition.ModifyPerformanceMonitoring inValue = new JobRequisition.ModifyPerformanceMonitoring();
+            inValue.monitorNo = monitorNo;
+            inValue.support1 = support1;
+            inValue.support2 = support2;
+            inValue.recomms = recomms;
+            return ((JobRequisition.JRWS_Port)(this)).ModifyPerformanceMonitoringAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.InsertPerformanceMonitoringLines_Result> JobRequisition.JRWS_Port.InsertPerformanceMonitoringLinesAsync(JobRequisition.InsertPerformanceMonitoringLines request)
+        {
+            return base.Channel.InsertPerformanceMonitoringLinesAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.InsertPerformanceMonitoringLines_Result> InsertPerformanceMonitoringLinesAsync(string monitorNo, string performanceParameter, string currentPerformance, string month1, string month2, string month3)
+        {
+            JobRequisition.InsertPerformanceMonitoringLines inValue = new JobRequisition.InsertPerformanceMonitoringLines();
+            inValue.monitorNo = monitorNo;
+            inValue.performanceParameter = performanceParameter;
+            inValue.currentPerformance = currentPerformance;
+            inValue.month1 = month1;
+            inValue.month2 = month2;
+            inValue.month3 = month3;
+            return ((JobRequisition.JRWS_Port)(this)).InsertPerformanceMonitoringLinesAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.ModifyPerformanceMonitoringLines_Result> JobRequisition.JRWS_Port.ModifyPerformanceMonitoringLinesAsync(JobRequisition.ModifyPerformanceMonitoringLines request)
+        {
+            return base.Channel.ModifyPerformanceMonitoringLinesAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.ModifyPerformanceMonitoringLines_Result> ModifyPerformanceMonitoringLinesAsync(string monitorNo, string performanceParameter, string currentPerformance, string month1, string month2, string month3)
+        {
+            JobRequisition.ModifyPerformanceMonitoringLines inValue = new JobRequisition.ModifyPerformanceMonitoringLines();
+            inValue.monitorNo = monitorNo;
+            inValue.performanceParameter = performanceParameter;
+            inValue.currentPerformance = currentPerformance;
+            inValue.month1 = month1;
+            inValue.month2 = month2;
+            inValue.month3 = month3;
+            return ((JobRequisition.JRWS_Port)(this)).ModifyPerformanceMonitoringLinesAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.DeleteMonitoringLine_Result> JobRequisition.JRWS_Port.DeleteMonitoringLineAsync(JobRequisition.DeleteMonitoringLine request)
+        {
+            return base.Channel.DeleteMonitoringLineAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.DeleteMonitoringLine_Result> DeleteMonitoringLineAsync(string no, string performanceParameter, string currentPerformance)
+        {
+            JobRequisition.DeleteMonitoringLine inValue = new JobRequisition.DeleteMonitoringLine();
+            inValue.no = no;
+            inValue.performanceParameter = performanceParameter;
+            inValue.currentPerformance = currentPerformance;
+            return ((JobRequisition.JRWS_Port)(this)).DeleteMonitoringLineAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.GetPerformanceHeader_Result> JobRequisition.JRWS_Port.GetPerformanceHeaderAsync(JobRequisition.GetPerformanceHeader request)
+        {
+            return base.Channel.GetPerformanceHeaderAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.GetPerformanceHeader_Result> GetPerformanceHeaderAsync()
+        {
+            JobRequisition.GetPerformanceHeader inValue = new JobRequisition.GetPerformanceHeader();
+            return ((JobRequisition.JRWS_Port)(this)).GetPerformanceHeaderAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.GetPerformanceLine_Result> JobRequisition.JRWS_Port.GetPerformanceLineAsync(JobRequisition.GetPerformanceLine request)
+        {
+            return base.Channel.GetPerformanceLineAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.GetPerformanceLine_Result> GetPerformanceLineAsync(string pK)
+        {
+            JobRequisition.GetPerformanceLine inValue = new JobRequisition.GetPerformanceLine();
+            inValue.pK = pK;
+            return ((JobRequisition.JRWS_Port)(this)).GetPerformanceLineAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.ApprovePerformanceMonitoring_Result> JobRequisition.JRWS_Port.ApprovePerformanceMonitoringAsync(JobRequisition.ApprovePerformanceMonitoring request)
+        {
+            return base.Channel.ApprovePerformanceMonitoringAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.ApprovePerformanceMonitoring_Result> ApprovePerformanceMonitoringAsync(string pno)
+        {
+            JobRequisition.ApprovePerformanceMonitoring inValue = new JobRequisition.ApprovePerformanceMonitoring();
+            inValue.pno = pno;
+            return ((JobRequisition.JRWS_Port)(this)).ApprovePerformanceMonitoringAsync(inValue);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()

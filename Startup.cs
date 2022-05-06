@@ -12,6 +12,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using RPFBE.Auth;
 using RPFBE.Model;
+using RPFBE.Model.Repository;
+using RPFBE.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,6 +50,7 @@ namespace RPFBE
                 options.Password.RequireUppercase = false;
                 options.Password.RequiredLength = 6;
                 options.Password.RequiredUniqueChars = 1;
+                options.User.RequireUniqueEmail = true;
             })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
@@ -80,6 +83,10 @@ namespace RPFBE
             services.Configure<WebserviceCreds>(Configuration.GetSection("NAVDetails"));
 
             services.AddScoped<ICodeUnitWebService, CodeUnitWebService>();
+
+            //Mail runtime setting instance
+            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
+            services.AddTransient<IMailService, MailService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

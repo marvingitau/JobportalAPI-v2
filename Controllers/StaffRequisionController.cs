@@ -774,7 +774,7 @@ namespace RPFBE.Controllers
             try
             {
                 //return Ok(Reqno);
-                var responser = await codeUnitWebService.Client().SetChecklistMandatoryRequiredAsync(Reqno);
+                var responser = await codeUnitWebService.Client().ApprovePublishAsync(Reqno);
                 var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
                 if(responser.return_value == "Yes")
                 {
@@ -794,6 +794,38 @@ namespace RPFBE.Controllers
             catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Approve Publish failed" });
+            }
+        }
+
+        //MD Rjected
+        [Authorize]
+        [Route("rejectreq/{Reqno}")]
+        [HttpGet]
+        public async Task<IActionResult> RejectReq(string Reqno)
+        {
+            try
+            {
+                //return Ok(Reqno);
+                var responser = await codeUnitWebService.Client().RejectRequisitionAsync(Reqno);
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                if (responser.return_value == "Yes")
+                {
+                    RequisitionProgress reqModel = dbContext.RequisitionProgress.Where(x => x.ReqID == Reqno).FirstOrDefault();
+                    reqModel.ProgressStatus = 5;
+                    reqModel.UIDFour = user.Id;
+                    dbContext.RequisitionProgress.Update(reqModel);
+                    await dbContext.SaveChangesAsync();
+                    return Ok(responser.return_value);
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Rejection failed" });
+                }
+
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Rejection  failed" });
             }
         }
 
@@ -858,6 +890,270 @@ namespace RPFBE.Controllers
         }
 
 
+
+        /*
+         * ######################################### PERFORMANCE MONITORING
+         */
+
+        //get performance employeses
+        [HttpGet]
+        [Route("getperformancesourcedata")]
+
+        public async Task<IActionResult> PSourcedata()
+        {
+            try
+            {
+                List<EmployeeListModel> employeeListModels = new List<EmployeeListModel>();
+
+                var employeeList =await  codeUnitWebService.Client().EmployeeListAsync();
+                dynamic employeeListSerial = JsonConvert.DeserializeObject(employeeList.return_value);
+                foreach (var emp in employeeListSerial)
+                {
+                    EmployeeListModel employee = new EmployeeListModel
+                    {
+                        Value = emp.No,
+                        Label = emp.Fullname
+                    };
+                    employeeListModels.Add(employee);
+                }
+
+                return Ok(new { employeeListModels });
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Source Data failed " + x.Message });
+            }
+        }
+
+        //Create Performance monitoring
+        [HttpPost]
+        [Route("createmonitoring")]
+
+        public async Task<IActionResult> CreateMonitoring([FromBody] MonitoringHeadModel monitoringHead)
+        {
+            try
+            {
+                var res = await  codeUnitWebService.Client().InsertPerformanceMonitoringAsync(monitoringHead.Manager, monitoringHead.Staff, monitoringHead.Attendee);
+
+                return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Create Monitoring Done" });
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Monitoring creation failed " + x.Message });
+            }
+        }
+
+        //Get Monitor List
+        [HttpGet]
+        [Route("monitoringlist")]
+        public async Task<IActionResult> MonitoringList()
+        {
+            try
+            {
+                List<MonitoringHeadModel> monitoringHeadModels = new List<MonitoringHeadModel>();
+
+                var res = await codeUnitWebService.Client().GetPerformanceHeaderAsync();
+                dynamic resSerial = JsonConvert.DeserializeObject(res.return_value);
+
+                foreach (var vv in resSerial)
+                {
+                    MonitoringHeadModel monitoringHead = new MonitoringHeadModel
+                    {
+                        MonitorNo = vv.MonitorNo,
+                        Date = vv.Date,
+                        Staff = vv.StaffName,
+                        StaffName = vv.StaffName,
+                        Manager = vv.ManagerName,
+                        ManagerName = vv.ManagerName,
+                        Attendee = vv.AttendeeName,
+                        AttendeeName = vv.AttendeeName,
+                        AreasofSupport = vv.AreasofSupport,
+                        AreasofSupport2 = vv.AreasofSupport2,
+                        Recommendations = vv.Recommendations,
+                        Approvalstatus = vv.ApprovalStatus,
+                        HRRemarks = vv.HRRemarks,
+                    };
+
+                    monitoringHeadModels.Add(monitoringHead);
+                }
+
+                return Ok(monitoringHeadModels);
+
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Monitoring List failed " + x.Message });
+            }
+        }
+
+        //Get Line data
+
+        [HttpGet]
+        [Route("getdataline/{ID}")]
+
+        public async Task<IActionResult> Getheaderlines(string ID)
+        {
+            try
+            {
+                List<PerformanceLineModel> performanceLineModels = new List<PerformanceLineModel>();
+
+                var res = await  codeUnitWebService.Client().GetPerformanceLineAsync(ID);
+                dynamic resSerial = JsonConvert.DeserializeObject(res.return_value);
+
+               
+                    foreach (var pm in resSerial)
+                    {
+                        PerformanceLineModel lineModel = new PerformanceLineModel
+                        {
+                            Monitorno = pm.MonitorNo,
+                            Performanceparameter = pm.PerformanceParameter,
+                            Currentperformance = pm.CurrentPerformance,
+                            Month1 = pm.Month1,
+                            Month2 = pm.Month2,
+                            Month3 = pm.Month3,
+                            Original = pm.MonitorNo==""?false:true,
+
+                        };
+                        performanceLineModels.Add(lineModel);
+                    }
+
+                    return Ok(new { performanceLineModels });
+               
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Monitoring Lines failed " + x.Message });
+            }
+        }
+
+
+        // Add Monitoring Line 
+        [Authorize]
+        [HttpPost]
+        [Route("addmonitoringline")]
+        public async Task<IActionResult> Addplines([FromBody] PerformanceLineModel lineModel)
+        {
+            try
+            {
+                if(lineModel.Original == false)
+                {
+                    var res = await codeUnitWebService.Client().InsertPerformanceMonitoringLinesAsync(lineModel.Monitorno, lineModel.Performanceparameter, lineModel.Currentperformance,
+                   lineModel.Month1, lineModel.Month2, lineModel.Month3);
+
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Create Monitoring Line Done" });
+                }
+                else
+                {
+                    var res = await codeUnitWebService.Client().ModifyPerformanceMonitoringLinesAsync(lineModel.Monitorno, lineModel.Performanceparameter, lineModel.Currentperformance,
+                                       lineModel.Month1, lineModel.Month2, lineModel.Month3);
+
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Update Monitoring Line Done" });
+                }
+               
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Monitoring Lines Upload Failed " + x.Message });
+            }
+        }
+
+        // Modify Monitoring Header
+        [Authorize]
+        [HttpPost]
+        [Route("modifymonitoringheader")]
+        public async Task<IActionResult> Modifypheader([FromBody] MonitoringHeadModel monitoringHead)
+        {
+            try
+            {
+                var res = await codeUnitWebService.Client().ModifyPerformanceMonitoringAsync(monitoringHead.MonitorNo,
+                    monitoringHead.AreasofSupport, monitoringHead.AreasofSupport2, monitoringHead.Recommendations);
+
+                return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Modify Monitoring Done" });
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Monitoring Lines Upload Failed " + x.Message });
+            }
+        }
+       
+        //Delete Monitoring Line
+        [Authorize]
+        [HttpPost]
+        [Route("deletemonitoringline")]
+        public async Task<IActionResult> Deleteplines([FromBody] PerformanceLineModel lineModel)
+        {
+            try
+            {
+
+                var res = await codeUnitWebService.Client().DeleteMonitoringLineAsync(lineModel.Monitorno,lineModel.Performanceparameter,
+                    lineModel.Currentperformance);
+                if (res.return_value == "TRUE")
+                {
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Line Delete Success" });
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Line Delete Failed" });
+                }
+                
+
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Monitoring Lines Delete Failed " + x.Message });
+            }
+        }
+
+        //Approve Monitoring
+        [Authorize]
+        [HttpGet]
+        [Route("approvemonitoring/{ID}")]
+        public async Task<IActionResult> ApproveMonitoring(string ID)
+        {
+            try
+            {
+                var res = await codeUnitWebService.Client().ApprovePerformanceMonitoringAsync(ID);
+                if (res.return_value == "TRUE")
+                {
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Approve Success" });
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Approve Failed" });
+                }
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Approving Failed " + x.Message });
+            }
+        }
+
+        //HOD Push to HR
+        [Authorize]
+        [HttpPost]
+        [Route("monitoringpushtohr")]
+
+        public async Task<IActionResult> MonitoringPushToHR([FromBody] PerformanceMonitoring monitoring)
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                monitoring.Progresscode = 1;
+                monitoring.HODId = user.Id;
+
+                dbContext.PerformanceMonitoring.Add(monitoring);
+                await dbContext.SaveChangesAsync();
+
+                return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Pushing Success" });
+                //return Ok(monitoring);
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Pushing Failed " + x.Message });
+            }
+        }
+
+        
 
     }
 }

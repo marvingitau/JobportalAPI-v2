@@ -7,11 +7,13 @@ using Newtonsoft.Json;
 using RPFBE.Auth;
 using RPFBE.Model;
 using RPFBE.Model.DBEntity;
+using RPFBE.Model.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using WebAPITest.Models;
 
 namespace RPFBE.Controllers
 {
@@ -27,6 +29,7 @@ namespace RPFBE.Controllers
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly IConfiguration configuration;
         private readonly ICodeUnitWebService codeUnitWebService;
+        private readonly IMailService mailService;
 
         public ProfileController(
             UserManager<ApplicationUser> userManager,
@@ -34,7 +37,8 @@ namespace RPFBE.Controllers
             ApplicationDbContext dbContext,
             SignInManager<ApplicationUser> signInManager,
             IConfiguration configuration,
-            ICodeUnitWebService codeUnitWebService
+            ICodeUnitWebService codeUnitWebService,
+            IMailService mailService
             )
         {
             this.userManager = userManager;
@@ -43,6 +47,7 @@ namespace RPFBE.Controllers
             this.signInManager = signInManager;
             this.configuration = configuration;
             this.codeUnitWebService = codeUnitWebService;
+            this.mailService = mailService;
         }
         [Route("index")]
         public async Task<IActionResult> Index()
@@ -117,6 +122,10 @@ namespace RPFBE.Controllers
 
                 //get bankcode
                 List<BankModel> bankModels = new List<BankModel>();
+                //list countrie
+                List<RegionModel> countryModels = new List<RegionModel>();
+                //list county
+                List<RegionModel> countyModels = new List<RegionModel>();
 
                 var bankres = await codeUnitWebService.Client().GetBanksAsync();
                 dynamic bankserial = JsonConvert.DeserializeObject(bankres.return_value);
@@ -130,15 +139,73 @@ namespace RPFBE.Controllers
                     };
                     bankModels.Add(bankModel);
                 }
-                
-                //get branch
-                return Ok(new { usrModel, profileModel, skillList, userCV , bankModels });
+
+                //Get Countries
+                var countriesNav = await codeUnitWebService.Client().CountriesAsync();
+                dynamic countriesSerial = JsonConvert.DeserializeObject(countriesNav.return_value);
+                foreach (var bc in countriesSerial)
+                {
+                    RegionModel countryModel = new RegionModel
+                    {
+                        Value = bc.Value,
+                        Label = bc.Label,
+                    };
+                    countryModels.Add(countryModel);
+                }
+
+                //Get Counties
+                var countiesNav = await codeUnitWebService.Client().CountiesAsync();
+                dynamic countiesSerial = JsonConvert.DeserializeObject(countiesNav.return_value);
+                foreach (var bc in countiesSerial)
+                {
+                    RegionModel countyModel = new RegionModel
+                    {
+                        Value = bc.Value,
+                        Label = bc.Label,
+                    };
+                    countyModels.Add(countyModel);
+                }
+
+
+
+                return Ok(new { usrModel, profileModel, skillList, userCV , bankModels, countryModels, countyModels });
 
             }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "try failed"+ex.Message });
 
+            }
+        }
+
+        //get sub counties codes
+        [Route("getsubcounty/{code}")]
+        [HttpGet]
+        public async Task<IActionResult> GetSubcounty(string code = "0000")
+        {
+            try
+            {
+                List<RegionModel> subCountyModels = new List<RegionModel>();
+                //bank branch list
+                var res = await codeUnitWebService.Client().SubcountiesAsync(code);
+                dynamic resSerial = JsonConvert.DeserializeObject(res.return_value);
+
+                foreach (var bb in resSerial)
+                {
+                    RegionModel sc = new RegionModel
+                    {
+                        Value = bb.Value,
+                        Label = bb.Label
+                    };
+                    subCountyModels.Add(sc);
+
+                }
+
+                return Ok(new { subCountyModels });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "Get subcounty failed" + ex.Message });
             }
         }
 
@@ -304,7 +371,7 @@ namespace RPFBE.Controllers
                     // var jobModel = dbContext.AppliedJobs.First(x => x.JobReqNo == reqNo);
                     var jobModel = dbContext.AppliedJobs.Where(x => x.JobReqNo == reqNo && x.UserId ==UID).FirstOrDefault();
 
-                    jobModel.Viewed = true;
+                    jobModel.Viewed = false;
                     jobModel.JobAppplicationNo = JobAppCode;
                     // await dbContext.SaveChangesAsync();
                     dbContext.AppliedJobs.Update(jobModel);
@@ -324,13 +391,13 @@ namespace RPFBE.Controllers
         }
 
 
-        [Route("modifyapp/{jobAppNo}/{UID}")]
-        [HttpGet]
-        public async Task<IActionResult> ModifyJobApplication(string jobAppNo,string UID)
+        [Route("modifyapp")]
+        [HttpPost]
+        public async Task<IActionResult> ModifyJobApplication(Shortlisted shortlisted)
         {
             try
             {
-                var user = await userManager.FindByIdAsync(UID);
+                var user = await userManager.FindByIdAsync(shortlisted.UID);
                 Profile current = dbContext.Profiles.First(x => x.Id == user.ProfileId);
                 var Client = await userManager.FindByIdAsync(current.UserId);
         
@@ -394,8 +461,32 @@ namespace RPFBE.Controllers
 
                     DateTime datetime = DateTime.ParseExact(auxDate, "MM/dd/yyyy", null);
 
-                    var res = codeUnitWebService.Client().JobApplicationModifiedAsync(jobAppNo, textUserData, datetime).Result.return_value;
-                    return Ok(res);
+                    char[] delimiterChars2 = { '-', 'T','.' };
+                    string inteviewdatetime = shortlisted.Date;
+                    string[] datetimeArr = inteviewdatetime.Split(delimiterChars2);
+                    string auxDate2 = datetimeArr[1] + "/" + datetimeArr[2] + "/" + datetimeArr[0];
+
+                    DateTime interviewDate = DateTime.ParseExact(auxDate2, "MM/dd/yyyy", null);
+
+                    //Send Email
+
+                    try
+                     {
+                         shortlisted.ToEmail = Client.Email;
+                         shortlisted.UserName = Client.UserName;
+                        await mailService.SendShortlistAsync(shortlisted);
+                        var res = await codeUnitWebService.Client().JobApplicationModifiedAsync(shortlisted.JobAppNo, textUserData, datetime, shortlisted.Venue,
+                            interviewDate, shortlisted.Time);
+                        return Ok(res.return_value);
+                     }
+                     catch (Exception x)
+                     {
+                         return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "Email failed/Modification failed " + x.Message });
+                     }
+                    
+                    //var res = codeUnitWebService.Client().JobApplicationModifiedAsync(shortlisted.JobAppNo, textUserData, datetime).Result.return_value;
+                    //return Ok(auxDate2);
+                    //return Ok("");
                 }
                 catch (Exception x)
                 {

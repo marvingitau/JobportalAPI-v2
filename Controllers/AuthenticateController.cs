@@ -92,6 +92,7 @@ namespace RPFBE.Controllers
         [Route("register-admin")]
         public async Task<IActionResult> RegisterAdmin([FromBody] RegisterModel model)
         {
+           // return Ok(model.EmployeeId);
             var res = await codeUnitWebService.EmployeeAccount().LoginEmployeeCoreAsync(model.EmployeeId, Cryptography.Hash(model.Password));
             dynamic resSerial = JsonConvert.DeserializeObject(res.return_value);
             LoginEmpCoreModel loginEmpCore = new LoginEmpCoreModel
@@ -179,5 +180,8 @@ namespace RPFBE.Controllers
             }
            
         }
+
+    
+
     }
 }

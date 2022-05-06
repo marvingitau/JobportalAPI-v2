@@ -10,8 +10,8 @@ using RPFBE.Auth;
 namespace RPFBE.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220419195338_v2 usercv")]
-    partial class v2usercv
+    [Migration("20220504021958_justification files")]
+    partial class justificationfiles
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -203,6 +203,9 @@ namespace RPFBE.Migrations
                     b.Property<int>("ProfileId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Rank")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -283,6 +286,30 @@ namespace RPFBE.Migrations
                     b.ToTable("SpecFiles");
                 });
 
+            modelBuilder.Entity("RPFBE.Model.DBEntity.JustificationFile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("FilePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReqNo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TagName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("JustificationFiles");
+                });
+
             modelBuilder.Entity("RPFBE.Model.DBEntity.Profile", b =>
                 {
                     b.Property<int>("Id")
@@ -320,6 +347,9 @@ namespace RPFBE.Migrations
                     b.Property<string>("County")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CurrentSalary")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("DOB")
                         .HasColumnType("nvarchar(max)");
 
@@ -329,6 +359,9 @@ namespace RPFBE.Migrations
                     b.Property<string>("Ethnicgroup")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ExpectedSalary")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Experience")
                         .HasColumnType("nvarchar(max)");
 
@@ -336,6 +369,9 @@ namespace RPFBE.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Gender")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HighestEducation")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("HudumaNo")
@@ -392,9 +428,60 @@ namespace RPFBE.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("WillingtoRelocate")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Profiles");
+                });
+
+            modelBuilder.Entity("RPFBE.Model.DBEntity.RequisitionProgress", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClosingDate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("JobGrade")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("JobNo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("JobTitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProgressStatus")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ReqID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RequestedEmployees")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UIDFour")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UIDThree")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UIDTwo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RequisitionProgress");
                 });
 
             modelBuilder.Entity("RPFBE.Model.DBEntity.Skill", b =>

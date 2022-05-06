@@ -284,6 +284,66 @@ namespace RPFBE.Migrations
                     b.ToTable("SpecFiles");
                 });
 
+            modelBuilder.Entity("RPFBE.Model.DBEntity.JustificationFile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("FilePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReqNo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TagName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("JustificationFiles");
+                });
+
+            modelBuilder.Entity("RPFBE.Model.DBEntity.PerformanceMonitoring", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ApprovalStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Date")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HODId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HRId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ManagerName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PerformanceId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Progresscode")
+                        .HasColumnType("int");
+
+                    b.Property<string>("StaffName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PerformanceMonitoring");
+                });
+
             modelBuilder.Entity("RPFBE.Model.DBEntity.Profile", b =>
                 {
                     b.Property<int>("Id")

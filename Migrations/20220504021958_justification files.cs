@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RPFBE.Migrations
 {
-    public partial class v2 : Migration
+    public partial class justificationfiles : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -61,11 +61,28 @@ namespace RPFBE.Migrations
                     AccessFailedCount = table.Column<int>(nullable: false),
                     ProfileId = table.Column<int>(nullable: false),
                     EmployeeId = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true),
+                    Rank = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "JustificationFiles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(nullable: true),
+                    FilePath = table.Column<string>(nullable: true),
+                    TagName = table.Column<string>(nullable: true),
+                    ReqNo = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_JustificationFiles", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -107,11 +124,39 @@ namespace RPFBE.Migrations
                     BankName = table.Column<string>(nullable: true),
                     BankBranchCode = table.Column<string>(nullable: true),
                     BankBranchName = table.Column<string>(nullable: true),
-                    Experience = table.Column<string>(nullable: true)
+                    Experience = table.Column<string>(nullable: true),
+                    WillingtoRelocate = table.Column<string>(nullable: true),
+                    HighestEducation = table.Column<string>(nullable: true),
+                    CurrentSalary = table.Column<string>(nullable: true),
+                    ExpectedSalary = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Profiles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RequisitionProgress",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UID = table.Column<string>(nullable: true),
+                    UIDTwo = table.Column<string>(nullable: true),
+                    UIDThree = table.Column<string>(nullable: true),
+                    UIDFour = table.Column<string>(nullable: true),
+                    ReqID = table.Column<string>(nullable: true),
+                    JobNo = table.Column<string>(nullable: true),
+                    JobTitle = table.Column<string>(nullable: true),
+                    JobGrade = table.Column<string>(nullable: true),
+                    RequestedEmployees = table.Column<string>(nullable: true),
+                    ClosingDate = table.Column<string>(nullable: true),
+                    Status = table.Column<string>(nullable: true),
+                    ProgressStatus = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RequisitionProgress", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -152,7 +197,8 @@ namespace RPFBE.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(nullable: true),
-                    FilePath = table.Column<string>(nullable: true)
+                    FilePath = table.Column<string>(nullable: true),
+                    TagName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -326,7 +372,13 @@ namespace RPFBE.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "JustificationFiles");
+
+            migrationBuilder.DropTable(
                 name: "Profiles");
+
+            migrationBuilder.DropTable(
+                name: "RequisitionProgress");
 
             migrationBuilder.DropTable(
                 name: "Skills");

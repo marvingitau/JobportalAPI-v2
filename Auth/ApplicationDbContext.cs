@@ -23,12 +23,16 @@ namespace RPFBE.Auth
         public DbSet<JustificationFile> JustificationFiles { get; set; }
         public DbSet<PerformanceMonitoring> PerformanceMonitoring { get; set; }
         public DbSet<MonitoringSupportingDoc> MonitoringSupportingDoc { get; set; }
+        public DbSet<MonitoringDoc> MonitoringDoc { get; set; }
+        public DbSet<MonitoringDocView> MonitoringDocView { get; set; }
+
         
 
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            builder.Entity<MonitoringDoc>().HasMany(d => d.MonitoringDocView).WithOne(v => v.MonitoringDoc);
         }
 
     }

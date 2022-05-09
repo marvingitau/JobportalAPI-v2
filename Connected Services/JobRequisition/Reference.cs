@@ -192,6 +192,10 @@ namespace JobRequisition
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.ModifyPerformanceMonitoring_Result> ModifyPerformanceMonitoringAsync(JobRequisition.ModifyPerformanceMonitoring request);
         
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JRWS:InsertMonitoringHRRemarks", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.InsertMonitoringHRRemarks_Result> InsertMonitoringHRRemarksAsync(JobRequisition.InsertMonitoringHRRemarks request);
+        
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JRWS:InsertPerformanceMonitoringLines", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.InsertPerformanceMonitoringLines_Result> InsertPerformanceMonitoringLinesAsync(JobRequisition.InsertPerformanceMonitoringLines request);
@@ -208,6 +212,10 @@ namespace JobRequisition
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.GetPerformanceHeader_Result> GetPerformanceHeaderAsync(JobRequisition.GetPerformanceHeader request);
         
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JRWS:GetPerformanceSpecificHeader", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.GetPerformanceSpecificHeader_Result> GetPerformanceSpecificHeaderAsync(JobRequisition.GetPerformanceSpecificHeader request);
+        
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JRWS:GetPerformanceLine", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.GetPerformanceLine_Result> GetPerformanceLineAsync(JobRequisition.GetPerformanceLine request);
@@ -215,6 +223,10 @@ namespace JobRequisition
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JRWS:ApprovePerformanceMonitoring", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.ApprovePerformanceMonitoring_Result> ApprovePerformanceMonitoringAsync(JobRequisition.ApprovePerformanceMonitoring request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JRWS:RejectPerformanceMonitoring", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.RejectPerformanceMonitoring_Result> RejectPerformanceMonitoringAsync(JobRequisition.RejectPerformanceMonitoring request);
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -2007,6 +2019,50 @@ namespace JobRequisition
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="InsertMonitoringHRRemarks", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class InsertMonitoringHRRemarks
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string pK;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=1)]
+        public string remark;
+        
+        public InsertMonitoringHRRemarks()
+        {
+        }
+        
+        public InsertMonitoringHRRemarks(string pK, string remark)
+        {
+            this.pK = pK;
+            this.remark = remark;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="InsertMonitoringHRRemarks_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class InsertMonitoringHRRemarks_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string return_value;
+        
+        public InsertMonitoringHRRemarks_Result()
+        {
+        }
+        
+        public InsertMonitoringHRRemarks_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="InsertPerformanceMonitoringLines", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
     public partial class InsertPerformanceMonitoringLines
     {
@@ -2191,6 +2247,46 @@ namespace JobRequisition
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetPerformanceSpecificHeader", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class GetPerformanceSpecificHeader
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string pK;
+        
+        public GetPerformanceSpecificHeader()
+        {
+        }
+        
+        public GetPerformanceSpecificHeader(string pK)
+        {
+            this.pK = pK;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetPerformanceSpecificHeader_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class GetPerformanceSpecificHeader_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string return_value;
+        
+        public GetPerformanceSpecificHeader_Result()
+        {
+        }
+        
+        public GetPerformanceSpecificHeader_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="GetPerformanceLine", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
     public partial class GetPerformanceLine
     {
@@ -2263,6 +2359,46 @@ namespace JobRequisition
         }
         
         public ApprovePerformanceMonitoring_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="RejectPerformanceMonitoring", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class RejectPerformanceMonitoring
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string pK;
+        
+        public RejectPerformanceMonitoring()
+        {
+        }
+        
+        public RejectPerformanceMonitoring(string pK)
+        {
+            this.pK = pK;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="RejectPerformanceMonitoring_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class RejectPerformanceMonitoring_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string return_value;
+        
+        public RejectPerformanceMonitoring_Result()
+        {
+        }
+        
+        public RejectPerformanceMonitoring_Result(string return_value)
         {
             this.return_value = return_value;
         }
@@ -2912,6 +3048,20 @@ namespace JobRequisition
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.InsertMonitoringHRRemarks_Result> JobRequisition.JRWS_Port.InsertMonitoringHRRemarksAsync(JobRequisition.InsertMonitoringHRRemarks request)
+        {
+            return base.Channel.InsertMonitoringHRRemarksAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.InsertMonitoringHRRemarks_Result> InsertMonitoringHRRemarksAsync(string pK, string remark)
+        {
+            JobRequisition.InsertMonitoringHRRemarks inValue = new JobRequisition.InsertMonitoringHRRemarks();
+            inValue.pK = pK;
+            inValue.remark = remark;
+            return ((JobRequisition.JRWS_Port)(this)).InsertMonitoringHRRemarksAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         System.Threading.Tasks.Task<JobRequisition.InsertPerformanceMonitoringLines_Result> JobRequisition.JRWS_Port.InsertPerformanceMonitoringLinesAsync(JobRequisition.InsertPerformanceMonitoringLines request)
         {
             return base.Channel.InsertPerformanceMonitoringLinesAsync(request);
@@ -2975,6 +3125,19 @@ namespace JobRequisition
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.GetPerformanceSpecificHeader_Result> JobRequisition.JRWS_Port.GetPerformanceSpecificHeaderAsync(JobRequisition.GetPerformanceSpecificHeader request)
+        {
+            return base.Channel.GetPerformanceSpecificHeaderAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.GetPerformanceSpecificHeader_Result> GetPerformanceSpecificHeaderAsync(string pK)
+        {
+            JobRequisition.GetPerformanceSpecificHeader inValue = new JobRequisition.GetPerformanceSpecificHeader();
+            inValue.pK = pK;
+            return ((JobRequisition.JRWS_Port)(this)).GetPerformanceSpecificHeaderAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         System.Threading.Tasks.Task<JobRequisition.GetPerformanceLine_Result> JobRequisition.JRWS_Port.GetPerformanceLineAsync(JobRequisition.GetPerformanceLine request)
         {
             return base.Channel.GetPerformanceLineAsync(request);
@@ -2998,6 +3161,19 @@ namespace JobRequisition
             JobRequisition.ApprovePerformanceMonitoring inValue = new JobRequisition.ApprovePerformanceMonitoring();
             inValue.pno = pno;
             return ((JobRequisition.JRWS_Port)(this)).ApprovePerformanceMonitoringAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.RejectPerformanceMonitoring_Result> JobRequisition.JRWS_Port.RejectPerformanceMonitoringAsync(JobRequisition.RejectPerformanceMonitoring request)
+        {
+            return base.Channel.RejectPerformanceMonitoringAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.RejectPerformanceMonitoring_Result> RejectPerformanceMonitoringAsync(string pK)
+        {
+            JobRequisition.RejectPerformanceMonitoring inValue = new JobRequisition.RejectPerformanceMonitoring();
+            inValue.pK = pK;
+            return ((JobRequisition.JRWS_Port)(this)).RejectPerformanceMonitoringAsync(inValue);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()

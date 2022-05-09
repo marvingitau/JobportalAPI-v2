@@ -1053,11 +1053,12 @@ namespace RPFBE.Controllers
         }
 
 
-        //HOD  Upload supporting Documents
+        // HOD upload Monitoring Support Documents
 
-        [Route("hoduploadsupportingdocs/{ID}")]
+        [Authorize]
+        [Route("hoduploadmonitoringdocs/{ID}")]
         [HttpPost]
-        public async Task<IActionResult> HODUploadSupportingDocs([FromForm] IFormFile formFile,string ID)
+        public async Task<IActionResult> HODUploadMonitoringDocs([FromForm] IFormFile formFile, string ID)
         {
             try
             {
@@ -1073,33 +1074,35 @@ namespace RPFBE.Controllers
                 {
                     formFile.CopyTo(stream);
                 }
-                
+
                 /* 
                  * var host = HttpContext.Request.Host.ToUriComponent();
                  * var url = $"{HttpContext.Request.Scheme}://{host}/{path}";
                  * return Content(url);
                 */
 
-                if (dbContext.UserCVs.Where(x => x.UserId == user.Id).Count() > 0)
+                if (dbContext.MonitoringDoc.Where(x => x.UID == user.Id && x.MonitoringID == ID).Count() > 0)
                 {
-                    var specificCV = dbContext.UserCVs.Where(x => x.UserId == user.Id).FirstOrDefault();
-                    specificCV.FilePath = path;
-                    specificCV.TagName = formFile.FileName;
+                    var specificCV = dbContext.MonitoringDoc.Where(x => x.UID == user.Id && x.MonitoringID == ID).FirstOrDefault();
+                    specificCV.Filepath = path;
+                    specificCV.Filename = formFile.FileName;
                     await dbContext.SaveChangesAsync();
-                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Succes", Message = "CV Updated" });
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Succes", Message = "Monitoring Doc Updated" });
 
                 }
                 else
                 {
-                    UserCV cvData = new UserCV
+                    MonitoringDoc mData = new MonitoringDoc
                     {
-                        UserId = user.Id,
-                        FilePath = path,
-                        TagName = formFile.FileName
+                        UID = user.Id,
+                        Filepath = path,
+                        Filename = formFile.FileName,
+                        MonitoringID = ID,
+                        
                     };
-                    dbContext.UserCVs.Add(cvData);
+                    dbContext.MonitoringDoc.Add(mData);
                     dbContext.SaveChanges();
-                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Succes", Message = "CV Uploaded" });
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Succes", Message = "Monitoring Doc Uploaded" });
                 }
 
             }
@@ -1110,5 +1113,34 @@ namespace RPFBE.Controllers
             }
         }
 
+
+        //HR
+        [Route("getmonitoring/{PID}")]
+        [HttpGet]
+        public IActionResult GetMonitoringDoc(string PID)
+        {
+            try
+            {
+                //var path = System.AppContext.BaseDirectory;
+                var dbres = dbContext.MonitoringDoc.Where(x => x.MonitoringID == PID).FirstOrDefault();
+                var file = dbres.Filepath;
+
+                // Response...
+                System.Net.Mime.ContentDisposition cd = new System.Net.Mime.ContentDisposition
+                {
+                    FileName = file,
+                    Inline = true // false = prompt the user for downloading;  true = browser to try to show the file inline
+                };
+                Response.Headers.Add("Content-Disposition", cd.ToString());
+                Response.Headers.Add("X-Content-Type-Options", "nosniff");
+
+                return File(System.IO.File.ReadAllBytes(file), "application/pdf");
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "Supporting Doc View failed" });
+            }
+        }
     }
 }

@@ -986,7 +986,7 @@ namespace RPFBE.Controllers
             }
         }
 
-        //Get Line data
+        //Get Line data HR and HOD
 
         [HttpGet]
         [Route("getdataline/{ID}")]
@@ -999,6 +999,11 @@ namespace RPFBE.Controllers
 
                 var res = await  codeUnitWebService.Client().GetPerformanceLineAsync(ID);
                 dynamic resSerial = JsonConvert.DeserializeObject(res.return_value);
+
+                //Get the status of the card
+                var dbPerMonitor = dbContext.PerformanceMonitoring.Where(x => x.PerformanceId == ID).FirstOrDefault();
+                
+
 
                
                     foreach (var pm in resSerial)
@@ -1017,7 +1022,7 @@ namespace RPFBE.Controllers
                         performanceLineModels.Add(lineModel);
                     }
 
-                    return Ok(new { performanceLineModels });
+                    return Ok(new { performanceLineModels, dbPerMonitor });
                
             }
             catch (Exception x)
@@ -1115,6 +1120,15 @@ namespace RPFBE.Controllers
                 var res = await codeUnitWebService.Client().ApprovePerformanceMonitoringAsync(ID);
                 if (res.return_value == "TRUE")
                 {
+                    var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                    var monModel = dbContext.PerformanceMonitoring.Where(x => x.PerformanceId == ID).FirstOrDefault();
+                    monModel.Progresscode = 2;
+                    monModel.HRId = user.Id;
+                    monModel.ApprovalStatus = "Approved";
+
+                    dbContext.PerformanceMonitoring.Update(monModel);
+                    await dbContext.SaveChangesAsync();
+
                     return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Approve Success" });
                 }
                 else
@@ -1128,6 +1142,40 @@ namespace RPFBE.Controllers
             }
         }
 
+        //Reject Monitoring
+        [Authorize]
+        [HttpGet]
+        [Route("rejectmonitoring/{ID}")]
+        public async Task<IActionResult> RejectMonitoring(string ID)
+        {
+            try
+            {
+                var res = await codeUnitWebService.Client().RejectPerformanceMonitoringAsync(ID);
+                if (res.return_value == "TRUE")
+                {
+                    var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                    var monModel = dbContext.PerformanceMonitoring.Where(x => x.PerformanceId == ID).FirstOrDefault();
+                    monModel.Progresscode = 3;
+                    monModel.HRId = user.Id;
+                    monModel.ApprovalStatus = "Rejected";
+
+                    dbContext.PerformanceMonitoring.Update(monModel);
+                    await dbContext.SaveChangesAsync();
+
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Reject Success" });
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Reject Failed" });
+                }
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Reject Failed " + x.Message });
+            }
+        }
+
+
         //HOD Push to HR
         [Authorize]
         [HttpPost]
@@ -1138,6 +1186,17 @@ namespace RPFBE.Controllers
             try
             {
                 var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                if(dbContext.PerformanceMonitoring.Where(x=>x.PerformanceId == monitoring.PerformanceId && x.Progresscode == 1).Count() > 0)
+                {
+                    var duplModel = dbContext.PerformanceMonitoring.Where(x => x.PerformanceId == monitoring.PerformanceId && x.Progresscode == 1).FirstOrDefault();
+                    duplModel.Progresscode = 1;
+                    duplModel.HODId = user.Id;
+
+                    dbContext.PerformanceMonitoring.Update(duplModel);
+                    await dbContext.SaveChangesAsync();
+
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Pushing Update Success" });
+                }
                 monitoring.Progresscode = 1;
                 monitoring.HODId = user.Id;
 
@@ -1145,7 +1204,6 @@ namespace RPFBE.Controllers
                 await dbContext.SaveChangesAsync();
 
                 return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Pushing Success" });
-                //return Ok(monitoring);
             }
             catch (Exception x)
             {
@@ -1153,7 +1211,84 @@ namespace RPFBE.Controllers
             }
         }
 
-        
 
+        //HR Monitoring
+        [Authorize]
+        [HttpGet]
+        [Route("hrmonitoring")]
+
+        public IActionResult GetHRMonitoringList()
+        {
+            try
+            {
+                var HRMonitoringList = dbContext.PerformanceMonitoring.Where(x => x.Progresscode >= 1).ToList();
+                return Ok(new { HRMonitoringList });
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Pull Failed " + x.Message });
+            }
+
+        }
+
+        //Get Monitor List
+        [HttpGet]
+        [Route("monitoringspecificheader/{ID}")]
+        public async Task<IActionResult> MonitoringSpecificHeader(string ID)
+        {
+            try
+            {
+                List<MonitoringHeadModel> monitoringHeadModels = new List<MonitoringHeadModel>();
+
+                var res = await codeUnitWebService.Client().GetPerformanceSpecificHeaderAsync(ID);
+                dynamic resSerial = JsonConvert.DeserializeObject(res.return_value);
+
+                foreach (var vv in resSerial)
+                {
+                    MonitoringHeadModel monitoringHead = new MonitoringHeadModel
+                    {
+                        MonitorNo = vv.MonitorNo,
+                        Date = vv.Date,
+                        Staff = vv.StaffName,
+                        StaffName = vv.StaffName,
+                        Manager = vv.ManagerName,
+                        ManagerName = vv.ManagerName,
+                        Attendee = vv.AttendeeName,
+                        AttendeeName = vv.AttendeeName,
+                        AreasofSupport = vv.AreasofSupport,
+                        AreasofSupport2 = vv.AreasofSupport2,
+                        Recommendations = vv.Recommendations,
+                        Approvalstatus = vv.ApprovalStatus,
+                        HRRemarks = vv.HRRemarks,
+                    };
+
+                    monitoringHeadModels.Add(monitoringHead);
+                }
+
+                return Ok(new { monitoringHeadModels });
+
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Monitoring Header failed " + x.Message });
+            }
+        }
+
+
+        //Push HR Monitoring Remark
+        [HttpPost]
+        [Route("hrmonitoringremark/{ID}")]
+        public async Task<IActionResult> HRmonitoring([FromBody] MonitoringHeadModel headModel,string ID)
+        {
+            try
+            {
+                var res = await codeUnitWebService.Client().InsertMonitoringHRRemarksAsync(ID, headModel.HRRemarks);
+                return Ok(res.return_value);
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Remark Push Failed " + x.Message });
+            }
+        }
     }
 }

@@ -227,6 +227,70 @@ namespace JobRequisition
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JRWS:RejectPerformanceMonitoring", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.RejectPerformanceMonitoring_Result> RejectPerformanceMonitoringAsync(JobRequisition.RejectPerformanceMonitoring request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JRWS:CreateExitInterview", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.CreateExitInterview_Result> CreateExitInterviewAsync(JobRequisition.CreateExitInterview request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JRWS:GetUserRoles", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.GetUserRoles_Result> GetUserRolesAsync(JobRequisition.GetUserRoles request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JRWS:GetGroundsForSeparation", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.GetGroundsForSeparation_Result> GetGroundsForSeparationAsync(JobRequisition.GetGroundsForSeparation request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JRWS:ApproveInterviewForm", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.ApproveInterviewForm_Result> ApproveInterviewFormAsync(JobRequisition.ApproveInterviewForm request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JRWS:CreateClearance", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.CreateClearance_Result> CreateClearanceAsync(JobRequisition.CreateClearance request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JRWS:GetClearancefullformEmployee", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.GetClearancefullformEmployee_Result> GetClearancefullformEmployeeAsync(JobRequisition.GetClearancefullformEmployee request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JRWS:GetClearancefullformICT", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.GetClearancefullformICT_Result> GetClearancefullformICTAsync(JobRequisition.GetClearancefullformICT request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JRWS:GetClearancefullformFINANCE", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.GetClearancefullformFINANCE_Result> GetClearancefullformFINANCEAsync(JobRequisition.GetClearancefullformFINANCE request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JRWS:GetClearancefullformHR", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.GetClearancefullformHR_Result> GetClearancefullformHRAsync(JobRequisition.GetClearancefullformHR request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JRWS:GetClearancefullformADMIN", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.GetClearancefullformADMIN_Result> GetClearancefullformADMINAsync(JobRequisition.GetClearancefullformADMIN request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JRWS:InsertClearanceLines", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.InsertClearanceLines_Result> InsertClearanceLinesAsync(JobRequisition.InsertClearanceLines request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JRWS:InsertClearanceLinesHR", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.InsertClearanceLinesHR_Result> InsertClearanceLinesHRAsync(JobRequisition.InsertClearanceLinesHR request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JRWS:InsertClearanceLineFinance", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.InsertClearanceLineFinance_Result> InsertClearanceLineFinanceAsync(JobRequisition.InsertClearanceLineFinance request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JRWS:ModifyClearanceLineFinance", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.ModifyClearanceLineFinance_Result> ModifyClearanceLineFinanceAsync(JobRequisition.ModifyClearanceLineFinance request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JRWS:ModifyClearanceLines", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.ModifyClearanceLines_Result> ModifyClearanceLinesAsync(JobRequisition.ModifyClearanceLines request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JRWS:DeleteClearanceLine", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.DeleteClearanceLine_Result> DeleteClearanceLineAsync(JobRequisition.DeleteClearanceLine request);
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -2404,6 +2468,793 @@ namespace JobRequisition
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="CreateExitInterview", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class CreateExitInterview
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string empNo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(DataType="date")]
+        public System.DateTime interviewDate;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=2)]
+        public string interviewer;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=3)]
+        public string sepaGround;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=4)]
+        public string otherReason;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute(DataType="date")]
+        public System.DateTime sepaDate;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=6)]
+        public string rEmploy;
+        
+        public CreateExitInterview()
+        {
+        }
+        
+        public CreateExitInterview(string empNo, System.DateTime interviewDate, string interviewer, string sepaGround, string otherReason, System.DateTime sepaDate, string rEmploy)
+        {
+            this.empNo = empNo;
+            this.interviewDate = interviewDate;
+            this.interviewer = interviewer;
+            this.sepaGround = sepaGround;
+            this.otherReason = otherReason;
+            this.sepaDate = sepaDate;
+            this.rEmploy = rEmploy;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="CreateExitInterview_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class CreateExitInterview_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string return_value;
+        
+        public CreateExitInterview_Result()
+        {
+        }
+        
+        public CreateExitInterview_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetUserRoles", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class GetUserRoles
+    {
+        
+        public GetUserRoles()
+        {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetUserRoles_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class GetUserRoles_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string return_value;
+        
+        public GetUserRoles_Result()
+        {
+        }
+        
+        public GetUserRoles_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetGroundsForSeparation", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class GetGroundsForSeparation
+    {
+        
+        public GetGroundsForSeparation()
+        {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetGroundsForSeparation_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class GetGroundsForSeparation_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string return_value;
+        
+        public GetGroundsForSeparation_Result()
+        {
+        }
+        
+        public GetGroundsForSeparation_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ApproveInterviewForm", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class ApproveInterviewForm
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string pK;
+        
+        public ApproveInterviewForm()
+        {
+        }
+        
+        public ApproveInterviewForm(string pK)
+        {
+            this.pK = pK;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ApproveInterviewForm_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class ApproveInterviewForm_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string return_value;
+        
+        public ApproveInterviewForm_Result()
+        {
+        }
+        
+        public ApproveInterviewForm_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="CreateClearance", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class CreateClearance
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string empID;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(DataType="date")]
+        public System.DateTime empEndDate;
+        
+        public CreateClearance()
+        {
+        }
+        
+        public CreateClearance(string empID, System.DateTime empEndDate)
+        {
+            this.empID = empID;
+            this.empEndDate = empEndDate;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="CreateClearance_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class CreateClearance_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string return_value;
+        
+        public CreateClearance_Result()
+        {
+        }
+        
+        public CreateClearance_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetClearancefullformEmployee", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class GetClearancefullformEmployee
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string pK;
+        
+        public GetClearancefullformEmployee()
+        {
+        }
+        
+        public GetClearancefullformEmployee(string pK)
+        {
+            this.pK = pK;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetClearancefullformEmployee_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class GetClearancefullformEmployee_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string return_value;
+        
+        public GetClearancefullformEmployee_Result()
+        {
+        }
+        
+        public GetClearancefullformEmployee_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetClearancefullformICT", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class GetClearancefullformICT
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string pK;
+        
+        public GetClearancefullformICT()
+        {
+        }
+        
+        public GetClearancefullformICT(string pK)
+        {
+            this.pK = pK;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetClearancefullformICT_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class GetClearancefullformICT_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string return_value;
+        
+        public GetClearancefullformICT_Result()
+        {
+        }
+        
+        public GetClearancefullformICT_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetClearancefullformFINANCE", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class GetClearancefullformFINANCE
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string pK;
+        
+        public GetClearancefullformFINANCE()
+        {
+        }
+        
+        public GetClearancefullformFINANCE(string pK)
+        {
+            this.pK = pK;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetClearancefullformFINANCE_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class GetClearancefullformFINANCE_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string return_value;
+        
+        public GetClearancefullformFINANCE_Result()
+        {
+        }
+        
+        public GetClearancefullformFINANCE_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetClearancefullformHR", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class GetClearancefullformHR
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string pK;
+        
+        public GetClearancefullformHR()
+        {
+        }
+        
+        public GetClearancefullformHR(string pK)
+        {
+            this.pK = pK;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetClearancefullformHR_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class GetClearancefullformHR_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string return_value;
+        
+        public GetClearancefullformHR_Result()
+        {
+        }
+        
+        public GetClearancefullformHR_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetClearancefullformADMIN", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class GetClearancefullformADMIN
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string pK;
+        
+        public GetClearancefullformADMIN()
+        {
+        }
+        
+        public GetClearancefullformADMIN(string pK)
+        {
+            this.pK = pK;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetClearancefullformADMIN_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class GetClearancefullformADMIN_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string return_value;
+        
+        public GetClearancefullformADMIN_Result()
+        {
+        }
+        
+        public GetClearancefullformADMIN_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="InsertClearanceLines", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class InsertClearanceLines
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string items;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=1)]
+        public int value;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=2)]
+        public string remarks;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=3)]
+        public string department;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=4)]
+        public string cleared;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=5)]
+        public string pK;
+        
+        public InsertClearanceLines()
+        {
+        }
+        
+        public InsertClearanceLines(string items, int value, string remarks, string department, string cleared, string pK)
+        {
+            this.items = items;
+            this.value = value;
+            this.remarks = remarks;
+            this.department = department;
+            this.cleared = cleared;
+            this.pK = pK;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="InsertClearanceLines_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class InsertClearanceLines_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string return_value;
+        
+        public InsertClearanceLines_Result()
+        {
+        }
+        
+        public InsertClearanceLines_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="InsertClearanceLinesHR", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class InsertClearanceLinesHR
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string year;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=1)]
+        public decimal annualLeaveDays;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=2)]
+        public decimal annualDaysLess;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=3)]
+        public decimal balanceDays;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=4)]
+        public string remarks;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=5)]
+        public string clearance;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=6)]
+        public string department;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=7)]
+        public string pK;
+        
+        public InsertClearanceLinesHR()
+        {
+        }
+        
+        public InsertClearanceLinesHR(string year, decimal annualLeaveDays, decimal annualDaysLess, decimal balanceDays, string remarks, string clearance, string department, string pK)
+        {
+            this.year = year;
+            this.annualLeaveDays = annualLeaveDays;
+            this.annualDaysLess = annualDaysLess;
+            this.balanceDays = balanceDays;
+            this.remarks = remarks;
+            this.clearance = clearance;
+            this.department = department;
+            this.pK = pK;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="InsertClearanceLinesHR_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class InsertClearanceLinesHR_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string return_value;
+        
+        public InsertClearanceLinesHR_Result()
+        {
+        }
+        
+        public InsertClearanceLinesHR_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="InsertClearanceLineFinance", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class InsertClearanceLineFinance
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string pK;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=1)]
+        public string clearance;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=2)]
+        public decimal staffloan;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=3)]
+        public decimal othersaving;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=4)]
+        public string acc1;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=5)]
+        public string acc2;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=6)]
+        public string finMgr;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=7)]
+        public string finDir;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=8)]
+        public string department;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=9)]
+        public decimal jit;
+        
+        public InsertClearanceLineFinance()
+        {
+        }
+        
+        public InsertClearanceLineFinance(string pK, string clearance, decimal staffloan, decimal othersaving, string acc1, string acc2, string finMgr, string finDir, string department, decimal jit)
+        {
+            this.pK = pK;
+            this.clearance = clearance;
+            this.staffloan = staffloan;
+            this.othersaving = othersaving;
+            this.acc1 = acc1;
+            this.acc2 = acc2;
+            this.finMgr = finMgr;
+            this.finDir = finDir;
+            this.department = department;
+            this.jit = jit;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="InsertClearanceLineFinance_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class InsertClearanceLineFinance_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string return_value;
+        
+        public InsertClearanceLineFinance_Result()
+        {
+        }
+        
+        public InsertClearanceLineFinance_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ModifyClearanceLineFinance", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class ModifyClearanceLineFinance
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public int lineno;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=1)]
+        public string clearance;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=2)]
+        public decimal staffloan;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=3)]
+        public decimal othersaving;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=4)]
+        public string acc1;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=5)]
+        public string acc2;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=6)]
+        public string finMgr;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=7)]
+        public string finDir;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=8)]
+        public decimal jit;
+        
+        public ModifyClearanceLineFinance()
+        {
+        }
+        
+        public ModifyClearanceLineFinance(int lineno, string clearance, decimal staffloan, decimal othersaving, string acc1, string acc2, string finMgr, string finDir, decimal jit)
+        {
+            this.lineno = lineno;
+            this.clearance = clearance;
+            this.staffloan = staffloan;
+            this.othersaving = othersaving;
+            this.acc1 = acc1;
+            this.acc2 = acc2;
+            this.finMgr = finMgr;
+            this.finDir = finDir;
+            this.jit = jit;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ModifyClearanceLineFinance_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class ModifyClearanceLineFinance_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string return_value;
+        
+        public ModifyClearanceLineFinance_Result()
+        {
+        }
+        
+        public ModifyClearanceLineFinance_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ModifyClearanceLines", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class ModifyClearanceLines
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public int lineno;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=1)]
+        public string items;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=2)]
+        public int value;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=3)]
+        public string remarks;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=4)]
+        public string cleared;
+        
+        public ModifyClearanceLines()
+        {
+        }
+        
+        public ModifyClearanceLines(int lineno, string items, int value, string remarks, string cleared)
+        {
+            this.lineno = lineno;
+            this.items = items;
+            this.value = value;
+            this.remarks = remarks;
+            this.cleared = cleared;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ModifyClearanceLines_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class ModifyClearanceLines_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string return_value;
+        
+        public ModifyClearanceLines_Result()
+        {
+        }
+        
+        public ModifyClearanceLines_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="DeleteClearanceLine", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class DeleteClearanceLine
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public int lineno;
+        
+        public DeleteClearanceLine()
+        {
+        }
+        
+        public DeleteClearanceLine(int lineno)
+        {
+            this.lineno = lineno;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="DeleteClearanceLine_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", IsWrapped=true)]
+    public partial class DeleteClearanceLine_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JRWS", Order=0)]
+        public string return_value;
+        
+        public DeleteClearanceLine_Result()
+        {
+        }
+        
+        public DeleteClearanceLine_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     public interface JRWS_PortChannel : JobRequisition.JRWS_Port, System.ServiceModel.IClientChannel
     {
@@ -3174,6 +4025,252 @@ namespace JobRequisition
             JobRequisition.RejectPerformanceMonitoring inValue = new JobRequisition.RejectPerformanceMonitoring();
             inValue.pK = pK;
             return ((JobRequisition.JRWS_Port)(this)).RejectPerformanceMonitoringAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.CreateExitInterview_Result> JobRequisition.JRWS_Port.CreateExitInterviewAsync(JobRequisition.CreateExitInterview request)
+        {
+            return base.Channel.CreateExitInterviewAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.CreateExitInterview_Result> CreateExitInterviewAsync(string empNo, System.DateTime interviewDate, string interviewer, string sepaGround, string otherReason, System.DateTime sepaDate, string rEmploy)
+        {
+            JobRequisition.CreateExitInterview inValue = new JobRequisition.CreateExitInterview();
+            inValue.empNo = empNo;
+            inValue.interviewDate = interviewDate;
+            inValue.interviewer = interviewer;
+            inValue.sepaGround = sepaGround;
+            inValue.otherReason = otherReason;
+            inValue.sepaDate = sepaDate;
+            inValue.rEmploy = rEmploy;
+            return ((JobRequisition.JRWS_Port)(this)).CreateExitInterviewAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.GetUserRoles_Result> JobRequisition.JRWS_Port.GetUserRolesAsync(JobRequisition.GetUserRoles request)
+        {
+            return base.Channel.GetUserRolesAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.GetUserRoles_Result> GetUserRolesAsync()
+        {
+            JobRequisition.GetUserRoles inValue = new JobRequisition.GetUserRoles();
+            return ((JobRequisition.JRWS_Port)(this)).GetUserRolesAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.GetGroundsForSeparation_Result> JobRequisition.JRWS_Port.GetGroundsForSeparationAsync(JobRequisition.GetGroundsForSeparation request)
+        {
+            return base.Channel.GetGroundsForSeparationAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.GetGroundsForSeparation_Result> GetGroundsForSeparationAsync()
+        {
+            JobRequisition.GetGroundsForSeparation inValue = new JobRequisition.GetGroundsForSeparation();
+            return ((JobRequisition.JRWS_Port)(this)).GetGroundsForSeparationAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.ApproveInterviewForm_Result> JobRequisition.JRWS_Port.ApproveInterviewFormAsync(JobRequisition.ApproveInterviewForm request)
+        {
+            return base.Channel.ApproveInterviewFormAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.ApproveInterviewForm_Result> ApproveInterviewFormAsync(string pK)
+        {
+            JobRequisition.ApproveInterviewForm inValue = new JobRequisition.ApproveInterviewForm();
+            inValue.pK = pK;
+            return ((JobRequisition.JRWS_Port)(this)).ApproveInterviewFormAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.CreateClearance_Result> JobRequisition.JRWS_Port.CreateClearanceAsync(JobRequisition.CreateClearance request)
+        {
+            return base.Channel.CreateClearanceAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.CreateClearance_Result> CreateClearanceAsync(string empID, System.DateTime empEndDate)
+        {
+            JobRequisition.CreateClearance inValue = new JobRequisition.CreateClearance();
+            inValue.empID = empID;
+            inValue.empEndDate = empEndDate;
+            return ((JobRequisition.JRWS_Port)(this)).CreateClearanceAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.GetClearancefullformEmployee_Result> JobRequisition.JRWS_Port.GetClearancefullformEmployeeAsync(JobRequisition.GetClearancefullformEmployee request)
+        {
+            return base.Channel.GetClearancefullformEmployeeAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.GetClearancefullformEmployee_Result> GetClearancefullformEmployeeAsync(string pK)
+        {
+            JobRequisition.GetClearancefullformEmployee inValue = new JobRequisition.GetClearancefullformEmployee();
+            inValue.pK = pK;
+            return ((JobRequisition.JRWS_Port)(this)).GetClearancefullformEmployeeAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.GetClearancefullformICT_Result> JobRequisition.JRWS_Port.GetClearancefullformICTAsync(JobRequisition.GetClearancefullformICT request)
+        {
+            return base.Channel.GetClearancefullformICTAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.GetClearancefullformICT_Result> GetClearancefullformICTAsync(string pK)
+        {
+            JobRequisition.GetClearancefullformICT inValue = new JobRequisition.GetClearancefullformICT();
+            inValue.pK = pK;
+            return ((JobRequisition.JRWS_Port)(this)).GetClearancefullformICTAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.GetClearancefullformFINANCE_Result> JobRequisition.JRWS_Port.GetClearancefullformFINANCEAsync(JobRequisition.GetClearancefullformFINANCE request)
+        {
+            return base.Channel.GetClearancefullformFINANCEAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.GetClearancefullformFINANCE_Result> GetClearancefullformFINANCEAsync(string pK)
+        {
+            JobRequisition.GetClearancefullformFINANCE inValue = new JobRequisition.GetClearancefullformFINANCE();
+            inValue.pK = pK;
+            return ((JobRequisition.JRWS_Port)(this)).GetClearancefullformFINANCEAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.GetClearancefullformHR_Result> JobRequisition.JRWS_Port.GetClearancefullformHRAsync(JobRequisition.GetClearancefullformHR request)
+        {
+            return base.Channel.GetClearancefullformHRAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.GetClearancefullformHR_Result> GetClearancefullformHRAsync(string pK)
+        {
+            JobRequisition.GetClearancefullformHR inValue = new JobRequisition.GetClearancefullformHR();
+            inValue.pK = pK;
+            return ((JobRequisition.JRWS_Port)(this)).GetClearancefullformHRAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.GetClearancefullformADMIN_Result> JobRequisition.JRWS_Port.GetClearancefullformADMINAsync(JobRequisition.GetClearancefullformADMIN request)
+        {
+            return base.Channel.GetClearancefullformADMINAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.GetClearancefullformADMIN_Result> GetClearancefullformADMINAsync(string pK)
+        {
+            JobRequisition.GetClearancefullformADMIN inValue = new JobRequisition.GetClearancefullformADMIN();
+            inValue.pK = pK;
+            return ((JobRequisition.JRWS_Port)(this)).GetClearancefullformADMINAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.InsertClearanceLines_Result> JobRequisition.JRWS_Port.InsertClearanceLinesAsync(JobRequisition.InsertClearanceLines request)
+        {
+            return base.Channel.InsertClearanceLinesAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.InsertClearanceLines_Result> InsertClearanceLinesAsync(string items, int value, string remarks, string department, string cleared, string pK)
+        {
+            JobRequisition.InsertClearanceLines inValue = new JobRequisition.InsertClearanceLines();
+            inValue.items = items;
+            inValue.value = value;
+            inValue.remarks = remarks;
+            inValue.department = department;
+            inValue.cleared = cleared;
+            inValue.pK = pK;
+            return ((JobRequisition.JRWS_Port)(this)).InsertClearanceLinesAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.InsertClearanceLinesHR_Result> JobRequisition.JRWS_Port.InsertClearanceLinesHRAsync(JobRequisition.InsertClearanceLinesHR request)
+        {
+            return base.Channel.InsertClearanceLinesHRAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.InsertClearanceLinesHR_Result> InsertClearanceLinesHRAsync(string year, decimal annualLeaveDays, decimal annualDaysLess, decimal balanceDays, string remarks, string clearance, string department, string pK)
+        {
+            JobRequisition.InsertClearanceLinesHR inValue = new JobRequisition.InsertClearanceLinesHR();
+            inValue.year = year;
+            inValue.annualLeaveDays = annualLeaveDays;
+            inValue.annualDaysLess = annualDaysLess;
+            inValue.balanceDays = balanceDays;
+            inValue.remarks = remarks;
+            inValue.clearance = clearance;
+            inValue.department = department;
+            inValue.pK = pK;
+            return ((JobRequisition.JRWS_Port)(this)).InsertClearanceLinesHRAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.InsertClearanceLineFinance_Result> JobRequisition.JRWS_Port.InsertClearanceLineFinanceAsync(JobRequisition.InsertClearanceLineFinance request)
+        {
+            return base.Channel.InsertClearanceLineFinanceAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.InsertClearanceLineFinance_Result> InsertClearanceLineFinanceAsync(string pK, string clearance, decimal staffloan, decimal othersaving, string acc1, string acc2, string finMgr, string finDir, string department, decimal jit)
+        {
+            JobRequisition.InsertClearanceLineFinance inValue = new JobRequisition.InsertClearanceLineFinance();
+            inValue.pK = pK;
+            inValue.clearance = clearance;
+            inValue.staffloan = staffloan;
+            inValue.othersaving = othersaving;
+            inValue.acc1 = acc1;
+            inValue.acc2 = acc2;
+            inValue.finMgr = finMgr;
+            inValue.finDir = finDir;
+            inValue.department = department;
+            inValue.jit = jit;
+            return ((JobRequisition.JRWS_Port)(this)).InsertClearanceLineFinanceAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.ModifyClearanceLineFinance_Result> JobRequisition.JRWS_Port.ModifyClearanceLineFinanceAsync(JobRequisition.ModifyClearanceLineFinance request)
+        {
+            return base.Channel.ModifyClearanceLineFinanceAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.ModifyClearanceLineFinance_Result> ModifyClearanceLineFinanceAsync(int lineno, string clearance, decimal staffloan, decimal othersaving, string acc1, string acc2, string finMgr, string finDir, decimal jit)
+        {
+            JobRequisition.ModifyClearanceLineFinance inValue = new JobRequisition.ModifyClearanceLineFinance();
+            inValue.lineno = lineno;
+            inValue.clearance = clearance;
+            inValue.staffloan = staffloan;
+            inValue.othersaving = othersaving;
+            inValue.acc1 = acc1;
+            inValue.acc2 = acc2;
+            inValue.finMgr = finMgr;
+            inValue.finDir = finDir;
+            inValue.jit = jit;
+            return ((JobRequisition.JRWS_Port)(this)).ModifyClearanceLineFinanceAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.ModifyClearanceLines_Result> JobRequisition.JRWS_Port.ModifyClearanceLinesAsync(JobRequisition.ModifyClearanceLines request)
+        {
+            return base.Channel.ModifyClearanceLinesAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.ModifyClearanceLines_Result> ModifyClearanceLinesAsync(int lineno, string items, int value, string remarks, string cleared)
+        {
+            JobRequisition.ModifyClearanceLines inValue = new JobRequisition.ModifyClearanceLines();
+            inValue.lineno = lineno;
+            inValue.items = items;
+            inValue.value = value;
+            inValue.remarks = remarks;
+            inValue.cleared = cleared;
+            return ((JobRequisition.JRWS_Port)(this)).ModifyClearanceLinesAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.DeleteClearanceLine_Result> JobRequisition.JRWS_Port.DeleteClearanceLineAsync(JobRequisition.DeleteClearanceLine request)
+        {
+            return base.Channel.DeleteClearanceLineAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.DeleteClearanceLine_Result> DeleteClearanceLineAsync(int lineno)
+        {
+            JobRequisition.DeleteClearanceLine inValue = new JobRequisition.DeleteClearanceLine();
+            inValue.lineno = lineno;
+            return ((JobRequisition.JRWS_Port)(this)).DeleteClearanceLineAsync(inValue);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()

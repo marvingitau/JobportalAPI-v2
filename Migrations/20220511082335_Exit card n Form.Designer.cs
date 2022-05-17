@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RPFBE.Auth;
 
 namespace RPFBE.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220511082335_Exit card n Form")]
+    partial class ExitcardnForm
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -260,87 +262,6 @@ namespace RPFBE.Migrations
                     b.ToTable("AppliedJobs");
                 });
 
-            modelBuilder.Entity("RPFBE.Model.DBEntity.EmployeeClearance", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("AccountantOne")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AccountantTwo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<float>("AnnualDaysLess")
-                        .HasColumnType("real");
-
-                    b.Property<float>("AnnualLeaveDays")
-                        .HasColumnType("real");
-
-                    b.Property<float>("BalDays")
-                        .HasColumnType("real");
-
-                    b.Property<string>("ClearanceNo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EmpID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EmpName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FinanceDirector")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FinanceDirectorName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FinanceManager")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FinanceManagerName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<float>("JitSavings")
-                        .HasColumnType("real");
-
-                    b.Property<DateTime>("LastEmployeeDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("NameOne")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NameTwo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<float>("OtherLoan")
-                        .HasColumnType("real");
-
-                    b.Property<int>("ProgressFlag")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProgressStartFlag")
-                        .HasColumnType("int");
-
-                    b.Property<string>("SelectedRole")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<float>("StaffLoan")
-                        .HasColumnType("real");
-
-                    b.Property<string>("UID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Year")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("EmployeeClearance");
-                });
-
             modelBuilder.Entity("RPFBE.Model.DBEntity.ExitInterviewCard", b =>
                 {
                     b.Property<int>("Id")
@@ -348,20 +269,8 @@ namespace RPFBE.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Division")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("EID")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EmployeeName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ExitNo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("FormUploaded")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("InterviewDate")
                         .HasColumnType("datetime2");
@@ -369,19 +278,7 @@ namespace RPFBE.Migrations
                     b.Property<string>("Interviewer")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("JobTitle")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LengthOfService")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("OtherPositionsHeld")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("OtherReason")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PositionStartDate")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Reemploy")
@@ -391,9 +288,6 @@ namespace RPFBE.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("SeparationGround")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("StartDateWithOrganization")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UID")
@@ -553,6 +447,9 @@ namespace RPFBE.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ExitCardRef")
+                        .IsUnique();
 
                     b.ToTable("ExitInterviewForm");
                 });
@@ -975,6 +872,15 @@ namespace RPFBE.Migrations
                     b.HasOne("RPFBE.Auth.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("RPFBE.Model.DBEntity.ExitInterviewForm", b =>
+                {
+                    b.HasOne("RPFBE.Model.DBEntity.ExitInterviewCard", "ExitInterviewCard")
+                        .WithOne("ExitInterviewForm")
+                        .HasForeignKey("RPFBE.Model.DBEntity.ExitInterviewForm", "ExitCardRef")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

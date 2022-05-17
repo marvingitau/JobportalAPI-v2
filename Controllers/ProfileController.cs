@@ -371,7 +371,7 @@ namespace RPFBE.Controllers
                     // var jobModel = dbContext.AppliedJobs.First(x => x.JobReqNo == reqNo);
                     var jobModel = dbContext.AppliedJobs.Where(x => x.JobReqNo == reqNo && x.UserId ==UID).FirstOrDefault();
 
-                    jobModel.Viewed = false;
+                    jobModel.Viewed = true;
                     jobModel.JobAppplicationNo = JobAppCode;
                     // await dbContext.SaveChangesAsync();
                     dbContext.AppliedJobs.Update(jobModel);

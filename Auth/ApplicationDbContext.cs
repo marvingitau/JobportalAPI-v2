@@ -25,6 +25,10 @@ namespace RPFBE.Auth
         public DbSet<MonitoringSupportingDoc> MonitoringSupportingDoc { get; set; }
         public DbSet<MonitoringDoc> MonitoringDoc { get; set; }
         public DbSet<MonitoringDocView> MonitoringDocView { get; set; }
+        public DbSet<ExitInterviewCard> ExitInterviewCard { get; set; }
+        public DbSet<ExitInterviewForm> ExitInterviewForm { get; set; }
+        public DbSet<EmployeeClearance> EmployeeClearance { get; set; }
+
 
         
 
@@ -33,6 +37,10 @@ namespace RPFBE.Auth
         {
             base.OnModelCreating(builder);
             builder.Entity<MonitoringDoc>().HasMany(d => d.MonitoringDocView).WithOne(v => v.MonitoringDoc);
+
+            //builder.Entity<ExitInterviewCard>().HasOne(d => d.ExitInterviewForm)
+            //    .WithOne(v => v.ExitInterviewCard)
+            //    .HasForeignKey<ExitInterviewForm>(v => v.ExitCardRef);
         }
 
     }

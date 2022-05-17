@@ -986,7 +986,7 @@ namespace RPFBE.Controllers
             }
             catch (Exception x)
             {
-                return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "Excel download failed" });
+                return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "Excel download failed "+x.Message });
             }
            
         }
@@ -1142,5 +1142,1272 @@ namespace RPFBE.Controllers
                 return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "Supporting Doc View failed" });
             }
         }
+
+        //HR Activate Exit interview
+        [Authorize]
+        [HttpGet]
+        [Route("createexitinterview")]
+
+        public async Task<IActionResult> CreateExitInterview()
+        {
+            try
+            {
+                List<EmployeeListModel> employeeListModels = new List<EmployeeListModel>();
+                List<EmployeeListModel> separationGrounds = new List<EmployeeListModel>();
+
+                var resEmp = await codeUnitWebService.Client().EmployeeListAsync();
+                dynamic resEmpSerial = JsonConvert.DeserializeObject(resEmp.return_value);
+
+                foreach (var emp in resEmpSerial)
+                {
+                    EmployeeListModel e = new EmployeeListModel
+                    {
+                        Value = emp.No,
+                        Label = emp.Fullname,
+                    };
+                    employeeListModels.Add(e);
+
+                }
+
+
+                var resGround = await codeUnitWebService.Client().GetGroundsForSeparationAsync();
+                dynamic resGroundSerial = JsonConvert.DeserializeObject(resGround.return_value);
+
+
+                foreach (var gr in resGroundSerial)
+                {
+                    EmployeeListModel e2 = new EmployeeListModel
+                    {
+                        Value = gr.Value,
+                        Label = gr.Label,
+                    };
+                    separationGrounds.Add(e2);
+
+                }
+
+                return Ok(new { employeeListModels, separationGrounds });
+
+
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Exit source data missing" });
+            }
+        }
+
+        //Post Exit Interview Card/ Push to Employee
+        [Authorize]
+        [HttpPost]
+        [Route("postexitinterview")]
+
+        public async Task<IActionResult> PostExitInterview([FromBody] ExitInterviewCard interviewCard) 
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+
+
+                List<ExitInterviewCard> responseCard =new  List<ExitInterviewCard>();
+
+                var res = await codeUnitWebService.Client().CreateExitInterviewAsync(
+                    interviewCard.EID,
+                    interviewCard.InterviewDate,
+                    interviewCard.Interviewer,
+                    interviewCard.SeparationGround,
+                    interviewCard.OtherReason,
+                    interviewCard.SeparationDate,
+                    interviewCard.Reemploy
+                    );
+
+                dynamic resSerial = JsonConvert.DeserializeObject(res.return_value);
+                var latestEntryModel = dbContext.ExitInterviewCard.Where(x => x.EID == interviewCard.EID).FirstOrDefault();
+
+                foreach (var item in resSerial)
+                {
+                    ExitInterviewCard interviewCard1 = new ExitInterviewCard
+                    {
+                        ExitNo = item.ExitNo,
+                        EmployeeName = item.EmployeeName,
+                        JobTitle = item.JobTitle,
+                        Division = item.DivisionUnit,
+                        StartDateWithOrganization = item.StartDateWithOrganization,
+                        PositionStartDate = item.PositionStartDate,
+                        SeparationDate = item.SeparationDate,
+                        LengthOfService = item.LengthOfService,
+                        OtherPositionsHeld = item.OtherPositionsHeld,
+
+                    };
+
+                    responseCard.Add(interviewCard1);
+
+                    if (latestEntryModel != null)
+                    {
+                        //update
+                        latestEntryModel.ExitNo = interviewCard1.ExitNo;
+                        latestEntryModel.EmployeeName = interviewCard1.EmployeeName;
+                        latestEntryModel.JobTitle = interviewCard1.JobTitle;
+                        latestEntryModel.Division = interviewCard1.Division;
+                        latestEntryModel.StartDateWithOrganization = interviewCard1.StartDateWithOrganization;
+                        latestEntryModel.PositionStartDate = interviewCard1.PositionStartDate;
+                        latestEntryModel.SeparationDate = interviewCard1.SeparationDate;
+                        latestEntryModel.LengthOfService = interviewCard1.LengthOfService;
+                        latestEntryModel.OtherPositionsHeld = interviewCard1.OtherPositionsHeld;
+
+
+                        dbContext.ExitInterviewCard.Update(latestEntryModel);
+                        await dbContext.SaveChangesAsync();
+                    }
+                    else
+                    {
+                        interviewCard.ExitNo = interviewCard1.ExitNo;
+                        interviewCard.EmployeeName = interviewCard1.EmployeeName;
+                        interviewCard.JobTitle = interviewCard1.JobTitle;
+                        interviewCard.Division = interviewCard1.Division;
+                        interviewCard.StartDateWithOrganization = interviewCard1.StartDateWithOrganization;
+                        interviewCard.PositionStartDate = interviewCard1.PositionStartDate;
+                        interviewCard.SeparationDate = interviewCard1.SeparationDate;
+                        interviewCard.LengthOfService = interviewCard1.LengthOfService;
+                        interviewCard.OtherPositionsHeld = interviewCard1.OtherPositionsHeld;
+                        interviewCard.UID = user.Id;
+
+                        dbContext.ExitInterviewCard.Add(interviewCard);
+                        await dbContext.SaveChangesAsync();
+                    }
+
+                
+                }
+
+                return Ok(new { interviewCard });
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Exit data upload failed" +x.Message });
+            }
+        }
+
+
+        //Get the Count of Exit interview with Status 1 [filed by employee]
+
+        [Authorize]
+        [HttpGet]
+        [Route("getpushedexitinterview")]
+        public IActionResult GetPushedExitInterview()
+        {
+            try
+            {
+                //get the status 1
+                var exitCards = dbContext.ExitInterviewCard.Where(x => x.FormUploaded >= 1).ToList();
+                return Ok(exitCards);
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Exit data upload failed" + x.Message });
+            }
+        }
+
+        //HR Approve the Interview Form
+        [Authorize]
+        [HttpGet]
+        [Route("hrapproveexitform/{PK}")]
+
+        public async Task<IActionResult> HRApproveExitForm(string PK)
+        {
+            try
+            {
+                var res = await codeUnitWebService.Client().ApproveInterviewFormAsync(PK);
+                if(res.return_value == "TRUE")
+                {
+                    var rec = dbContext.ExitInterviewCard.Where(x => x.ExitNo == PK).FirstOrDefault();
+                    rec.FormUploaded = 2;
+                    dbContext.ExitInterviewCard.Update(rec);
+                    await dbContext.SaveChangesAsync();
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Succes", Message = "Exit Form/Card Updated" });
+                }
+                else
+                {
+
+                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Exit Form/Card Update Failed" });
+                }
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Exit data upload failed" + x.Message });
+            }
+        }
+
+        //HR Gel the list of Users
+        [Authorize]
+        [HttpGet]
+        [Route("hrallusers")]
+
+        public IActionResult HRGetAllUsers()
+        {
+            try
+            {
+                var allUsers = dbContext.Users.ToList();
+                return Ok(new { allUsers });
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = " All Users failed" + x.Message });
+            }
+        }
+
+        //HR User Roles
+        [HttpGet]
+        [Route("getuserroles")]
+        public async Task<IActionResult> Getuserroles()
+        {
+            try
+            {
+                List<BankModel> userRoles = new List<BankModel>();
+                var res =await  codeUnitWebService.Client().GetUserRolesAsync();
+                dynamic resS = JsonConvert.DeserializeObject(res.return_value);
+
+                foreach (var ur in resS)
+                {
+                    BankModel ess = new BankModel
+                    {
+                        Label = ur.Label,
+                        Value = ur.Value,
+                    };
+                    userRoles.Add(ess);
+
+                }
+                return Ok(new { userRoles });
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User Role failed" + x.Message });
+            }
+        }
+
+
+        //Update Roles
+        [Authorize]
+        [Route("updaterole/{uid}/{val}")]
+        [HttpGet()]
+
+        public async Task<IActionResult> HRUpdateProfile(string uid, string val)
+        {
+            try
+            {
+                var usr = dbContext.Users.Where(x => x.EmployeeId == uid).FirstOrDefault();
+                usr.Rank = val;
+                dbContext.Users.Update(usr);
+                await dbContext.SaveChangesAsync();
+                return StatusCode(StatusCodes.Status200OK, new Response { Status = "Succes", Message = "User Role Updated" });
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User Role Update failed" + x.Message });
+            }
+        }
+
+
+        //HR create Clearance
+        [Authorize]
+        [HttpGet]
+        [Route("hrcreateclearance")]
+        public async Task<IActionResult> HRCreateClearance()
+        {
+            try
+            {
+                //Employees 
+                List<EmployeeListModel> employeeListModels = new List<EmployeeListModel>();
+
+                var resEmp = await codeUnitWebService.Client().EmployeeListAsync();
+                dynamic resEmpSerial = JsonConvert.DeserializeObject(resEmp.return_value);
+
+                foreach (var emp in resEmpSerial)
+                {
+                    EmployeeListModel e = new EmployeeListModel
+                    {
+                        Value = emp.No,
+                        Label = emp.Fullname,
+                    };
+                    employeeListModels.Add(e);
+
+                }
+
+                List<BankModel> userRoles = new List<BankModel>();
+                var res = await codeUnitWebService.Client().GetUserRolesAsync();
+                dynamic resS = JsonConvert.DeserializeObject(res.return_value);
+
+
+                foreach (var ur in resS)
+                {
+                    BankModel ess = new BankModel
+                    {
+                        Label = ur.Label,
+                        Value = ur.Value,
+                    };
+                    userRoles.Add(ess);
+
+                }
+
+                return Ok(new { employeeListModels, userRoles });
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Emp Clearance Create Failed: " + x.Message });
+            }
+        }
+
+        //HR Post Clearance
+        [Authorize]
+        [HttpPost]
+        [Route("hrstoreclearance")]
+        public async Task<IActionResult> HRStoreClearance([FromBody] EmployeeClearance employeeClearance)
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                //char[] delimiterChars = { '-', 'T' };
+                //string text = employeeClearance.LastEmployeeDate;
+
+                //string[] words = text.Split(delimiterChars);
+                //string auxDate = words[1] + "/" + words[2] + "/" + words[0];
+
+                //DateTime datetime = DateTime.ParseExact(auxDate, "MM/dd/yyyy", null);
+
+                var pFlag = 1;
+                if (employeeClearance.SelectedRole == "HOD")
+                    pFlag = 1;
+
+                if (employeeClearance.SelectedRole == "HOD-ADMIN")
+                    pFlag = 2;
+
+                if (employeeClearance.SelectedRole == "HOD-IT")
+                    pFlag = 3;
+
+                if (employeeClearance.SelectedRole == "HOD-HR")
+                    pFlag = 4;
+
+                if (employeeClearance.SelectedRole == "HOD-FIN")
+                    pFlag = 5;
+
+
+                employeeClearance.UID = user.Id;
+                employeeClearance.ProgressFlag = pFlag;
+                employeeClearance.ProgressStartFlag = pFlag;
+
+                var evt = dbContext.EmployeeClearance.Add(employeeClearance);
+                await dbContext.SaveChangesAsync();
+
+                var rId = employeeClearance.Id;
+                List<EmployeeClearance> employeeClearancesList = new List<EmployeeClearance>();
+                var empClearanceUpdate =await codeUnitWebService.Client().CreateClearanceAsync(employeeClearance.EmpID, employeeClearance.LastEmployeeDate);
+                dynamic empSerial = JsonConvert.DeserializeObject(empClearanceUpdate.return_value);
+
+                foreach (var ec in empSerial)
+                {
+                    EmployeeClearance eC = new EmployeeClearance
+                    {
+                        ClearanceNo = ec.Clearanceno,
+                        EmpID = ec.Empno,
+                        EmpName = ec.Empname
+                    };
+
+                    var latestRecModel = dbContext.EmployeeClearance.Where(r => r.Id == rId).FirstOrDefault();
+
+                    latestRecModel.ClearanceNo = ec.Clearanceno;
+                    latestRecModel.EmpID = ec.Empno;
+                    latestRecModel.EmpName = ec.Empname;
+
+                    dbContext.EmployeeClearance.Update(latestRecModel);
+                    await dbContext.SaveChangesAsync();
+
+                    employeeClearancesList.Add(latestRecModel);
+                }
+                return Ok(new { employeeClearancesList });
+
+                
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Employee Clearance Post Failed: " + x.Message });
+            }
+        }
+
+        //HR Clearance List
+        [Authorize]
+        [HttpGet]
+        [Route("hrgetclearancelist")]
+        public IActionResult HRGetClearanceList()
+        {
+            try
+            {
+                var clearanceList = dbContext.EmployeeClearance.ToList();
+                return Ok(new { clearanceList });
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Employee Clearance List Failed: " + x.Message });
+            }
+        }
+        //HOD Get Respective Lists
+        [Authorize]
+        [HttpGet]
+        [Route("hodgetrespectivelist")]
+        public IActionResult HODGetRespectiveList()
+        {
+            try
+            {
+                var clisthod = dbContext.EmployeeClearance.Where(x => x.ProgressFlag == 1).ToList();
+                return Ok(new { clisthod });
+
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "HOD Clearance List Failed: " + x.Message });
+            }
+        }
+        //HOD Update
+        [Authorize]
+        [HttpGet]
+        [Route("hodupdateclearancerecord/{PK}")]
+
+        public async Task<IActionResult> HODUpdateClearanceLine(int PK)
+        {
+            try
+            {
+                var resUp = dbContext.EmployeeClearance.Where(x => x.Id == PK).FirstOrDefault();
+
+                //resUp.ProgressFlag = 2;
+                //dbContext.EmployeeClearance.Update(resUp);
+                //await dbContext.SaveChangesAsync();
+
+                //return Ok(resUp.ProgressFlag);
+
+                if (resUp.ProgressFlag == resUp.ProgressStartFlag)
+                {
+                    resUp.ProgressFlag = 2;
+                    dbContext.EmployeeClearance.Update(resUp);
+                    await dbContext.SaveChangesAsync();
+
+                    return Ok(resUp.ProgressFlag);
+                }
+                else
+                {
+
+                    resUp.ProgressFlag = resUp.ProgressStartFlag == 2 ? 3 : 2; //
+                    dbContext.EmployeeClearance.Update(resUp);
+                    await dbContext.SaveChangesAsync();
+
+                    return Ok(resUp.ProgressFlag);
+                }
+
+
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "HOD Clearance List Update Failed: " + x.Message });
+            }
+        }
+
+        //HOD-ADMIN Update
+        [Authorize]
+        [HttpGet]
+        [Route("hodadminupdateclearancerecord/{PK}")]
+
+        public async Task<IActionResult> HODADMINUpdateClearanceLine(int PK)
+        {
+            try
+            {
+                var resUp = dbContext.EmployeeClearance.Where(x => x.Id == PK).FirstOrDefault();
+
+                //resUp.ProgressFlag = 3;
+                //dbContext.EmployeeClearance.Update(resUp);
+                //await dbContext.SaveChangesAsync();
+
+                //return Ok(resUp.ProgressFlag);
+
+
+                if (resUp.ProgressFlag == resUp.ProgressStartFlag)
+                {
+                    resUp.ProgressFlag = 2;
+                    dbContext.EmployeeClearance.Update(resUp);
+                    await dbContext.SaveChangesAsync();
+
+                    return Ok(resUp.ProgressFlag);
+                }
+                else
+                {
+
+                    resUp.ProgressFlag = resUp.ProgressStartFlag == 3 ? 4 : 3; //
+                    dbContext.EmployeeClearance.Update(resUp);
+                    await dbContext.SaveChangesAsync();
+
+                    return Ok(resUp.ProgressFlag);
+                }
+
+
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "HOD-ADMIN Clearance List Update Failed: " + x.Message });
+            }
+        }
+
+        //HOD-ICT Update
+        [Authorize]
+        [HttpGet]
+        [Route("hodictupdateclearancerecord/{PK}")]
+
+        public async Task<IActionResult> HODICTUpdateClearanceLine(int PK)
+        {
+            try
+            {
+                var resUp = dbContext.EmployeeClearance.Where(x => x.Id == PK).FirstOrDefault();
+
+                //resUp.ProgressFlag =4;
+                //dbContext.EmployeeClearance.Update(resUp);
+                //await dbContext.SaveChangesAsync();
+
+                //return Ok(resUp.ProgressFlag);
+                if (resUp.ProgressFlag == resUp.ProgressStartFlag)
+                {
+                    resUp.ProgressFlag = 2;
+                    dbContext.EmployeeClearance.Update(resUp);
+                    await dbContext.SaveChangesAsync();
+
+                    return Ok(resUp.ProgressFlag);
+                }
+                else
+                {
+
+                    resUp.ProgressFlag = resUp.ProgressStartFlag == 4 ? 5 : 4; //
+                    dbContext.EmployeeClearance.Update(resUp);
+                    await dbContext.SaveChangesAsync();
+
+                    return Ok(resUp.ProgressFlag);
+                }
+
+
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "HOD-ICT Clearance List Update Failed: " + x.Message });
+            }
+        }
+
+        //HOD-HR Update
+        [Authorize]
+        [HttpGet]
+        [Route("hodhrupdateclearancerecord/{PK}")]
+
+        public async Task<IActionResult> HODHRUpdateClearanceLine(int PK)
+        {
+            try
+            {
+                var resUp = dbContext.EmployeeClearance.Where(x => x.Id == PK).FirstOrDefault();
+
+                //resUp.ProgressFlag = 5;
+                //dbContext.EmployeeClearance.Update(resUp);
+                //await dbContext.SaveChangesAsync();
+
+                //return Ok(resUp.ProgressFlag);
+
+                if (resUp.ProgressFlag == resUp.ProgressStartFlag)
+                {
+                    resUp.ProgressFlag = 2;
+                    dbContext.EmployeeClearance.Update(resUp);
+                    await dbContext.SaveChangesAsync();
+
+                    return Ok(resUp.ProgressFlag);
+                }
+                else
+                {
+
+                    resUp.ProgressFlag = resUp.ProgressStartFlag == 5 ? 6 : 5; //
+                    dbContext.EmployeeClearance.Update(resUp);
+                    await dbContext.SaveChangesAsync();
+
+                    return Ok(resUp.ProgressFlag);
+                }
+
+
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "HOD-HR Clearance List Update Failed: " + x.Message });
+            }
+        }
+
+
+        //HOD-FIN Get Respective Lists
+        [Authorize]
+        [HttpGet]
+        [Route("hodfingetrespectivelist")]
+        public IActionResult HODFINGetRespectiveList()
+        {
+            try
+            {
+                var clisthod = dbContext.EmployeeClearance.Where(x => x.ProgressFlag == 5).ToList();
+                return Ok(new { clisthod });
+
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "HOD-HR Clearance List Failed: " + x.Message });
+            }
+        }
+
+        //HOD-HR Get Respective Lists
+        [Authorize]
+        [HttpGet]
+        [Route("hodhrgetrespectivelist")]
+        public IActionResult HODHRGetRespectiveList()
+        {
+            try
+            {
+                var clisthod = dbContext.EmployeeClearance.Where(x => x.ProgressFlag == 4).ToList();
+                return Ok(new { clisthod });
+
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "HOD-HR Clearance List Failed: " + x.Message });
+            }
+        }
+
+
+        //HOD-IT Get Respective Lists
+        [Authorize]
+        [HttpGet]
+        [Route("hoditgetrespectivelist")]
+        public IActionResult HODITGetRespectiveList()
+        {
+            try
+            {
+                var clisthod = dbContext.EmployeeClearance.Where(x => x.ProgressFlag == 3).ToList();
+                return Ok(new { clisthod });
+
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "HOD-HR Clearance List Failed: " + x.Message });
+            }
+        }
+
+
+
+        //HOD-FIN Card Data
+        [Authorize]
+        [HttpGet]
+        [Route("hodfingetcardclearancedata/{PK}")]
+        public async Task<IActionResult> HODFINGetCardClearance(string PK)
+        {
+            try
+            {
+                List<ClearanceList> clearanceFullFormAdmin = new List<ClearanceList>();
+                var resEMP = await codeUnitWebService.Client().GetClearancefullformFINANCEAsync(PK);
+                dynamic resSerial = JsonConvert.DeserializeObject(resEMP.return_value);
+                foreach (var cl in resSerial)
+                {
+                    ClearanceList cf = new ClearanceList
+                    {
+                        //Id = cl.Clearanceno,
+                        Clearanceno = cl.Clearanceno,
+                        Lineno = cl.Lineno,
+                        Dept = cl.Dept,
+                        Items = cl.Items,
+                        Clearance = cl.Clearance,
+                        Remarks = cl.Remarks,
+                        Kalue = cl.Value,
+                        Clearedby = cl.Clearedby,
+                        Designation = cl.Designation,
+
+                        StaffLoan = cl.Staffloan,
+                        OtherLoan = cl.Otherloan,
+                        JitSavings = cl.Jitsavings,
+                        AccountantOne = cl.Accountantone,
+                        NameOne= cl.Accountantonename,
+                        AccountantTwo = cl.Accountanttwo,
+                        NameTwo = cl.Accountanttwoname,
+                        FinanceManager = cl.Finanancemanager,
+                        FinanceManagerName = cl.Finanancemanagername,
+                        FinanceDirector = cl.Financedirector,
+                        FinanceDirectorName = cl.Financedirectorname,
+
+
+                    };
+
+                    clearanceFullFormAdmin.Add(cf);
+                }
+
+
+
+                List<EmployeeListModel> employeeListModels = new List<EmployeeListModel>();
+
+                var resEmp = await codeUnitWebService.Client().EmployeeListAsync();
+                dynamic resEmpSerial = JsonConvert.DeserializeObject(resEmp.return_value);
+
+                foreach (var emp in resEmpSerial)
+                {
+                    EmployeeListModel e = new EmployeeListModel
+                    {
+                        Value = emp.No,
+                        Label = emp.Fullname,
+                    };
+                    employeeListModels.Add(e);
+
+                }
+
+                return Ok(new { clearanceFullFormAdmin, employeeListModels });
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "HOD Clearance Card Failed: " + x.Message });
+            }
+        }
+
+
+        //HOD-FIN Push the Dataline
+        [Authorize]
+        [HttpPost]
+        [Route("hodfinpushclearancelines")]
+        public async Task<IActionResult> HODFINPushClearanceLine([FromBody] ClearanceList clearanceList)
+        {
+            try
+            {
+                var resClearance = await codeUnitWebService.Client().InsertClearanceLineFinanceAsync(
+                    clearanceList.Clearanceno, clearanceList.Clearance,decimal.Parse(clearanceList.StaffLoan),
+                    decimal.Parse(clearanceList.OtherLoan), clearanceList.AccountantOne, clearanceList.AccountantTwo,
+                    clearanceList.FinanceManager, clearanceList.FinanceDirector,clearanceList.Dept, decimal.Parse(clearanceList.JitSavings)
+                    );
+
+                return Ok(resClearance.return_value);
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "HOD Finance Clearance Line Failed: " + x.Message });
+            }
+        }
+
+        //HOD-FIN Modify Line
+        [Authorize]
+        [HttpPost]
+        [Route("hodfinmodifyclearanceline")]
+        public async Task<IActionResult> HODFINModifyClearance([FromBody] ClearanceList clearanceList)
+        {
+            try
+            {
+                var resModif = await codeUnitWebService.Client().ModifyClearanceLineFinanceAsync(int.Parse(clearanceList.Lineno),
+                    clearanceList.Clearance, decimal.Parse(clearanceList.StaffLoan), decimal.Parse(clearanceList.OtherLoan), clearanceList.AccountantOne,
+                    clearanceList.AccountantTwo, clearanceList.FinanceManager, clearanceList.FinanceDirector, decimal.Parse(clearanceList.JitSavings));
+
+                return Ok(resModif.return_value);
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "HOD Clearance Modify Line Failed: " + x.Message });
+            }
+        }
+
+        //HOD-FIN Update; Push to HR
+        [Authorize]
+        [HttpGet]
+        [Route("hodfinupdateclearancerecord/{PK}")]
+
+        public async Task<IActionResult> HODFINUpdateClearanceLine(int PK)
+        {
+            try
+            {
+                var resUp = dbContext.EmployeeClearance.Where(x => x.Id == PK).FirstOrDefault();
+                if(resUp.ProgressFlag == resUp.ProgressStartFlag)
+                {
+                    resUp.ProgressFlag = 2;
+                    dbContext.EmployeeClearance.Update(resUp);
+                    await dbContext.SaveChangesAsync();
+
+                    return Ok(resUp.ProgressFlag);
+                }
+                else
+                {
+                   
+                    resUp.ProgressFlag = resUp.ProgressStartFlag == 6 ? 7 : 6; //
+                    dbContext.EmployeeClearance.Update(resUp);
+                    await dbContext.SaveChangesAsync();
+
+                    return Ok(resUp.ProgressFlag);
+                }
+             
+
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "HOD-HR Clearance List Update Failed: " + x.Message });
+            }
+        }
+
+
+        //HR Final Approval
+        [Authorize]
+        [HttpGet]
+        [Route("HRfinallappravelclearancerecord/{PK}")]
+
+        public async Task<IActionResult> FINalApprvalClearanceLine(int PK)
+        {
+            try
+            {
+                var resUp = dbContext.EmployeeClearance.Where(x => x.Id == PK).FirstOrDefault();
+                if (resUp.ProgressFlag == resUp.ProgressStartFlag)
+                {
+                    resUp.ProgressFlag = 2;
+                    dbContext.EmployeeClearance.Update(resUp);
+                    await dbContext.SaveChangesAsync();
+
+                    return Ok(resUp.ProgressFlag);
+                }
+                else
+                {
+
+                    resUp.ProgressFlag = resUp.ProgressStartFlag == 7 ? 8 : 7; //
+                    dbContext.EmployeeClearance.Update(resUp);
+                    await dbContext.SaveChangesAsync();
+
+                    return Ok(resUp.ProgressFlag);
+                }
+
+
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "HOD-HR Clearance List Update Failed: " + x.Message });
+            }
+        }
+
+
+
+
+
+        //HOD-HR Card Data
+        [Authorize]
+        [HttpGet]
+        [Route("hodhrgetcardclearancedata/{PK}")]
+        public async Task<IActionResult> HODHRGetCardClearance(string PK)
+        {
+            try
+            {
+                List<ClearanceList> clearanceFullFormAdmin = new List<ClearanceList>();
+                var resEMP = await codeUnitWebService.Client().GetClearancefullformHRAsync(PK);
+                dynamic resSerial = JsonConvert.DeserializeObject(resEMP.return_value);
+                foreach (var cl in resSerial)
+                {
+                    ClearanceList cf = new ClearanceList
+                    {
+                        //Id = cl.Clearanceno,
+                        Clearanceno = cl.Clearanceno,
+                        Lineno = cl.Lineno,
+                        Dept = cl.Dept,
+                        Items = cl.Items,
+                        Clearance = cl.Clearance,
+                        Remarks = cl.Remarks,
+                        Kalue = cl.Value,
+                        Clearedby = cl.Clearedby,
+                        Designation = cl.Designation,
+
+                        Year = cl.Year,
+                        AnnualLeaveDays = cl.Annualleavedays,
+                        AnnualDaysLess=cl.Annualdaysless,
+                        BalDays=cl.Baldays,
+
+
+                    };
+
+                    clearanceFullFormAdmin.Add(cf);
+                }
+
+                return Ok(new { clearanceFullFormAdmin });
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "HOD Clearance Card Failed: " + x.Message });
+            }
+        }
+
+        //HOD-IT Card Data
+        [Authorize]
+        [HttpGet]
+        [Route("hoditgetcardclearancedata/{PK}")]
+        public async Task<IActionResult> HODITGetCardClearance(string PK)
+        {
+            try
+            {
+                List<ClearanceList> clearanceFullFormAdmin = new List<ClearanceList>();
+                var resEMP = await codeUnitWebService.Client().GetClearancefullformICTAsync(PK);
+                dynamic resSerial = JsonConvert.DeserializeObject(resEMP.return_value);
+                foreach (var cl in resSerial)
+                {
+                    ClearanceList cf = new ClearanceList
+                    {
+                        //Id = cl.Clearanceno,
+                        Clearanceno = cl.Clearanceno,
+                        Lineno = cl.Lineno,
+                        Dept = cl.Dept,
+                        Items = cl.Items,
+                        Clearance = cl.Clearance,
+                        Remarks = cl.Remarks,
+                        Kalue = cl.Value,
+                        Clearedby = cl.Clearedby,
+                        Designation = cl.Designation
+                    };
+
+                    clearanceFullFormAdmin.Add(cf);
+                }
+
+                return Ok(new { clearanceFullFormAdmin });
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "HOD Clearance Card Failed: " + x.Message });
+            }
+        }
+
+
+
+
+        //HOD-ADMIN Get Respective Lists
+        [Authorize]
+        [HttpGet]
+        [Route("hodadmingetrespectivelist")]
+        public IActionResult HODADMINGetRespectiveList()
+        {
+            try
+            {
+                var clisthod = dbContext.EmployeeClearance.Where(x => x.ProgressFlag == 2).ToList();
+                return Ok(new { clisthod });
+
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "HOD-ADMIN Clearance List Failed: " + x.Message });
+            }
+        }
+
+        //HOD-ADMIN Card Data
+        [Authorize]
+        [HttpGet]
+        [Route("hodadmingetcardclearancedata/{PK}")]
+        public async Task<IActionResult> HODAdminGetCardClearance(string PK)
+        {
+            try
+            {
+                List<ClearanceList> clearanceFullFormAdmin = new List<ClearanceList>();
+                var resEMP = await codeUnitWebService.Client().GetClearancefullformADMINAsync(PK);
+                dynamic resSerial = JsonConvert.DeserializeObject(resEMP.return_value);
+                foreach (var cl in resSerial)
+                {
+                    ClearanceList cf = new ClearanceList
+                    {
+                        //Id = cl.Clearanceno,
+                        Clearanceno = cl.Clearanceno,
+                        Lineno = cl.Lineno,
+                        Dept = cl.Dept,
+                        Items = cl.Items,
+                        Clearance = cl.Clearance,
+                        Remarks = cl.Remarks,
+                        Kalue = cl.Value,
+                        Clearedby = cl.Clearedby,
+                        Designation = cl.Designation
+                    };
+
+                    clearanceFullFormAdmin.Add(cf);
+                }
+
+                return Ok(new { clearanceFullFormAdmin });
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "HOD Clearance Card Failed: " + x.Message });
+            }
+        }
+
+
+        //HOD Card Data
+        [Authorize]
+        [HttpGet]
+        [Route("hodgetcardclearancedata/{PK}")]
+        public async Task<IActionResult> HODGetCardClearance(string PK)
+        {
+            try
+            {
+                List<ClearanceList> clearanceFullFormEmployee = new List<ClearanceList>();
+                var resEMP = await codeUnitWebService.Client().GetClearancefullformEmployeeAsync(PK);
+                dynamic resSerial = JsonConvert.DeserializeObject(resEMP.return_value);
+                foreach (var cl in resSerial)
+                {
+                    ClearanceList cf = new ClearanceList
+                    {
+                        //Id = cl.Clearanceno,
+                        Clearanceno = cl.Clearanceno,
+                        Lineno = cl.Lineno,
+                        Dept = cl.Dept,
+                        Items = cl.Items,
+                        Clearance = cl.Clearance,
+                        Remarks = cl.Remarks,
+                        Kalue = cl.Value,
+                        Clearedby = cl.Clearedby,
+                        Designation = cl.Designation
+                    };
+
+                    clearanceFullFormEmployee.Add(cf);
+                }
+
+                return Ok(new { clearanceFullFormEmployee });
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "HOD Clearance Card Failed: " + x.Message });
+            }
+        }
+
+        //HOD Push the Dataline
+        [Authorize]
+        [HttpPost]
+        [Route("hodpushclearancelines")]
+        public async Task<IActionResult> HODPushClearanceLine([FromBody] ClearanceList clearanceList)
+        {
+            try
+            {
+                var resClearance = await codeUnitWebService.Client().InsertClearanceLinesAsync(
+                    clearanceList.Items,
+                    int.Parse(clearanceList.Kalue),
+                    clearanceList.Remarks,
+                    clearanceList.Dept,
+                    clearanceList.Clearance,
+                    clearanceList.Clearanceno
+                    );
+
+                return Ok(resClearance.return_value);
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "HOD Clearance Line Failed: " + x.Message });
+            }
+        }
+
+        //HOD-HR Push the Dataline
+        [Authorize]
+        [HttpPost]
+        [Route("hodhrpushclearancelines")]
+        public async Task<IActionResult> HODHRPushClearanceLine([FromBody] ClearanceList clearanceList)
+        {
+            try
+            {
+                var resClearance = await codeUnitWebService.Client().InsertClearanceLinesHRAsync(
+                    clearanceList.Year,
+                   decimal.Parse(clearanceList.AnnualLeaveDays),
+                    decimal.Parse(clearanceList.AnnualDaysLess),
+                    decimal.Parse(clearanceList.BalDays),
+                    clearanceList.Remarks,
+                    clearanceList.Clearance,
+                    clearanceList.Dept,
+                    clearanceList.Clearanceno
+                    );
+
+                return Ok(resClearance.return_value);
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "HOD-HR Clearance Line Failed: " + x.Message });
+            }
+        }
+
+
+        //Delete line
+        [Authorize]
+        [HttpGet]
+        [Route("hoddeleteline/{lineno}")]
+        public async Task<IActionResult> HODDeleteLine(int lineno)
+        {
+            try
+            {
+                var res = await codeUnitWebService.Client().DeleteClearanceLineAsync(lineno);
+                return Ok(res.return_value);
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "HOD Clearance Delete Line Failed: " + x.Message });
+            }
+        }
+
+        //Modify Line
+        [Authorize]
+        [HttpPost]
+        [Route("hodmodifyclearanceline")]
+        public async Task<IActionResult> HODModifyClearance([FromBody] ClearanceList clearanceList)
+        {
+            try
+            {
+                var resModif = await codeUnitWebService.Client().ModifyClearanceLinesAsync(
+                    int.Parse(clearanceList.Lineno), clearanceList.Items, int.Parse(clearanceList.Kalue), clearanceList.Remarks,
+                    clearanceList.Clearance
+                    );
+
+                return Ok(resModif.return_value);
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "HOD Clearance Modify Line Failed: " + x.Message });
+            }
+        }
+
+
+
+        //HR Get Clearnace Card All Data
+        [Authorize]
+        [HttpGet]
+        [Route("getclearancelist/{CID}")]
+
+        public async Task<IActionResult> GetClearanceList(string CID)
+        {
+            try
+            {
+                List<ClearanceList> clearanceFullFormEmployee = new List<ClearanceList>();
+                var resEMP = await codeUnitWebService.Client().GetClearancefullformEmployeeAsync(CID);
+                dynamic resSerial = JsonConvert.DeserializeObject(resEMP.return_value);
+                foreach (var cl in resSerial)
+                {
+                    ClearanceList cf = new ClearanceList
+                    {
+                        Clearanceno = cl.Clearanceno,
+                        Lineno = cl.Lineno,
+                        Dept = cl.Dept,
+                        Items = cl.Items,
+                        Clearance = cl.Clearance,
+                        Remarks = cl.Remarks,
+                        Value = cl.Value,
+                        Clearedby = cl.Clearedby,
+                        Designation= cl.Designation
+                    };
+
+                    clearanceFullFormEmployee.Add(cf);
+                }
+
+                List<ClearanceList> clearanceFullFormICT = new List<ClearanceList>();
+                var resICT = await codeUnitWebService.Client().GetClearancefullformICTAsync(CID);
+
+                dynamic resSerialICT = JsonConvert.DeserializeObject(resICT.return_value);
+                foreach (var cll in resSerialICT)
+                {
+                    ClearanceList cf = new ClearanceList
+                    {
+                        Clearanceno = cll.Clearanceno,
+                        Lineno = cll.Lineno,
+                        Dept = cll.Dept,
+                        Items = cll.Items,
+                        Clearance = cll.Clearance,
+                        Remarks = cll.Remarks,
+                        Value = cll.Value,
+                        Clearedby = cll.Clearedby,
+                        Designation = cll.Designation
+                    };
+
+                    clearanceFullFormICT.Add(cf);
+                }
+
+                List<ClearanceList> clearanceFullFormFIN = new List<ClearanceList>();
+                var resFIN = await codeUnitWebService.Client().GetClearancefullformFINANCEAsync(CID);
+
+                dynamic resSerialFIN = JsonConvert.DeserializeObject(resFIN.return_value);
+                foreach (var cll in resSerialFIN)
+                {
+                    ClearanceList cf = new ClearanceList
+                    {
+                        Clearanceno = cll.Clearanceno,
+                        Lineno = cll.Lineno,
+                        Dept = cll.Dept,
+                        Items = cll.Items,
+                        Clearance = cll.Clearance,
+                        Remarks = cll.Remarks,
+                        Value = cll.Value,
+                        Clearedby = cll.Clearedby,
+                        Designation = cll.Designation,
+
+                        StaffLoan = cll.Staffloan,
+                        OtherLoan = cll.Otherloan,
+                        JitSavings = cll.Jitsavings,
+                        AccountantOne = cll.Accountantone,
+                        NameOne = cll.Accountantonename,
+                        AccountantTwo = cll.Accountanttwo,
+                        NameTwo = cll.Accountanttwoname,
+                        FinanceManager = cll.Finanancemanager,
+                        FinanceManagerName = cll.Finanancemanagername,
+                        FinanceDirector = cll.Financedirector,
+                        FinanceDirectorName = cll.Financedirectorname
+
+                    };
+
+                    clearanceFullFormFIN.Add(cf);
+                }
+
+                List<ClearanceList> clearanceFullFormHR = new List<ClearanceList>();
+                var resHR = await codeUnitWebService.Client().GetClearancefullformHRAsync(CID);
+
+                dynamic resSerialHR = JsonConvert.DeserializeObject(resHR.return_value);
+                foreach (var cllq in resSerialHR)
+                {
+                    ClearanceList cf = new ClearanceList
+                    {
+                        Clearanceno = cllq.Clearanceno,
+                        Lineno = cllq.Lineno,
+                        Dept = cllq.Dept,
+                        Items = cllq.Items,
+                        Clearance = cllq.Clearance,
+                        Remarks = cllq.Remarks,
+                        Value = cllq.Value,
+                        Clearedby = cllq.Clearedby,
+                        Designation = cllq.Designation,
+
+                        Year = cllq.Year,
+                        AnnualLeaveDays = cllq.Annualleavedays,
+                        AnnualDaysLess = cllq.Annualdaysless,
+                        BalDays = cllq.Baldays,
+
+                    };
+
+                    clearanceFullFormHR.Add(cf);
+                }
+
+                List<ClearanceList> clearanceFullFormADMIN = new List<ClearanceList>();
+                var resADMIN = await codeUnitWebService.Client().GetClearancefullformADMINAsync(CID);
+
+                dynamic resSerialADMIN = JsonConvert.DeserializeObject(resADMIN.return_value);
+                foreach (var kcllq in resSerialADMIN)
+                {
+                    ClearanceList cf = new ClearanceList
+                    {
+                        Clearanceno = kcllq.Clearanceno,
+                        Lineno = kcllq.Lineno,
+                        Dept = kcllq.Dept,
+                        Items = kcllq.Items,
+                        Clearance = kcllq.Clearance,
+                        Remarks = kcllq.Remarks,
+                        Value = kcllq.Value,
+                        Clearedby = kcllq.Clearedby,
+                        Designation = kcllq.Designation,
+
+                      
+
+                    };
+
+                    clearanceFullFormADMIN.Add(cf);
+                }
+
+
+
+
+                return Ok(new { clearanceFullFormEmployee, clearanceFullFormICT, clearanceFullFormFIN, clearanceFullFormHR, clearanceFullFormADMIN });
+
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Clearance Card Data Failed: " + x.Message });
+            }
+        }
+
     }
 }

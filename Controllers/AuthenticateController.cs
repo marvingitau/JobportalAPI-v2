@@ -10,6 +10,7 @@ using RPFBE.Model;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 //using System;
@@ -95,9 +96,10 @@ namespace RPFBE.Controllers
            // return Ok(model.EmployeeId);
             var res = await codeUnitWebService.EmployeeAccount().LoginEmployeeCoreAsync(model.EmployeeId, Cryptography.Hash(model.Password));
             dynamic resSerial = JsonConvert.DeserializeObject(res.return_value);
+
             LoginEmpCoreModel loginEmpCore = new LoginEmpCoreModel
             {
-                Status = resSerial.Login,
+                Status = resSerial.Status,
                 Rank = resSerial.Rank
             };
 
@@ -120,9 +122,13 @@ namespace RPFBE.Controllers
                         Rank = loginEmpCore.Rank
                     };
                     var result = await userManager.CreateAsync(user, model.Password);
+                    var errs = result.Errors.Select(x => "Code: " + x.Code + " Description: " + x.Description).ToArray();
                     if (!result.Succeeded)
-                        return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed :"+result.Errors });
-
+                    {
+                        //return Ok(new { errs });
+                       return StatusCode(StatusCodes.Status500InternalServerError, new { Status ="Error",Message = errs });
+                   
+                    }
                     if (!await roleManager.RoleExistsAsync(loginEmpCore.Rank))
                         await roleManager.CreateAsync(new IdentityRole(loginEmpCore.Rank));
                     if (!await roleManager.RoleExistsAsync(UserRoles.User))
@@ -139,7 +145,7 @@ namespace RPFBE.Controllers
                 catch (Exception x)
                 {
 
-                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! :"+x.Data });
+                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed Exception! :"+x.Data });
                 }
                
             }

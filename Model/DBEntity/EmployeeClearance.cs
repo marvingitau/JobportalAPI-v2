@@ -20,6 +20,35 @@ namespace RPFBE.Model.DBEntity
        // [NotMapped]
         public string SelectedRole { get; set; }
 
+        //Progress Status after Removale of Activity
+
+        public string HODApproved { get; set; } = "FALSE";
+        public string HODApprovedUID { get; set; }
+        public string HODApprovedName { get; set; }
+
+        public string HODAdminApproved { get; set; } = "FALSE";
+        public string HODAdminApprovedUID { get; set; }
+        public string HODAdminApprovedName { get; set; }
+
+        public string HODITApproved { get; set; } = "FALSE";
+        public string HODITApprovedUID { get; set; }
+        public string HODITApprovedName { get; set; }
+
+        public string HODHRApproved { get; set; } = "FALSE";
+        public string HODHRApprovedUID { get; set; }
+        public string HODHRApprovedName { get; set; }
+
+        public string HODFINApproved { get; set; } = "FALSE";
+        public string HODFINApprovedUID { get; set; }
+        public string HODFINApprovedName { get; set; }
+
+        public string HRApproved { get; set; } = "FALSE";
+        public string HRApprovedUID { get; set; }
+        public string HRApprovedName { get; set; }
+
+        //END Progress Status after Removale of Activity
+
+
         //HOD-HR Fields
         public string Year { get; set; }
         public float AnnualLeaveDays { get; set; }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -30,7 +31,7 @@ namespace RPFBE.Controllers
         Usually,
         Always
     }
-
+    //[EnableCors("CorsPolicy")]
     [ApiController]
     [Route("api/[controller]")]
     public class EmployeeController : Controller

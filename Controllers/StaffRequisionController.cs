@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace RPFBE.Controllers
 {
+   // [EnableCors("CorsPolicy")]
     [ApiController]
     [Route("api/[controller]")]
     public class StaffRequisionController : Controller

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -17,8 +18,8 @@ using WebAPITest.Models;
 
 namespace RPFBE.Controllers
 {
-    
-    [Authorize]
+
+    //[Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class ProfileController : Controller
@@ -262,7 +263,7 @@ namespace RPFBE.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "try failed" + ex.Message });
+                return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "try failed: " + ex.Message });
 
             }
         }

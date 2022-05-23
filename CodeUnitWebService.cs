@@ -18,11 +18,13 @@ namespace RPFBE
             this.config = config;
         }
         //JRWS_PortClient jRWS;
-        public JRWS_PortClient Client()
+        public JWS_PortClient Client()
         {
-            JRWS_PortClient jRWS = new JRWS_PortClient(JRWS_PortClient.EndpointConfiguration.JRWS_Port);
-            jRWS.ClientCredentials.Windows.ClientCredential.UserName = config.Value.Username;
-            jRWS.ClientCredentials.Windows.ClientCredential.Password = config.Value.Password;
+            JWS_PortClient jRWS = new JWS_PortClient(JWS_PortClient.EndpointConfiguration.JWS_Port);
+            //jRWS.ClientCredentials.Windows.ClientCredential.UserName = config.Value.Username;
+            //jRWS.ClientCredentials.Windows.ClientCredential.Password = config.Value.Password;
+            jRWS.ClientCredentials.UserName.UserName = config.Value.Username;
+            jRWS.ClientCredentials.UserName.Password = config.Value.Password;
             return jRWS;
         }
         public EmployeeAccountWebService_PortClient EmployeeAccount()
@@ -30,6 +32,9 @@ namespace RPFBE
             EmployeeAccountWebService_PortClient employeeAccountWebService = new EmployeeAccountWebService_PortClient(EmployeeAccountWebService_PortClient.EndpointConfiguration.EmployeeAccountWebService_Port);
             //employeeAccountWebService.ClientCredentials.Windows.ClientCredential.UserName = "MARVIN";
             //employeeAccountWebService.ClientCredentials.Windows.ClientCredential.Password = "husl2f5yqw";
+            employeeAccountWebService.ClientCredentials.UserName.UserName = config.Value.Username;
+            employeeAccountWebService.ClientCredentials.UserName.Password = config.Value.Password;
+
             return employeeAccountWebService;
         }
     }

@@ -350,7 +350,7 @@ namespace RPFBE.Controllers
                 var dbres = dbContext.SpecFiles.Where(x => x.TagName == FID).FirstOrDefault();
                 var file = dbres.FilePath;
 
-                
+                /*
                 // Response...
                 System.Net.Mime.ContentDisposition cd = new System.Net.Mime.ContentDisposition
                 {
@@ -361,10 +361,10 @@ namespace RPFBE.Controllers
                 Response.Headers.Add("X-Content-Type-Options", "nosniff");
 
                 return File(System.IO.File.ReadAllBytes(file), "application/pdf");
-               /*
+                */
                 var stream = new FileStream(file, FileMode.Open);
                 return new FileStreamResult(stream, "application/pdf");
-                */
+
                 // return Ok(dbres.FilePath);
             }
             catch (Exception)

@@ -11,5 +11,7 @@ namespace RPFBE.Model
         public string Password { get; set; }
         public string Url { get; set; }
 
+        public string CorsAllowedUrl { get; set; }
+
     }
 }

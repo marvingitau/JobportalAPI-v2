@@ -9,9 +9,13 @@ namespace RPFBE.Model.DBEntity
     {
         public int Id { get; set; }
         public string UID { get; set; }
+        public string UIDComment { get; set; }
         public string UIDTwo { get; set; }
+        public string UIDTwoComment { get; set; }
         public string UIDThree { get; set; }
+        public string UIDThreeComment { get; set; }
         public string UIDFour { get; set; }
+        public string UIDFourComment { get; set; }
         public string ReqID { get; set; }
         public string JobNo { get; set; }
         public string JobTitle { get; set; }

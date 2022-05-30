@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using RPFBE.Auth;
 using RPFBE.Model;
 using RPFBE.Model.DBEntity;
+using RPFBE.Model.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,16 +23,19 @@ namespace RPFBE.Controllers
         private readonly ICodeUnitWebService codeUnitWebService;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly ApplicationDbContext dbContext;
+        private readonly IMailService mailService;
 
         public StaffRequisionController( 
             ICodeUnitWebService codeUnitWebService,
             UserManager<ApplicationUser> userManager,
-            ApplicationDbContext dbContext
+            ApplicationDbContext dbContext,
+            IMailService mailService
         )
         {
             this.codeUnitWebService = codeUnitWebService;
             this.userManager = userManager;
             this.dbContext = dbContext;
+            this.mailService = mailService;
         }
         [Authorize]
         [Route("jobslist")]
@@ -545,13 +549,14 @@ namespace RPFBE.Controllers
                 {
                     UID = user.Id,
                     ReqID = pushtoHR.Reqno,
-                    JobNo= resSerial.Jobno,
+                    JobNo = resSerial.Jobno,
                     JobTitle = resSerial.Jobtitle,
                     JobGrade = resSerial.Jobgrade,
                     RequestedEmployees = pushtoHR.RequestedEmployees,
                     ClosingDate = pushtoHR.ClosingDate,
-                    Status= resSerial.Status,
+                    Status = resSerial.Status,
                     ProgressStatus = 1,
+                    UIDComment = pushtoHR.HODcomment,
                 };
 
 
@@ -744,8 +749,8 @@ namespace RPFBE.Controllers
         //HR Push to MD
         [Authorize]
         [Route("hrsendmd/{Reqno}")]
-        [HttpGet]
-        public async Task<IActionResult> HrSendMD(string Reqno)
+        [HttpPost]
+        public async Task<IActionResult> HrSendMD([FromBody] PushtoHRModel pushtoHR,string Reqno)
         {
             try
             {
@@ -758,8 +763,20 @@ namespace RPFBE.Controllers
                 //};
                 reqModel.ProgressStatus = 2;
                 reqModel.UIDTwo = user.Id;
+                reqModel.UIDTwoComment = pushtoHR.HRcomment;
                 dbContext.RequisitionProgress.Update(reqModel);
                 await dbContext.SaveChangesAsync();
+
+                //send Email to MD
+                //var mdUser = dbContext.Users.Where(x => x.Id == reqModel.UIDTwo).First();
+                //Requisitionrequest requisitionrequest = new Requisitionrequest
+                //{
+                //    RequisionNo = Reqno,
+                //    ToEmail = hrUser.Email,
+                //    Username = hrUser.UserName
+                //};
+                //await mailService.RequisitionRequestAsync(requisitionrequest);
+
                 return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Requisition pushed to MD" });
             }
             catch (Exception x)
@@ -770,8 +787,8 @@ namespace RPFBE.Controllers
         //HR function
         [Authorize]
         [Route("approveandpublish/{Reqno}")]
-        [HttpGet]
-        public async Task<IActionResult> Approveupdate(string Reqno)
+        [HttpPost]
+        public async Task<IActionResult> Approveupdate([FromBody] PushtoHRModel pushtoHR,string Reqno)
         {
             try
             {
@@ -783,6 +800,7 @@ namespace RPFBE.Controllers
                     RequisitionProgress reqModel = dbContext.RequisitionProgress.Where(x => x.ReqID == Reqno).FirstOrDefault();
                     reqModel.ProgressStatus = 4;
                     reqModel.UIDFour = user.Id;
+                    reqModel.UIDTwoComment = pushtoHR.HRcomment;
                     dbContext.RequisitionProgress.Update(reqModel);
                     await dbContext.SaveChangesAsync();
                     return Ok(responser.return_value);
@@ -871,18 +889,31 @@ namespace RPFBE.Controllers
         //Send back to HR
         [Authorize]
         [Route("mdsendhr/{Reqno}")]
-        [HttpGet]
-        public async Task<IActionResult> MdSendHr(string Reqno)
+        [HttpPost]
+        public async Task<IActionResult> MdSendHr([FromBody] PushtoHRModel pushtoHR,string Reqno)
         {
             
             try
             {
                 var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
                 RequisitionProgress reqModel = dbContext.RequisitionProgress.Where(x => x.ReqID == Reqno).FirstOrDefault();
-                reqModel.ProgressStatus = 3;
+               // reqModel.ProgressStatus = 3;
                 reqModel.UIDThree = user.Id;
+                reqModel.UIDThreeComment = pushtoHR.MDcomment;
                 dbContext.RequisitionProgress.Update(reqModel);
                 await dbContext.SaveChangesAsync();
+
+                //send Email to HR
+                var hrUser = dbContext.Users.Where(x => x.Id == reqModel.UIDTwo).First();
+                Requisitionrequest requisitionrequest = new Requisitionrequest
+                {
+                    RequisionNo = Reqno,
+                    ToEmail = hrUser.Email,
+                    Username = hrUser.UserName
+                };
+                await mailService.RequisitionRequestAsync(requisitionrequest);
+
+
                 return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Requisition Approved & Pushed to HR" });
             }
             catch (Exception x)

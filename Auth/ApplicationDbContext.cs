@@ -28,6 +28,7 @@ namespace RPFBE.Auth
         public DbSet<ExitInterviewCard> ExitInterviewCard { get; set; }
         public DbSet<ExitInterviewForm> ExitInterviewForm { get; set; }
         public DbSet<EmployeeClearance> EmployeeClearance { get; set; }
+        public DbSet<ProbationProgress> ProbationProgress { get; set; }
 
 
         

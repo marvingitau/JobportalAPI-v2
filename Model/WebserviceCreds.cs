@@ -12,6 +12,7 @@ namespace RPFBE.Model
         public string Url { get; set; }
 
         public string CorsAllowedUrl { get; set; }
+        public string ExcelHostUrl { get; set; }
 
     }
 }

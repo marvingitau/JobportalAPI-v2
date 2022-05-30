@@ -15,5 +15,6 @@ namespace RPFBE.Model.DBEntity
         public DateTime ApplicationDate { get; set; }
         public bool Viewed { get; set; } = false;
         public string JobAppplicationNo { get; set; }
+        public string EmpNo { get; set; }
     }
 }

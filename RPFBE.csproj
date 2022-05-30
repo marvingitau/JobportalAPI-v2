@@ -5,8 +5,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Connected Services\JobRequisition\**" />
+    <Content Remove="Connected Services\JobRequisition\**" />
+    <EmbeddedResource Remove="Connected Services\JobRequisition\**" />
+    <None Remove="Connected Services\JobRequisition\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Migrations\20220516053043_Employee Clearance v4.cs" />
     <Compile Remove="Migrations\20220516053043_Employee Clearance v4.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Connected Services\JobRequisition\Reference.cs" />
   </ItemGroup>
 
   <ItemGroup>

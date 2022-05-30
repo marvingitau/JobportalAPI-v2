@@ -15,8 +15,9 @@ namespace WebAPITest.Models
         public string UID { get; set; }
 
         public string Time { get; set; }
-        public string Venue { get; set; }
+        public string Venue { get; set; } = "N/A";
+        public string VirtualLink { get; set; } = "N/A";
 
-        
+
     }
 }

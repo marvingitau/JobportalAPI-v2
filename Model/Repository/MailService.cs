@@ -2,6 +2,7 @@
 using MailKit.Security;
 using Microsoft.Extensions.Options;
 using MimeKit;
+using MimeKit.Text;
 using RPFBE.Settings;
 using System;
 using System.Collections.Generic;
@@ -69,6 +70,7 @@ namespace RPFBE.Model.Repository
                 .Replace("[interviewdate]", auxDate2)
                 .Replace("[interviewtime]", request.Time)
                 .Replace("[interviewvenue]", request.Venue)
+                .Replace("[virtuallink]", request.VirtualLink)
                 .Replace("[Company]", _mailSettings.CompanyName)
                 .Replace("[Tel]", _mailSettings.Telephone)
                 .Replace("[HRMail]", _mailSettings.HREmail)
@@ -87,6 +89,35 @@ namespace RPFBE.Model.Repository
             smtp.Disconnect(true);
         }
 
+        public async Task RequisitionRequestAsync(Requisitionrequest request)
+        {
+            //char[] delimiterChars2 = { '-', 'T', '.' };
+            //string inteviewdatetime = request.Date;
+            //string[] datetimeArr = inteviewdatetime.Split(delimiterChars2);
+            //string auxDate2 = datetimeArr[1] + "/" + datetimeArr[2] + "/" + datetimeArr[0];
+            //DateTime interviewDate = DateTime.ParseExact(auxDate2, "MM/dd/yyyy", null);
+
+            string FilePath = Directory.GetCurrentDirectory() + "/HTML/requisitiontemplate.html";
+            StreamReader str = new StreamReader(FilePath);
+            string MailText = str.ReadToEnd();
+            str.Close();
+            MailText = MailText.Replace("[username]", request.Username)
+                .Replace("[RequisionNo]", request.RequisionNo);
+            var email = new MimeMessage();
+            email.Sender = MailboxAddress.Parse(_mailSettings.Mail);
+            email.To.Add(MailboxAddress.Parse(request.ToEmail));
+            email.Subject = $"Job Requisition Approval Request";
+            var builder = new BodyBuilder();
+            builder.HtmlBody = MailText;
+            email.Body = builder.ToMessageBody();
+            using var smtp = new SmtpClient();
+            smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
+            smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
+            await smtp.SendAsync(email);
+            smtp.Disconnect(true);
+        }
+
+
         public async Task  SendEmailPasswordReset(string userEmail, string link)
         {
 
@@ -104,6 +135,48 @@ namespace RPFBE.Model.Repository
             smtp.Disconnect(true);
 
            
+        }
+
+        //Probation Mails
+        public void SendEmail(SmtpClient smtp, string toEmail,string Username,string Monitorno)
+        {
+            string FilePath = Directory.GetCurrentDirectory() + "/HTML/probationmonitoring.html";
+            StreamReader str = new StreamReader(FilePath);
+            string MailText = str.ReadToEnd();
+            str.Close();
+            MailText = MailText.Replace("[username]", Username)
+                .Replace("[MonitorNo]", Monitorno);
+
+            var email = new MimeMessage();
+            email.Sender = MailboxAddress.Parse(_mailSettings.Mail);
+            email.To.Add(MailboxAddress.Parse(toEmail));
+            email.Subject = $"{_mailSettings.ProbationMailTitle}";
+            var builder = new BodyBuilder();
+            builder.HtmlBody = MailText;
+            email.Body = builder.ToMessageBody();
+
+
+            smtp.Send(email);
+        }
+
+        public void SendEmail(string[] mailers,string[] Username,string Monitorno)
+        {
+            using var smtp = new SmtpClient();
+            smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
+            smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
+
+            int it = 0;
+            if(mailers.Length == Username.Length)
+            {
+                foreach (string mail in mailers)
+                {
+                    SendEmail(smtp, mail, Username[it++], Monitorno);
+                }
+            }
+           
+           
+
+            smtp.Disconnect(true);
         }
 
     }

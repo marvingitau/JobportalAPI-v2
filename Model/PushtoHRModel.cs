@@ -11,5 +11,8 @@ namespace RPFBE.Model
         public string Jobno { get; set; }
         public string RequestedEmployees { get; set; }
         public string ClosingDate { get; set; }
+        public string HODcomment { get; set; }
+        public string HRcomment { get; set; }
+        public string MDcomment { get; set; }
     }
 }

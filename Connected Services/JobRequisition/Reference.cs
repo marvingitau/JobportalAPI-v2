@@ -44,6 +44,10 @@ namespace JobRequisition
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.JobApplicationModified_Result> JobApplicationModifiedAsync(JobRequisition.JobApplicationModified request);
         
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:JobApplicantToEmployee", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.JobApplicantToEmployee_Result> JobApplicantToEmployeeAsync(JobRequisition.JobApplicantToEmployee request);
+        
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:GetChecklist", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.GetChecklist_Result> GetChecklistAsync(JobRequisition.GetChecklist request);
@@ -295,6 +299,38 @@ namespace JobRequisition
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:DeleteClearanceLine", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.DeleteClearanceLine_Result> DeleteClearanceLineAsync(JobRequisition.DeleteClearanceLine request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:CreateProbationProgressGeneral", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.CreateProbationProgressGeneral_Result> CreateProbationProgressGeneralAsync(JobRequisition.CreateProbationProgressGeneral request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:GetProbationProgressGeneralList", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.GetProbationProgressGeneralList_Result> GetProbationProgressGeneralListAsync(JobRequisition.GetProbationProgressGeneralList request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:GetProbationProgressGeneral", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.GetProbationProgressGeneral_Result> GetProbationProgressGeneralAsync(JobRequisition.GetProbationProgressGeneral request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:UpdateProbationProgressFirstSection", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.UpdateProbationProgressFirstSection_Result> UpdateProbationProgressFirstSectionAsync(JobRequisition.UpdateProbationProgressFirstSection request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:UpdateProbationRecommendationSection", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.UpdateProbationRecommendationSection_Result> UpdateProbationRecommendationSectionAsync(JobRequisition.UpdateProbationRecommendationSection request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:GetProbationCardData", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.GetProbationCardData_Result> GetProbationCardDataAsync(JobRequisition.GetProbationCardData request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:UpdateProbationHRremark", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.UpdateProbationHRremark_Result> UpdateProbationHRremarkAsync(JobRequisition.UpdateProbationHRremark request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:UpdateProbationMFDremark", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.UpdateProbationMFDremark_Result> UpdateProbationMFDremarkAsync(JobRequisition.UpdateProbationMFDremark request);
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -591,6 +627,46 @@ namespace JobRequisition
         }
         
         public JobApplicationModified_Result(bool return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="JobApplicantToEmployee", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class JobApplicantToEmployee
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string reqno;
+        
+        public JobApplicantToEmployee()
+        {
+        }
+        
+        public JobApplicantToEmployee(string reqno)
+        {
+            this.reqno = reqno;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="JobApplicantToEmployee_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class JobApplicantToEmployee_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public JobApplicantToEmployee_Result()
+        {
+        }
+        
+        public JobApplicantToEmployee_Result(string return_value)
         {
             this.return_value = return_value;
         }
@@ -3299,6 +3375,366 @@ namespace JobRequisition
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="CreateProbationProgressGeneral", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class CreateProbationProgressGeneral
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string empID;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=1)]
+        public string mgrID;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=2)]
+        public string supervisionTime;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=3)]
+        public string skills;
+        
+        public CreateProbationProgressGeneral()
+        {
+        }
+        
+        public CreateProbationProgressGeneral(string empID, string mgrID, string supervisionTime, string skills)
+        {
+            this.empID = empID;
+            this.mgrID = mgrID;
+            this.supervisionTime = supervisionTime;
+            this.skills = skills;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="CreateProbationProgressGeneral_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class CreateProbationProgressGeneral_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public CreateProbationProgressGeneral_Result()
+        {
+        }
+        
+        public CreateProbationProgressGeneral_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetProbationProgressGeneralList", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GetProbationProgressGeneralList
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string uID;
+        
+        public GetProbationProgressGeneralList()
+        {
+        }
+        
+        public GetProbationProgressGeneralList(string uID)
+        {
+            this.uID = uID;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetProbationProgressGeneralList_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GetProbationProgressGeneralList_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public GetProbationProgressGeneralList_Result()
+        {
+        }
+        
+        public GetProbationProgressGeneralList_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetProbationProgressGeneral", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GetProbationProgressGeneral
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string uID;
+        
+        public GetProbationProgressGeneral()
+        {
+        }
+        
+        public GetProbationProgressGeneral(string uID)
+        {
+            this.uID = uID;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetProbationProgressGeneral_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GetProbationProgressGeneral_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public GetProbationProgressGeneral_Result()
+        {
+        }
+        
+        public GetProbationProgressGeneral_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="UpdateProbationProgressFirstSection", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class UpdateProbationProgressFirstSection
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string pK;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute("boolArgArr")]
+        public bool[] boolArgArr;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute("stringArgArr")]
+        public string[] stringArgArr;
+        
+        public UpdateProbationProgressFirstSection()
+        {
+        }
+        
+        public UpdateProbationProgressFirstSection(string pK, bool[] boolArgArr, string[] stringArgArr)
+        {
+            this.pK = pK;
+            this.boolArgArr = boolArgArr;
+            this.stringArgArr = stringArgArr;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="UpdateProbationProgressFirstSection_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class UpdateProbationProgressFirstSection_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public UpdateProbationProgressFirstSection_Result()
+        {
+        }
+        
+        public UpdateProbationProgressFirstSection_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="UpdateProbationRecommendationSection", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class UpdateProbationRecommendationSection
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string no;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute("textArr")]
+        public string[] textArr;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute("boolArr")]
+        public bool[] boolArr;
+        
+        public UpdateProbationRecommendationSection()
+        {
+        }
+        
+        public UpdateProbationRecommendationSection(string no, string[] textArr, bool[] boolArr)
+        {
+            this.no = no;
+            this.textArr = textArr;
+            this.boolArr = boolArr;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="UpdateProbationRecommendationSection_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class UpdateProbationRecommendationSection_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public UpdateProbationRecommendationSection_Result()
+        {
+        }
+        
+        public UpdateProbationRecommendationSection_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetProbationCardData", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GetProbationCardData
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string pK;
+        
+        public GetProbationCardData()
+        {
+        }
+        
+        public GetProbationCardData(string pK)
+        {
+            this.pK = pK;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetProbationCardData_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GetProbationCardData_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public GetProbationCardData_Result()
+        {
+        }
+        
+        public GetProbationCardData_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="UpdateProbationHRremark", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class UpdateProbationHRremark
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string pK;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=1)]
+        public string remark;
+        
+        public UpdateProbationHRremark()
+        {
+        }
+        
+        public UpdateProbationHRremark(string pK, string remark)
+        {
+            this.pK = pK;
+            this.remark = remark;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="UpdateProbationHRremark_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class UpdateProbationHRremark_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public UpdateProbationHRremark_Result()
+        {
+        }
+        
+        public UpdateProbationHRremark_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="UpdateProbationMFDremark", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class UpdateProbationMFDremark
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string pK;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=1)]
+        public string remark;
+        
+        public UpdateProbationMFDremark()
+        {
+        }
+        
+        public UpdateProbationMFDremark(string pK, string remark)
+        {
+            this.pK = pK;
+            this.remark = remark;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="UpdateProbationMFDremark_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class UpdateProbationMFDremark_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public UpdateProbationMFDremark_Result()
+        {
+        }
+        
+        public UpdateProbationMFDremark_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     public interface JWS_PortChannel : JobRequisition.JWS_Port, System.ServiceModel.IClientChannel
     {
@@ -3443,6 +3879,19 @@ namespace JobRequisition
             inValue.interviewDate = interviewDate;
             inValue.interviewTime = interviewTime;
             return ((JobRequisition.JWS_Port)(this)).JobApplicationModifiedAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.JobApplicantToEmployee_Result> JobRequisition.JWS_Port.JobApplicantToEmployeeAsync(JobRequisition.JobApplicantToEmployee request)
+        {
+            return base.Channel.JobApplicantToEmployeeAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.JobApplicantToEmployee_Result> JobApplicantToEmployeeAsync(string reqno)
+        {
+            JobRequisition.JobApplicantToEmployee inValue = new JobRequisition.JobApplicantToEmployee();
+            inValue.reqno = reqno;
+            return ((JobRequisition.JWS_Port)(this)).JobApplicantToEmployeeAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -4330,6 +4779,119 @@ namespace JobRequisition
             return ((JobRequisition.JWS_Port)(this)).DeleteClearanceLineAsync(inValue);
         }
         
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.CreateProbationProgressGeneral_Result> JobRequisition.JWS_Port.CreateProbationProgressGeneralAsync(JobRequisition.CreateProbationProgressGeneral request)
+        {
+            return base.Channel.CreateProbationProgressGeneralAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.CreateProbationProgressGeneral_Result> CreateProbationProgressGeneralAsync(string empID, string mgrID, string supervisionTime, string skills)
+        {
+            JobRequisition.CreateProbationProgressGeneral inValue = new JobRequisition.CreateProbationProgressGeneral();
+            inValue.empID = empID;
+            inValue.mgrID = mgrID;
+            inValue.supervisionTime = supervisionTime;
+            inValue.skills = skills;
+            return ((JobRequisition.JWS_Port)(this)).CreateProbationProgressGeneralAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.GetProbationProgressGeneralList_Result> JobRequisition.JWS_Port.GetProbationProgressGeneralListAsync(JobRequisition.GetProbationProgressGeneralList request)
+        {
+            return base.Channel.GetProbationProgressGeneralListAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.GetProbationProgressGeneralList_Result> GetProbationProgressGeneralListAsync(string uID)
+        {
+            JobRequisition.GetProbationProgressGeneralList inValue = new JobRequisition.GetProbationProgressGeneralList();
+            inValue.uID = uID;
+            return ((JobRequisition.JWS_Port)(this)).GetProbationProgressGeneralListAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.GetProbationProgressGeneral_Result> JobRequisition.JWS_Port.GetProbationProgressGeneralAsync(JobRequisition.GetProbationProgressGeneral request)
+        {
+            return base.Channel.GetProbationProgressGeneralAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.GetProbationProgressGeneral_Result> GetProbationProgressGeneralAsync(string uID)
+        {
+            JobRequisition.GetProbationProgressGeneral inValue = new JobRequisition.GetProbationProgressGeneral();
+            inValue.uID = uID;
+            return ((JobRequisition.JWS_Port)(this)).GetProbationProgressGeneralAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.UpdateProbationProgressFirstSection_Result> JobRequisition.JWS_Port.UpdateProbationProgressFirstSectionAsync(JobRequisition.UpdateProbationProgressFirstSection request)
+        {
+            return base.Channel.UpdateProbationProgressFirstSectionAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.UpdateProbationProgressFirstSection_Result> UpdateProbationProgressFirstSectionAsync(string pK, bool[] boolArgArr, string[] stringArgArr)
+        {
+            JobRequisition.UpdateProbationProgressFirstSection inValue = new JobRequisition.UpdateProbationProgressFirstSection();
+            inValue.pK = pK;
+            inValue.boolArgArr = boolArgArr;
+            inValue.stringArgArr = stringArgArr;
+            return ((JobRequisition.JWS_Port)(this)).UpdateProbationProgressFirstSectionAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.UpdateProbationRecommendationSection_Result> JobRequisition.JWS_Port.UpdateProbationRecommendationSectionAsync(JobRequisition.UpdateProbationRecommendationSection request)
+        {
+            return base.Channel.UpdateProbationRecommendationSectionAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.UpdateProbationRecommendationSection_Result> UpdateProbationRecommendationSectionAsync(string no, string[] textArr, bool[] boolArr)
+        {
+            JobRequisition.UpdateProbationRecommendationSection inValue = new JobRequisition.UpdateProbationRecommendationSection();
+            inValue.no = no;
+            inValue.textArr = textArr;
+            inValue.boolArr = boolArr;
+            return ((JobRequisition.JWS_Port)(this)).UpdateProbationRecommendationSectionAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.GetProbationCardData_Result> JobRequisition.JWS_Port.GetProbationCardDataAsync(JobRequisition.GetProbationCardData request)
+        {
+            return base.Channel.GetProbationCardDataAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.GetProbationCardData_Result> GetProbationCardDataAsync(string pK)
+        {
+            JobRequisition.GetProbationCardData inValue = new JobRequisition.GetProbationCardData();
+            inValue.pK = pK;
+            return ((JobRequisition.JWS_Port)(this)).GetProbationCardDataAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.UpdateProbationHRremark_Result> JobRequisition.JWS_Port.UpdateProbationHRremarkAsync(JobRequisition.UpdateProbationHRremark request)
+        {
+            return base.Channel.UpdateProbationHRremarkAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.UpdateProbationHRremark_Result> UpdateProbationHRremarkAsync(string pK, string remark)
+        {
+            JobRequisition.UpdateProbationHRremark inValue = new JobRequisition.UpdateProbationHRremark();
+            inValue.pK = pK;
+            inValue.remark = remark;
+            return ((JobRequisition.JWS_Port)(this)).UpdateProbationHRremarkAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.UpdateProbationMFDremark_Result> JobRequisition.JWS_Port.UpdateProbationMFDremarkAsync(JobRequisition.UpdateProbationMFDremark request)
+        {
+            return base.Channel.UpdateProbationMFDremarkAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.UpdateProbationMFDremark_Result> UpdateProbationMFDremarkAsync(string pK, string remark)
+        {
+            JobRequisition.UpdateProbationMFDremark inValue = new JobRequisition.UpdateProbationMFDremark();
+            inValue.pK = pK;
+            inValue.remark = remark;
+            return ((JobRequisition.JWS_Port)(this)).UpdateProbationMFDremarkAsync(inValue);
+        }
+        
         public virtual System.Threading.Tasks.Task OpenAsync()
         {
             return System.Threading.Tasks.Task.Factory.FromAsync(((System.ServiceModel.ICommunicationObject)(this)).BeginOpen(null, null), new System.Action<System.IAsyncResult>(((System.ServiceModel.ICommunicationObject)(this)).EndOpen));
@@ -4345,10 +4907,6 @@ namespace JobRequisition
             if ((endpointConfiguration == EndpointConfiguration.JWS_Port))
             {
                 System.ServiceModel.BasicHttpBinding result = new System.ServiceModel.BasicHttpBinding();
-
-                result.Security.Mode = System.ServiceModel.BasicHttpSecurityMode.TransportCredentialOnly;
-                result.Security.Transport.ClientCredentialType = System.ServiceModel.HttpClientCredentialType.Basic;
-
                 result.MaxBufferSize = int.MaxValue;
                 result.ReaderQuotas = System.Xml.XmlDictionaryReaderQuotas.Max;
                 result.MaxReceivedMessageSize = int.MaxValue;
@@ -4362,7 +4920,7 @@ namespace JobRequisition
         {
             if ((endpointConfiguration == EndpointConfiguration.JWS_Port))
             {
-                return new System.ServiceModel.EndpointAddress("http://18.135.252.127:4002/PlatcorpTraining/WS/Platcorp Training/Codeunit/JWS");
+                return new System.ServiceModel.EndpointAddress("http://desktop-csglh1r:7347/PLATCORP/WS/Platcorp Training/Codeunit/JWS");
             }
             throw new System.InvalidOperationException(string.Format("Could not find endpoint with name \'{0}\'.", endpointConfiguration));
         }

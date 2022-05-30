@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RPFBE.Auth;
 using RPFBE.Model;
@@ -35,6 +36,8 @@ namespace RPFBE.Controllers
         private readonly IWebHostEnvironment webHostEnvironment;
         private readonly ICodeUnitWebService codeUnitWebService;
         private readonly IMailService mailService;
+        private readonly IOptions<WebserviceCreds> config;
+        private readonly RoleManager<IdentityRole> roleManager;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly ApplicationDbContext dbContext;
 
@@ -44,7 +47,9 @@ namespace RPFBE.Controllers
          ILogger<HomeController> logger,
         IWebHostEnvironment webHostEnvironment,
         ICodeUnitWebService codeUnitWebService,
-        IMailService mailService
+        IMailService mailService,
+        IOptions<WebserviceCreds> config,
+        RoleManager<IdentityRole> roleManager
       )
         {
             this.userManager = userManager;
@@ -53,6 +58,8 @@ namespace RPFBE.Controllers
             this.webHostEnvironment = webHostEnvironment;
             this.codeUnitWebService = codeUnitWebService;
             this.mailService = mailService;
+            this.config = config;
+            this.roleManager = roleManager;
         }
 
         [Route("posted-jobs")]
@@ -424,19 +431,27 @@ namespace RPFBE.Controllers
                 //}
                 //memory.Position = 0;
                 //return File(memory, "application/pdf", Path.GetFileName(path));
+                if(dbres != null)
+                {
 
                 var file = dbres.FilePath;
+                    // Response...
+                    System.Net.Mime.ContentDisposition cd = new System.Net.Mime.ContentDisposition
+                    {
+                        FileName = file,
+                        Inline = true // false = prompt the user for downloading;  true = browser to try to show the file inline
+                    };
+                    Response.Headers.Add("Content-Disposition", cd.ToString());
+                    Response.Headers.Add("X-Content-Type-Options", "nosniff");
 
-                // Response...
-                System.Net.Mime.ContentDisposition cd = new System.Net.Mime.ContentDisposition
+                    return File(System.IO.File.ReadAllBytes(file), "application/pdf");
+
+                }
+                else
                 {
-                    FileName = file,
-                    Inline = true // false = prompt the user for downloading;  true = browser to try to show the file inline
-                };
-                Response.Headers.Add("Content-Disposition", cd.ToString());
-                Response.Headers.Add("X-Content-Type-Options", "nosniff");
+                    return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "CV Not Found"});
+                }
 
-                return File(System.IO.File.ReadAllBytes(file), "application/pdf");
 
 
 
@@ -714,10 +729,11 @@ namespace RPFBE.Controllers
                     Title = apps.JobTitle,
                     Name = user.Name,
                     AppDate = apps.ApplicationDate,
-                    ReqNo = apps.JobReqNo
-
+                    ReqNo = apps.JobReqNo,
+                    AppNo = apps.JobAppplicationNo,
+                    EmpNo = apps.EmpNo
                 }
-                ).Where(x => x.Viewed == true).ToList();
+                ).Where(x => x.Viewed == true ).ToList();//&& x.EmpNo != ""
 
             return Ok(query);
         }
@@ -820,7 +836,7 @@ namespace RPFBE.Controllers
             try
             {
                 //var path = System.AppContext.BaseDirectory;
-                var dbres = dbContext.UserCVs.Where(x => x.UserId == UID).FirstOrDefault();
+                var dbres = dbContext.UserCVs.Where(x => x.UserId == UID).First();
                 var file = dbres.FilePath;
 
                 // Response...
@@ -962,11 +978,13 @@ namespace RPFBE.Controllers
                         worksheet.Cell(currentRow, 12).Value = r.profiles.FirstOrDefault() != null ? r.profiles.FirstOrDefault().PersonWithDisability : "";
                         worksheet.Cell(currentRow, 13).Value = r.profiles.FirstOrDefault() != null ? r.profiles.FirstOrDefault().Experience : "";
                         worksheet.Cell(currentRow, 14).Value = "Resume";
-                        worksheet.Cell(currentRow, 14).Hyperlink = new XLHyperlink($"{HttpContext.Request.Host.ToUriComponent()}/api/home/getcv/{r.appliedJobs.UserId}", "Click to Open CV!");
+                        //worksheet.Cell(currentRow, 14).Hyperlink = new XLHyperlink($"{HttpContext.Request.Host.ToUriComponent()}/api/home/getcv/{r.appliedJobs.UserId}", "Click to Open CV!");
+                        worksheet.Cell(currentRow, 14).Hyperlink = new XLHyperlink($"{config.Value.ExcelHostUrl}/home/getcv/{r.appliedJobs.UserId}", "Click to Open CV!");
                         foreach(var spec in r.jobSpecFiles)
                         {
                             worksheet.Cell(currentRow, 15).Value = spec.TagName;
-                            worksheet.Cell(currentRow, 15).Hyperlink = new XLHyperlink($"{HttpContext.Request.Host.ToUriComponent()}/api/home/getspec/{spec.TagName}", "Click to Open");
+                            //worksheet.Cell(currentRow, 15).Hyperlink = new XLHyperlink($"{HttpContext.Request.Host.ToUriComponent()}/api/home/getspec/{spec.TagName}", "Click to Open");
+                            worksheet.Cell(currentRow, 15).Hyperlink = new XLHyperlink($"{config.Value.ExcelHostUrl}/home/getspec/{spec.TagName}", "Click to Open");
                             currentRow++;
                         }
                     }
@@ -1393,7 +1411,32 @@ namespace RPFBE.Controllers
         {
             try
             {
-                var usr = dbContext.Users.Where(x => x.EmployeeId == uid).FirstOrDefault();
+                var usr = dbContext.Users.Where(x => x.EmployeeId == uid).First();
+
+                //var roless = await userManager.GetRolesAsync(usr);
+                //if (await userManager.IsInRoleAsync(usr, "Normal") )
+                //{
+
+                //    await userManager.RemoveFromRoleAsync(usr, "Normal");
+                //    if (!await roleManager.RoleExistsAsync(val))
+                //        await roleManager.CreateAsync(new IdentityRole(val));
+
+                //    await userManager.AddToRoleAsync(usr, val);
+                //}
+
+                var rolls = await userManager.GetRolesAsync(usr);
+                var dd = rolls.ToArray();
+                //if (rolls == null)
+                //{
+                //    //if (!await roleManager.RoleExistsAsync(val))
+                //    //{
+
+                await roleManager.CreateAsync(new IdentityRole(val));
+                //    //}
+
+                await userManager.AddToRoleAsync(usr, val);
+                //}
+
                 usr.Rank = val;
                 dbContext.Users.Update(usr);
                 await dbContext.SaveChangesAsync();

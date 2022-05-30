@@ -15,6 +15,7 @@ namespace RPFBE.Auth
         public string EmployeeId { get; set; }
         public string Name { get; set; }
         public string Rank { get; set; }
+        public string Pcode { get; set; }
         
     }
 }

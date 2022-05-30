@@ -1,14 +1,14 @@
 {
   "ExtendedData": {
     "inputs": [
-      "http://desktop-csglh1r:7347/PLATCORP/WS/Platcorp Training/Codeunit/JWS"
+      "http://DESKTOP-CSGLH1R:7347/PLATCORP/WS/Platcorp%20Training/Codeunit/HRManagementWS"
     ],
     "collectionTypes": [
       "System.Array",
       "System.Collections.Generic.Dictionary`2"
     ],
     "namespaceMappings": [
-      "*, JobRequisition"
+      "*, HRActivity"
     ],
     "targetFramework": "netcoreapp3.1",
     "typeReuseMode": "All"

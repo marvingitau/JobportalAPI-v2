@@ -16,9 +16,12 @@ namespace RPFBE.Settings
         public string CompanyName { get; set; }
         public string Telephone { get; set; }
         public string HREmail { get; set; }
-        
-    
-    
+
+        //probation Constacts
+        public string ProbationMailTitle { get; set; }
+
+
+
 
     }
 }

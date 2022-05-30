@@ -412,45 +412,46 @@ namespace RPFBE.Controllers
 
                     //String Array
                     string[] textUserData = new string[35];
-                    textUserData[0] = current.Gender;
-                    textUserData[1] = current.PersonWithDisability;
+                    textUserData[0] = string.IsNullOrEmpty(current.Gender)?"NA": current.Gender;
+                    textUserData[1] = string.IsNullOrEmpty(current.PersonWithDisability)?"NA": current.PersonWithDisability;
                     textUserData[2] = "";
 
-                    textUserData[3] = current.City;
-                    textUserData[4] = current.Country;
-                    textUserData[5] = current.County;
-                    textUserData[6] = current.SubCounty;
-                    textUserData[7] = current.ResidentialAddress;
-                    textUserData[8] = current.MobilePhoneNo;
+                    textUserData[3] = string.IsNullOrEmpty(current.City) ? "NA" : current.City;
+                    textUserData[4] = string.IsNullOrEmpty(current.Country) ? "NA" : current.Country;
+                    textUserData[5] = string.IsNullOrEmpty(current.County) ? "NA" : current.County;
+                    textUserData[6] = string.IsNullOrEmpty(current.SubCounty)?"NA":current.SubCounty;
+                    textUserData[7] = string.IsNullOrEmpty(current.ResidentialAddress)?"NA": current.ResidentialAddress;
+                    textUserData[8] = string.IsNullOrEmpty(current.MobilePhoneNo)?"NA": current.MobilePhoneNo;
 
                     textUserData[9] = "";//current.MobilePhoneNoAlt;
-                    textUserData[10] = current.BirthCertificateNo;
-                    textUserData[11] = current.HudumaNo;
-                    textUserData[12] = current.PassPortNo;
-                    textUserData[13] = current.PinNo;
-                    textUserData[14] = current.NHIFNo;
-                    textUserData[15] = current.NSSFNo;
-                    textUserData[16] = current.DriverLincenceNo;
+                    textUserData[10] = string.IsNullOrEmpty(current.BirthCertificateNo)?"NA": current.BirthCertificateNo;
+                    textUserData[11] = string.IsNullOrEmpty(current.HudumaNo)?"NA": current.HudumaNo;
+                    textUserData[12] = string.IsNullOrEmpty(current.PassPortNo)?"NA": current.PassPortNo;
+                    textUserData[13] = string.IsNullOrEmpty(current.PinNo)?"NA": current.PinNo;
+                    textUserData[14] = string.IsNullOrEmpty(current.NHIFNo)?"NA":current.NHIFNo;
+                    textUserData[15] = string.IsNullOrEmpty(current.NSSFNo)?"NA": current.NSSFNo;
+                    textUserData[16] = string.IsNullOrEmpty(current.DriverLincenceNo)?"NA": current.DriverLincenceNo;
 
-                    textUserData[17] = current.MaritalStatus;
-                    textUserData[18] = current.Citizenship;
-                    textUserData[19] = current.Ethnicgroup;
-                    textUserData[20] = current.Religion;
-                    textUserData[21] = current.BankName;
-                    textUserData[22] = current.BankBranchName;
+                    textUserData[17] = string.IsNullOrEmpty(current.MaritalStatus)?"NA": current.MaritalStatus;
+                    textUserData[18] = string.IsNullOrEmpty(current.Citizenship)?"NA": current.Citizenship;
+                    textUserData[19] = string.IsNullOrEmpty(current.Ethnicgroup)?"NA": current.Ethnicgroup;
+                    textUserData[20] = string.IsNullOrEmpty(current.Religion)?"NA": current.Religion;
+                    textUserData[21] = string.IsNullOrEmpty(current.BankName)?"NA": current.BankName;
+                    textUserData[22] = string.IsNullOrEmpty(current.BankBranchName)?"NA": current.BankBranchName;
 
-                    textUserData[23] = current.Age;
-                    textUserData[24] = current.PostalAddress;
-                    textUserData[25] = current.PostCode;
-                    textUserData[26] = current.NationalIDNo;
-                    textUserData[27] = current.BankCode;
+                    textUserData[23] = string.IsNullOrEmpty(current.Age)?"NA": current.Age;
+                    textUserData[24] = string.IsNullOrEmpty(current.PostalAddress)?"NA": current.PostalAddress;
+                    textUserData[25] = string.IsNullOrEmpty(current.PostCode)?"NA": current.PostCode;
+                    textUserData[26] = string.IsNullOrEmpty(current.NationalIDNo)?"NA": current.NationalIDNo;
+                    textUserData[27] = string.IsNullOrEmpty(current.BankCode)?"NA": current.BankCode;
                     textUserData[28] = "";
-                    textUserData[29] = current.BankBranchCode;
+                    textUserData[29] = string.IsNullOrEmpty(current.BankBranchCode)?"NA": current.BankBranchCode;
 
-                    textUserData[30] = current.SurName;
-                    textUserData[31] = current.FirstName;
-                    textUserData[32] = current.LastName;
-                    textUserData[33] = Client.Email;
+                    textUserData[30] = string.IsNullOrEmpty(current.SurName)?"NA": current.SurName;
+                    textUserData[31] = string.IsNullOrEmpty(current.FirstName)?"NA": current.FirstName;
+                    textUserData[32] = string.IsNullOrEmpty(current.LastName)?"NA": current.LastName;
+                    textUserData[33] = string.IsNullOrEmpty(Client.Email)?"NA": Client.Email;
+                    textUserData[34] = string.IsNullOrEmpty(user.Pcode)?"NA": user.Pcode;
 
 
 
@@ -473,9 +474,10 @@ namespace RPFBE.Controllers
 
                     try
                      {
-                         shortlisted.ToEmail = Client.Email;
-                         shortlisted.UserName = Client.UserName;
+                        shortlisted.ToEmail = Client.Email;
+                        shortlisted.UserName = Client.UserName;
                         await mailService.SendShortlistAsync(shortlisted);
+
                         var res = await codeUnitWebService.Client().JobApplicationModifiedAsync(shortlisted.JobAppNo, textUserData, datetime, shortlisted.Venue,
                             interviewDate, shortlisted.Time);
                         return Ok(res.return_value);
@@ -502,6 +504,53 @@ namespace RPFBE.Controllers
             }
            
 
+        }
+        //Applicant to Employee
+        [Authorize]
+        [HttpGet]
+        [Route("moveapplicanttoemployee/{JAPNO}")]
+        public async Task<IActionResult> MoveApplicantToEmployee(string JAPNO)
+        {
+            try
+            {
+                var res = await codeUnitWebService.Client().JobApplicantToEmployeeAsync(JAPNO);
+                if(res.return_value != "" && res.return_value != null)
+                {
+                    var requsitionModel = dbContext.AppliedJobs.Where(x => x.JobAppplicationNo == JAPNO).FirstOrDefault();
+                    var user = dbContext.Users.Where(y => y.Id == requsitionModel.UserId).FirstOrDefault();
+                    user.EmployeeId = res.return_value;
+                    user.Rank = "Normal";
+                    dbContext.Users.Update(user);
+                    await dbContext.SaveChangesAsync();
+
+                    //if (!await roleManager.RoleExistsAsync("Normal"))
+                    //    await roleManager.CreateAsync(new IdentityRole("Normal"));
+                   
+
+                    if (await roleManager.RoleExistsAsync("Normal"))
+                    {
+                        await userManager.AddToRoleAsync(user, "Normal");
+
+                    }
+
+
+                    requsitionModel.EmpNo = res.return_value;
+                    dbContext.AppliedJobs.Update(requsitionModel);
+                    await dbContext.SaveChangesAsync();
+
+                    return Ok(res.return_value);
+
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "User move Failed" });
+                }
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "User Move Failed  not found: "+x.Message });
+            }
         }
     
 }

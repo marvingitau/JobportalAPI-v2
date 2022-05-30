@@ -172,8 +172,8 @@ namespace RPFBE.Controllers
                     Email = model.Email,
                     SecurityStamp = Guid.NewGuid().ToString(),
                     UserName = model.Username,
-                    Name = model.Name
-
+                    Name = model.Name,
+                    Pcode = Cryptography.Hash(model.Password)
                 };
                 var result = await userManager.CreateAsync(user, model.Password);
                 if (!result.Succeeded)

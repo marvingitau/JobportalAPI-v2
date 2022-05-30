@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RPFBE.Auth;
 
 namespace RPFBE.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220529114304_added comment section for requisition")]
+    partial class addedcommentsectionforrequisition
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -770,72 +772,6 @@ namespace RPFBE.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("PerformanceMonitoring");
-                });
-
-            modelBuilder.Entity("RPFBE.Model.DBEntity.ProbationProgress", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("CreationDate")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Department")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EmpID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EmpName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImportantSkills")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MgrID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MgrName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Position")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ProbationNo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ProbationStatus")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SupervisionTime")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UIDComment")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UIDThree")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UIDThreeComment")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UIDTwo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UIDTwoComment")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ProbationProgress");
                 });
 
             modelBuilder.Entity("RPFBE.Model.DBEntity.Profile", b =>

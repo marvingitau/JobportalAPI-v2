@@ -571,7 +571,7 @@ namespace RPFBE.Controllers
             try
             {
                 var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
-                var employeeEndofs = dbContext.ProbationProgress.Where(x=>x.ProbationStatus == 1).ToList();
+                var employeeEndofs = dbContext.ProbationProgress.Where(x=>x.ProbationStatus == 1 || x.ProbationStatus == 3).ToList();
 
                 return Ok(new { employeeEndofs });
             }
@@ -625,5 +625,188 @@ namespace RPFBE.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation Card Update Failed: " + x.Message });
             }
         }
+
+        //HR Approves
+        [Authorize]
+        [HttpGet]
+        [Route("hrapproveprobation/{PID}")]
+        public async Task<IActionResult> HRApproveProbation(string PID)
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var resRemarks = await codeUnitWebService.Client().ApproveProbationHRAsync(PID);
+                if (bool.Parse(resRemarks.return_value))
+                {
+                    var probModel = dbContext.ProbationProgress.Where(x => x.ProbationNo == PID).First();
+                    probModel.Status = "Approved";
+                    dbContext.ProbationProgress.Update(probModel);
+                    await dbContext.SaveChangesAsync();
+
+                    ////Mail MD/FD
+                    //var emailArr = dbContext.Users.Where(x => x.Rank == "HR")
+                    //    .Select(t => t.Email).ToArray();
+
+
+
+                    //var unameArr = dbContext.Users.Where(x => x.Rank == "HR")
+                    //    .Select(t => t.UserName).ToArray();
+
+                    //List<ProbationProgressMail> v = new List<ProbationProgressMail>();
+                    //// v.AddRange(userList);
+                    //mailService.SendEmail(emailArr, unameArr, PID);
+
+                    return Ok(bool.Parse(resRemarks.return_value));
+                }
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation Card Update Failed: D365 failed " });
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation Card Update Failed: " + x.Message });
+            }
+        }
+
+
+
+
+        /**
+         * *****************************************************************************************************************
+         *                                                      FD SECTION
+         * 
+         * ************************************************************************************************************************
+         */
+
+        //FD Dashboard
+        [Authorize]
+        [HttpGet]
+        [Route("fddashboard")]
+        public async Task<IActionResult> FDDashboard()
+        {
+            try
+            {
+                var usr = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var pendingCount = dbContext.ProbationProgress.Where(x => x.ProbationStatus == 2).Count();
+                var doneCount = dbContext.ProbationProgress.Where(x => x.ProbationStatus > 2).Count();
+
+                return Ok(new { pendingCount, doneCount });
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "FD Failed " + x.Message });
+            }
+        }
+
+        //Get the FD list of created probations
+        [Authorize]
+        [HttpGet]
+        [Route("getfdprobationlist")]
+        public async Task<IActionResult> GetFDProbationList()
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var employeeEndofs = dbContext.ProbationProgress.Where(x => x.ProbationStatus == 2).ToList();
+
+                return Ok(new { employeeEndofs });
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation List Failed: " + x.Message });
+            }
+        }
+
+        //FD Approves
+        [Authorize]
+        [HttpPost]
+        [Route("fdapproveprobation/{PID}")]
+        public async Task<IActionResult> FDApproveProbation([FromBody] ProbationRecommendationModel probationRecommendationModel,string PID)
+        {
+            try { 
+                       var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+            var resRemarks = await codeUnitWebService.Client().UpdateProbationMFDremarkAsync(PID, probationRecommendationModel.MDcomment);
+            if (bool.Parse(resRemarks.return_value))
+            {
+                var probModel = dbContext.ProbationProgress.Where(x => x.ProbationNo == PID).First();
+                probModel.ProbationStatus = 3;
+                probModel.UIDThree = user.Id;
+                probModel.UIDThreeComment = probationRecommendationModel.MDcomment;
+
+                dbContext.ProbationProgress.Update(probModel);
+                await dbContext.SaveChangesAsync();
+
+                //Mail MD/FD
+                var emailArr = dbContext.Users.Where(x => x.Rank == "HR")
+                    .Select(t => t.Email).ToArray();
+
+
+
+                var unameArr = dbContext.Users.Where(x => x.Rank == "HR")
+                    .Select(t => t.UserName).ToArray();
+
+                List<ProbationProgressMail> v = new List<ProbationProgressMail>();
+                // v.AddRange(userList);
+                mailService.SendEmail(emailArr, unameArr, PID);
+
+                return Ok(bool.Parse(resRemarks.return_value));
+            }
+            return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation Card Update Failed: D365 failed " });
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation Card Update Failed: " + x.Message });
+            }
+        }
+
+        //FD Approves
+        [Authorize]
+        [HttpPost]
+        [Route("fdrejectprobation/{PID}")]
+        public async Task<IActionResult> FDRejectProbation([FromBody] ProbationRecommendationModel probationRecommendationModel, string PID)
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var resRemarks = await codeUnitWebService.Client().UpdateProbationMFDremarkAsync(PID, probationRecommendationModel.MDcomment);
+                if (bool.Parse(resRemarks.return_value))
+                {
+                    var rejectRes = await codeUnitWebService.Client().RejectProbationMFDAsync(PID);
+                    var probModel = dbContext.ProbationProgress.Where(x => x.ProbationNo == PID).First();
+                    probModel.ProbationStatus = 3;
+                    probModel.UIDThree = user.Id;
+                    probModel.Status = "Rejected";
+                    probModel.UIDThreeComment = probationRecommendationModel.MDcomment;
+
+                    dbContext.ProbationProgress.Update(probModel);
+                    await dbContext.SaveChangesAsync();
+
+                    //Mail MD/FD
+                    var emailArr = dbContext.Users.Where(x => x.Rank == "HR")
+                        .Select(t => t.Email).ToArray();
+
+
+
+                    var unameArr = dbContext.Users.Where(x => x.Rank == "HR")
+                        .Select(t => t.UserName).ToArray();
+
+                    List<ProbationProgressMail> v = new List<ProbationProgressMail>();
+                    // v.AddRange(userList);
+                    mailService.SendEmail(emailArr, unameArr, PID,false);
+
+                    return Ok(bool.Parse(resRemarks.return_value));
+                }
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation Card Update Failed: D365 failed " });
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation Card Update Failed: " + x.Message });
+            }
+        }
+
+
     }
 }

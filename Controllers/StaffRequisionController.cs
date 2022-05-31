@@ -767,6 +767,8 @@ namespace RPFBE.Controllers
                 dbContext.RequisitionProgress.Update(reqModel);
                 await dbContext.SaveChangesAsync();
 
+                //@email
+
                 //send Email to MD
                 //var mdUser = dbContext.Users.Where(x => x.Id == reqModel.UIDTwo).First();
                 //Requisitionrequest requisitionrequest = new Requisitionrequest
@@ -803,6 +805,9 @@ namespace RPFBE.Controllers
                     reqModel.UIDTwoComment = pushtoHR.HRcomment;
                     dbContext.RequisitionProgress.Update(reqModel);
                     await dbContext.SaveChangesAsync();
+
+                    //@email
+
                     return Ok(responser.return_value);
                 }
                 else
@@ -817,11 +822,11 @@ namespace RPFBE.Controllers
             }
         }
 
-        //MD Rjected
+        //MD Rejected
         [Authorize]
         [Route("rejectreq/{Reqno}")]
-        [HttpGet]
-        public async Task<IActionResult> RejectReq(string Reqno)
+        [HttpPost]
+        public async Task<IActionResult> RejectReq([FromBody] PushtoHRModel rejecttoHR,string Reqno)
         {
             try
             {
@@ -833,8 +838,13 @@ namespace RPFBE.Controllers
                     RequisitionProgress reqModel = dbContext.RequisitionProgress.Where(x => x.ReqID == Reqno).FirstOrDefault();
                     reqModel.ProgressStatus = 5;
                     reqModel.UIDFour = user.Id;
+                    reqModel.Status = "Rejected";
+                    reqModel.UIDThreeComment = rejecttoHR.MDcomment;
+                    reqModel.UIDFourComment = rejecttoHR.MDcomment;
                     dbContext.RequisitionProgress.Update(reqModel);
                     await dbContext.SaveChangesAsync();
+
+                    //@email
                     return Ok(responser.return_value);
                 }
                 else
@@ -843,9 +853,9 @@ namespace RPFBE.Controllers
                 }
 
             }
-            catch (Exception)
+            catch (Exception x)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Rejection  failed" });
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Rejection  failed"+x.Message });
             }
         }
 
@@ -897,21 +907,22 @@ namespace RPFBE.Controllers
             {
                 var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
                 RequisitionProgress reqModel = dbContext.RequisitionProgress.Where(x => x.ReqID == Reqno).FirstOrDefault();
-               // reqModel.ProgressStatus = 3;
+                reqModel.ProgressStatus = 3;
                 reqModel.UIDThree = user.Id;
                 reqModel.UIDThreeComment = pushtoHR.MDcomment;
                 dbContext.RequisitionProgress.Update(reqModel);
                 await dbContext.SaveChangesAsync();
 
+                //@email
                 //send Email to HR
-                var hrUser = dbContext.Users.Where(x => x.Id == reqModel.UIDTwo).First();
+                /*var hrUser = dbContext.Users.Where(x => x.Id == reqModel.UIDTwo).First();
                 Requisitionrequest requisitionrequest = new Requisitionrequest
                 {
                     RequisionNo = Reqno,
                     ToEmail = hrUser.Email,
                     Username = hrUser.UserName
                 };
-                await mailService.RequisitionRequestAsync(requisitionrequest);
+                await mailService.RequisitionRequestAsync(requisitionrequest);*/
 
 
                 return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Requisition Approved & Pushed to HR" });

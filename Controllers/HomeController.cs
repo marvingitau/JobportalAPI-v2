@@ -1414,29 +1414,32 @@ namespace RPFBE.Controllers
                 var usr = dbContext.Users.Where(x => x.EmployeeId == uid).First();
 
                 //var roless = await userManager.GetRolesAsync(usr);
-                //if (await userManager.IsInRoleAsync(usr, "Normal") )
-                //{
+                if (await userManager.IsInRoleAsync(usr, "Normal"))
+                {
 
-                //    await userManager.RemoveFromRoleAsync(usr, "Normal");
-                //    if (!await roleManager.RoleExistsAsync(val))
-                //        await roleManager.CreateAsync(new IdentityRole(val));
+                    await userManager.RemoveFromRoleAsync(usr, "Normal");
+                    if (!await roleManager.RoleExistsAsync(val))
+                        await roleManager.CreateAsync(new IdentityRole(val));
 
-                //    await userManager.AddToRoleAsync(usr, val);
-                //}
+                    await userManager.AddToRoleAsync(usr, val);
+                }
 
                 var rolls = await userManager.GetRolesAsync(usr);
-                var dd = rolls.ToArray();
-                //if (rolls == null)
-                //{
-                //    //if (!await roleManager.RoleExistsAsync(val))
-                //    //{
+                foreach (var item in rolls)
+                {
+                    await userManager.RemoveFromRoleAsync(usr, item);
+                }
+               
+                if (!await roleManager.RoleExistsAsync(val)){
+                    await roleManager.CreateAsync(new IdentityRole(val));
+                    await userManager.AddToRoleAsync(usr, val);
+                }
+                else
+                {
+                    await userManager.AddToRoleAsync(usr, val);
+                }
 
-                await roleManager.CreateAsync(new IdentityRole(val));
-                //    //}
-
-                await userManager.AddToRoleAsync(usr, val);
-                //}
-
+             
                 usr.Rank = val;
                 dbContext.Users.Update(usr);
                 await dbContext.SaveChangesAsync();

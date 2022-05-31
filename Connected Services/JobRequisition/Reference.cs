@@ -331,6 +331,14 @@ namespace JobRequisition
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:UpdateProbationMFDremark", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.UpdateProbationMFDremark_Result> UpdateProbationMFDremarkAsync(JobRequisition.UpdateProbationMFDremark request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:RejectProbationMFD", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.RejectProbationMFD_Result> RejectProbationMFDAsync(JobRequisition.RejectProbationMFD request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:ApproveProbationHR", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.ApproveProbationHR_Result> ApproveProbationHRAsync(JobRequisition.ApproveProbationHR request);
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -3735,6 +3743,86 @@ namespace JobRequisition
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="RejectProbationMFD", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class RejectProbationMFD
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string pK;
+        
+        public RejectProbationMFD()
+        {
+        }
+        
+        public RejectProbationMFD(string pK)
+        {
+            this.pK = pK;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="RejectProbationMFD_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class RejectProbationMFD_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public RejectProbationMFD_Result()
+        {
+        }
+        
+        public RejectProbationMFD_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ApproveProbationHR", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class ApproveProbationHR
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string pK;
+        
+        public ApproveProbationHR()
+        {
+        }
+        
+        public ApproveProbationHR(string pK)
+        {
+            this.pK = pK;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ApproveProbationHR_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class ApproveProbationHR_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public ApproveProbationHR_Result()
+        {
+        }
+        
+        public ApproveProbationHR_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     public interface JWS_PortChannel : JobRequisition.JWS_Port, System.ServiceModel.IClientChannel
     {
@@ -4890,6 +4978,32 @@ namespace JobRequisition
             inValue.pK = pK;
             inValue.remark = remark;
             return ((JobRequisition.JWS_Port)(this)).UpdateProbationMFDremarkAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.RejectProbationMFD_Result> JobRequisition.JWS_Port.RejectProbationMFDAsync(JobRequisition.RejectProbationMFD request)
+        {
+            return base.Channel.RejectProbationMFDAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.RejectProbationMFD_Result> RejectProbationMFDAsync(string pK)
+        {
+            JobRequisition.RejectProbationMFD inValue = new JobRequisition.RejectProbationMFD();
+            inValue.pK = pK;
+            return ((JobRequisition.JWS_Port)(this)).RejectProbationMFDAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.ApproveProbationHR_Result> JobRequisition.JWS_Port.ApproveProbationHRAsync(JobRequisition.ApproveProbationHR request)
+        {
+            return base.Channel.ApproveProbationHRAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.ApproveProbationHR_Result> ApproveProbationHRAsync(string pK)
+        {
+            JobRequisition.ApproveProbationHR inValue = new JobRequisition.ApproveProbationHR();
+            inValue.pK = pK;
+            return ((JobRequisition.JWS_Port)(this)).ApproveProbationHRAsync(inValue);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()

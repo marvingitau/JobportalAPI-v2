@@ -10,6 +10,6 @@ namespace RPFBE.Model.Repository
         Task SendShortlistAsync(Shortlisted request);
         Task SendEmailPasswordReset(string userEmail, string link);
         Task RequisitionRequestAsync(Requisitionrequest request);
-        void SendEmail(string[] mailers,string[] Username,string Monitorno);
+        void SendEmail(string[] mailers,string[] Username,string Monitorno, bool approved = true);
     }
 }

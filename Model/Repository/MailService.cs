@@ -138,9 +138,18 @@ namespace RPFBE.Model.Repository
         }
 
         //Probation Mails
-        public void SendEmail(SmtpClient smtp, string toEmail,string Username,string Monitorno)
+        public void SendEmail(SmtpClient smtp, string toEmail,string Username,string Monitorno,bool approved)
         {
-            string FilePath = Directory.GetCurrentDirectory() + "/HTML/probationmonitoring.html";
+            string FilePath;
+            if (approved)
+            {
+                FilePath = Directory.GetCurrentDirectory() + "/HTML/probationmonitoring.html";
+            }
+            else
+            {
+                FilePath = Directory.GetCurrentDirectory() + "/HTML/probationmonitoringreject.html";
+            }
+            
             StreamReader str = new StreamReader(FilePath);
             string MailText = str.ReadToEnd();
             str.Close();
@@ -159,7 +168,7 @@ namespace RPFBE.Model.Repository
             smtp.Send(email);
         }
 
-        public void SendEmail(string[] mailers,string[] Username,string Monitorno)
+        public void SendEmail(string[] mailers,string[] Username,string Monitorno, bool approved = true)
         {
             using var smtp = new SmtpClient();
             smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
@@ -170,7 +179,7 @@ namespace RPFBE.Model.Repository
             {
                 foreach (string mail in mailers)
                 {
-                    SendEmail(smtp, mail, Username[it++], Monitorno);
+                    SendEmail(smtp, mail, Username[it++], Monitorno,approved);
                 }
             }
            

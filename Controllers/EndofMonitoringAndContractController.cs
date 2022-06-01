@@ -47,6 +47,7 @@ namespace RPFBE.Controllers
             this.mailService = mailService;
             this.config = config;
         }
+        //Used for probation and endof contract
 
         //[Authorize]
         [HttpGet]
@@ -594,7 +595,7 @@ namespace RPFBE.Controllers
                 var resRemarks = await codeUnitWebService.Client().UpdateProbationHRremarkAsync(PID, probationFirst.HRcomment);
                 if (bool.Parse(resRemarks.return_value))
                 {
-                   var probModel = dbContext.ProbationProgress.Where(x => x.ProbationNo == PID).First();
+                   var probModel = dbContext.ProbationProgress.Where(x => x.ProbationNo == PID).FirstOrDefault();
                     probModel.ProbationStatus = 2;
                     probModel.UIDTwo = user.Id;
                     probModel.UIDTwoComment = probationFirst.HRcomment;
@@ -602,18 +603,19 @@ namespace RPFBE.Controllers
                     dbContext.ProbationProgress.Update(probModel);
                     await dbContext.SaveChangesAsync();
 
-                    //Mail MD/FD
-                    var emailArr = dbContext.Users.Where(x => x.Rank == "MD" || x.Rank =="FD")
-                        .Select(t => t.Email).ToArray();
+                    ////Mail MD/FD
+                    ///@email
+                    //var emailArr = dbContext.Users.Where(x => x.Rank == "MD" || x.Rank =="FD")
+                    //    .Select(t => t.Email).ToArray();
 
 
 
-                    var unameArr = dbContext.Users.Where(x => x.Rank == "MD" || x.Rank == "FD")
-                        .Select(t => t.UserName).ToArray();
+                    //var unameArr = dbContext.Users.Where(x => x.Rank == "MD" || x.Rank == "FD")
+                    //    .Select(t => t.UserName).ToArray();
 
-                    List<ProbationProgressMail> v = new List<ProbationProgressMail>();
-                    // v.AddRange(userList);
-                    mailService.SendEmail(emailArr, unameArr, PID);
+                    //List<ProbationProgressMail> v = new List<ProbationProgressMail>();
+                    //// v.AddRange(userList);
+                    //mailService.SendEmail(emailArr, unameArr, PID);
 
                     return Ok(bool.Parse(resRemarks.return_value));
                 }
@@ -644,6 +646,8 @@ namespace RPFBE.Controllers
                     await dbContext.SaveChangesAsync();
 
                     ////Mail MD/FD
+                    //@email
+
                     //var emailArr = dbContext.Users.Where(x => x.Rank == "HR")
                     //    .Select(t => t.Email).ToArray();
 
@@ -738,17 +742,18 @@ namespace RPFBE.Controllers
                 await dbContext.SaveChangesAsync();
 
                 //Mail MD/FD
-                var emailArr = dbContext.Users.Where(x => x.Rank == "HR")
-                    .Select(t => t.Email).ToArray();
+                //@email
+                //var emailArr = dbContext.Users.Where(x => x.Rank == "HR")
+                //    .Select(t => t.Email).ToArray();
 
 
 
-                var unameArr = dbContext.Users.Where(x => x.Rank == "HR")
-                    .Select(t => t.UserName).ToArray();
+                //var unameArr = dbContext.Users.Where(x => x.Rank == "HR")
+                //    .Select(t => t.UserName).ToArray();
 
-                List<ProbationProgressMail> v = new List<ProbationProgressMail>();
-                // v.AddRange(userList);
-                mailService.SendEmail(emailArr, unameArr, PID);
+                //List<ProbationProgressMail> v = new List<ProbationProgressMail>();
+                //// v.AddRange(userList);
+                //mailService.SendEmail(emailArr, unameArr, PID);
 
                 return Ok(bool.Parse(resRemarks.return_value));
             }
@@ -784,17 +789,18 @@ namespace RPFBE.Controllers
                     await dbContext.SaveChangesAsync();
 
                     //Mail MD/FD
-                    var emailArr = dbContext.Users.Where(x => x.Rank == "HR")
-                        .Select(t => t.Email).ToArray();
+                    //@email
+                    //var emailArr = dbContext.Users.Where(x => x.Rank == "HR")
+                    //    .Select(t => t.Email).ToArray();
 
 
 
-                    var unameArr = dbContext.Users.Where(x => x.Rank == "HR")
-                        .Select(t => t.UserName).ToArray();
+                    //var unameArr = dbContext.Users.Where(x => x.Rank == "HR")
+                    //    .Select(t => t.UserName).ToArray();
 
-                    List<ProbationProgressMail> v = new List<ProbationProgressMail>();
-                    // v.AddRange(userList);
-                    mailService.SendEmail(emailArr, unameArr, PID,false);
+                    //List<ProbationProgressMail> v = new List<ProbationProgressMail>();
+                    //// v.AddRange(userList);
+                    //mailService.SendEmail(emailArr, unameArr, PID,false);
 
                     return Ok(bool.Parse(resRemarks.return_value));
                 }
@@ -806,6 +812,500 @@ namespace RPFBE.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation Card Update Failed: " + x.Message });
             }
         }
+
+
+
+        /*******************************************************************************************************************
+        *-- -------------------------------------------------                                                      
+        *------------------------------------------------------END OF CONTRACT SECTION
+        * ----------------------------------------------------
+        * ************************************************************************************************************************
+        */
+
+        [Authorize]
+        [HttpPost]
+        [Route("storeendofcontractcreate")]
+        public async Task<IActionResult> StoreEndofContractCreate([FromBody] EndofContractProgress  endofContract )
+        {
+            try
+            {
+                List<EndofContractProgress> endofContracts = new List<EndofContractProgress>();
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var res = await codeUnitWebService.Client().CreateEndofContractGeneralAsync(
+                    endofContract.EmpID,
+                    endofContract.MgrID, 
+                    endofContract.SupervisionTime, 
+                    endofContract.DoRenew,
+                    endofContract.RenewReason,
+                    endofContract.Howlong
+                    );
+
+                dynamic resSerial = JsonConvert.DeserializeObject(res.return_value);
+
+
+                foreach (var item in resSerial)
+                {
+                    EndofContractProgress pp = new EndofContractProgress
+                    {
+                        UID = user.Id,
+                        ContractStatus = 0,
+                        ContractNo = item.Probationno,
+
+                        EmpID = item.Employeeno,
+                        EmpName = item.Employeename,
+                        MgrID = item.Managerno,
+                        MgrName = item.Managername,
+                        CreationDate = item.Creationdate,
+                        Department = item.Department,
+                        Status = item.Status,
+                        Position = item.Position,
+                        RenewReason= endofContract.RenewReason,
+                        Howlong= endofContract.Howlong,
+                        SupervisionTime = item.Supervisiontime,
+                        DoRenew = item.Dorenew,
+                    };
+                    dbContext.EndofContractProgress.Add(pp);
+                    await dbContext.SaveChangesAsync();
+
+                    return Ok(true);
+
+                }
+                return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "D365 Create Contract Store Failed" });
+
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Create Contract Store Failed: " + x.Message });
+            }
+        }
+
+        //Get the Staff/Imediate Manager list of created contracts
+        [Authorize]
+        [HttpGet]
+        [Route("getstaffcontractlist")]
+        public async Task<IActionResult> GetStaffContractList()
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var employeeContracts = dbContext.EndofContractProgress.Where(x => x.ContractStatus == 0 && x.MgrID == user.EmployeeId).ToList();
+
+                return Ok(new { employeeContracts });
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Contract List Failed: " + x.Message });
+            }
+        }
+
+        //Upload Contact Section One Data
+        [Authorize]
+        [HttpPost]
+        [Route("uploadcontractsectionone/{PID}")]
+        public async Task<IActionResult> UploadContractSectionOne([FromBody] ProbationFirstSection probationFirstSection, string PID)
+        {
+            try
+            {
+                bool[] boolData = new bool[50];
+                string[] commentArr = new string[25];
+
+                commentArr[0] = probationFirstSection.PerformanceComment;
+                commentArr[1] = probationFirstSection.AttendanceComment;
+                commentArr[2] = probationFirstSection.AttitudeComment;
+                commentArr[3] = probationFirstSection.AppearanceComment;
+             
+
+                boolData[0] = probationFirstSection.Outstanding;
+                boolData[1] = probationFirstSection.AboveAverage;
+                boolData[2] = probationFirstSection.Satisfactory;
+                boolData[3] = probationFirstSection.Marginal;
+                boolData[4] = probationFirstSection.Unsatisfactory;
+
+                boolData[5] = probationFirstSection.ExcellentAttendance;
+                boolData[6] = probationFirstSection.OccasionalAbsence;
+                boolData[7] = probationFirstSection.RepeatedAbsence;
+                boolData[8] = probationFirstSection.UnjustifiedAbsence;
+
+                boolData[9] = probationFirstSection.AlwaysInterested;
+                boolData[10] = probationFirstSection.ReasonablyDevoted;
+                boolData[11] = probationFirstSection.PassiveAttitude;
+                boolData[12] = probationFirstSection.ActiveDislikeofWork;
+
+                boolData[13] = probationFirstSection.AlwaysNeat;
+                boolData[14] = probationFirstSection.GenerallyNeat;
+                boolData[15] = probationFirstSection.SometimesCareles;
+                boolData[16] = probationFirstSection.AttirenotSuitable;
+
+              
+
+                var res = await codeUnitWebService.Client().UpdateContractProgressFirstSectionAsync(PID, boolData, commentArr);
+
+
+                return Ok(res.return_value);
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation Section One Upload Failed: " + x.Message });
+            }
+        }
+        //Upload Contact Recommendation Section
+        [Authorize]
+        [HttpPost]
+        [Route("uploadcontractrecommendation/{PID}")]
+        public async Task<IActionResult> UploadContractRecommendation([FromBody] ProbationRecommendation probationRecommendation, string PID)
+        {
+            try
+            {
+                string[] textArr = new string[10];
+
+                textArr[0] = probationRecommendation.EmployeeStrongestPoint;
+                textArr[1] = probationRecommendation.EmployeeWeakestPoint;
+                textArr[2] = probationRecommendation.EmployeeQualifiedForPromo;
+                textArr[3] = probationRecommendation.PromoPosition;
+                textArr[4] = probationRecommendation.PromotableInTheFuture;
+                textArr[5] = probationRecommendation.EffectiveDifferentAssignment;
+                textArr[6] = probationRecommendation.WhichAssignment;
+                textArr[7] = probationRecommendation.AdditionalComment;
+
+              
+
+                var res = await codeUnitWebService.Client().UpdateContractRecommendationSectionAsync(PID, textArr);
+                return Ok(res.return_value);
+
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation Recommendation Upload Failed: " + x.Message });
+            }
+        }
+
+        //Move Probation To HR
+        [Authorize]
+        [HttpGet]
+        [Route("movecontractfrommanagertohr/{PID}")]
+        public async Task<IActionResult> MoveContractFromManagerToHR(string PID)
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+
+                var cModel = dbContext.EndofContractProgress.Where(p => p.ContractNo == PID && p.ContractStatus == 0).First();
+                cModel.UID = user.Id;
+                cModel.ContractStatus = 1;
+
+                dbContext.EndofContractProgress.Update(cModel);
+                await dbContext.SaveChangesAsync();
+
+                //Mail HR
+                //@email
+                //var emailArr = dbContext.Users.Where(x => x.Rank == "HR")
+                //    .Select(t => t.Email).ToArray();
+
+                //var unameArr = dbContext.Users.Where(x => x.Rank == "HR")
+                //    .Select(t => t.UserName).ToArray();
+
+                //List<ProbationProgressMail> v = new List<ProbationProgressMail>();
+                //// v.AddRange(userList);
+                //mailService.SendEmail(emailArr, unameArr, PID);
+
+                // return Ok(userList);
+
+                return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Contract Moved: " });
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Contract Move Failed: " + x.Message });
+            }
+        }
+
+        //Contact Card Data
+        [Authorize]
+        [HttpGet]
+        [Route("contractcarddata/{PID}")]
+        public async Task<IActionResult> ContractCardData(string PID)
+        {
+            try
+            {
+                List<ProbationFirstSection> probationFirstList = new List<ProbationFirstSection>();
+                var res = await codeUnitWebService.Client().GetContractCardDataAsync(PID);
+                dynamic resSerial = JsonConvert.DeserializeObject(res.return_value);
+
+                foreach (var item in resSerial)
+                {
+                    ProbationFirstSection contractFirstSection = new ProbationFirstSection
+                    {
+
+                        Probationno = item.Contractno,
+                        Employeeno = item.Employeeno,
+                        Employeename = item.Employeename,
+                        Creationdate = item.Creationdate,
+                        Department = item.Department,
+                        Status = item.Status,
+                        Position = item.Position,
+                        Managername = item.Manangername,
+
+
+                        Outstanding = item.Outstanding == "Yes" ? true : false,
+                        AboveAverage = item.Aboveaverage == "Yes" ? true : false,
+                        Satisfactory = item.Satisfactory == "Yes" ? true : false,
+                        Marginal = item.Marginal == "Yes" ? true : false,
+                        Unsatisfactory = item.Unsatisfactory == "Yes" ? true : false,
+                        PerformanceComment = "",
+
+                        ExcellentAttendance = item.ExcellentAttendance == "Yes" ? true : false,
+                        OccasionalAbsence = item.OccasionalAbsence == "Yes" ? true : false,
+                        RepeatedAbsence = item.RepeatedAbsence == "Yes" ? true : false,
+                        UnjustifiedAbsence = item.UnjustifiedAbsence == "Yes" ? true : false,
+                        AttendanceComment = item.AttendanceComment,
+
+                        AlwaysInterested = item.AlwaysInterested == "Yes" ? true : false,
+                        ReasonablyDevoted = item.ReasonablyDevoted == "Yes" ? true : false,
+                        PassiveAttitude = item.PassiveAttitude == "Yes" ? true : false,
+                        ActiveDislikeofWork = item.ActiveDislikeofWork == "Yes" ? true : false,
+                        AttitudeComment = item.AttitudeComment,
+
+                        AlwaysNeat = item.AlwaysNeat == "Yes" ? true : false,
+                        GenerallyNeat = item.GenerallyNeat == "Yes" ? true : false,
+                        SometimesCareles = item.SometimesCareles == "Yes" ? true : false,
+                        AttirenotSuitable = item.AttirenotSuitable == "Yes" ? true : false,
+                        AppearanceComment = item.AppearanceComment,
+
+
+
+                 
+
+
+                        HRcomment = item.HRcomment,
+                        MDcomment = item.MDcomment,
+
+                        empStrongestpt = item.empStrongestpt,
+                        empWeakestPt = item.emprovementArea,
+                        qualifiedPromo = item.qualifiedPromo,
+                        promoPstn = item.promoPstn,
+                        promotable = item.promotable,
+                        effectiveWithDifferent = item.effectiveWithDifferent,
+                        differentAssingment = item.differentAssingment,
+                        recommendationSectionComment = item.recommendationSectionComment,
+                        empRecConfirm = item.empRecConfirm,
+                        empRecExtProb = item.empRecExtProb,
+                        empRecTerminate = item.empRecTerminate,
+
+
+                    };
+
+                    probationFirstList.Add(contractFirstSection);
+
+                }
+                return Ok(new { probationFirstList });
+
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation Card Failed: " + x.Message });
+            }
+        }
+
+        /**
+        * *****************************************************************************************************************
+        *                                                      HR SECTION
+        * 
+        * ************************************************************************************************************************
+        */
+
+
+        //Get the HR list of created contracts
+        [Authorize]
+        [HttpGet]
+        [Route("gethrcontractlist")]
+        public async Task<IActionResult> GetHRContractList()
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var employeeEndofs = dbContext.EndofContractProgress.Where(x => x.ContractStatus == 1 || x.ContractStatus == 3).ToList();
+
+                return Ok(new { employeeEndofs });
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Contract List Failed: " + x.Message });
+            }
+        }
+
+        //HR Push the comment
+        [Authorize]
+        [HttpPost]
+        [Route("hrpushcontracttomdfd/{PID}")]
+        public async Task<IActionResult> HRPushContractToMDFD([FromBody] ProbationRecommendationModel probationFirst, string PID)
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var resRemarks = await codeUnitWebService.Client().UpdateContractHRremarkAsync(PID, probationFirst.HRcomment);
+                if (bool.Parse(resRemarks.return_value))
+                {
+                    var contModel = dbContext.EndofContractProgress.Where(x => x.ContractNo == PID).First();
+                    contModel.ContractStatus = 2;
+                    contModel.UIDTwo = user.Id;
+                    contModel.UIDTwoComment = probationFirst.HRcomment;
+
+                    dbContext.EndofContractProgress.Update(contModel);
+                    await dbContext.SaveChangesAsync();
+
+                    ////Mail MD/FD
+                    ///@email
+                    
+
+                    return Ok(bool.Parse(resRemarks.return_value));
+                }
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Contract Card Update Failed: D365 failed " });
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Contract Card Update Failed: " + x.Message });
+            }
+        }
+
+        //HR Approves
+        [Authorize]
+        [HttpGet]
+        [Route("hrapprovecontract/{PID}")]
+        public async Task<IActionResult> HRApproveContract(string PID)
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var resRemarks = await codeUnitWebService.Client().ApproveContractHRAsync(PID);
+                if (bool.Parse(resRemarks.return_value))
+                {
+                    var contModel = dbContext.EndofContractProgress.Where(x => x.ContractNo == PID).First();
+                    contModel.Status = "Approved";
+                    dbContext.EndofContractProgress.Update(contModel);
+                    await dbContext.SaveChangesAsync();
+
+                    ////Mail MD/FD
+                    //@email
+
+
+                    return Ok(bool.Parse(resRemarks.return_value));
+                }
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Contract Card Update Failed: D365 failed " });
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Contract Card Update Failed: " + x.Message });
+            }
+        }
+
+
+         /**
+         * *****************************************************************************************************************
+         *                                                      FD SECTION
+         * 
+         * ************************************************************************************************************************
+         */
+
+        //Get the FD list of created probations
+        [Authorize]
+        [HttpGet]
+        [Route("getfdcontractlist")]
+        public async Task<IActionResult> GetFDContractList()
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var employeeEndofs = dbContext.EndofContractProgress.Where(x => x.ContractStatus == 2).ToList();
+
+                return Ok(new { employeeEndofs });
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Contract List Failed: " + x.Message });
+            }
+        }
+
+        //FD Approves
+        [Authorize]
+        [HttpPost]
+        [Route("fdapprovecontract/{PID}")]
+        public async Task<IActionResult> FDApproveContract([FromBody] ProbationRecommendationModel probationRecommendationModel, string PID)
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var resRemarks = await codeUnitWebService.Client().UpdateContractMFDremarkAsync(PID, probationRecommendationModel.MDcomment);
+                if (bool.Parse(resRemarks.return_value))
+                {
+                    var contModel = dbContext.EndofContractProgress.Where(x => x.ContractNo == PID).First();
+                    contModel.ContractStatus = 3;
+                    contModel.UIDThree = user.Id;
+                    contModel.UIDThreeComment = probationRecommendationModel.MDcomment;
+
+                    dbContext.EndofContractProgress.Update(contModel);
+                    await dbContext.SaveChangesAsync();
+
+                    //Mail MD/FD
+                    //@email
+                    
+
+                    return Ok(bool.Parse(resRemarks.return_value));
+                }
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Contract Card Update Failed: D365 failed " });
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Contract Card Update Failed: " + x.Message });
+            }
+        }
+
+        //FD Reject
+        [Authorize]
+        [HttpPost]
+        [Route("fdrejectcontract/{PID}")]
+        public async Task<IActionResult> FDRejectContract([FromBody] ProbationRecommendationModel probationRecommendationModel, string PID)
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var resRemarks = await codeUnitWebService.Client().UpdateContractMFDremarkAsync(PID, probationRecommendationModel.MDcomment);
+                if (bool.Parse(resRemarks.return_value))
+                {
+                    var rejectRes = await codeUnitWebService.Client().RejectContractMFDAsync(PID);
+                    var contModel = dbContext.EndofContractProgress.Where(x => x.ContractNo == PID).First();
+                    contModel.ContractStatus = 3;
+                    contModel.UIDThree = user.Id;
+                    contModel.Status = "Rejected";
+                    contModel.UIDThreeComment = probationRecommendationModel.MDcomment;
+
+                    dbContext.EndofContractProgress.Update(contModel);
+                    await dbContext.SaveChangesAsync();
+
+                    //Mail MD/FD
+                    //@email
+                   
+
+                    return Ok(bool.Parse(resRemarks.return_value));
+                }
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Contract Card Update Failed: D365 failed " });
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Contract Card Update Failed: " + x.Message });
+            }
+        }
+
 
 
     }

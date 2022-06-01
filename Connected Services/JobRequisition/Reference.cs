@@ -339,6 +339,38 @@ namespace JobRequisition
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:ApproveProbationHR", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.ApproveProbationHR_Result> ApproveProbationHRAsync(JobRequisition.ApproveProbationHR request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:CreateEndofContractGeneral", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.CreateEndofContractGeneral_Result> CreateEndofContractGeneralAsync(JobRequisition.CreateEndofContractGeneral request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:UpdateContractProgressFirstSection", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.UpdateContractProgressFirstSection_Result> UpdateContractProgressFirstSectionAsync(JobRequisition.UpdateContractProgressFirstSection request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:UpdateContractRecommendationSection", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.UpdateContractRecommendationSection_Result> UpdateContractRecommendationSectionAsync(JobRequisition.UpdateContractRecommendationSection request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:GetContractCardData", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.GetContractCardData_Result> GetContractCardDataAsync(JobRequisition.GetContractCardData request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:UpdateContractHRremark", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.UpdateContractHRremark_Result> UpdateContractHRremarkAsync(JobRequisition.UpdateContractHRremark request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:UpdateContractMFDremark", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.UpdateContractMFDremark_Result> UpdateContractMFDremarkAsync(JobRequisition.UpdateContractMFDremark request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:RejectContractMFD", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.RejectContractMFD_Result> RejectContractMFDAsync(JobRequisition.RejectContractMFD request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:ApproveContractHR", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.ApproveContractHR_Result> ApproveContractHRAsync(JobRequisition.ApproveContractHR request);
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -3823,6 +3855,369 @@ namespace JobRequisition
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="CreateEndofContractGeneral", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class CreateEndofContractGeneral
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string empId;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=1)]
+        public string mgrId;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=2)]
+        public string supervisingTime;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=3)]
+        public string doRenew;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=4)]
+        public string renewReason;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=5)]
+        public string howLong;
+        
+        public CreateEndofContractGeneral()
+        {
+        }
+        
+        public CreateEndofContractGeneral(string empId, string mgrId, string supervisingTime, string doRenew, string renewReason, string howLong)
+        {
+            this.empId = empId;
+            this.mgrId = mgrId;
+            this.supervisingTime = supervisingTime;
+            this.doRenew = doRenew;
+            this.renewReason = renewReason;
+            this.howLong = howLong;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="CreateEndofContractGeneral_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class CreateEndofContractGeneral_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public CreateEndofContractGeneral_Result()
+        {
+        }
+        
+        public CreateEndofContractGeneral_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="UpdateContractProgressFirstSection", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class UpdateContractProgressFirstSection
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string pK;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute("boolArr")]
+        public bool[] boolArr;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute("textArr")]
+        public string[] textArr;
+        
+        public UpdateContractProgressFirstSection()
+        {
+        }
+        
+        public UpdateContractProgressFirstSection(string pK, bool[] boolArr, string[] textArr)
+        {
+            this.pK = pK;
+            this.boolArr = boolArr;
+            this.textArr = textArr;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="UpdateContractProgressFirstSection_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class UpdateContractProgressFirstSection_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public UpdateContractProgressFirstSection_Result()
+        {
+        }
+        
+        public UpdateContractProgressFirstSection_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="UpdateContractRecommendationSection", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class UpdateContractRecommendationSection
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string pK;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute("textArr")]
+        public string[] textArr;
+        
+        public UpdateContractRecommendationSection()
+        {
+        }
+        
+        public UpdateContractRecommendationSection(string pK, string[] textArr)
+        {
+            this.pK = pK;
+            this.textArr = textArr;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="UpdateContractRecommendationSection_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class UpdateContractRecommendationSection_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public UpdateContractRecommendationSection_Result()
+        {
+        }
+        
+        public UpdateContractRecommendationSection_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetContractCardData", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GetContractCardData
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string pK;
+        
+        public GetContractCardData()
+        {
+        }
+        
+        public GetContractCardData(string pK)
+        {
+            this.pK = pK;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetContractCardData_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GetContractCardData_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public GetContractCardData_Result()
+        {
+        }
+        
+        public GetContractCardData_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="UpdateContractHRremark", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class UpdateContractHRremark
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string pK;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=1)]
+        public string remark;
+        
+        public UpdateContractHRremark()
+        {
+        }
+        
+        public UpdateContractHRremark(string pK, string remark)
+        {
+            this.pK = pK;
+            this.remark = remark;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="UpdateContractHRremark_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class UpdateContractHRremark_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public UpdateContractHRremark_Result()
+        {
+        }
+        
+        public UpdateContractHRremark_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="UpdateContractMFDremark", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class UpdateContractMFDremark
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string pK;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=1)]
+        public string remark;
+        
+        public UpdateContractMFDremark()
+        {
+        }
+        
+        public UpdateContractMFDremark(string pK, string remark)
+        {
+            this.pK = pK;
+            this.remark = remark;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="UpdateContractMFDremark_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class UpdateContractMFDremark_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public UpdateContractMFDremark_Result()
+        {
+        }
+        
+        public UpdateContractMFDremark_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="RejectContractMFD", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class RejectContractMFD
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string pK;
+        
+        public RejectContractMFD()
+        {
+        }
+        
+        public RejectContractMFD(string pK)
+        {
+            this.pK = pK;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="RejectContractMFD_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class RejectContractMFD_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public RejectContractMFD_Result()
+        {
+        }
+        
+        public RejectContractMFD_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ApproveContractHR", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class ApproveContractHR
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string pK;
+        
+        public ApproveContractHR()
+        {
+        }
+        
+        public ApproveContractHR(string pK)
+        {
+            this.pK = pK;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ApproveContractHR_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class ApproveContractHR_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public ApproveContractHR_Result()
+        {
+        }
+        
+        public ApproveContractHR_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     public interface JWS_PortChannel : JobRequisition.JWS_Port, System.ServiceModel.IClientChannel
     {
@@ -5004,6 +5399,120 @@ namespace JobRequisition
             JobRequisition.ApproveProbationHR inValue = new JobRequisition.ApproveProbationHR();
             inValue.pK = pK;
             return ((JobRequisition.JWS_Port)(this)).ApproveProbationHRAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.CreateEndofContractGeneral_Result> JobRequisition.JWS_Port.CreateEndofContractGeneralAsync(JobRequisition.CreateEndofContractGeneral request)
+        {
+            return base.Channel.CreateEndofContractGeneralAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.CreateEndofContractGeneral_Result> CreateEndofContractGeneralAsync(string empId, string mgrId, string supervisingTime, string doRenew, string renewReason, string howLong)
+        {
+            JobRequisition.CreateEndofContractGeneral inValue = new JobRequisition.CreateEndofContractGeneral();
+            inValue.empId = empId;
+            inValue.mgrId = mgrId;
+            inValue.supervisingTime = supervisingTime;
+            inValue.doRenew = doRenew;
+            inValue.renewReason = renewReason;
+            inValue.howLong = howLong;
+            return ((JobRequisition.JWS_Port)(this)).CreateEndofContractGeneralAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.UpdateContractProgressFirstSection_Result> JobRequisition.JWS_Port.UpdateContractProgressFirstSectionAsync(JobRequisition.UpdateContractProgressFirstSection request)
+        {
+            return base.Channel.UpdateContractProgressFirstSectionAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.UpdateContractProgressFirstSection_Result> UpdateContractProgressFirstSectionAsync(string pK, bool[] boolArr, string[] textArr)
+        {
+            JobRequisition.UpdateContractProgressFirstSection inValue = new JobRequisition.UpdateContractProgressFirstSection();
+            inValue.pK = pK;
+            inValue.boolArr = boolArr;
+            inValue.textArr = textArr;
+            return ((JobRequisition.JWS_Port)(this)).UpdateContractProgressFirstSectionAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.UpdateContractRecommendationSection_Result> JobRequisition.JWS_Port.UpdateContractRecommendationSectionAsync(JobRequisition.UpdateContractRecommendationSection request)
+        {
+            return base.Channel.UpdateContractRecommendationSectionAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.UpdateContractRecommendationSection_Result> UpdateContractRecommendationSectionAsync(string pK, string[] textArr)
+        {
+            JobRequisition.UpdateContractRecommendationSection inValue = new JobRequisition.UpdateContractRecommendationSection();
+            inValue.pK = pK;
+            inValue.textArr = textArr;
+            return ((JobRequisition.JWS_Port)(this)).UpdateContractRecommendationSectionAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.GetContractCardData_Result> JobRequisition.JWS_Port.GetContractCardDataAsync(JobRequisition.GetContractCardData request)
+        {
+            return base.Channel.GetContractCardDataAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.GetContractCardData_Result> GetContractCardDataAsync(string pK)
+        {
+            JobRequisition.GetContractCardData inValue = new JobRequisition.GetContractCardData();
+            inValue.pK = pK;
+            return ((JobRequisition.JWS_Port)(this)).GetContractCardDataAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.UpdateContractHRremark_Result> JobRequisition.JWS_Port.UpdateContractHRremarkAsync(JobRequisition.UpdateContractHRremark request)
+        {
+            return base.Channel.UpdateContractHRremarkAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.UpdateContractHRremark_Result> UpdateContractHRremarkAsync(string pK, string remark)
+        {
+            JobRequisition.UpdateContractHRremark inValue = new JobRequisition.UpdateContractHRremark();
+            inValue.pK = pK;
+            inValue.remark = remark;
+            return ((JobRequisition.JWS_Port)(this)).UpdateContractHRremarkAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.UpdateContractMFDremark_Result> JobRequisition.JWS_Port.UpdateContractMFDremarkAsync(JobRequisition.UpdateContractMFDremark request)
+        {
+            return base.Channel.UpdateContractMFDremarkAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.UpdateContractMFDremark_Result> UpdateContractMFDremarkAsync(string pK, string remark)
+        {
+            JobRequisition.UpdateContractMFDremark inValue = new JobRequisition.UpdateContractMFDremark();
+            inValue.pK = pK;
+            inValue.remark = remark;
+            return ((JobRequisition.JWS_Port)(this)).UpdateContractMFDremarkAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.RejectContractMFD_Result> JobRequisition.JWS_Port.RejectContractMFDAsync(JobRequisition.RejectContractMFD request)
+        {
+            return base.Channel.RejectContractMFDAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.RejectContractMFD_Result> RejectContractMFDAsync(string pK)
+        {
+            JobRequisition.RejectContractMFD inValue = new JobRequisition.RejectContractMFD();
+            inValue.pK = pK;
+            return ((JobRequisition.JWS_Port)(this)).RejectContractMFDAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.ApproveContractHR_Result> JobRequisition.JWS_Port.ApproveContractHRAsync(JobRequisition.ApproveContractHR request)
+        {
+            return base.Channel.ApproveContractHRAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.ApproveContractHR_Result> ApproveContractHRAsync(string pK)
+        {
+            JobRequisition.ApproveContractHR inValue = new JobRequisition.ApproveContractHR();
+            inValue.pK = pK;
+            return ((JobRequisition.JWS_Port)(this)).ApproveContractHRAsync(inValue);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()

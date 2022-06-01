@@ -29,9 +29,11 @@ namespace RPFBE.Auth
         public DbSet<ExitInterviewForm> ExitInterviewForm { get; set; }
         public DbSet<EmployeeClearance> EmployeeClearance { get; set; }
         public DbSet<ProbationProgress> ProbationProgress { get; set; }
+        public DbSet<EndofContractProgress> EndofContractProgress { get; set; }
 
 
-        
+
+
 
 
         protected override void OnModelCreating(ModelBuilder builder)

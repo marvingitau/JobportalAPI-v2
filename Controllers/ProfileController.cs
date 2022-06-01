@@ -474,9 +474,10 @@ namespace RPFBE.Controllers
 
                     try
                      {
-                        shortlisted.ToEmail = Client.Email;
-                        shortlisted.UserName = Client.UserName;
-                        await mailService.SendShortlistAsync(shortlisted);
+                        //shortlisted.ToEmail = Client.Email;
+                        //shortlisted.UserName = Client.UserName;
+                        //await mailService.SendShortlistAsync(shortlisted);
+                        //@email
 
                         var res = await codeUnitWebService.Client().JobApplicationModifiedAsync(shortlisted.JobAppNo, textUserData, datetime, shortlisted.Venue,
                             interviewDate, shortlisted.Time);

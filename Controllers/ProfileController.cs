@@ -241,9 +241,9 @@ namespace RPFBE.Controllers
             }
         }
         //Admin
-        [Route("profile/{id}")]
+        [Route("profile/{id}/{reqno}")]
         [HttpGet]
-        public async Task<ActionResult> GetProfile(string id)
+        public async Task<ActionResult> GetProfile(string id,string reqno)
         {
             //List<Profile> profile = new List<Profile>();
 
@@ -257,7 +257,7 @@ namespace RPFBE.Controllers
                 var userModel = dbContext.Users.Where(x => x.Id == user.Id).Where(y => y.ProfileId != 0).FirstOrDefault();
                 var profileModel = dbContext.Profiles.Where(x => x.UserId == user.Id).FirstOrDefault();
                 var skillList = dbContext.Skills.Where(x => x.UserId == user.Id).ToList();
-                var checkList = dbContext.SpecFiles.Where(x => x.UserId == user.Id).ToList();
+                var checkList = dbContext.SpecFiles.Where(x => x.UserId == user.Id && x.JobId == reqno).ToList();
                 return Ok(new { userModel,profileModel, skillList, checkList });
 
             }
@@ -480,7 +480,11 @@ namespace RPFBE.Controllers
                         //@email
 
                         var res = await codeUnitWebService.Client().JobApplicationModifiedAsync(shortlisted.JobAppNo, textUserData, datetime, shortlisted.Venue,
-                            interviewDate, shortlisted.Time);
+                            interviewDate, shortlisted.Time,shortlisted.VirtualLink);
+                        if (res.return_value)
+                        {
+                            var mailRes = await codeUnitWebService.WSMailer().ShortlistedInterviewNoticeAsync(shortlisted.JobAppNo);
+                        }
                         return Ok(res.return_value);
                      }
                      catch (Exception x)
@@ -488,9 +492,6 @@ namespace RPFBE.Controllers
                          return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "Email failed/Modification failed " + x.Message });
                      }
                     
-                    //var res = codeUnitWebService.Client().JobApplicationModifiedAsync(shortlisted.JobAppNo, textUserData, datetime).Result.return_value;
-                    //return Ok(auxDate2);
-                    //return Ok("");
                 }
                 catch (Exception x)
                 {

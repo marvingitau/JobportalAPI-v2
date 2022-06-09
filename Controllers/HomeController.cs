@@ -347,14 +347,14 @@ namespace RPFBE.Controllers
         }
 
         //Admin & use for users so as to delete
-        [Route("viewattachment/{FID}")]
+        [Route("viewattachment/{FID}/{EID}")]
         [HttpGet]
-        public IActionResult ViewAttachment(string FID)
+        public IActionResult ViewAttachment(string FID,string EID)
         {
             //var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
             try
             {
-                var dbres = dbContext.SpecFiles.Where(x => x.TagName == FID).FirstOrDefault();
+                var dbres = dbContext.SpecFiles.Where(x => x.TagName == FID && x.UserId ==EID).First();
                 var file = dbres.FilePath;
 
                 /*
@@ -374,9 +374,9 @@ namespace RPFBE.Controllers
 
                 // return Ok(dbres.FilePath);
             }
-            catch (Exception)
+            catch (Exception x)
             {
-                return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "Attachement View failed" });
+                return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "Attachement View failed"+x.Message });
             }
         }
 
@@ -879,10 +879,10 @@ namespace RPFBE.Controllers
 
                 return File(System.IO.File.ReadAllBytes(file), "application/pdf");
             }
-            catch (Exception)
+            catch (Exception x)
             {
 
-                return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "Supporting Doc View failed" });
+                return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "Supporting Doc View failed: "+x.Message });
             }
         }
 
@@ -979,7 +979,7 @@ namespace RPFBE.Controllers
                         worksheet.Cell(currentRow, 13).Value = r.profiles.FirstOrDefault() != null ? r.profiles.FirstOrDefault().Experience : "";
                         worksheet.Cell(currentRow, 14).Value = "Resume";
                         //worksheet.Cell(currentRow, 14).Hyperlink = new XLHyperlink($"{HttpContext.Request.Host.ToUriComponent()}/api/home/getcv/{r.appliedJobs.UserId}", "Click to Open CV!");
-                        worksheet.Cell(currentRow, 14).Hyperlink = new XLHyperlink($"{config.Value.ExcelHostUrl}/home/getcv/{r.appliedJobs.UserId}", "Click to Open CV!");
+                        worksheet.Cell(currentRow, 14).Hyperlink = new XLHyperlink($"{config.Value.ExcelHostUrl}/home/getcv/{r.appliedJobs.UserId}", $"{config.Value.ExcelHostUrl}/home/getcv/{r.appliedJobs.UserId}");
                         foreach(var spec in r.jobSpecFiles)
                         {
                             worksheet.Cell(currentRow, 15).Value = spec.TagName;

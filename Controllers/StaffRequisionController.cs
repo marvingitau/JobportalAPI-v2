@@ -565,6 +565,8 @@ namespace RPFBE.Controllers
                 await dbContext.SaveChangesAsync();
 
                 //@email
+                var mailHRRes = await codeUnitWebService.WSMailer().StaffRequisitiontoHRfromHODAsync(pushtoHR.Reqno);
+
 
                return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Requisition pushed" });
             }
@@ -772,6 +774,7 @@ namespace RPFBE.Controllers
 
                 //@email
 
+                var emailMD = await codeUnitWebService.WSMailer().StaffRequisitiontoMDfromHRAsync(Reqno);
                 //send Email to MD
                 //var mdUser = dbContext.Users.Where(x => x.Id == reqModel.UIDTwo).First();
                 //Requisitionrequest requisitionrequest = new Requisitionrequest
@@ -781,6 +784,7 @@ namespace RPFBE.Controllers
                 //    Username = hrUser.UserName
                 //};
                 //await mailService.RequisitionRequestAsync(requisitionrequest);
+
 
                 return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Requisition pushed to MD" });
             }
@@ -802,7 +806,7 @@ namespace RPFBE.Controllers
                 var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
                 if(responser.return_value == "Yes")
                 {
-                    RequisitionProgress reqModel = dbContext.RequisitionProgress.Where(x => x.ReqID == Reqno).FirstOrDefault();
+                    RequisitionProgress reqModel = dbContext.RequisitionProgress.Where(x => x.ReqID == Reqno).First();
                     reqModel.ProgressStatus = 4;
                     reqModel.UIDFour = user.Id;
                     reqModel.UIDTwoComment = pushtoHR.HRcomment;
@@ -810,7 +814,7 @@ namespace RPFBE.Controllers
                     await dbContext.SaveChangesAsync();
 
                     //@email
-
+                    var hrApprovalEmail = await codeUnitWebService .WSMailer().StaffRequisitionHRApprovalAsync(Reqno);
                     return Ok(responser.return_value);
                 }
                 else
@@ -819,9 +823,9 @@ namespace RPFBE.Controllers
                 }
                
             }
-            catch (Exception)
+            catch (Exception x)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Approve Publish failed" });
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Approve Publish failed: "+x.Message });
             }
         }
 
@@ -848,6 +852,7 @@ namespace RPFBE.Controllers
                     await dbContext.SaveChangesAsync();
 
                     //@email
+                    var mdRejectMail = await codeUnitWebService.WSMailer().StaffRequisitionMDRejectionAsync(Reqno);
                     return Ok(responser.return_value);
                 }
                 else
@@ -918,6 +923,7 @@ namespace RPFBE.Controllers
 
                 //@email
                 //send Email to HR
+                var mdMailHr = await codeUnitWebService.WSMailer().StaffRequisitiontoHRfromMDAsync(Reqno);
                 /*var hrUser = dbContext.Users.Where(x => x.Id == reqModel.UIDTwo).First();
                 Requisitionrequest requisitionrequest = new Requisitionrequest
                 {
@@ -999,6 +1005,7 @@ namespace RPFBE.Controllers
             {
                 List<MonitoringHeadModel> monitoringHeadModels = new List<MonitoringHeadModel>();
 
+                //Add HOD employee no
                 var res = await codeUnitWebService.Client().GetPerformanceHeaderAsync();
                 dynamic resSerial = JsonConvert.DeserializeObject(res.return_value);
 
@@ -1092,12 +1099,14 @@ namespace RPFBE.Controllers
                     var res = await codeUnitWebService.Client().InsertPerformanceMonitoringLinesAsync(lineModel.Monitorno, lineModel.Performanceparameter, lineModel.Currentperformance,
                    lineModel.Month1, lineModel.Month2, lineModel.Month3);
 
+                    var mailStaffOnM1 = await codeUnitWebService.WSMailer().PerformanceMonitorMonth1Async(lineModel.Monitorno);
                     return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Create Monitoring Line Done" });
                 }
                 else
                 {
                     var res = await codeUnitWebService.Client().ModifyPerformanceMonitoringLinesAsync(lineModel.Monitorno, lineModel.Performanceparameter, lineModel.Currentperformance,
                                        lineModel.Month1, lineModel.Month2, lineModel.Month3);
+                    var mailStaffOnM2 = await codeUnitWebService.WSMailer().PerformanceMonitorMonth2Async(lineModel.Monitorno);
 
                     return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Update Monitoring Line Done" });
                 }
@@ -1176,6 +1185,8 @@ namespace RPFBE.Controllers
                     dbContext.PerformanceMonitoring.Update(monModel);
                     await dbContext.SaveChangesAsync();
 
+                    var hrApproveEmail = await codeUnitWebService.WSMailer().PerformanceMonitorApprovalAsync(ID);
+
                     return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Approve Success" });
                 }
                 else
@@ -1208,6 +1219,8 @@ namespace RPFBE.Controllers
 
                     dbContext.PerformanceMonitoring.Update(monModel);
                     await dbContext.SaveChangesAsync();
+
+                    var rejectMail = await codeUnitWebService.WSMailer().PerformanceMonitorRejectionAsync(ID);
 
                     return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Reject Success" });
                 }
@@ -1242,6 +1255,7 @@ namespace RPFBE.Controllers
                     dbContext.PerformanceMonitoring.Update(duplModel);
                     await dbContext.SaveChangesAsync();
 
+                    var mailHRMonitoring = await codeUnitWebService.WSMailer().PerformanceMonitortoHRfromHODAsync(monitoring.PerformanceId);
                     return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Pushing Update Success" });
                 }
                 monitoring.Progresscode = 1;
@@ -1250,6 +1264,7 @@ namespace RPFBE.Controllers
                 dbContext.PerformanceMonitoring.Add(monitoring);
                 await dbContext.SaveChangesAsync();
 
+               // var hodPushMail = await codeUnitWebService.WSMailer().
                 return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Pushing Success" });
             }
             catch (Exception x)

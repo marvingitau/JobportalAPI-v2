@@ -378,15 +378,16 @@ namespace RPFBE.Controllers
                 await dbContext.SaveChangesAsync();
 
                 //Mail HR
-                var emailArr = dbContext.Users.Where(x => x.Rank == "HR")
-                    .Select(t => t.Email).ToArray();
+                // var emailArr = dbContext.Users.Where(x => x.Rank == "HR")
+                //     .Select(t => t.Email).ToArray();
 
-                var unameArr = dbContext.Users.Where(x => x.Rank == "HR")
-                    .Select(t => t.UserName).ToArray();
+                // var unameArr = dbContext.Users.Where(x => x.Rank == "HR")
+                //     .Select(t => t.UserName).ToArray();
 
-                List<ProbationProgressMail> v = new List<ProbationProgressMail>();
-               // v.AddRange(userList);
-               mailService.SendEmail(emailArr, unameArr, PID);
+                // List<ProbationProgressMail> v = new List<ProbationProgressMail>();
+                //// v.AddRange(userList);
+                //mailService.SendEmail(emailArr, unameArr, PID);
+                var probationMailHR = await codeUnitWebService.WSMailer().EmployeeProbationManagerToHRAsync(PID);
 
                // return Ok(userList);
 
@@ -647,7 +648,7 @@ namespace RPFBE.Controllers
 
                     ////Mail MD/FD
                     //@email
-
+                    var mailsManager = await codeUnitWebService.WSMailer().EmployeeProbationHRApprovesAsync(PID);
                     //var emailArr = dbContext.Users.Where(x => x.Rank == "HR")
                     //    .Select(t => t.Email).ToArray();
 
@@ -741,8 +742,9 @@ namespace RPFBE.Controllers
                 dbContext.ProbationProgress.Update(probModel);
                 await dbContext.SaveChangesAsync();
 
-                //Mail MD/FD
-                //@email
+                    //Mail MD/FD
+                    //@email
+                    var emailHRManager = await codeUnitWebService.WSMailer().EmployeeProbationMDFDApprovesAsync(PID);
                 //var emailArr = dbContext.Users.Where(x => x.Rank == "HR")
                 //    .Select(t => t.Email).ToArray();
 
@@ -766,7 +768,7 @@ namespace RPFBE.Controllers
             }
         }
 
-        //FD Approves
+        //FD Rejects
         [Authorize]
         [HttpPost]
         [Route("fdrejectprobation/{PID}")]
@@ -790,6 +792,7 @@ namespace RPFBE.Controllers
 
                     //Mail MD/FD
                     //@email
+                    var mailManagerHR = await codeUnitWebService.WSMailer().EmployeeProbationMDFDRejectsAsync(PID);
                     //var emailArr = dbContext.Users.Where(x => x.Rank == "HR")
                     //    .Select(t => t.Email).ToArray();
 
@@ -1002,6 +1005,7 @@ namespace RPFBE.Controllers
 
                 //Mail HR
                 //@email
+                var mailHR = await codeUnitWebService.WSMailer().EmployeeEOCManagerToHRAsync(PID);
                 //var emailArr = dbContext.Users.Where(x => x.Rank == "HR")
                 //    .Select(t => t.Email).ToArray();
 
@@ -1194,7 +1198,7 @@ namespace RPFBE.Controllers
                     ////Mail MD/FD
                     //@email
 
-
+                    var mailFMD = await codeUnitWebService.WSMailer().EmployeeEOCHRApprovesAsync(PID);
                     return Ok(bool.Parse(resRemarks.return_value));
                 }
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Contract Card Update Failed: D365 failed " });
@@ -1256,7 +1260,7 @@ namespace RPFBE.Controllers
 
                     //Mail MD/FD
                     //@email
-                    
+                    var mailHR = await codeUnitWebService.WSMailer().EmployeeEOCMDFDApprovesAsync(PID);
 
                     return Ok(bool.Parse(resRemarks.return_value));
                 }
@@ -1293,7 +1297,8 @@ namespace RPFBE.Controllers
 
                     //Mail MD/FD
                     //@email
-                   
+                    var mailHR = await codeUnitWebService.WSMailer().EmployeeEOCMDFDRejectsAsync(PID);
+
 
                     return Ok(bool.Parse(resRemarks.return_value));
                 }

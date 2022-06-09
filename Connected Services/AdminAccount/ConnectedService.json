@@ -1,7 +1,7 @@
 {
   "ExtendedData": {
     "inputs": [
-      "http://desktop-csglh1r:7347/PLATCORP/WS/Platcorp Training/Codeunit/EmployeeAccountWebService"
+      "http://DESKTOP-CSGLH1R:7347/PLATCORP/WS/Platcorp%20Training/Codeunit/EmployeeAccountWebService"
     ],
     "collectionTypes": [
       "System.Array",

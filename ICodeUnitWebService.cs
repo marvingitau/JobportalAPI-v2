@@ -1,5 +1,6 @@
 ﻿using AdminAccount;
 using JobRequisition;
+using Mailer;
 
 namespace RPFBE
 {
@@ -7,5 +8,6 @@ namespace RPFBE
     {
         JWS_PortClient Client();
         EmployeeAccountWebService_PortClient EmployeeAccount();
+        Notifications_PortClient WSMailer();
     }
 }

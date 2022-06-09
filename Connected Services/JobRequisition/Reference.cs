@@ -637,11 +637,14 @@ namespace JobRequisition
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=5)]
         public string interviewTime;
         
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=6)]
+        public string virtualLink;
+        
         public JobApplicationModified()
         {
         }
         
-        public JobApplicationModified(string jobAppNo, string[] jobAppDataText, System.DateTime dOB, string venue, System.DateTime interviewDate, string interviewTime)
+        public JobApplicationModified(string jobAppNo, string[] jobAppDataText, System.DateTime dOB, string venue, System.DateTime interviewDate, string interviewTime, string virtualLink)
         {
             this.jobAppNo = jobAppNo;
             this.jobAppDataText = jobAppDataText;
@@ -649,6 +652,7 @@ namespace JobRequisition
             this.venue = venue;
             this.interviewDate = interviewDate;
             this.interviewTime = interviewTime;
+            this.virtualLink = virtualLink;
         }
     }
     
@@ -4352,7 +4356,7 @@ namespace JobRequisition
             return base.Channel.JobApplicationModifiedAsync(request);
         }
         
-        public System.Threading.Tasks.Task<JobRequisition.JobApplicationModified_Result> JobApplicationModifiedAsync(string jobAppNo, string[] jobAppDataText, System.DateTime dOB, string venue, System.DateTime interviewDate, string interviewTime)
+        public System.Threading.Tasks.Task<JobRequisition.JobApplicationModified_Result> JobApplicationModifiedAsync(string jobAppNo, string[] jobAppDataText, System.DateTime dOB, string venue, System.DateTime interviewDate, string interviewTime, string virtualLink)
         {
             JobRequisition.JobApplicationModified inValue = new JobRequisition.JobApplicationModified();
             inValue.jobAppNo = jobAppNo;
@@ -4361,6 +4365,7 @@ namespace JobRequisition
             inValue.venue = venue;
             inValue.interviewDate = interviewDate;
             inValue.interviewTime = interviewTime;
+            inValue.virtualLink = virtualLink;
             return ((JobRequisition.JWS_Port)(this)).JobApplicationModifiedAsync(inValue);
         }
         

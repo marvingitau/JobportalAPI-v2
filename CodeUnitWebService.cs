@@ -1,5 +1,5 @@
 ﻿using AdminAccount;
-//using HRActivity;
+using HRActivity;
 using JobRequisition;
 using Mailer;
 using Microsoft.Extensions.Options;
@@ -41,14 +41,14 @@ namespace RPFBE
             return employeeAccountWebService;
         }
 
-        //public HRManagementWS_PortClient HRWS()
-        //{
-        //    HRManagementWS_PortClient hRManagementWS = new HRManagementWS_PortClient(HRManagementWS_PortClient.EndpointConfiguration.HRManagementWS_Port);
-        //    hRManagementWS.ClientCredentials.UserName.UserName = config.Value.Username;
-        //    hRManagementWS.ClientCredentials.UserName.Password = config.Value.Password;
+        public HRManagementWS_PortClient HRWS()
+        {
+            HRManagementWS_PortClient hRManagementWS = new HRManagementWS_PortClient(HRManagementWS_PortClient.EndpointConfiguration.HRManagementWS_Port);
+           // hRManagementWS.ClientCredentials.UserName.UserName = config.Value.Username;
+            //hRManagementWS.ClientCredentials.UserName.Password = config.Value.Password;
 
-        //    return hRManagementWS;
-        //}
+            return hRManagementWS;
+        }
 
         public Notifications_PortClient WSMailer()
         {

@@ -858,14 +858,14 @@ namespace RPFBE.Controllers
         }
 
         //Admin
-        [Route("getspec/{UID}")]
+        [Route("getspec/{tag}/{UID}")]
         [HttpGet]
-        public IActionResult GetGlobalSpec(string UID)
+        public IActionResult GetGlobalSpec(string UID,string tag)
         {
             try
             {
                 //var path = System.AppContext.BaseDirectory;
-                var dbres = dbContext.SpecFiles.Where(x => x.TagName == UID).FirstOrDefault();
+                var dbres = dbContext.SpecFiles.Where(x => x.TagName == tag && x.UserId == UID).First();
                 var file = dbres.FilePath;
 
                 // Response...
@@ -984,7 +984,8 @@ namespace RPFBE.Controllers
                         {
                             worksheet.Cell(currentRow, 15).Value = spec.TagName;
                             //worksheet.Cell(currentRow, 15).Hyperlink = new XLHyperlink($"{HttpContext.Request.Host.ToUriComponent()}/api/home/getspec/{spec.TagName}", "Click to Open");
-                            worksheet.Cell(currentRow, 15).Hyperlink = new XLHyperlink($"{config.Value.ExcelHostUrl}/home/getspec/{spec.TagName}", "Click to Open");
+                           // worksheet.Cell(currentRow, 15).Hyperlink = new XLHyperlink($"{config.Value.ExcelHostUrl}/home/getspec/{spec.TagName}", "Click to Open");
+                            worksheet.Cell(currentRow, 15).Hyperlink = new XLHyperlink($"{config.Value.ExcelHostUrl}/home/getspec/{spec.TagName}/{spec.UserId}", $"{config.Value.ExcelHostUrl}/home/getspec/{spec.TagName}/{spec.UserId}");
                             currentRow++;
                         }
                     }

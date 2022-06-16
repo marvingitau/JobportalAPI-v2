@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RPFBE.Auth;
 
 namespace RPFBE.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220615063720_grievance list2")]
+    partial class grievancelist2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -705,9 +707,6 @@ namespace RPFBE.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Employeename")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Employeeno")
                         .HasColumnType("nvarchar(max)");
 
@@ -726,15 +725,6 @@ namespace RPFBE.Migrations
                     b.Property<string>("Recommendation")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Resolved")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Resolver")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ResolverID")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("StepTaken")
                         .HasColumnType("nvarchar(max)");
 
@@ -742,9 +732,6 @@ namespace RPFBE.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Supervisor")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Supervisorname")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

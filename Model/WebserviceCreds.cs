@@ -13,6 +13,9 @@ namespace RPFBE.Model
 
         public string CorsAllowedUrl { get; set; }
         public string ExcelHostUrl { get; set; }
-
+        //Dimension Codes
+        public string Station { get; set; }
+        public string Section { get; set; }
+        public string Department { get; set; }
     }
 }

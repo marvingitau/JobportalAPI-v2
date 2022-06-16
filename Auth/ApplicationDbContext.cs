@@ -30,6 +30,7 @@ namespace RPFBE.Auth
         public DbSet<EmployeeClearance> EmployeeClearance { get; set; }
         public DbSet<ProbationProgress> ProbationProgress { get; set; }
         public DbSet<EndofContractProgress> EndofContractProgress { get; set; }
+        public DbSet<GrievanceList> GrievanceList { get; set; }
 
 
 

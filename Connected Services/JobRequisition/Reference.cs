@@ -371,6 +371,30 @@ namespace JobRequisition
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:ApproveContractHR", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.ApproveContractHR_Result> ApproveContractHRAsync(JobRequisition.ApproveContractHR request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:GetSystemDimensions", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.GetSystemDimensions_Result> GetSystemDimensionsAsync(JobRequisition.GetSystemDimensions request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:CreateGrievance", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.CreateGrievance_Result> CreateGrievanceAsync(JobRequisition.CreateGrievance request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:GrievanceForward", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.GrievanceForward_Result> GrievanceForwardAsync(JobRequisition.GrievanceForward request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:GrievanceResolve", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.GrievanceResolve_Result> GrievanceResolveAsync(JobRequisition.GrievanceResolve request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:GrievanceRankRemarks", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.GrievanceRankRemarks_Result> GrievanceRankRemarksAsync(JobRequisition.GrievanceRankRemarks request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:GrievanceModifyRankRemarks", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.GrievanceModifyRankRemarks_Result> GrievanceModifyRankRemarksAsync(JobRequisition.GrievanceModifyRankRemarks request);
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -4222,6 +4246,289 @@ namespace JobRequisition
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetSystemDimensions", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GetSystemDimensions
+    {
+        
+        public GetSystemDimensions()
+        {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetSystemDimensions_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GetSystemDimensions_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public GetSystemDimensions_Result()
+        {
+        }
+        
+        public GetSystemDimensions_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="CreateGrievance", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class CreateGrievance
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute("textArr")]
+        public string[] textArr;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(DataType="date")]
+        public System.DateTime grievancedate;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(DataType="date")]
+        public System.DateTime dateofissue;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=3)]
+        public bool workenv;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=4)]
+        public bool emprxn;
+        
+        public CreateGrievance()
+        {
+        }
+        
+        public CreateGrievance(string[] textArr, System.DateTime grievancedate, System.DateTime dateofissue, bool workenv, bool emprxn)
+        {
+            this.textArr = textArr;
+            this.grievancedate = grievancedate;
+            this.dateofissue = dateofissue;
+            this.workenv = workenv;
+            this.emprxn = emprxn;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="CreateGrievance_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class CreateGrievance_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public CreateGrievance_Result()
+        {
+        }
+        
+        public CreateGrievance_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GrievanceForward", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GrievanceForward
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string pK;
+        
+        public GrievanceForward()
+        {
+        }
+        
+        public GrievanceForward(string pK)
+        {
+            this.pK = pK;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GrievanceForward_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GrievanceForward_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public GrievanceForward_Result()
+        {
+        }
+        
+        public GrievanceForward_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GrievanceResolve", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GrievanceResolve
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string pK;
+        
+        public GrievanceResolve()
+        {
+        }
+        
+        public GrievanceResolve(string pK)
+        {
+            this.pK = pK;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GrievanceResolve_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GrievanceResolve_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public GrievanceResolve_Result()
+        {
+        }
+        
+        public GrievanceResolve_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GrievanceRankRemarks", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GrievanceRankRemarks
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string pK;
+        
+        public GrievanceRankRemarks()
+        {
+        }
+        
+        public GrievanceRankRemarks(string pK)
+        {
+            this.pK = pK;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GrievanceRankRemarks_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GrievanceRankRemarks_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public GrievanceRankRemarks_Result()
+        {
+        }
+        
+        public GrievanceRankRemarks_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GrievanceModifyRankRemarks", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GrievanceModifyRankRemarks
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string pK;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=1)]
+        public string hRrem;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=2)]
+        public string hRref;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=3)]
+        public string hOSrem;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=4)]
+        public string hOSref;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=5)]
+        public string hODrem;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=6)]
+        public string hODref;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=7)]
+        public string mDrem;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=8)]
+        public string mDref;
+        
+        public GrievanceModifyRankRemarks()
+        {
+        }
+        
+        public GrievanceModifyRankRemarks(string pK, string hRrem, string hRref, string hOSrem, string hOSref, string hODrem, string hODref, string mDrem, string mDref)
+        {
+            this.pK = pK;
+            this.hRrem = hRrem;
+            this.hRref = hRref;
+            this.hOSrem = hOSrem;
+            this.hOSref = hOSref;
+            this.hODrem = hODrem;
+            this.hODref = hODref;
+            this.mDrem = mDrem;
+            this.mDref = mDref;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GrievanceModifyRankRemarks_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GrievanceModifyRankRemarks_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public GrievanceModifyRankRemarks_Result()
+        {
+        }
+        
+        public GrievanceModifyRankRemarks_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     public interface JWS_PortChannel : JobRequisition.JWS_Port, System.ServiceModel.IClientChannel
     {
@@ -5518,6 +5825,95 @@ namespace JobRequisition
             JobRequisition.ApproveContractHR inValue = new JobRequisition.ApproveContractHR();
             inValue.pK = pK;
             return ((JobRequisition.JWS_Port)(this)).ApproveContractHRAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.GetSystemDimensions_Result> JobRequisition.JWS_Port.GetSystemDimensionsAsync(JobRequisition.GetSystemDimensions request)
+        {
+            return base.Channel.GetSystemDimensionsAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.GetSystemDimensions_Result> GetSystemDimensionsAsync()
+        {
+            JobRequisition.GetSystemDimensions inValue = new JobRequisition.GetSystemDimensions();
+            return ((JobRequisition.JWS_Port)(this)).GetSystemDimensionsAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.CreateGrievance_Result> JobRequisition.JWS_Port.CreateGrievanceAsync(JobRequisition.CreateGrievance request)
+        {
+            return base.Channel.CreateGrievanceAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.CreateGrievance_Result> CreateGrievanceAsync(string[] textArr, System.DateTime grievancedate, System.DateTime dateofissue, bool workenv, bool emprxn)
+        {
+            JobRequisition.CreateGrievance inValue = new JobRequisition.CreateGrievance();
+            inValue.textArr = textArr;
+            inValue.grievancedate = grievancedate;
+            inValue.dateofissue = dateofissue;
+            inValue.workenv = workenv;
+            inValue.emprxn = emprxn;
+            return ((JobRequisition.JWS_Port)(this)).CreateGrievanceAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.GrievanceForward_Result> JobRequisition.JWS_Port.GrievanceForwardAsync(JobRequisition.GrievanceForward request)
+        {
+            return base.Channel.GrievanceForwardAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.GrievanceForward_Result> GrievanceForwardAsync(string pK)
+        {
+            JobRequisition.GrievanceForward inValue = new JobRequisition.GrievanceForward();
+            inValue.pK = pK;
+            return ((JobRequisition.JWS_Port)(this)).GrievanceForwardAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.GrievanceResolve_Result> JobRequisition.JWS_Port.GrievanceResolveAsync(JobRequisition.GrievanceResolve request)
+        {
+            return base.Channel.GrievanceResolveAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.GrievanceResolve_Result> GrievanceResolveAsync(string pK)
+        {
+            JobRequisition.GrievanceResolve inValue = new JobRequisition.GrievanceResolve();
+            inValue.pK = pK;
+            return ((JobRequisition.JWS_Port)(this)).GrievanceResolveAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.GrievanceRankRemarks_Result> JobRequisition.JWS_Port.GrievanceRankRemarksAsync(JobRequisition.GrievanceRankRemarks request)
+        {
+            return base.Channel.GrievanceRankRemarksAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.GrievanceRankRemarks_Result> GrievanceRankRemarksAsync(string pK)
+        {
+            JobRequisition.GrievanceRankRemarks inValue = new JobRequisition.GrievanceRankRemarks();
+            inValue.pK = pK;
+            return ((JobRequisition.JWS_Port)(this)).GrievanceRankRemarksAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.GrievanceModifyRankRemarks_Result> JobRequisition.JWS_Port.GrievanceModifyRankRemarksAsync(JobRequisition.GrievanceModifyRankRemarks request)
+        {
+            return base.Channel.GrievanceModifyRankRemarksAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.GrievanceModifyRankRemarks_Result> GrievanceModifyRankRemarksAsync(string pK, string hRrem, string hRref, string hOSrem, string hOSref, string hODrem, string hODref, string mDrem, string mDref)
+        {
+            JobRequisition.GrievanceModifyRankRemarks inValue = new JobRequisition.GrievanceModifyRankRemarks();
+            inValue.pK = pK;
+            inValue.hRrem = hRrem;
+            inValue.hRref = hRref;
+            inValue.hOSrem = hOSrem;
+            inValue.hOSref = hOSref;
+            inValue.hODrem = hODrem;
+            inValue.hODref = hODref;
+            inValue.mDrem = mDrem;
+            inValue.mDref = mDref;
+            return ((JobRequisition.JWS_Port)(this)).GrievanceModifyRankRemarksAsync(inValue);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()

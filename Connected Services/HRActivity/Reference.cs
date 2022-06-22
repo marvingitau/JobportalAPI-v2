@@ -16,6 +16,16 @@ namespace HRActivity
     public interface HRManagementWS_Port
     {
         
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:GenerateEmployeeTargetsRep" +
+            "ort", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<HRActivity.GenerateEmployeeTargetsReport_Result> GenerateEmployeeTargetsReportAsync(HRActivity.GenerateEmployeeTargetsReport request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:GenerateEmployeeAppraisalR" +
+            "eport", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<HRActivity.GenerateEmployeeAppraisalReport_Result> GenerateEmployeeAppraisalReportAsync(HRActivity.GenerateEmployeeAppraisalReport request);
+        
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:GenerateSupervisorAppraisa" +
             "lReport", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -92,6 +102,18 @@ namespace HRActivity
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:SignPolicyDocuments", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<HRActivity.SignPolicyDocuments_Result> SignPolicyDocumentsAsync(HRActivity.SignPolicyDocuments request);
+        
+        // CODEGEN: Generating message contract since the operation has multiple return values.
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:GetEmployeeClearanceListSt" +
+            "atus", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<HRActivity.GetEmployeeClearanceListStatus_Result> GetEmployeeClearanceListStatusAsync(HRActivity.GetEmployeeClearanceListStatus request);
+        
+        // CODEGEN: Generating message contract since the operation has multiple return values.
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:GetEmployeeClearanceHeader" +
+            "Lines", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<HRActivity.GetEmployeeClearanceHeaderLines_Result> GetEmployeeClearanceHeaderLinesAsync(HRActivity.GetEmployeeClearanceHeaderLines request);
         
         // CODEGEN: Generating message contract since the operation has multiple return values.
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:GetEmployeeClearanceCreate" +
@@ -654,16 +676,6 @@ namespace HRActivity
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<HRActivity.GenerateJobTargetsReport_Result> GenerateJobTargetsReportAsync(HRActivity.GenerateJobTargetsReport request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:GenerateEmployeeTargetsRep" +
-            "ort", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<HRActivity.GenerateEmployeeTargetsReport_Result> GenerateEmployeeTargetsReportAsync(HRActivity.GenerateEmployeeTargetsReport request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:GenerateEmployeeAppraisalR" +
-            "eport", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<HRActivity.GenerateEmployeeAppraisalReport_Result> GenerateEmployeeAppraisalReportAsync(HRActivity.GenerateEmployeeAppraisalReport request);
-        
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:GetEmployeesPerManager", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<HRActivity.GetEmployeesPerManager_Result> GetEmployeesPerManagerAsync(HRActivity.GetEmployeesPerManager request);
@@ -694,6 +706,11 @@ namespace HRActivity
             "s", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<HRActivity.CheckLeaveApplicationExists_Result> CheckLeaveApplicationExistsAsync(HRActivity.CheckLeaveApplicationExists request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:CreateNewLeaveApplicationA" +
+            "PI", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<HRActivity.CreateNewLeaveApplicationAPI_Result> CreateNewLeaveApplicationAPIAsync(HRActivity.CreateNewLeaveApplicationAPI request);
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:CreateLeaveApplication", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -732,6 +749,11 @@ namespace HRActivity
             "alRequest", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<HRActivity.SendLeaveApplicationApprovalRequest_Result> SendLeaveApplicationApprovalRequestAsync(HRActivity.SendLeaveApplicationApprovalRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:SendLeaveApplicationApprov" +
+            "alRequestAPI", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<HRActivity.SendLeaveApplicationApprovalRequestAPI_Result> SendLeaveApplicationApprovalRequestAPIAsync(HRActivity.SendLeaveApplicationApprovalRequestAPI request);
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:CancelLeaveApplicationAppr" +
             "ovalRequest", ReplyAction="*")]
@@ -1144,18 +1166,94 @@ namespace HRActivity
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:GetEmployeeClearanceList", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<HRActivity.GetEmployeeClearanceList_Result> GetEmployeeClearanceListAsync(HRActivity.GetEmployeeClearanceList request);
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GenerateEmployeeTargetsReport", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class GenerateEmployeeTargetsReport
+    {
         
-        // CODEGEN: Generating message contract since the operation has multiple return values.
-        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:GetEmployeeClearanceListSt" +
-            "atus", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<HRActivity.GetEmployeeClearanceListStatus_Result> GetEmployeeClearanceListStatusAsync(HRActivity.GetEmployeeClearanceListStatus request);
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string employeeNo;
         
-        // CODEGEN: Generating message contract since the operation has multiple return values.
-        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:GetEmployeeClearanceHeader" +
-            "Lines", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<HRActivity.GetEmployeeClearanceHeaderLines_Result> GetEmployeeClearanceHeaderLinesAsync(HRActivity.GetEmployeeClearanceHeaderLines request);
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=1)]
+        public string headerNo;
+        
+        public GenerateEmployeeTargetsReport()
+        {
+        }
+        
+        public GenerateEmployeeTargetsReport(string employeeNo, string headerNo)
+        {
+            this.employeeNo = employeeNo;
+            this.headerNo = headerNo;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GenerateEmployeeTargetsReport_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class GenerateEmployeeTargetsReport_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string return_value;
+        
+        public GenerateEmployeeTargetsReport_Result()
+        {
+        }
+        
+        public GenerateEmployeeTargetsReport_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GenerateEmployeeAppraisalReport", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class GenerateEmployeeAppraisalReport
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string employeeNo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=1)]
+        public string headerNo;
+        
+        public GenerateEmployeeAppraisalReport()
+        {
+        }
+        
+        public GenerateEmployeeAppraisalReport(string employeeNo, string headerNo)
+        {
+            this.employeeNo = employeeNo;
+            this.headerNo = headerNo;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GenerateEmployeeAppraisalReport_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class GenerateEmployeeAppraisalReport_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string return_value;
+        
+        public GenerateEmployeeAppraisalReport_Result()
+        {
+        }
+        
+        public GenerateEmployeeAppraisalReport_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -7109,6 +7207,94 @@ namespace HRActivity
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetEmployeeClearanceListStatus", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class GetEmployeeClearanceListStatus
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public HRActivity.Clearanceroot clearanceExport;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=1)]
+        public string employeeNo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=2)]
+        public int statusFilter;
+        
+        public GetEmployeeClearanceListStatus()
+        {
+        }
+        
+        public GetEmployeeClearanceListStatus(HRActivity.Clearanceroot clearanceExport, string employeeNo, int statusFilter)
+        {
+            this.clearanceExport = clearanceExport;
+            this.employeeNo = employeeNo;
+            this.statusFilter = statusFilter;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetEmployeeClearanceListStatus_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class GetEmployeeClearanceListStatus_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public HRActivity.Clearanceroot clearanceExport;
+        
+        public GetEmployeeClearanceListStatus_Result()
+        {
+        }
+        
+        public GetEmployeeClearanceListStatus_Result(HRActivity.Clearanceroot clearanceExport)
+        {
+            this.clearanceExport = clearanceExport;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetEmployeeClearanceHeaderLines", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class GetEmployeeClearanceHeaderLines
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public HRActivity.Clearanceroot clearanceExport;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=1)]
+        public string headerNo;
+        
+        public GetEmployeeClearanceHeaderLines()
+        {
+        }
+        
+        public GetEmployeeClearanceHeaderLines(HRActivity.Clearanceroot clearanceExport, string headerNo)
+        {
+            this.clearanceExport = clearanceExport;
+            this.headerNo = headerNo;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetEmployeeClearanceHeaderLines_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class GetEmployeeClearanceHeaderLines_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public HRActivity.Clearanceroot clearanceExport;
+        
+        public GetEmployeeClearanceHeaderLines_Result()
+        {
+        }
+        
+        public GetEmployeeClearanceHeaderLines_Result(HRActivity.Clearanceroot clearanceExport)
+        {
+            this.clearanceExport = clearanceExport;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     [System.ServiceModel.MessageContractAttribute(WrapperName="GetEmployeeClearanceCreatedByList", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
     public partial class GetEmployeeClearanceCreatedByList
     {
@@ -12837,94 +13023,6 @@ namespace HRActivity
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GenerateEmployeeTargetsReport", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
-    public partial class GenerateEmployeeTargetsReport
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
-        public string employeeNo;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=1)]
-        public string headerNo;
-        
-        public GenerateEmployeeTargetsReport()
-        {
-        }
-        
-        public GenerateEmployeeTargetsReport(string employeeNo, string headerNo)
-        {
-            this.employeeNo = employeeNo;
-            this.headerNo = headerNo;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GenerateEmployeeTargetsReport_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
-    public partial class GenerateEmployeeTargetsReport_Result
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
-        public string return_value;
-        
-        public GenerateEmployeeTargetsReport_Result()
-        {
-        }
-        
-        public GenerateEmployeeTargetsReport_Result(string return_value)
-        {
-            this.return_value = return_value;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GenerateEmployeeAppraisalReport", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
-    public partial class GenerateEmployeeAppraisalReport
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
-        public string employeeNo;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=1)]
-        public string headerNo;
-        
-        public GenerateEmployeeAppraisalReport()
-        {
-        }
-        
-        public GenerateEmployeeAppraisalReport(string employeeNo, string headerNo)
-        {
-            this.employeeNo = employeeNo;
-            this.headerNo = headerNo;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GenerateEmployeeAppraisalReport_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
-    public partial class GenerateEmployeeAppraisalReport_Result
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
-        public string return_value;
-        
-        public GenerateEmployeeAppraisalReport_Result()
-        {
-        }
-        
-        public GenerateEmployeeAppraisalReport_Result(string return_value)
-        {
-            this.return_value = return_value;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="GetEmployeesPerManager", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
     public partial class GetEmployeesPerManager
     {
@@ -13201,6 +13299,46 @@ namespace HRActivity
         }
         
         public CheckLeaveApplicationExists_Result(bool return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="CreateNewLeaveApplicationAPI", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class CreateNewLeaveApplicationAPI
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string eID;
+        
+        public CreateNewLeaveApplicationAPI()
+        {
+        }
+        
+        public CreateNewLeaveApplicationAPI(string eID)
+        {
+            this.eID = eID;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="CreateNewLeaveApplicationAPI_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class CreateNewLeaveApplicationAPI_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string return_value;
+        
+        public CreateNewLeaveApplicationAPI_Result()
+        {
+        }
+        
+        public CreateNewLeaveApplicationAPI_Result(string return_value)
         {
             this.return_value = return_value;
         }
@@ -13635,6 +13773,46 @@ namespace HRActivity
         }
         
         public SendLeaveApplicationApprovalRequest_Result(bool return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="SendLeaveApplicationApprovalRequestAPI", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class SendLeaveApplicationApprovalRequestAPI
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string hRLeaveApplicationNo;
+        
+        public SendLeaveApplicationApprovalRequestAPI()
+        {
+        }
+        
+        public SendLeaveApplicationApprovalRequestAPI(string hRLeaveApplicationNo)
+        {
+            this.hRLeaveApplicationNo = hRLeaveApplicationNo;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="SendLeaveApplicationApprovalRequestAPI_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class SendLeaveApplicationApprovalRequestAPI_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string return_value;
+        
+        public SendLeaveApplicationApprovalRequestAPI_Result()
+        {
+        }
+        
+        public SendLeaveApplicationApprovalRequestAPI_Result(string return_value)
         {
             this.return_value = return_value;
         }
@@ -17426,94 +17604,6 @@ namespace HRActivity
         }
     }
     
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GetEmployeeClearanceListStatus", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
-    public partial class GetEmployeeClearanceListStatus
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
-        public HRActivity.Clearanceroot clearanceExport;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=1)]
-        public string employeeNo;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=2)]
-        public int statusFilter;
-        
-        public GetEmployeeClearanceListStatus()
-        {
-        }
-        
-        public GetEmployeeClearanceListStatus(HRActivity.Clearanceroot clearanceExport, string employeeNo, int statusFilter)
-        {
-            this.clearanceExport = clearanceExport;
-            this.employeeNo = employeeNo;
-            this.statusFilter = statusFilter;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GetEmployeeClearanceListStatus_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
-    public partial class GetEmployeeClearanceListStatus_Result
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
-        public HRActivity.Clearanceroot clearanceExport;
-        
-        public GetEmployeeClearanceListStatus_Result()
-        {
-        }
-        
-        public GetEmployeeClearanceListStatus_Result(HRActivity.Clearanceroot clearanceExport)
-        {
-            this.clearanceExport = clearanceExport;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GetEmployeeClearanceHeaderLines", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
-    public partial class GetEmployeeClearanceHeaderLines
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
-        public HRActivity.Clearanceroot clearanceExport;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=1)]
-        public string headerNo;
-        
-        public GetEmployeeClearanceHeaderLines()
-        {
-        }
-        
-        public GetEmployeeClearanceHeaderLines(HRActivity.Clearanceroot clearanceExport, string headerNo)
-        {
-            this.clearanceExport = clearanceExport;
-            this.headerNo = headerNo;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GetEmployeeClearanceHeaderLines_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
-    public partial class GetEmployeeClearanceHeaderLines_Result
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
-        public HRActivity.Clearanceroot clearanceExport;
-        
-        public GetEmployeeClearanceHeaderLines_Result()
-        {
-        }
-        
-        public GetEmployeeClearanceHeaderLines_Result(HRActivity.Clearanceroot clearanceExport)
-        {
-            this.clearanceExport = clearanceExport;
-        }
-    }
-    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     public interface HRManagementWS_PortChannel : HRActivity.HRManagementWS_Port, System.ServiceModel.IClientChannel
     {
@@ -17562,6 +17652,34 @@ namespace HRActivity
         public HRManagementWS_PortClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress)
         {
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<HRActivity.GenerateEmployeeTargetsReport_Result> HRActivity.HRManagementWS_Port.GenerateEmployeeTargetsReportAsync(HRActivity.GenerateEmployeeTargetsReport request)
+        {
+            return base.Channel.GenerateEmployeeTargetsReportAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<HRActivity.GenerateEmployeeTargetsReport_Result> GenerateEmployeeTargetsReportAsync(string employeeNo, string headerNo)
+        {
+            HRActivity.GenerateEmployeeTargetsReport inValue = new HRActivity.GenerateEmployeeTargetsReport();
+            inValue.employeeNo = employeeNo;
+            inValue.headerNo = headerNo;
+            return ((HRActivity.HRManagementWS_Port)(this)).GenerateEmployeeTargetsReportAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<HRActivity.GenerateEmployeeAppraisalReport_Result> HRActivity.HRManagementWS_Port.GenerateEmployeeAppraisalReportAsync(HRActivity.GenerateEmployeeAppraisalReport request)
+        {
+            return base.Channel.GenerateEmployeeAppraisalReportAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<HRActivity.GenerateEmployeeAppraisalReport_Result> GenerateEmployeeAppraisalReportAsync(string employeeNo, string headerNo)
+        {
+            HRActivity.GenerateEmployeeAppraisalReport inValue = new HRActivity.GenerateEmployeeAppraisalReport();
+            inValue.employeeNo = employeeNo;
+            inValue.headerNo = headerNo;
+            return ((HRActivity.HRManagementWS_Port)(this)).GenerateEmployeeAppraisalReportAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -17796,6 +17914,16 @@ namespace HRActivity
             inValue.employeeno = employeeno;
             inValue.documentCode = documentCode;
             return ((HRActivity.HRManagementWS_Port)(this)).SignPolicyDocumentsAsync(inValue);
+        }
+        
+        public System.Threading.Tasks.Task<HRActivity.GetEmployeeClearanceListStatus_Result> GetEmployeeClearanceListStatusAsync(HRActivity.GetEmployeeClearanceListStatus request)
+        {
+            return base.Channel.GetEmployeeClearanceListStatusAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<HRActivity.GetEmployeeClearanceHeaderLines_Result> GetEmployeeClearanceHeaderLinesAsync(HRActivity.GetEmployeeClearanceHeaderLines request)
+        {
+            return base.Channel.GetEmployeeClearanceHeaderLinesAsync(request);
         }
         
         public System.Threading.Tasks.Task<HRActivity.GetEmployeeClearanceCreatedByList_Result> GetEmployeeClearanceCreatedByListAsync(HRActivity.GetEmployeeClearanceCreatedByList request)
@@ -19538,34 +19666,6 @@ namespace HRActivity
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<HRActivity.GenerateEmployeeTargetsReport_Result> HRActivity.HRManagementWS_Port.GenerateEmployeeTargetsReportAsync(HRActivity.GenerateEmployeeTargetsReport request)
-        {
-            return base.Channel.GenerateEmployeeTargetsReportAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<HRActivity.GenerateEmployeeTargetsReport_Result> GenerateEmployeeTargetsReportAsync(string employeeNo, string headerNo)
-        {
-            HRActivity.GenerateEmployeeTargetsReport inValue = new HRActivity.GenerateEmployeeTargetsReport();
-            inValue.employeeNo = employeeNo;
-            inValue.headerNo = headerNo;
-            return ((HRActivity.HRManagementWS_Port)(this)).GenerateEmployeeTargetsReportAsync(inValue);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<HRActivity.GenerateEmployeeAppraisalReport_Result> HRActivity.HRManagementWS_Port.GenerateEmployeeAppraisalReportAsync(HRActivity.GenerateEmployeeAppraisalReport request)
-        {
-            return base.Channel.GenerateEmployeeAppraisalReportAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<HRActivity.GenerateEmployeeAppraisalReport_Result> GenerateEmployeeAppraisalReportAsync(string employeeNo, string headerNo)
-        {
-            HRActivity.GenerateEmployeeAppraisalReport inValue = new HRActivity.GenerateEmployeeAppraisalReport();
-            inValue.employeeNo = employeeNo;
-            inValue.headerNo = headerNo;
-            return ((HRActivity.HRManagementWS_Port)(this)).GenerateEmployeeAppraisalReportAsync(inValue);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         System.Threading.Tasks.Task<HRActivity.GetEmployeesPerManager_Result> HRActivity.HRManagementWS_Port.GetEmployeesPerManagerAsync(HRActivity.GetEmployeesPerManager request)
         {
             return base.Channel.GetEmployeesPerManagerAsync(request);
@@ -19655,6 +19755,19 @@ namespace HRActivity
             inValue.leaveApplicationNoa46 = leaveApplicationNoa46;
             inValue.employeeNoa46 = employeeNoa46;
             return ((HRActivity.HRManagementWS_Port)(this)).CheckLeaveApplicationExistsAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<HRActivity.CreateNewLeaveApplicationAPI_Result> HRActivity.HRManagementWS_Port.CreateNewLeaveApplicationAPIAsync(HRActivity.CreateNewLeaveApplicationAPI request)
+        {
+            return base.Channel.CreateNewLeaveApplicationAPIAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<HRActivity.CreateNewLeaveApplicationAPI_Result> CreateNewLeaveApplicationAPIAsync(string eID)
+        {
+            HRActivity.CreateNewLeaveApplicationAPI inValue = new HRActivity.CreateNewLeaveApplicationAPI();
+            inValue.eID = eID;
+            return ((HRActivity.HRManagementWS_Port)(this)).CreateNewLeaveApplicationAPIAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -19789,6 +19902,19 @@ namespace HRActivity
             HRActivity.SendLeaveApplicationApprovalRequest inValue = new HRActivity.SendLeaveApplicationApprovalRequest();
             inValue.hRLeaveApplicationNoa46 = hRLeaveApplicationNoa46;
             return ((HRActivity.HRManagementWS_Port)(this)).SendLeaveApplicationApprovalRequestAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<HRActivity.SendLeaveApplicationApprovalRequestAPI_Result> HRActivity.HRManagementWS_Port.SendLeaveApplicationApprovalRequestAPIAsync(HRActivity.SendLeaveApplicationApprovalRequestAPI request)
+        {
+            return base.Channel.SendLeaveApplicationApprovalRequestAPIAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<HRActivity.SendLeaveApplicationApprovalRequestAPI_Result> SendLeaveApplicationApprovalRequestAPIAsync(string hRLeaveApplicationNo)
+        {
+            HRActivity.SendLeaveApplicationApprovalRequestAPI inValue = new HRActivity.SendLeaveApplicationApprovalRequestAPI();
+            inValue.hRLeaveApplicationNo = hRLeaveApplicationNo;
+            return ((HRActivity.HRManagementWS_Port)(this)).SendLeaveApplicationApprovalRequestAPIAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -20673,16 +20799,6 @@ namespace HRActivity
         public System.Threading.Tasks.Task<HRActivity.GetEmployeeClearanceList_Result> GetEmployeeClearanceListAsync(HRActivity.GetEmployeeClearanceList request)
         {
             return base.Channel.GetEmployeeClearanceListAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<HRActivity.GetEmployeeClearanceListStatus_Result> GetEmployeeClearanceListStatusAsync(HRActivity.GetEmployeeClearanceListStatus request)
-        {
-            return base.Channel.GetEmployeeClearanceListStatusAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<HRActivity.GetEmployeeClearanceHeaderLines_Result> GetEmployeeClearanceHeaderLinesAsync(HRActivity.GetEmployeeClearanceHeaderLines request)
-        {
-            return base.Channel.GetEmployeeClearanceHeaderLinesAsync(request);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()

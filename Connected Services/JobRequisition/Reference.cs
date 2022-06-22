@@ -395,6 +395,18 @@ namespace JobRequisition
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:GrievanceModifyRankRemarks", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.GrievanceModifyRankRemarks_Result> GrievanceModifyRankRemarksAsync(JobRequisition.GrievanceModifyRankRemarks request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:GetUserPayrollData", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.GetUserPayrollData_Result> GetUserPayrollDataAsync(JobRequisition.GetUserPayrollData request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:EmployeeLeaves", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.EmployeeLeaves_Result> EmployeeLeavesAsync(JobRequisition.EmployeeLeaves request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:GetLeaveAttachmentStatus", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.GetLeaveAttachmentStatus_Result> GetLeaveAttachmentStatusAsync(JobRequisition.GetLeaveAttachmentStatus request);
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -4529,6 +4541,126 @@ namespace JobRequisition
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetUserPayrollData", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GetUserPayrollData
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string pK;
+        
+        public GetUserPayrollData()
+        {
+        }
+        
+        public GetUserPayrollData(string pK)
+        {
+            this.pK = pK;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetUserPayrollData_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GetUserPayrollData_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public GetUserPayrollData_Result()
+        {
+        }
+        
+        public GetUserPayrollData_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="EmployeeLeaves", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class EmployeeLeaves
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string pK;
+        
+        public EmployeeLeaves()
+        {
+        }
+        
+        public EmployeeLeaves(string pK)
+        {
+            this.pK = pK;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="EmployeeLeaves_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class EmployeeLeaves_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public EmployeeLeaves_Result()
+        {
+        }
+        
+        public EmployeeLeaves_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetLeaveAttachmentStatus", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GetLeaveAttachmentStatus
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string leaveType;
+        
+        public GetLeaveAttachmentStatus()
+        {
+        }
+        
+        public GetLeaveAttachmentStatus(string leaveType)
+        {
+            this.leaveType = leaveType;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetLeaveAttachmentStatus_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GetLeaveAttachmentStatus_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public bool return_value;
+        
+        public GetLeaveAttachmentStatus_Result()
+        {
+        }
+        
+        public GetLeaveAttachmentStatus_Result(bool return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     public interface JWS_PortChannel : JobRequisition.JWS_Port, System.ServiceModel.IClientChannel
     {
@@ -5914,6 +6046,45 @@ namespace JobRequisition
             inValue.mDrem = mDrem;
             inValue.mDref = mDref;
             return ((JobRequisition.JWS_Port)(this)).GrievanceModifyRankRemarksAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.GetUserPayrollData_Result> JobRequisition.JWS_Port.GetUserPayrollDataAsync(JobRequisition.GetUserPayrollData request)
+        {
+            return base.Channel.GetUserPayrollDataAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.GetUserPayrollData_Result> GetUserPayrollDataAsync(string pK)
+        {
+            JobRequisition.GetUserPayrollData inValue = new JobRequisition.GetUserPayrollData();
+            inValue.pK = pK;
+            return ((JobRequisition.JWS_Port)(this)).GetUserPayrollDataAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.EmployeeLeaves_Result> JobRequisition.JWS_Port.EmployeeLeavesAsync(JobRequisition.EmployeeLeaves request)
+        {
+            return base.Channel.EmployeeLeavesAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.EmployeeLeaves_Result> EmployeeLeavesAsync(string pK)
+        {
+            JobRequisition.EmployeeLeaves inValue = new JobRequisition.EmployeeLeaves();
+            inValue.pK = pK;
+            return ((JobRequisition.JWS_Port)(this)).EmployeeLeavesAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.GetLeaveAttachmentStatus_Result> JobRequisition.JWS_Port.GetLeaveAttachmentStatusAsync(JobRequisition.GetLeaveAttachmentStatus request)
+        {
+            return base.Channel.GetLeaveAttachmentStatusAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.GetLeaveAttachmentStatus_Result> GetLeaveAttachmentStatusAsync(string leaveType)
+        {
+            JobRequisition.GetLeaveAttachmentStatus inValue = new JobRequisition.GetLeaveAttachmentStatus();
+            inValue.leaveType = leaveType;
+            return ((JobRequisition.JWS_Port)(this)).GetLeaveAttachmentStatusAsync(inValue);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()

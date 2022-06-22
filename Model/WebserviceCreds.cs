@@ -17,5 +17,9 @@ namespace RPFBE.Model
         public string Station { get; set; }
         public string Section { get; set; }
         public string Department { get; set; }
+
+        //HR Docs
+        public string HRDocFilePath { get; set; }
+
     }
 }

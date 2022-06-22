@@ -1,4 +1,6 @@
 ﻿using AdminAccount;
+using DOCMgt;
+using HRActivity;
 using JobRequisition;
 using Mailer;
 
@@ -9,5 +11,7 @@ namespace RPFBE
         JWS_PortClient Client();
         EmployeeAccountWebService_PortClient EmployeeAccount();
         Notifications_PortClient WSMailer();
+        HRManagementWS_PortClient HRWS();
+        DocumentMgmt_PortClient DOCMGT();
     }
 }

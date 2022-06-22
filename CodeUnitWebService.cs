@@ -1,4 +1,5 @@
 ﻿using AdminAccount;
+using DOCMgt;
 using HRActivity;
 using JobRequisition;
 using Mailer;
@@ -44,8 +45,8 @@ namespace RPFBE
         public HRManagementWS_PortClient HRWS()
         {
             HRManagementWS_PortClient hRManagementWS = new HRManagementWS_PortClient(HRManagementWS_PortClient.EndpointConfiguration.HRManagementWS_Port);
-           // hRManagementWS.ClientCredentials.UserName.UserName = config.Value.Username;
-            //hRManagementWS.ClientCredentials.UserName.Password = config.Value.Password;
+            hRManagementWS.ClientCredentials.UserName.UserName = config.Value.Username;
+            hRManagementWS.ClientCredentials.UserName.Password = config.Value.Password;
 
             return hRManagementWS;
         }
@@ -58,5 +59,15 @@ namespace RPFBE
 
             return notifications;
         }
+
+        public DocumentMgmt_PortClient DOCMGT()
+        {
+            DocumentMgmt_PortClient docMgt = new DocumentMgmt_PortClient(DocumentMgmt_PortClient.EndpointConfiguration.DocumentMgmt_Port);
+            docMgt.ClientCredentials.UserName.UserName = config.Value.Username;
+            docMgt.ClientCredentials.UserName.Password = config.Value.Password;
+
+            return docMgt;
+        }
+
     }
 }

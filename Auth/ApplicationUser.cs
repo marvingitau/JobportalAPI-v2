@@ -16,6 +16,8 @@ namespace RPFBE.Auth
         public string Name { get; set; }
         public string Rank { get; set; }
         public string Pcode { get; set; }
+        public string Payrollcode { get; set; }
+        public string Calculationscheme { get; set; }
         
     }
 }

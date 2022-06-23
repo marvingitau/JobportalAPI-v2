@@ -15,5 +15,7 @@ namespace RPFBE.Model.LeaveModels
         public string LeaveAppNo { get; set; }
         public string RelieverNo { get; set; }
         public string RelieverRemark { get; set; }
+        public string RejectionRemark { get; set; }
+
     }
 }

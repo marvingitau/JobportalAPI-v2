@@ -1,4 +1,5 @@
 ﻿using AdminAccount;
+using ApprovalMGT;
 using DOCMgt;
 using HRActivity;
 using JobRequisition;
@@ -13,5 +14,6 @@ namespace RPFBE
         Notifications_PortClient WSMailer();
         HRManagementWS_PortClient HRWS();
         DocumentMgmt_PortClient DOCMGT();
+        PortalApprovalManager_PortClient ApprovalMGT();
     }
 }

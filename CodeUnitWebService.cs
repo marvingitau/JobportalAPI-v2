@@ -1,4 +1,5 @@
 ﻿using AdminAccount;
+using ApprovalMGT;
 using DOCMgt;
 using HRActivity;
 using JobRequisition;
@@ -69,5 +70,13 @@ namespace RPFBE
             return docMgt;
         }
 
+        public PortalApprovalManager_PortClient ApprovalMGT()
+        {
+            PortalApprovalManager_PortClient appMgt = new PortalApprovalManager_PortClient(PortalApprovalManager_PortClient.EndpointConfiguration.PortalApprovalManager_Port);
+            appMgt.ClientCredentials.UserName.UserName = config.Value.Username;
+            appMgt.ClientCredentials.UserName.Password = config.Value.Password;
+
+            return appMgt;
+        }
     }
 }

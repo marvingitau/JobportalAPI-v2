@@ -227,6 +227,29 @@ namespace RPFBE.Controllers
             }
         }
 
+        //Check if Attachment is required
+        [Authorize]
+        [HttpGet]
+        [Route("checkifattachmentisrequired/{LTYP}")]
+        public async Task<IActionResult> IsAttachementRequired( string LTYP)
+        {
+            try
+            {
+                
+                    //Check of selected leave type is attachment required
+                    var isAttachementRequired = await codeUnitWebService.Client().GetLeaveAttachmentStatusAsync(LTYP);
+
+                    //return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = $"The Leave {LNO} of {LTYP} has been recorded" });
+                    return Ok(new { isAttachementRequired.return_value });
+               
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Check Leave Attachment Failed: " + x.Message });
+            }
+        }
+
+
         //Get End Date
         [Authorize]
         [HttpPost]
@@ -343,7 +366,7 @@ namespace RPFBE.Controllers
                 var isWorkflowEnabled = await codeUnitWebService.HRWS().CheckLeaveApplicationApprovalWorkflowEnabledAsync(leaveEnd.LeaveAppNo);
                 if (isWorkflowEnabled.return_value)
                 {
-                    //send for approval
+                    //send for approvalonselectleavetype
 
                     try
                     {
@@ -410,6 +433,165 @@ namespace RPFBE.Controllers
             }
         }
 
+
+
+
+        /*
+         * ************************************************************************************************************
+         * 
+         * 
+         *          APPROVAL MGT SECTION (LEAVES)
+         * 
+         * ************************************************************************************************************
+         */
+         
+        //Get the approvees
+        [Authorize]
+        [HttpGet]
+        [Route("getapprovee")]
+        public async Task<IActionResult> GetApprovees()
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                List<ApproveeList> approvees = new List<ApproveeList>();
+                var res = await codeUnitWebService.ApprovalMGT().GetApprovalEntriesAPIAsync(user.EmployeeId, "");
+                dynamic resSerial = JsonConvert.DeserializeObject(res.return_value);
+                foreach (var item in resSerial)
+                {
+                    ApproveeList apee = new ApproveeList
+                    {
+                        EntryNo = item.EntryNo,
+                        TableID = item.TableID,
+                        DocumentType = item.DocumentType,
+                        DocumentNo = item.DocumentNo,
+                        Description = item.Description,
+                        SequenceNo = item.SequenceNo,
+                        ApprovalCode = item.ApprovalCode,
+                        SenderID = item.SenderID,
+                        ApproverID = item.ApproverID,
+                        Status = item.Status,
+                        DateTimeSentforApproval = item.DateTimeSentforApproval,
+                        Amount = item.Amount,
+                        CurrencyCode = item.CurrencyCode,
+                        SenderEmployeeNo = item.SenderEmployeeNo,
+                        SenderEmployeeName = item.SenderEmployeeName,
+                        ApproverEmployeeNo = item.ApproverEmployeeNo,
+                        ApproverEmployeeName = item.ApproverEmployeeName,
+                    };
+                    approvees.Add(apee);
+                }
+
+                return Ok(new { approvees });
+
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Aprovee List Fetch Failed: " + x.Message });
+            }
+        }
+
+        //Get Approvee Leave
+        [Authorize]
+        [HttpGet]
+        [Route("getapproveeleave/{LAPP}")]
+        public async Task<IActionResult> GetApproveeLeave(string LAPP)
+        {
+            try
+            {
+                var leaveApplication = await codeUnitWebService.HRWS().GetleavesAsync(LAPP,"");
+                dynamic leaveApplicationSerial = JsonConvert.DeserializeObject(leaveApplication.return_value);
+                List<LeaveApplicationList> leaveApplications = new List<LeaveApplicationList>();
+
+                foreach (var item in leaveApplicationSerial)
+                {
+                    LeaveApplicationList lap = new LeaveApplicationList
+                    {
+
+                        No = item.No,
+                        EmployeeNo = item.EmployeeNo,
+                        EmployeeName = item.EmployeeName,
+                        LeaveType = item.LeaveType,
+                        LeaveStartDate = item.LeaveStartDate,
+                        LeaveBalance = item.LeaveBalance,
+                        DaysApplied = item.DaysApplied,
+                        DaysApproved = item.DaysApproved,
+                        LeaveEndDate = item.LeaveEndDate,
+                        LeaveReturnDate = item.LeaveReturnDate,
+                        ReasonForLeave = item.ReasonForLeave,
+                        SubstituteEmployeeNo = item.SubstituteEmployeeNo,
+                        SubstituteEmployeeName = item.SubstituteEmployeeName,
+                        GlobalDimension1Code = item.GlobalDimension1Code,
+                        GlobalDimension2Code = item.GlobalDimension2Code,
+                        ShortcutDimension3Code = item.ShortcutDimension3Code,
+                        ShortcutDimension4Code = item.ShortcutDimension4Code,
+                        ShortcutDimension5Code = item.ShortcutDimension5Code,
+                        ShortcutDimension6Code = item.ShortcutDimension6Code,
+                        ShortcutDimension7Code = item.ShortcutDimension7Code,
+                        ShortcutDimension8Code = item.ShortcutDimension8Code,
+                        ResponsibilityCenter = item.ResponsibilityCenter,
+                        RejectionComments = item.RejectionComments,
+                        Status = item.Status,
+                    };
+                    leaveApplications.Add(lap);
+                }
+                return Ok(new { leaveApplications });
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Aprovee Leave Fetch Failed: " + x.Message });
+            }
+        }
+
+        //Approve Approvee Leave
+        [Authorize]
+        [HttpGet]
+        [Route("approveapproveeleave/{LNO}")]
+        public async Task<IActionResult> ApproveApproveeLeave(string LNO)
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var res = await codeUnitWebService.ApprovalMGT().ApproveLeaveApplicationAsync(user.EmployeeId, LNO);
+                if (res.return_value)
+                {
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Approve Leave Application, Success: " });
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Approve Leave Application Failed" });
+                }
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Approving Leave Application Failed: " + x.Message });
+            }
+        }
+
+        //Reject Approvee Leave
+        [Authorize]
+        [HttpPost]
+        [Route("rejectapproveeleave/{LNO}")]
+        public async Task<IActionResult> RejectApproveeLeave([FromBody]LeaveEndDate leaveRej,string LNO)
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var res = await codeUnitWebService.ApprovalMGT().RejectDocumentWithCommentsAsync(user.EmployeeId, LNO, leaveRej.RejectionRemark);
+                if (res.return_value)
+                {
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Reject Leave Application, Success: "});
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Reject Leave Application Failed" });
+                }
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Reject Leave Application Failed: " + x.Message });
+            }
+        }
 
     }
 

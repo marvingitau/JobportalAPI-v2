@@ -593,6 +593,80 @@ namespace RPFBE.Controllers
             }
         }
 
+        //Get Employees Per Manager
+        [Authorize]
+        [HttpGet]
+        [Route("getemployeepermanager")]
+        public async Task<IActionResult> GetMyEmployees()
+        {
+            try
+            {
+                List<ManagerEmployees> managerEmployees = new List<ManagerEmployees>();
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var res = await codeUnitWebService.HRWS().GetEmployeesPerManagerAsync(user.EmployeeId);
+                dynamic resSerial = JsonConvert.DeserializeObject(res.return_value);
+                foreach (var item in resSerial)
+                {
+                    ManagerEmployees me = new ManagerEmployees
+                    {
+                        EmployeeNo = item.EmployeeNo,
+                        SupervisorNo = item.SupervisorNo,
+                        EmployeeName = item.EmployeeName,
+                        FullNameReliever = item.FullNameReliever,
+                        EmploymentContractCode = item.EmploymentContractCode,
+                        Gender = item.Gender,
+                        GlobalDimension1Code = item.GlobalDimension1Code,
+                        GlobalDimension2Code = item.GlobalDimension2Code,
+                        ShortcutDimension3Code = item.ShortcutDimension3Code,
+                        EmployeeCompanyEmail = item.EmployeeCompanyEmail,
+                        JobTitle = item.JobTitle,
+                    };
+                    managerEmployees.Add(me);
+                }
+                return Ok(new { managerEmployees });
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Fetching Manager Employees Failed: " + x.Message });
+            }
+        }
+        //Get Employee Per Manager
+        [Authorize]
+        [HttpGet]
+        [Route("getemployeeanmaanger/{EID}")]
+        public async Task<IActionResult> GetEmployee(string EID)
+        {
+            try
+            {
+                var res = await codeUnitWebService.HRWS().GetOneEmployeeAsync(EID);
+                dynamic resSerial = JsonConvert.DeserializeObject(res.return_value);
+                List<ManagerEmployees> employee = new List<ManagerEmployees>();
+                foreach (var item in resSerial)
+                {
+                    ManagerEmployees me = new ManagerEmployees
+                    {
+                        EmployeeNo = item.EmployeeNo,
+                        SupervisorNo = item.SupervisorNo,
+                        EmployeeName = item.EmployeeName,
+                        FullNameReliever = item.FullNameReliever,
+                        EmploymentContractCode = item.EmploymentContractCode,
+                        Gender = item.Gender,
+                        GlobalDimension1Code = item.GlobalDimension1Code,
+                        GlobalDimension2Code = item.GlobalDimension2Code,
+                        ShortcutDimension3Code = item.ShortcutDimension3Code,
+                        EmployeeCompanyEmail = item.EmployeeCompanyEmail,
+                        JobTitle = item.JobTitle,
+                    };
+                    employee.Add(me);
+                }
+
+                return Ok(new { employee });
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Fetching Manager Employee Failed: " + x.Message });
+            }
+        }
     }
 
 

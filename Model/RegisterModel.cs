@@ -19,6 +19,8 @@ namespace RPFBE.Model
 
         [Required(ErrorMessage = "Password is required")]
         public string Password { get; set; }
+        //Honey pot
+        public bool Approved { get; set; }
 
     }
 }

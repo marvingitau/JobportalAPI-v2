@@ -19,6 +19,7 @@ namespace RPFBE.Settings
 
         //probation Constacts
         public string ProbationMailTitle { get; set; }
+        public string PasswordResetProtocol { get; set; }
 
 
 

@@ -1,16 +1,20 @@
 ﻿using AdminAccount;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using RPFBE.Auth;
 using RPFBE.Model;
+using RPFBE.Settings;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
@@ -30,17 +34,23 @@ namespace RPFBE.Controllers
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IConfiguration configuration;
         private readonly ICodeUnitWebService codeUnitWebService;
+        private readonly IOptions<MailSettings> mailSettings;
+        private readonly IWebHostEnvironment webHostEnvironment;
 
         public AuthenticateController(UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager,
             IConfiguration configuration,
-            ICodeUnitWebService codeUnitWebService
+            ICodeUnitWebService codeUnitWebService,
+            IOptions<MailSettings> mailSettings,
+             IWebHostEnvironment webHostEnvironment
             )
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
             this.configuration = configuration;
             this.codeUnitWebService = codeUnitWebService;
+            this.mailSettings = mailSettings;
+            this.webHostEnvironment = webHostEnvironment;
         }
         public IActionResult Index()
         {
@@ -82,7 +92,7 @@ namespace RPFBE.Controllers
                     idToken = new JwtSecurityTokenHandler().WriteToken(token),
                     expiresIn = token.ValidTo.TimeOfDay.TotalMilliseconds,
                     expireDate = token.ValidTo,
-                    user= userRoles,
+                    user = userRoles,
                     user.Name,
                 });
             }
@@ -95,7 +105,7 @@ namespace RPFBE.Controllers
         [Route("register-admin")]
         public async Task<IActionResult> RegisterAdmin([FromBody] RegisterModel model)
         {
-           // return Ok(model.EmployeeId);
+            // return Ok(model.EmployeeId);
             var res = await codeUnitWebService.EmployeeAccount().LoginEmployeeCoreAsync(model.EmployeeId, Cryptography.Hash(model.Password));
             dynamic resSerial = JsonConvert.DeserializeObject(res.return_value);
 
@@ -105,7 +115,7 @@ namespace RPFBE.Controllers
                 Rank = resSerial.Rank
             };
 
-        
+
             if (loginEmpCore.Status)
             {
                 try
@@ -128,8 +138,8 @@ namespace RPFBE.Controllers
                     if (!result.Succeeded)
                     {
                         //return Ok(new { errs });
-                       return StatusCode(StatusCodes.Status500InternalServerError, new { Status ="Error",Message = errs });
-                   
+                        return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = errs });
+
                     }
                     if (!await roleManager.RoleExistsAsync(loginEmpCore.Rank))
                         await roleManager.CreateAsync(new IdentityRole(loginEmpCore.Rank));
@@ -147,9 +157,9 @@ namespace RPFBE.Controllers
                 catch (Exception x)
                 {
 
-                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed Exception! :"+x.Data });
+                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed Exception! :" + x.Data });
                 }
-               
+
             }
             else
             {
@@ -177,19 +187,127 @@ namespace RPFBE.Controllers
                 };
                 var result = await userManager.CreateAsync(user, model.Password);
                 if (!result.Succeeded)
-                    return StatusCode(StatusCodes.Status208AlreadyReported, new Response { Status = "Error", Message = "User creation failed; "+ result.Errors.ToString() });
-                    //return Ok(result);
+                    return StatusCode(StatusCodes.Status208AlreadyReported, new Response { Status = "Error", Message = "User creation failed; " + result.Errors.ToString() });
+                //return Ok(result);
 
                 return Ok(new Response { Status = "Success", Message = "User created successfully!" });
             }
             catch (Exception x)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "CREATION_FAILED",ExtMessage= x.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "CREATION_FAILED", ExtMessage = x.Message });
             }
-           
+
         }
 
-    
+        [HttpPost]
+        [Route("sendpasswordresetlink")]
+        public async Task<ActionResult> SendPasswordResetLink([FromBody] ResetEmail register)
+        {
+            //Math or Char capcha
+            if (register.Approved)
+            {
+                return Ok("");
+            }
+            //End Math or Char capcha
 
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    string customerNo = register.EmployeeId;
+                    var customerEmailAddress = await codeUnitWebService.EmployeeAccount().GetEmployeeEmailAddressAsync(customerNo);
+
+
+                    //If customer does not exist
+                    var employeeExist = await codeUnitWebService.EmployeeAccount().EmployeeExistsAsync(customerNo);
+                    if (employeeExist.return_value)
+                    {
+                        var employeeActive = await codeUnitWebService.EmployeeAccount().EmployeeAccountIsActiveAsync(customerNo);
+                        if (employeeActive.return_value)
+                        {
+                            if (customerEmailAddress.return_value != "")
+                            {
+                                //Generate Password Reset Token
+                                Random rnd = new Random();
+                                int prefix = rnd.Next(10000, 1000000);
+                                int surfix = rnd.Next(10000, 1000000);
+                                string passwordResetToken = Cryptography.Hash(prefix.ToString() + customerNo + surfix.ToString());
+                                //Save the password reset token
+                                var savedToken = await codeUnitWebService.EmployeeAccount().SetPasswordResetTokenAsync(customerNo, passwordResetToken);
+                                //Create Email Body
+                                var callbackUrl = $"localhost:3000/sendpasswordreset/ResetEmployeePassword/{customerNo}/{passwordResetToken }";
+                                //var callbackUrl = Url.Action("ResetEmployeePassword", "Account", new { CustomerNo = customerNo, PasswordResetToken = passwordResetToken }, mailSettings.Value.PasswordResetProtocol);
+                                var linkHref = "<a href='" + callbackUrl + "' class='btn btn-primary'><strong>Create New Password</strong></a>";
+
+                                string emailBody = "<p>You recently requested to create your password for your " + mailSettings.Value.CompanyName + " employee account no. " + customerNo + ". Click the link below to create it.</p>";
+                                emailBody += "<p>" + linkHref + "</p>";
+                                emailBody += "<p><b><i>Note that this link will expire after 24hrs</i></b></p>";
+                                //End Create Email Body
+
+                                //File Links Test
+                                try
+                                {
+                                    var subDirectory = "Files/LeaveAttachments";
+                                    var target = Path.Combine(webHostEnvironment.ContentRootPath, subDirectory);
+
+                                   // string fileName = @"C:\Temp\MaheshTX.txt";
+
+                                    // Set a variable to the Documents path.
+                                    //string docPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+                                    // Write the specified text asynchronously to a new file named "WriteTextAsync.txt".
+                                    using (StreamWriter outputFile = new StreamWriter(Path.Combine(target, "WriteTextAsync.txt")))
+                                    {
+                                        await outputFile.WriteAsync(emailBody);
+                                    }
+
+                                }
+                                catch (Exception x)
+                                {
+                                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "File Err: "+x.Message });
+
+                                }
+
+                                //Send Email
+                                //var sendEmail = await codeUnitWebService.EmployeeAccount().SendPasswordResetLinkAsync(customerNo, emailBody);
+                                if (true)
+                                {
+                                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Reset Email Sent" });
+                                }
+                                else
+                                {
+                                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Send Email Failed" });
+                                }
+
+                            }
+                            else
+                            {
+                                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Employee Email is Missing" });
+                            }
+                        }
+                        else
+                        {
+                            return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Employee Account Not Active" });
+                        }
+                    }
+                    else
+                    {
+                        return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Employee Not Found" });
+
+                    }
+
+
+                }
+                catch (Exception x)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Reset Password Email Failed: " + x.Message });
+
+                }
+            }
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Invalid Input" });
+
+            }
+        }
     }
 }

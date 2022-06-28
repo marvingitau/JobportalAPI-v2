@@ -5,6 +5,7 @@ using HRActivity;
 using JobRequisition;
 using Mailer;
 using Microsoft.Extensions.Options;
+using PayrollMGT;
 using RPFBE.Model;
 using System;
 using System.Collections.Generic;
@@ -77,6 +78,15 @@ namespace RPFBE
             appMgt.ClientCredentials.UserName.Password = config.Value.Password;
 
             return appMgt;
+        }
+
+        public PayrollManagementWebService_PortClient PayrollMGT()
+        {
+            PayrollManagementWebService_PortClient payMgt = new PayrollManagementWebService_PortClient(PayrollManagementWebService_PortClient.EndpointConfiguration.PayrollManagementWebService_Port);
+            payMgt.ClientCredentials.UserName.UserName = config.Value.Username;
+            payMgt.ClientCredentials.UserName.Password = config.Value.Password;
+
+            return payMgt;
         }
     }
 }

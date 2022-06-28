@@ -4,6 +4,7 @@ using DOCMgt;
 using HRActivity;
 using JobRequisition;
 using Mailer;
+using PayrollMGT;
 
 namespace RPFBE
 {
@@ -15,5 +16,6 @@ namespace RPFBE
         HRManagementWS_PortClient HRWS();
         DocumentMgmt_PortClient DOCMGT();
         PortalApprovalManager_PortClient ApprovalMGT();
+        PayrollManagementWebService_PortClient PayrollMGT();
     }
 }

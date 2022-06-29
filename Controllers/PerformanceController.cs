@@ -93,7 +93,8 @@ namespace RPFBE.Controllers
 
             }
         }
-        //Get single KPI
+        //Get single KPIs List
+        //Employee
         [Authorize]
         [HttpGet]
         [Route("getsinglekpi/{AppraisalNo}")]
@@ -130,6 +131,47 @@ namespace RPFBE.Controllers
 
             }
         }
+        
+        //Get single KPIs List
+        //Supervisor
+        [Authorize]
+        [HttpGet]
+        [Route("getsupervisorsinglekpi/{AppraisalNo}")]
+        public async Task<IActionResult> GetSupervisorSingleKPI(string AppraisalNo)
+        {
+            try
+            {
+                //No need for the JobKPIList since will use the react-router-dom redirect from card.
+                List<PerformanceIndicatorsSupervisor> performanceIndicators = new List<PerformanceIndicatorsSupervisor>();
+                var resInd = await codeUnitWebService.HRWS().GetSupervisorPerformanceAppraisalHeaderNoAsync(AppraisalNo); 
+                dynamic resIndSerial = JsonConvert.DeserializeObject(resInd.return_value);
+
+                foreach (var itm in resIndSerial.EmployeeAppraisals[0].EmployeeKPIS)
+                {
+                    PerformanceIndicatorsSupervisor pi = new PerformanceIndicatorsSupervisor
+                    {
+                        Value = itm.KPIcode,
+                        Label = itm.Description,
+                        Weighting = itm.Weighting,
+                        TargetedScore = itm.TargetedScore,
+                        AchievedScoreSupervisor = itm.AchievedScoreSupervisor,
+                        WeightedScoreSupervisor = itm.WeightedScoreSupervisor,
+                    };
+                    performanceIndicators.Add(pi);
+                }
+
+
+                return Ok(new { performanceIndicators });
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Get Job Performance KPI failed: " + x.Message });
+
+            }
+        }
+
+
         //Get Both  Performance Activities and Stds
         [Authorize]
         [HttpGet]

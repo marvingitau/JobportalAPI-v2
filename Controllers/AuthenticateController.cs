@@ -239,9 +239,9 @@ namespace RPFBE.Controllers
                                 //var callbackUrl = Url.Action("ResetEmployeePassword", "Account", new { CustomerNo = customerNo, PasswordResetToken = passwordResetToken }, mailSettings.Value.PasswordResetProtocol);
                                 var linkHref = "<a href='" + callbackUrl + "' class='btn btn-primary'><strong>Create New Password</strong></a>";
 
-                                string emailBody = "<p>You recently requested to create your password for your " + mailSettings.Value.CompanyName + " employee account no. " + customerNo + ". Click the link below to create it.</p>";
-                                emailBody += "<p>" + linkHref + "</p>";
-                                emailBody += "<p><b><i>Note that this link will expire after 24hrs</i></b></p>";
+                                string emailBody = "<p>You recently requested to create your password for your " + mailSettings.Value.CompanyName + " employee account no. " + customerNo + ". Below is a token you'll use, to set the password.</p>";
+                                emailBody += "<p>" + passwordResetToken + "</p>";
+                                emailBody += "<p><b><i>Note that this token will expire after 24hrs</i></b></p>";
                                 //End Create Email Body
 
                                 //File Links Test
@@ -261,6 +261,8 @@ namespace RPFBE.Controllers
                                         await outputFile.WriteAsync(emailBody);
                                     }
 
+
+
                                 }
                                 catch (Exception x)
                                 {
@@ -269,8 +271,8 @@ namespace RPFBE.Controllers
                                 }
 
                                 //Send Email
-                                //var sendEmail = await codeUnitWebService.EmployeeAccount().SendPasswordResetLinkAsync(customerNo, emailBody);
-                                if (true)
+                                var sendEmail = await codeUnitWebService.EmployeeAccount().SendPasswordResetLinkAsync(customerNo, emailBody);
+                                if (sendEmail.return_value)
                                 {
                                     return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Reset Email Sent" });
                                 }
@@ -309,5 +311,73 @@ namespace RPFBE.Controllers
 
             }
         }
+
+        [HttpPost]
+        [Route("setpassword")]
+        public async Task<IActionResult> SetPassword([FromBody] ResetEmail newpassword)
+        {
+            try
+            {
+                //Check if the Employee Exist
+                var isEmployeeExist = await codeUnitWebService.EmployeeAccount().EmployeeExistsAsync(newpassword.EmployeeId);
+                if (isEmployeeExist.return_value)
+                {
+                    //Check if Employee is Active
+                    var isEmployeeActive = await codeUnitWebService.EmployeeAccount().EmployeeAccountIsActiveAsync(newpassword.EmployeeId);
+                    if (isEmployeeActive.return_value)
+                    {
+                        //Check if Token is Equal
+                        var isTokenEqual = await codeUnitWebService.EmployeeAccount().GetPasswordResetTokenAsync(newpassword.EmployeeId);
+                        if (isTokenEqual.return_value.Equals(newpassword.Token))
+                        {
+                            //Check if Token is expired
+                            var isTokenExpired = await codeUnitWebService.EmployeeAccount().IsPasswordResetTokenExpiredAsync(newpassword.EmployeeId, newpassword.Token);
+                            if (isTokenExpired.return_value)
+                            {
+                                //Set Token
+                                var isTokenSet = await codeUnitWebService.EmployeeAccount().ResetEmployeePortalPasswordAsync(newpassword.EmployeeId, Cryptography.Hash(newpassword.Password));
+                                if (isTokenSet.return_value)
+                                {
+                                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Password Set Success" });
+
+                                }
+                                else
+                                {
+                                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Password Set Failed" });
+
+                                }
+                            }
+                            else
+                            {
+                                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Expired Token" });
+
+                            }
+                        }
+                        else
+                        {
+                            return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Invalid Token" });
+
+                        }
+                    }
+                    else
+                    {
+                        return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Account is Inactive" });
+
+                    }
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Employee is Missing" });
+
+                }
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "SetPassword Failed: " +x.Message});
+
+            }
+        }
+
     }
 }

@@ -1020,7 +1020,7 @@ namespace RPFBE.Controllers
             var user = dbContext.Users.Where(x => x.Email == email).FirstOrDefault();
             string host = HttpContext.Request.Host.ToUriComponent();
             string protocol = HttpContext.Request.Scheme;
-           // return Ok(user);
+         
             if (user != null)
             {
                 var code = await userManager.GeneratePasswordResetTokenAsync(user);
@@ -1030,7 +1030,7 @@ namespace RPFBE.Controllers
 
                 try
                 {
-                     await mailService.SendEmailPasswordReset(user.Email, link);
+                    // await mailService.SendEmailPasswordReset(user.Email, link);
                     return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Link Mailed" });
                 }
                 catch (Exception x)
@@ -1296,6 +1296,7 @@ namespace RPFBE.Controllers
 
                 
                 }
+                
 
                 return Ok(new { interviewCard });
             }

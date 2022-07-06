@@ -155,7 +155,7 @@ namespace RPFBE.Controllers
                         Weighting = itm.Weighting,
                         TargetedScore = itm.TargetedScore,
                         AchievedScoreSupervisor = itm.AchievedScoreSupervisor,
-                        WeightedScoreSupervisor = itm.WeightedScoreSupervisor,
+                        WeightedScoreSupervisor = itm.WeightedResultsSupervisor,
                     };
                     performanceIndicators.Add(pi);
                 }
@@ -170,6 +170,51 @@ namespace RPFBE.Controllers
 
             }
         }
+
+        //Get single KPIs List
+        //Supervisor -Moderated
+        [Authorize]
+        [HttpGet]
+        [Route("getsupervisormoderatedsinglekpi/{AppraisalNo}")]
+        public async Task<IActionResult> GetSupervisorModeratedSingleKPI(string AppraisalNo)
+        {
+            try
+            {
+                //No need for the JobKPIList since will use the react-router-dom redirect from card.
+                List<PerformanceIndicatorsSupervisorModeration> performanceIndicators = new List<PerformanceIndicatorsSupervisorModeration>();
+                var resInd = await codeUnitWebService.HRWS().GetModeratedPerformanceAppraisalHeaderNoAsync(AppraisalNo);
+                dynamic resIndSerial = JsonConvert.DeserializeObject(resInd.return_value);
+
+                foreach (var itm in resIndSerial.EmployeeAppraisals[0].EmployeeKPIS)
+                {
+                    PerformanceIndicatorsSupervisorModeration pi = new PerformanceIndicatorsSupervisorModeration
+                    {
+                        Value = itm.KPIcode,
+                        Label = itm.Description,
+                        HeaderNo = itm.HeaderNo,
+                        ObjectiveWeightage = itm.ObjectiveWeightage,
+                        TargetedScore = itm.TargetedScore,
+                        AchievedScoreSupervisor = itm.AchievedScoreSupervisor,
+                        WeightedResultsSupervisor = itm.WeightedResultsSupervisor,
+                        AchievedScoreEmployee = itm.AchievedScoreEmployee,
+                        WeightedResultsEmployee = itm.WeightedResultsEmployee,
+                        OverallAchievedScore = itm.OverallAchievedScore,
+                        OverallWeightedResults = itm.OverallWeightedResults,
+                    };
+                    performanceIndicators.Add(pi);
+                }
+
+
+                return Ok(new { performanceIndicators });
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Get Job Performance KPI failed: " + x.Message });
+
+            }
+        }
+
 
 
         //Get Both  Performance Activities and Stds

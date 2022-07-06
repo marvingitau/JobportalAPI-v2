@@ -12,6 +12,7 @@ using RPFBE.Model.Performance;
 using RPFBE.Model.Repository;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -177,6 +178,56 @@ namespace RPFBE.Controllers
 
             }
         }
+
+
+        //Get Moderated Supervisor Employee Appraisal Performance Standard List
+        // All the KPI stds
+        [Authorize]
+        [HttpGet]
+        [Route("getmoderatedsupervisorappraisalperformancestd/{AppraisalNo}")]
+        public async Task<IActionResult> GetModeratedSupervisorAppraisalPerformancestd(string AppraisalNo)
+        {
+            try
+            {
+                List<SupervisorAppraisalStandard> employeeAppraisalStandards = new List<SupervisorAppraisalStandard>();
+                var resL = await codeUnitWebService.HRWS().GetModeratedPerformanceAppraisalIndicatorsAsync(AppraisalNo);
+                dynamic esSer = JsonConvert.DeserializeObject(resL.return_value);
+
+                foreach (var item in esSer)
+                {
+                    SupervisorAppraisalStandard eas = new SupervisorAppraisalStandard
+                    {
+                        CriteriaCode = item.CriteriaCode,
+                        TargetCode = item.TargetCode,
+                        KPIDescription = item.KPIDescription,
+                        HeaderNo = item.HeaderNo,
+                        StandardCode = item.StandardCode,
+                        IndicatorCode = item.IndicatorCode,
+                        StandardDescription = item.StandardDescription,
+                        StandardWeighting = item.StandardWeighting,
+                        Timelines = item.Timelines,
+                        ActivityDescription = item.ActivityDescription,
+                        TargetedScore = item.TargetedScore,
+                        AchievedScoreEmployee = item.AchievedScoreEmployee,
+                        AchievedScoreSupervisor = item.AchievedScoreSupervisor,
+                        OverallAchievedScore = item.OverallAchievedScore,
+                        EmployeeComments = item.EmployeeComments,
+                        SupervisorComments = item.SupervisorComments,
+                    };
+                    employeeAppraisalStandards.Add(eas);
+                }
+                return Ok(new { employeeAppraisalStandards });
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Get Employee Appraisal Perfomance Std failed: " + x.Message });
+
+            }
+        }
+
+
+
 
 
         //Get Employee Appraisal Performance Standard List
@@ -797,7 +848,61 @@ namespace RPFBE.Controllers
                 }
 
 
-                return Ok(new { specificFocusList, areaofDevelopmentList });
+
+                //Area of Achievement
+                List<ReflectionDataAchieve> areaofAchievementList = new List<ReflectionDataAchieve>();
+                var achieveArea = await codeUnitWebService.HRWS().GetAppraisalAreaofAchievementAsync(HeaderNo);
+                dynamic achieveSerial = JsonConvert.DeserializeObject(achieveArea.return_value);
+                foreach (var item in achieveSerial)
+                {
+                    ReflectionDataAchieve achievement = new ReflectionDataAchieve
+                    {
+                        LineNo = item.LineNo,
+                        HeaderNo = item.HeaderNo,
+                        AreaOfAchievement = item.AreaofAchievement,
+                        //SpecificFocusArea = "",
+                        //AreaOfDevelopment = "",
+                    };
+                    areaofAchievementList.Add(achievement);
+                }
+
+
+                //Specific Focus Area
+                List<ReflectionDataFocus> specificFocusList1 = new List<ReflectionDataFocus>();
+                var focusArea1 = await codeUnitWebService.HRWS().GetAppraisalSpecificFocusAsync(HeaderNo);
+                dynamic focusSerial1 = JsonConvert.DeserializeObject(focusArea1.return_value);
+                foreach (var itm1 in focusSerial1)
+                {
+                    ReflectionDataFocus focus = new ReflectionDataFocus
+                    {
+                        LineNo = itm1.LineNo,
+                        HeaderNo = itm1.HeaderNo,
+                        SpecificFocusArea = itm1.SpecificFocus,
+                    };
+                    specificFocusList1.Add(focus);
+                }
+
+                //Area Of Development
+                List<ReflectionDataDevelopment> areaofDevelopmentList1 = new List<ReflectionDataDevelopment>();
+                var develArea1 = await codeUnitWebService.HRWS().GetAppraisalAreaofDevelopmentAsync(HeaderNo);
+                dynamic developSerial1 = JsonConvert.DeserializeObject(develArea1.return_value);
+                foreach (var ite1 in developSerial1)
+                {
+                    ReflectionDataDevelopment focus = new ReflectionDataDevelopment
+                    {
+                        LineNo = ite1.LineNo,
+                        HeaderNo = ite1.HeaderNo,
+                        // AreaOfAchievement = "",
+                        // SpecificFocusArea = "",
+                        AreaOfDevelopment = ite1.AreaOfDevelopment,
+                    };
+                    areaofDevelopmentList1.Add(focus);
+                }
+
+
+
+
+                return Ok(new { specificFocusList, areaofDevelopmentList, areaofAchievementList, specificFocusList1, areaofDevelopmentList1 });
 
             }
             catch (Exception x)
@@ -869,7 +974,7 @@ namespace RPFBE.Controllers
         {
             try
             {
-                var resAchieve = await codeUnitWebService.HRWS().DeleteAppraisalAreaofDevelopmentAsync(reflectionDevelopment.HeaderNo, Int16.Parse(reflectionDevelopment.LineNo));
+                var resAchieve = await codeUnitWebService.HRWS().DeleteAppraisalAreaofImprovementAsync(reflectionDevelopment.HeaderNo, Int16.Parse(reflectionDevelopment.LineNo));
                 if (resAchieve.return_value)
                 {
                     return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Delete Area of Improvement, Success" });
@@ -924,7 +1029,7 @@ namespace RPFBE.Controllers
         {
             try
             {
-                var resAchieve = await codeUnitWebService.HRWS().ModifyAppraisalSpecificFocusAsync(dataFocus.HeaderNo, Int16.Parse(dataFocus.LineNo), dataFocus.SpecificFocusArea);
+                var resAchieve = await codeUnitWebService.HRWS().ModifyAppraisalTrainingNeedAsync(dataFocus.HeaderNo, Int16.Parse(dataFocus.LineNo), dataFocus.SpecificFocusArea);
                 if (resAchieve.return_value)
                 {
                     return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Modiy Training Need, Success" });
@@ -1024,6 +1129,413 @@ namespace RPFBE.Controllers
 
             }
         }
+
+
+
+       /*
+       * **********************************************************************************************************************
+       * 
+       *          Supervisor Appraisal Moderated
+       * 
+       * **********************************************************************************************************************
+       */
+
+        //Get Supervisor Moderated Appraisal Evaluation  List
+        [Authorize]
+        [HttpGet]
+        [Route("getsupervisormoderated")]
+        public async Task<IActionResult> GetSuperviorModerated()
+        {
+            try
+            {
+                List<SupervisorAppraisalModeratedList> supervisorAppraisalModeratedLists = new List<SupervisorAppraisalModeratedList>();
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var modRes = await codeUnitWebService.HRWS().GetModeratedPerformanceAppraisalSupervisorNoAsync(user.EmployeeId);
+                dynamic modResSerial = JsonConvert.DeserializeObject(modRes.return_value);
+                foreach (var item in modResSerial.EmployeeAppraisals)
+                {
+                    SupervisorAppraisalModeratedList saml = new SupervisorAppraisalModeratedList
+                    {
+                        No = item.No,
+                        EmployeeNo = item.EmployeeNo,
+                        KPICode = item.KPIcode,
+                        EmployeeName = item.EmployeeName,
+                        EmployeeDesgnation = item.EmployeeDesgnation,
+                        JobTitle = item.JobTitle,
+                        ManagerNo = item.ManagerNo,
+                        ManagerName = item.ManagerName,
+                        ManagerDesignation = item.ManagerDesignation,
+                        AppraisalPeriod = item.AppraisalPeriod,
+                        AppraisalStartPeriod = item.AppraisalStartPeriod,
+                        AppraisalEndPeriod = item.AppraisalEndPeriod,
+                        AppraisalLevel = item.AppraisalLevel,
+                        EmployeeWeightedScore = item.EmployeeWeightedScore,
+                        SupervisorWeightedScore = item.SupervisorWeightedScore,
+                        OverallWeightedScore = item.OverallWeightedScore,
+                    };
+                    supervisorAppraisalModeratedLists.Add(saml);
+                }
+                return Ok(new { supervisorAppraisalModeratedLists });
+            }
+
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Supervisor Moderated Failed: " + x.Message });
+
+            }
+        }
+
+
+
+        //Get Supervisor Moderated Appraisal Performance Standard List
+        // Filtere the KPI stds
+
+        //[Authorize]
+        //[HttpGet]
+        //[Route("getsupervisormoderatedappraisalperformancestdperkpi/{KPICode}/{HeaderNo}")]
+        //public async Task<IActionResult> GetSupervisorModeratedAppraisalPerformancestdPerKPI(int KPICode, string HeaderNo)
+        //{
+        //    try
+        //    {
+        //        List<SupervisorAppraisalStandard> supervisorAppraisalStandards = new List<SupervisorAppraisalStandard>();
+        //        var resL = await codeUnitWebService.HRWS().GetSupervisorPerformanceAppraisalIndicatorsPerKPIAsync(KPICode, HeaderNo);
+        //        dynamic esSer = JsonConvert.DeserializeObject(resL.return_value);
+
+        //        foreach (var item in esSer)
+        //        {
+        //            SupervisorAppraisalStandard eas = new SupervisorAppraisalStandard
+        //            {
+        //                CriteriaCode = item.CriteriaCode,
+        //                TargetCode = item.TargetCode,
+        //                KPIDescription = item.KPIDescription,
+        //                HeaderNo = item.HeaderNo,
+        //                StandardCode = item.StandardCode,
+        //                IndicatorCode = item.IndicatorCode,
+        //                StandardDescription = item.StandardDescription,
+        //                StandardWeighting = item.StandardWeighting,
+        //                Timelines = item.Timelines,
+        //                ActivityDescription = item.ActivityDescription,
+        //                TargetedScore = item.TargetedScore,
+        //                AchievedScoreEmployee = item.AchievedScoreEmployee,
+        //                OverallAchievedScore = item.OverallAchievedScore,
+        //                AchievedScoreSupervisor = item.AchievedScoreSupervisor,
+        //                EmployeeComments = item.EmployeeComments,
+        //                SupervisorComments = item.SupervisorComments,
+        //            };
+        //            supervisorAppraisalStandards.Add(eas);
+        //        }
+        //        return Ok(new { supervisorAppraisalStandards });
+        //    }
+        //    catch (Exception x)
+        //    {
+
+        //        return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Get Supervisor Appraisal Perfomance Std failed: " + x.Message });
+
+        //    }
+        //}
+
+        /*
+       * 
+       **/
+        //Update on Supervisor Moderated Employee Appraisal
+        [Authorize]
+        [HttpPost]
+        [Route("updatesupervisormoderatedappraisal")]
+        public async Task<IActionResult> UpdateSupervisorModeratedEmployeeAppraisal([FromBody] ModifyEmployeeAppraisal modifyEmployee)
+        {
+            try
+            {
+                var updareRes = await codeUnitWebService.HRWS().ModifyModeratedPerformanceAppraisalIndicatorAsync(modifyEmployee.TargetCode, modifyEmployee.IndicatorCode, modifyEmployee.KPICode, modifyEmployee.HeaderNo, modifyEmployee.AchievedScore, modifyEmployee.EmployeeComments);
+                if (updareRes.return_value)
+                {
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Modify Employee Appraisal Target, Success" });
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Modify Employee Appraisal Target failed" });
+
+                }
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Update Employee Appraisal failed: " + x.Message });
+
+            }
+        }
+
+
+
+
+        //Calculate Weights Supervisor
+        [Authorize]
+        [HttpGet]
+        [Route("moderatedsupervisorcalculateweight/{HeaderNo}")]
+        public async Task<IActionResult> ModeratedSupervorCalculateWeight(string HeaderNo)
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var calcRes = await codeUnitWebService.HRWS().CalculateEmployeeSupervisorAppraisalScoreAsync(user.EmployeeId, HeaderNo);
+                if (calcRes.return_value)
+                {
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Calculate Weight, Success" });
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Calculate Weight failed" });
+
+                }
+
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Calculate Weightage failed: " + x.Message });
+
+            }
+        }
+
+        //Supervisor Approve
+        [Authorize]
+        [HttpGet]
+        [Route("moderatedsuperviserapprove/{HeaderNo}")]
+        public async Task<IActionResult> ModeratedSuperviserApprove(string HeaderNo)
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var subRes = await codeUnitWebService.HRWS().SubmitEmployeeSupervisorAppraisalScoreAsync(user.EmployeeId, HeaderNo);
+                if (subRes.return_value)
+                {
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Supervisor Approve, Success" });
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Supervisor Approve Failed" });
+
+                }
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Supervisor Approve Failed: " + x.Message });
+
+            }
+        }
+
+
+        //Supervisor Return to Employee
+        [Authorize]
+        [HttpGet]
+        [Route("moderatedsuperviserreturn/{HeaderNo}")]
+        public async Task<IActionResult> ModeratedSuperviserReturn(string HeaderNo)
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var subRes = await codeUnitWebService.HRWS().ReturnAppraisalScoreToEmployeeAsync(user.EmployeeId, HeaderNo);
+                if (subRes.return_value)
+                {
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Supervisor Return, Success" });
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Supervisor Return Failed" });
+
+                }
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Supervisor Return Failed: " + x.Message });
+
+            }
+        }
+
+
+       /*
+       * **********************************************************************************************************************
+       * 
+       *          Employee Appraisal Moderated
+       * 
+       * **********************************************************************************************************************
+       */
+
+        //Get Supervisor Moderated Appraisal Evaluation  List
+        [Authorize]
+        [HttpGet]
+        [Route("getemployeemoderated")]
+        public async Task<IActionResult> GetEmployeeModerated()
+        {
+            try
+            {
+                List<SupervisorAppraisalModeratedList> employeeAppraisalModeratedLists = new List<SupervisorAppraisalModeratedList>();
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var modRes = await codeUnitWebService.HRWS().GetModeratedPerformanceAppraisalEmployeeNoAsync(user.EmployeeId);
+                dynamic modResSerial = JsonConvert.DeserializeObject(modRes.return_value);
+                foreach (var item in modResSerial.EmployeeAppraisals)
+                {
+                    SupervisorAppraisalModeratedList saml = new SupervisorAppraisalModeratedList
+                    {
+                        No = item.No,
+                        EmployeeNo = item.EmployeeNo,
+                        KPICode = item.KPIcode,
+                        EmployeeName = item.EmployeeName,
+                        EmployeeDesgnation = item.EmployeeDesgnation,
+                        JobTitle = item.JobTitle,
+                        ManagerNo = item.ManagerNo,
+                        ManagerName = item.ManagerName,
+                        ManagerDesignation = item.ManagerDesignation,
+                        AppraisalPeriod = item.AppraisalPeriod,
+                        AppraisalStartPeriod = item.AppraisalStartPeriod,
+                        AppraisalEndPeriod = item.AppraisalEndPeriod,
+                        AppraisalLevel = item.AppraisalLevel,
+                        EmployeeWeightedScore = item.EmployeeWeightedScore,
+                        SupervisorWeightedScore = item.SupervisorWeightedScore,
+                        OverallWeightedScore = item.OverallWeightedScore,
+                    };
+                    employeeAppraisalModeratedLists.Add(saml);
+                }
+                return Ok(new { employeeAppraisalModeratedLists });
+            }
+
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Employee Moderated Failed: " + x.Message });
+
+            }
+        }
+
+
+
+
+        /*
+        * **********************************************************************************************************************
+        * 
+        *          Supervisor/Employee Appraisal Completed
+        * 
+        * **********************************************************************************************************************
+        */
+
+        //Get Supervisor Completed Appraisal Evaluation  List
+        [Authorize]
+        [HttpGet]
+        [Route("getsupervisorcompleted")]
+        public async Task<IActionResult> GetSupervisorCompleted()
+        {
+            try
+            {
+                List<SupervisorAppraisalModeratedList> employeeAppraisalModeratedLists = new List<SupervisorAppraisalModeratedList>();
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var modRes = await codeUnitWebService.HRWS().GetCompleteSupervisorPerformanceAppraisalSupervisorNoAsync(user.EmployeeId);
+                dynamic modResSerial = JsonConvert.DeserializeObject(modRes.return_value);
+                foreach (var item in modResSerial.EmployeeAppraisals)
+                {
+                    SupervisorAppraisalModeratedList saml = new SupervisorAppraisalModeratedList
+                    {
+                        No = item.No,
+                        EmployeeNo = item.EmployeeNo,
+                        KPICode = item.KPIcode,
+                        EmployeeName = item.EmployeeName,
+                        EmployeeDesgnation = item.EmployeeDesgnation,
+                        JobTitle = item.JobTitle,
+                        ManagerNo = item.ManagerNo,
+                        ManagerName = item.ManagerName,
+                        ManagerDesignation = item.ManagerDesignation,
+                        AppraisalPeriod = item.AppraisalPeriod,
+                        AppraisalStartPeriod = item.AppraisalStartPeriod,
+                        AppraisalEndPeriod = item.AppraisalEndPeriod,
+                        AppraisalLevel = item.AppraisalLevel,
+                        EmployeeWeightedScore = item.EmployeeWeightedScore,
+                        SupervisorWeightedScore = item.SupervisorWeightedScore,
+                        OverallWeightedScore = item.OverallWeightedScore,
+                    };
+                    employeeAppraisalModeratedLists.Add(saml);
+                }
+                return Ok(new { employeeAppraisalModeratedLists });
+            }
+
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Employee Completed Failed: " + x.Message });
+
+            }
+        }
+
+
+        //Get Employee Completed Appraisal Evaluation  List
+        [Authorize]
+        [HttpGet]
+        [Route("getemployeecompleted")]
+        public async Task<IActionResult> GetEmployeeCompleted()
+        {
+            try
+            {
+                List<SupervisorAppraisalModeratedList> employeeAppraisalModeratedLists = new List<SupervisorAppraisalModeratedList>();
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var modRes = await codeUnitWebService.HRWS().GetCompletePerformanceAppraisalByEmployeeNoAsync(user.EmployeeId);
+                dynamic modResSerial = JsonConvert.DeserializeObject(modRes.return_value);
+                foreach (var item in modResSerial.EmployeeAppraisals)
+                {
+                    SupervisorAppraisalModeratedList saml = new SupervisorAppraisalModeratedList
+                    {
+                        No = item.No,
+                        EmployeeNo = item.EmployeeNo,
+                        KPICode = item.KPIcode,
+                        EmployeeName = item.EmployeeName,
+                        EmployeeDesgnation = item.EmployeeDesgnation,
+                        JobTitle = item.JobTitle,
+                        ManagerNo = item.ManagerNo,
+                        ManagerName = item.ManagerName,
+                        ManagerDesignation = item.ManagerDesignation,
+                        AppraisalPeriod = item.AppraisalPeriod,
+                        AppraisalStartPeriod = item.AppraisalStartPeriod,
+                        AppraisalEndPeriod = item.AppraisalEndPeriod,
+                        AppraisalLevel = item.AppraisalLevel,
+                        EmployeeWeightedScore = item.EmployeeWeightedScore,
+                        SupervisorWeightedScore = item.SupervisorWeightedScore,
+                        OverallWeightedScore = item.OverallWeightedScore,
+                    };
+                    employeeAppraisalModeratedLists.Add(saml);
+                }
+                return Ok(new { employeeAppraisalModeratedLists });
+            }
+
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Employee Completed Failed: " + x.Message });
+
+            }
+        }
+
+
+
+        //View Completed Report
+        [Route("viewreport/{HNO}")]
+        [HttpGet]
+        public async Task<IActionResult> ViewRepor(string HNO)
+        {
+            try
+            {
+            var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+
+                var file = await codeUnitWebService.HRWS().GenerateEmployeeSupervisorAppraisalReportAsync(user.EmployeeId, HNO);
+            
+                var stream = new FileStream(file.return_value, FileMode.Open);
+                return new FileStreamResult(stream, "application/pdf");
+
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "Report View failed" + x.Message });
+            }
+        }
+
 
 
 

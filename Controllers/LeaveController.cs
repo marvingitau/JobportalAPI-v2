@@ -631,9 +631,9 @@ namespace RPFBE.Controllers
             }
         }
         //Get Employee Per Manager
-        [Authorize]
+        //[Authorize]
         [HttpGet]
-        [Route("getemployeeanmaanger/{EID}")]
+        [Route("getemployeepermananger/{EID}")]
         public async Task<IActionResult> GetEmployee(string EID)
         {
             try
@@ -641,26 +641,70 @@ namespace RPFBE.Controllers
                 var res = await codeUnitWebService.HRWS().GetOneEmployeeAsync(EID);
                 dynamic resSerial = JsonConvert.DeserializeObject(res.return_value);
                 List<ManagerEmployees> employee = new List<ManagerEmployees>();
-                foreach (var item in resSerial)
+                foreach (var tem in resSerial)
                 {
                     ManagerEmployees me = new ManagerEmployees
                     {
-                        EmployeeNo = item.EmployeeNo,
-                        SupervisorNo = item.SupervisorNo,
-                        EmployeeName = item.EmployeeName,
-                        FullNameReliever = item.FullNameReliever,
-                        EmploymentContractCode = item.EmploymentContractCode,
-                        Gender = item.Gender,
-                        GlobalDimension1Code = item.GlobalDimension1Code,
-                        GlobalDimension2Code = item.GlobalDimension2Code,
-                        ShortcutDimension3Code = item.ShortcutDimension3Code,
-                        EmployeeCompanyEmail = item.EmployeeCompanyEmail,
-                        JobTitle = item.JobTitle,
+                        EmployeeNo = tem.EmployeeNo,
+                        SupervisorNo = tem.SupervisorNo,
+                        EmployeeName = tem.EmployeeName,
+                        FullNameReliever = tem.FullNameReliever,
+                        EmploymentContractCode = tem.EmploymentContractCode,
+                        Gender = tem.Gender,
+                        GlobalDimension1Code = tem.GlobalDimension1Code,
+                        GlobalDimension2Code = tem.GlobalDimension2Code,
+                        ShortcutDimension3Code = tem.ShortcutDimension3Code,
+                        EmployeeCompanyEmail = tem.EmployeeCompanyEmail,
+                        JobTitle = tem.JobTitle,
                     };
                     employee.Add(me);
                 }
 
-                return Ok(new { employee });
+                //Employee Consumed Leaves
+                List<LeaveApplicationList> usedLeaves = new List<LeaveApplicationList>();
+                var usedL = await codeUnitWebService.HRWS().GetleavesAsync("", EID);
+                dynamic usedLSerial = JsonConvert.DeserializeObject(usedL.return_value);
+
+                foreach (var item in usedLSerial)
+                {
+                    LeaveApplicationList usdlapp = new LeaveApplicationList
+                    {
+                        No = item.No,
+                        EmployeeNo = item.EmployeeNo,
+                        EmployeeName = item.EmployeeName,
+                        LeaveType = item.LeaveType,
+                        LeaveStartDate = item.LeaveStartDate,
+                        LeaveBalance = item.LeaveBalance,
+                        DaysApplied = item.DaysApplied,
+                        DaysApproved = item.DaysApproved,
+                        LeaveEndDate = item.LeaveEndDate,
+                        LeaveReturnDate = item.LeaveReturnDate,
+                        ReasonForLeave = item.ReasonForLeave,
+                        RejectionComments = item.RejectionComments,
+                        SubstituteEmployeeNo = item.SubstituteEmployeeNo,
+                        SubstituteEmployeeName = item.SubstituteEmployeeName,
+                        Status = item.Status,
+                    };
+                    usedLeaves.Add(usdlapp);
+                }
+
+                //Employee Balance Leave
+                List<LeaveTypes> leaveBalance = new List<LeaveTypes>();
+                var lBal = await codeUnitWebService.HRWS().GetEmployeeLeaveBalancesAsync(EID);
+                dynamic lBalSerial = JsonConvert.DeserializeObject(lBal.return_value);
+                foreach (var itm in lBalSerial)
+                {
+                    LeaveTypes lty = new LeaveTypes
+                    {
+                        Leavebalance = itm.LeaveBalance,
+                        Label = itm.LeaveType,
+                    };
+                    leaveBalance.Add(lty);
+
+                }
+
+
+                return Ok(new { employee, usedLeaves, leaveBalance });
             }
             catch (Exception x)
             {

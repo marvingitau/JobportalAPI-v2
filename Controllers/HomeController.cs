@@ -1030,7 +1030,7 @@ namespace RPFBE.Controllers
 
                 try
                 {
-                    // await mailService.SendEmailPasswordReset(user.Email, link);
+                     await mailService.SendEmailPasswordReset(user.Email, link);
                     return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Link Mailed" });
                 }
                 catch (Exception x)
@@ -1294,9 +1294,10 @@ namespace RPFBE.Controllers
                         await dbContext.SaveChangesAsync();
                     }
 
-                
                 }
-                
+                //Mail Employee.
+                var sendEmpMail = await codeUnitWebService.WSMailer().ExitInterviewAsync(interviewCard.EID);
+
 
                 return Ok(new { interviewCard });
             }

@@ -89,6 +89,9 @@ namespace Mailer
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:EmployeeEOCHRApproves", ReplyAction="*")]
         System.Threading.Tasks.Task<Mailer.EmployeeEOCHRApproves_Result> EmployeeEOCHRApprovesAsync(Mailer.EmployeeEOCHRApproves request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:ExitInterview", ReplyAction="*")]
+        System.Threading.Tasks.Task<Mailer.ExitInterview_Result> ExitInterviewAsync(Mailer.ExitInterview request);
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -795,6 +798,38 @@ namespace Mailer
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ExitInterview", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", IsWrapped=true)]
+    public partial class ExitInterview
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=0)]
+        public string eID;
+        
+        public ExitInterview()
+        {
+        }
+        
+        public ExitInterview(string eID)
+        {
+            this.eID = eID;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ExitInterview_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", IsWrapped=true)]
+    public partial class ExitInterview_Result
+    {
+        
+        public ExitInterview_Result()
+        {
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     public interface Notifications_PortChannel : Mailer.Notifications_Port, System.ServiceModel.IClientChannel
     {
@@ -1129,6 +1164,19 @@ namespace Mailer
             Mailer.EmployeeEOCHRApproves inValue = new Mailer.EmployeeEOCHRApproves();
             inValue.pKey = pKey;
             return ((Mailer.Notifications_Port)(this)).EmployeeEOCHRApprovesAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<Mailer.ExitInterview_Result> Mailer.Notifications_Port.ExitInterviewAsync(Mailer.ExitInterview request)
+        {
+            return base.Channel.ExitInterviewAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<Mailer.ExitInterview_Result> ExitInterviewAsync(string eID)
+        {
+            Mailer.ExitInterview inValue = new Mailer.ExitInterview();
+            inValue.eID = eID;
+            return ((Mailer.Notifications_Port)(this)).ExitInterviewAsync(inValue);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()

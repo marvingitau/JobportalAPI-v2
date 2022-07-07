@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using RPFBE.Auth;
 using RPFBE.Model;
 using RPFBE.Model.DBEntity;
+using RPFBE.Model.DocumentModels;
 using RPFBE.Model.Repository;
 using System;
 using System.Collections.Generic;
@@ -131,14 +132,14 @@ namespace RPFBE.Controllers
 
         //Read Employee Document
         [Authorize]
-        [HttpGet]
-        [Route("reademployeedocument/{Filename}/{Doccode}")]
-        public async Task<IActionResult> ReadEmployeeDocument(string Filename,string Doccode)
+        [HttpPost]
+        [Route("reademployeedocument")]
+        public async Task<IActionResult> ReadEmployeeDocument([FromBody] DocumentModel document)
         {
             try
             {
                 var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
-                var file = config.Value.HRDocFilePath+Filename;
+                var file = document.Path;
 
                 //byte[] b = System.IO.File.ReadAllBytes(file);
                 //return  Convert.ToBase64String(b);

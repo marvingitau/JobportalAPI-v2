@@ -20,6 +20,12 @@ namespace RPFBE.Model
 
         //HR Docs
         public string HRDocFilePath { get; set; }
+        //CU URL Parts
+        public string Protocol { get; set; }
+        public string DynamicsServer { get; set; }
+        public string SOAPPort { get; set; }
+        public string DynamicsServiceName { get; set; }
+        public string CompanyURLName { get; set; }
 
     }
 }

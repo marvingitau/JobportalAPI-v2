@@ -817,21 +817,7 @@ namespace RPFBE.Controllers
             {
            
 
-                //Specific Training Need
-                List<ReflectionDataFocus> specificFocusList = new List<ReflectionDataFocus>();
-                var focusArea = await codeUnitWebService.HRWS().GetAppraisalTrainingNeedsAsync(HeaderNo);
-                dynamic focusSerial = JsonConvert.DeserializeObject(focusArea.return_value);
-                foreach (var itm in focusSerial)
-                {
-                    ReflectionDataFocus focus = new ReflectionDataFocus
-                    {
-                        LineNo = itm.LineNo,
-                        HeaderNo = itm.HeaderNo,
-                        SpecificFocusArea = itm.TrainingNeed,
-                    };
-                    specificFocusList.Add(focus);
-                }
-
+              
                 //Area Of Improvement
                 List<ReflectionDataDevelopment> areaofDevelopmentList = new List<ReflectionDataDevelopment>();
                 var develArea = await codeUnitWebService.HRWS().GetAppraisalAreaofImprovementAsync(HeaderNo);
@@ -846,8 +832,6 @@ namespace RPFBE.Controllers
                     };
                     areaofDevelopmentList.Add(focus);
                 }
-
-
 
                 //Area of Achievement
                 List<ReflectionDataAchieve> areaofAchievementList = new List<ReflectionDataAchieve>();
@@ -882,7 +866,7 @@ namespace RPFBE.Controllers
                     specificFocusList1.Add(focus);
                 }
 
-                //Area Of Development
+                //Area Of Development supervisor
                 List<ReflectionDataDevelopment> areaofDevelopmentList1 = new List<ReflectionDataDevelopment>();
                 var develArea1 = await codeUnitWebService.HRWS().GetAppraisalAreaofDevelopmentAsync(HeaderNo);
                 dynamic developSerial1 = JsonConvert.DeserializeObject(develArea1.return_value);
@@ -899,6 +883,20 @@ namespace RPFBE.Controllers
                     areaofDevelopmentList1.Add(focus);
                 }
 
+                //Specific Training Need supervisor
+                List<ReflectionDataFocus> specificFocusList = new List<ReflectionDataFocus>();
+                var focusArea = await codeUnitWebService.HRWS().GetAppraisalTrainingNeedsAsync(HeaderNo);
+                dynamic focusSerial = JsonConvert.DeserializeObject(focusArea.return_value);
+                foreach (var itm in focusSerial)
+                {
+                    ReflectionDataFocus focus = new ReflectionDataFocus
+                    {
+                        LineNo = itm.LineNo,
+                        HeaderNo = itm.HeaderNo,
+                        SpecificFocusArea = itm.TrainingNeed,
+                    };
+                    specificFocusList.Add(focus);
+                }
 
 
 

@@ -31,6 +31,7 @@ namespace RPFBE.Auth
         public DbSet<ProbationProgress> ProbationProgress { get; set; }
         public DbSet<EndofContractProgress> EndofContractProgress { get; set; }
         public DbSet<GrievanceList> GrievanceList { get; set; }
+        public DbSet<DocumentSetting> DocumentSetting { get; set; }
 
 
 

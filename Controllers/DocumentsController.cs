@@ -187,5 +187,127 @@ namespace RPFBE.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Document Read check failed: " + x.Message });
             }
         }
+
+        //Get document list
+    
+        [Authorize]
+        [HttpGet]
+        [Route("getdocumentlist")]
+        public async Task<IActionResult> GetDocumentList()
+        {
+            try
+            {
+                List<HRDocList> docLists = new List<HRDocList>();
+                var li = await codeUnitWebService.Client().HRDocsListAsync();
+                dynamic liSerial = JsonConvert.DeserializeObject(li.return_value);
+                foreach (var item in liSerial)
+                {
+
+                    HRDocList hRDoc = new HRDocList
+                    {
+                        Value = item.Value,
+                        Label = item.Label
+                    };
+                    docLists.Add(hRDoc);
+                }
+
+                var selectedDocument = dbContext.DocumentSetting.FirstOrDefault();
+
+                return Ok(new { docLists, selectedDocument });
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Get document list failed: " + x.Message });
+            }
+        }
+        //Get the set Value in DB ---- DEPRECATED-----
+        [Authorize]
+        [HttpGet]
+        [Route("getsetdocumentlistvalue")]
+        public IActionResult GetSetDocListValue()
+        {
+            try
+            {
+                var selectedDocument = dbContext.DocumentSetting.First();
+                return Ok(new { selectedDocument.ReadMandatory });
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Get selected document  failed: " + x.Message });
+            }
+        }
+
+        //setting is read required
+        [Authorize]
+        [HttpPost]
+        [Route("setmandarydoc")]
+        public async Task<IActionResult> SetMandatory([FromBody] DocumentSetting documentSetting)
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                documentSetting.LastUser = user.Id;
+                var firstRec = dbContext.DocumentSetting.FirstOrDefault();
+              
+                if (firstRec != null)
+                {
+                    firstRec.LastUser = user.Id;
+                    firstRec.ReadMandatory = documentSetting.ReadMandatory;
+                    var res = dbContext.DocumentSetting.Update(firstRec);
+                    await dbContext.SaveChangesAsync();
+                }
+                else
+                {
+                    var res = dbContext.DocumentSetting.Add(documentSetting);
+                    await dbContext.SaveChangesAsync();
+                }
+               
+                return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Set Mandatory document, Success: "+ documentSetting.ReadMandatory });
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Set Mandatory document  failed: " + x.Message });
+            }
+        }
+
+        //Check whether Document is Read
+        [Authorize]
+        [HttpGet]
+        [Route("checkifdocumentisread")]
+        public async Task<IActionResult> CheckifDocumentisRead()
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var selectedDocument = dbContext.DocumentSetting.FirstOrDefault();
+                if (selectedDocument != null)
+                {
+                    if (selectedDocument.ReadMandatory != "" && selectedDocument.ReadMandatory != null)
+                    {
+                        var res = await codeUnitWebService.Client().IsDocReadAsync(user.EmployeeId, selectedDocument.ReadMandatory);
+                        return Ok(new { res.return_value });
+                    }
+                    else
+                    {
+                        var res = await codeUnitWebService.Client().IsDocReadAsync(user.EmployeeId,"NA");
+                        return Ok(new { res.return_value });
+                    }
+                   
+                }
+                else
+                {
+                    //enable employee to operate normally if the HR hasnt setup the no read prevention measures
+                    var return_value = true;
+
+                    return Ok(new { return_value });
+                }
+                
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Check if Document is Read failed: " + x.Message });
+            }
+        }
+
     }
 }

@@ -2560,6 +2560,22 @@ namespace RPFBE.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Clearance Card Data Failed: " + x.Message });
             }
         }
+        
+        [HttpGet]
+        [Route("users")]
+        public IActionResult GetUsers()
+        {
+            try
+            {
+                var users = dbContext.Users.Count();
+                return Ok(new { users });
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Login Err: " + x.Message });
+
+            }
+        }
 
     }
 }

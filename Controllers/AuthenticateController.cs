@@ -57,46 +57,62 @@ namespace RPFBE.Controllers
             return View();
         }
 
+
+
         [HttpPost]
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
-            var user = await userManager.FindByEmailAsync(model.Email);
-
-            if (user != null && await userManager.CheckPasswordAsync(user, model.Password))
+            try
             {
-                var userRoles = await userManager.GetRolesAsync(user);
+                var user = await userManager.FindByEmailAsync(model.Email);
 
-                var authClaims = new List<Claim>
+                if (user != null && await userManager.CheckPasswordAsync(user, model.Password))
+                {
+                    var userRoles = await userManager.GetRolesAsync(user);
+
+                    var authClaims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.UserName),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 };
 
-                foreach (var userRole in userRoles)
-                {
-                    authClaims.Add(new Claim(ClaimTypes.Role, userRole));
+                    foreach (var userRole in userRoles)
+                    {
+                        authClaims.Add(new Claim(ClaimTypes.Role, userRole));
+                    }
+
+                    var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"]));
+
+                    var token = new JwtSecurityToken(
+                        issuer: configuration["JWT:ValidIssuer"],
+                        audience: configuration["JWT:ValidAudience"],
+                        expires: DateTime.Now.AddHours(6),
+                        claims: authClaims,
+                        signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+                        );
+
+
+
+
+                    return Ok(new
+                    {
+                        idToken = new JwtSecurityTokenHandler().WriteToken(token),
+                        expiresIn = token.ValidTo.TimeOfDay.TotalMilliseconds,
+                        expireDate = token.ValidTo,
+                        user = userRoles,
+                        user.Name,
+                    });
                 }
-
-                var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"]));
-
-                var token = new JwtSecurityToken(
-                    issuer: configuration["JWT:ValidIssuer"],
-                    audience: configuration["JWT:ValidAudience"],
-                    expires: DateTime.Now.AddHours(6),
-                    claims: authClaims,
-                    signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
-                    );
-                return Ok(new
-                {
-                    idToken = new JwtSecurityTokenHandler().WriteToken(token),
-                    expiresIn = token.ValidTo.TimeOfDay.TotalMilliseconds,
-                    expireDate = token.ValidTo,
-                    user = userRoles,
-                    user.Name,
-                });
+                return StatusCode(StatusCodes.Status401Unauthorized, new Response { Status = "Error", Message = "INVALID_USER" });
             }
-            return StatusCode(StatusCodes.Status401Unauthorized, new Response { Status = "Error", Message = "INVALID_USER" });
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Login Err: " + x.Message });
+
+            }
+
             //return Unauthorized();
         }
 
@@ -105,66 +121,76 @@ namespace RPFBE.Controllers
         [Route("register-admin")]
         public async Task<IActionResult> RegisterAdmin([FromBody] RegisterModel model)
         {
-            // return Ok(model.EmployeeId);
-            var res = await codeUnitWebService.EmployeeAccount().LoginEmployeeCoreAsync(model.EmployeeId, Cryptography.Hash(model.Password));
-            dynamic resSerial = JsonConvert.DeserializeObject(res.return_value);
-
-            LoginEmpCoreModel loginEmpCore = new LoginEmpCoreModel
+            try
             {
-                Status = resSerial.Status,
-                Rank = resSerial.Rank
-            };
+                // return Ok(model.EmployeeId);
+                var res = await codeUnitWebService.EmployeeAccount().LoginEmployeeCoreAsync(model.EmployeeId, Cryptography.Hash(model.Password));
+                dynamic resSerial = JsonConvert.DeserializeObject(res.return_value);
+
+                LoginEmpCoreModel loginEmpCore = new LoginEmpCoreModel
+                {
+                    Status = resSerial.Status,
+                    Rank = resSerial.Rank
+                };
 
 
-            if (loginEmpCore.Status)
+                if (loginEmpCore.Status)
+                {
+                    try
+                    {
+                        var userExists = await userManager.FindByNameAsync(model.Username);
+                        if (userExists != null)
+                            return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
+
+                        ApplicationUser user = new ApplicationUser()
+                        {
+                            Email = model.Email,
+                            SecurityStamp = Guid.NewGuid().ToString(),
+                            UserName = model.Username,
+                            EmployeeId = model.EmployeeId,
+                            Name = model.Username,
+                            Rank = loginEmpCore.Rank
+                        };
+                        var result = await userManager.CreateAsync(user, model.Password);
+                        var errs = result.Errors.Select(x => "Code: " + x.Code + " Description: " + x.Description).ToArray();
+                        if (!result.Succeeded)
+                        {
+                            //return Ok(new { errs });
+                            return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = errs });
+
+                        }
+                        if (!await roleManager.RoleExistsAsync(loginEmpCore.Rank))
+                            await roleManager.CreateAsync(new IdentityRole(loginEmpCore.Rank));
+                        if (!await roleManager.RoleExistsAsync(UserRoles.User))
+                            await roleManager.CreateAsync(new IdentityRole(UserRoles.User));
+
+                        if (await roleManager.RoleExistsAsync(loginEmpCore.Rank))
+                        {
+                            await userManager.AddToRoleAsync(user, loginEmpCore.Rank);
+
+                        }
+
+                        return Ok(new Response { Status = "Success", Message = "User created successfully!" });
+                    }
+                    catch (Exception x)
+                    {
+
+                        return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed Exception! :" + x.Data });
+                    }
+
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "INVALID_USER_D365" });
+                }
+            }
+            catch (Exception x)
             {
-                try
-                {
-                    var userExists = await userManager.FindByNameAsync(model.Username);
-                    if (userExists != null)
-                        return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
 
-                    ApplicationUser user = new ApplicationUser()
-                    {
-                        Email = model.Email,
-                        SecurityStamp = Guid.NewGuid().ToString(),
-                        UserName = model.Username,
-                        EmployeeId = model.EmployeeId,
-                        Name = model.Username,
-                        Rank = loginEmpCore.Rank
-                    };
-                    var result = await userManager.CreateAsync(user, model.Password);
-                    var errs = result.Errors.Select(x => "Code: " + x.Code + " Description: " + x.Description).ToArray();
-                    if (!result.Succeeded)
-                    {
-                        //return Ok(new { errs });
-                        return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = errs });
-
-                    }
-                    if (!await roleManager.RoleExistsAsync(loginEmpCore.Rank))
-                        await roleManager.CreateAsync(new IdentityRole(loginEmpCore.Rank));
-                    if (!await roleManager.RoleExistsAsync(UserRoles.User))
-                        await roleManager.CreateAsync(new IdentityRole(UserRoles.User));
-
-                    if (await roleManager.RoleExistsAsync(loginEmpCore.Rank))
-                    {
-                        await userManager.AddToRoleAsync(user, loginEmpCore.Rank);
-
-                    }
-
-                    return Ok(new Response { Status = "Success", Message = "User created successfully!" });
-                }
-                catch (Exception x)
-                {
-
-                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed Exception! :" + x.Data });
-                }
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Staff Registration Failed: " + x.Message });
 
             }
-            else
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "INVALID_USER_D365" });
-            }
+
         }
 
         [HttpPost]
@@ -250,7 +276,7 @@ namespace RPFBE.Controllers
                                     var subDirectory = "Files/LeaveAttachments";
                                     var target = Path.Combine(webHostEnvironment.ContentRootPath, subDirectory);
 
-                                   // string fileName = @"C:\Temp\MaheshTX.txt";
+                                    // string fileName = @"C:\Temp\MaheshTX.txt";
 
                                     // Set a variable to the Documents path.
                                     //string docPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -266,7 +292,7 @@ namespace RPFBE.Controllers
                                 }
                                 catch (Exception x)
                                 {
-                                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "File Err: "+x.Message });
+                                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "File Err: " + x.Message });
 
                                 }
 
@@ -374,10 +400,29 @@ namespace RPFBE.Controllers
             catch (Exception x)
             {
 
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "SetPassword Failed: " +x.Message});
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "SetPassword Failed: " + x.Message });
 
             }
         }
+        //Check Docs Read status
+        [HttpGet]
+        [Route("isreaddoc/{EID}")]
+        public async Task<IActionResult> IsReadDoc(string EID)
+        {
+            try
+            {
+                //Get mandatory docs
+                var res = await codeUnitWebService.Client().IsDocReadAsync(EID, "");
+                return Ok(new { res.return_value });
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Get Read Status Failed: " + x.Message });
+
+            }
+        }
+
 
     }
 }

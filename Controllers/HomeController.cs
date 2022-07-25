@@ -1014,6 +1014,17 @@ namespace RPFBE.Controllers
         [HttpGet]
         [Route("reset/{email}")]
 
+        /*
+         * *************************************************************************************************************
+         * 
+         * 
+         * 
+         *                      PASSWORD RESET LOGIC FOR IDENTTY FRAMEWORK.
+         * 
+         * 
+         * 
+         **************************************************************************************************************** 
+         */
         //Get token
         public async Task<IActionResult> RequestPasswordResetLink(string email)
         {
@@ -1055,15 +1066,34 @@ namespace RPFBE.Controllers
             {
                 var user = dbContext.Users.Where(x => x.Email == forgottenModel.Email).FirstOrDefault();
                 var resetPassResult = await userManager.ResetPasswordAsync(user, forgottenModel.Token, forgottenModel.Password);
-                if (resetPassResult.Succeeded)
+
+                var isEmployeeExist = await codeUnitWebService.EmployeeAccount().EmployeeExistsAsync(user.EmployeeId);
+                if (isEmployeeExist.return_value)
                 {
-                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Passord reset Success" });
+                    var isTokenSet = await codeUnitWebService.EmployeeAccount().ResetEmployeePortalPasswordAsync(user.EmployeeId, Cryptography.Hash(forgottenModel.Password));
+                    if (resetPassResult.Succeeded && isTokenSet.return_value)
+                    {
+                        return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Passord reset Success" });
+                    }
+                    else
+                    {
+                        return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "Password reset failed " });
+
+                    }
                 }
                 else
                 {
-                    return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "Password reset failed " });
+                    if (resetPassResult.Succeeded)
+                    {
+                        return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Passord reset Success" });
+                    }
+                    else
+                    {
+                        return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "Password reset failed " });
 
+                    }
                 }
+
             }
             catch (Exception x)
             {

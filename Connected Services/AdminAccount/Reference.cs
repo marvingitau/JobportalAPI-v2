@@ -579,14 +579,18 @@ namespace AdminAccount
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/EmployeeAccountWebService", Order=1)]
         public string pW;
         
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/EmployeeAccountWebService", Order=2)]
+        public string mail;
+        
         public LoginEmployeeCore()
         {
         }
         
-        public LoginEmployeeCore(string pK, string pW)
+        public LoginEmployeeCore(string pK, string pW, string mail)
         {
             this.pK = pK;
             this.pW = pW;
+            this.mail = mail;
         }
     }
     
@@ -1079,11 +1083,12 @@ namespace AdminAccount
             return base.Channel.LoginEmployeeCoreAsync(request);
         }
         
-        public System.Threading.Tasks.Task<AdminAccount.LoginEmployeeCore_Result> LoginEmployeeCoreAsync(string pK, string pW)
+        public System.Threading.Tasks.Task<AdminAccount.LoginEmployeeCore_Result> LoginEmployeeCoreAsync(string pK, string pW, string mail)
         {
             AdminAccount.LoginEmployeeCore inValue = new AdminAccount.LoginEmployeeCore();
             inValue.pK = pK;
             inValue.pW = pW;
+            inValue.mail = mail;
             return ((AdminAccount.EmployeeAccountWebService_Port)(this)).LoginEmployeeCoreAsync(inValue);
         }
         

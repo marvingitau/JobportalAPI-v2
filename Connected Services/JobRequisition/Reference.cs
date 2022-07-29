@@ -415,6 +415,22 @@ namespace JobRequisition
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:GetLeaveAttachmentStatus", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.GetLeaveAttachmentStatus_Result> GetLeaveAttachmentStatusAsync(JobRequisition.GetLeaveAttachmentStatus request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:AddExtraDays", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.AddExtraDays_Result> AddExtraDaysAsync(JobRequisition.AddExtraDays request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:GetExtraDays", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.GetExtraDays_Result> GetExtraDaysAsync(JobRequisition.GetExtraDays request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:HasLeaveHasExtraDays", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.HasLeaveHasExtraDays_Result> HasLeaveHasExtraDaysAsync(JobRequisition.HasLeaveHasExtraDays request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:DeleteExtraDays", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.DeleteExtraDays_Result> DeleteExtraDaysAsync(JobRequisition.DeleteExtraDays request);
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -4745,6 +4761,192 @@ namespace JobRequisition
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="AddExtraDays", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class AddExtraDays
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string leaveNo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=1)]
+        public string empNo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(DataType="date")]
+        public System.DateTime startDate;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=3)]
+        public decimal days;
+        
+        public AddExtraDays()
+        {
+        }
+        
+        public AddExtraDays(string leaveNo, string empNo, System.DateTime startDate, decimal days)
+        {
+            this.leaveNo = leaveNo;
+            this.empNo = empNo;
+            this.startDate = startDate;
+            this.days = days;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="AddExtraDays_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class AddExtraDays_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public AddExtraDays_Result()
+        {
+        }
+        
+        public AddExtraDays_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetExtraDays", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GetExtraDays
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string lNo;
+        
+        public GetExtraDays()
+        {
+        }
+        
+        public GetExtraDays(string lNo)
+        {
+            this.lNo = lNo;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetExtraDays_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GetExtraDays_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public GetExtraDays_Result()
+        {
+        }
+        
+        public GetExtraDays_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="HasLeaveHasExtraDays", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class HasLeaveHasExtraDays
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string lNo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=1)]
+        public string lType;
+        
+        public HasLeaveHasExtraDays()
+        {
+        }
+        
+        public HasLeaveHasExtraDays(string lNo, string lType)
+        {
+            this.lNo = lNo;
+            this.lType = lType;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="HasLeaveHasExtraDays_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class HasLeaveHasExtraDays_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public bool return_value;
+        
+        public HasLeaveHasExtraDays_Result()
+        {
+        }
+        
+        public HasLeaveHasExtraDays_Result(bool return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="DeleteExtraDays", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class DeleteExtraDays
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string leaveNo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(DataType="date")]
+        public System.DateTime startDate;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=2)]
+        public string empNo;
+        
+        public DeleteExtraDays()
+        {
+        }
+        
+        public DeleteExtraDays(string leaveNo, System.DateTime startDate, string empNo)
+        {
+            this.leaveNo = leaveNo;
+            this.startDate = startDate;
+            this.empNo = empNo;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="DeleteExtraDays_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class DeleteExtraDays_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public bool return_value;
+        
+        public DeleteExtraDays_Result()
+        {
+        }
+        
+        public DeleteExtraDays_Result(bool return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     public interface JWS_PortChannel : JobRequisition.JWS_Port, System.ServiceModel.IClientChannel
     {
@@ -6195,6 +6397,64 @@ namespace JobRequisition
             JobRequisition.GetLeaveAttachmentStatus inValue = new JobRequisition.GetLeaveAttachmentStatus();
             inValue.leaveType = leaveType;
             return ((JobRequisition.JWS_Port)(this)).GetLeaveAttachmentStatusAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.AddExtraDays_Result> JobRequisition.JWS_Port.AddExtraDaysAsync(JobRequisition.AddExtraDays request)
+        {
+            return base.Channel.AddExtraDaysAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.AddExtraDays_Result> AddExtraDaysAsync(string leaveNo, string empNo, System.DateTime startDate, decimal days)
+        {
+            JobRequisition.AddExtraDays inValue = new JobRequisition.AddExtraDays();
+            inValue.leaveNo = leaveNo;
+            inValue.empNo = empNo;
+            inValue.startDate = startDate;
+            inValue.days = days;
+            return ((JobRequisition.JWS_Port)(this)).AddExtraDaysAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.GetExtraDays_Result> JobRequisition.JWS_Port.GetExtraDaysAsync(JobRequisition.GetExtraDays request)
+        {
+            return base.Channel.GetExtraDaysAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.GetExtraDays_Result> GetExtraDaysAsync(string lNo)
+        {
+            JobRequisition.GetExtraDays inValue = new JobRequisition.GetExtraDays();
+            inValue.lNo = lNo;
+            return ((JobRequisition.JWS_Port)(this)).GetExtraDaysAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.HasLeaveHasExtraDays_Result> JobRequisition.JWS_Port.HasLeaveHasExtraDaysAsync(JobRequisition.HasLeaveHasExtraDays request)
+        {
+            return base.Channel.HasLeaveHasExtraDaysAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.HasLeaveHasExtraDays_Result> HasLeaveHasExtraDaysAsync(string lNo, string lType)
+        {
+            JobRequisition.HasLeaveHasExtraDays inValue = new JobRequisition.HasLeaveHasExtraDays();
+            inValue.lNo = lNo;
+            inValue.lType = lType;
+            return ((JobRequisition.JWS_Port)(this)).HasLeaveHasExtraDaysAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.DeleteExtraDays_Result> JobRequisition.JWS_Port.DeleteExtraDaysAsync(JobRequisition.DeleteExtraDays request)
+        {
+            return base.Channel.DeleteExtraDaysAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.DeleteExtraDays_Result> DeleteExtraDaysAsync(string leaveNo, System.DateTime startDate, string empNo)
+        {
+            JobRequisition.DeleteExtraDays inValue = new JobRequisition.DeleteExtraDays();
+            inValue.leaveNo = leaveNo;
+            inValue.startDate = startDate;
+            inValue.empNo = empNo;
+            return ((JobRequisition.JWS_Port)(this)).DeleteExtraDaysAsync(inValue);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()

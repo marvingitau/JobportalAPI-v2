@@ -124,7 +124,7 @@ namespace RPFBE.Controllers
             try
             {
                 // return Ok(model.EmployeeId);
-                var res = await codeUnitWebService.EmployeeAccount().LoginEmployeeCoreAsync(model.EmployeeId, Cryptography.Hash(model.Password));
+                var res = await codeUnitWebService.EmployeeAccount().LoginEmployeeCoreAsync(model.EmployeeId, Cryptography.Hash(model.Password),model.Email);
                 dynamic resSerial = JsonConvert.DeserializeObject(res.return_value);
 
                 LoginEmpCoreModel loginEmpCore = new LoginEmpCoreModel
@@ -360,7 +360,7 @@ namespace RPFBE.Controllers
                             var isTokenExpired = await codeUnitWebService.EmployeeAccount().IsPasswordResetTokenExpiredAsync(newpassword.EmployeeId, newpassword.Token);
                             if (isTokenExpired.return_value)
                             {
-                                //Set Token
+                                //Set Passcode
                                 var isTokenSet = await codeUnitWebService.EmployeeAccount().ResetEmployeePortalPasswordAsync(newpassword.EmployeeId, Cryptography.Hash(newpassword.Password));
                                 if (isTokenSet.return_value)
                                 {

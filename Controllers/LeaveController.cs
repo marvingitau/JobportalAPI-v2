@@ -101,7 +101,7 @@ namespace RPFBE.Controllers
                 {
                     LeaveApplicationList lap = new LeaveApplicationList
                     {
-                        
+
                         No = item.No,
                         EmployeeNo = item.EmployeeNo,
                         EmployeeName = item.EmployeeName,
@@ -172,7 +172,7 @@ namespace RPFBE.Controllers
                             employeeListModels.Add(e);
 
                         }
-                       
+
                         return Ok(new { leaveNo.return_value, employeeListModels });
                     }
                     else
@@ -199,31 +199,37 @@ namespace RPFBE.Controllers
         [Authorize]
         [HttpGet]
         [Route("onselectleavetype/{LNO}/{LTYP}")]
-        public async Task<IActionResult> OnSelectLeavetype(string LNO,string LTYP)
+        public async Task<IActionResult> OnSelectLeavetype(string LNO, string LTYP)
         {
             try
             {
                 //upload the leave type to portal documents
-                var res =await codeUnitWebService.HRWS().InsertLeaveApplicationDocumentsAsync(LNO, LTYP);
+                var res = await codeUnitWebService.HRWS().InsertLeaveApplicationDocumentsAsync(LNO, LTYP);
                 if (res.return_value)
                 {
                     //Check of selected leave type is attachment required
                     var isAttachementRequired = await codeUnitWebService.Client().GetLeaveAttachmentStatusAsync(LTYP);
+                    //Does Leave has Extra Days -- DEPRECATED -- Moved to onleavesubmit
+                    var hasExtradays = await codeUnitWebService.Client().HasLeaveHasExtraDaysAsync(LNO,LTYP);
+                    var hasExtraDays = LTYP == "EXAM LEAVE" ? true : false;
 
                     //return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = $"The Leave {LNO} of {LTYP} has been recorded" });
-                    return Ok(new { isAttachementRequired.return_value });
+                    return Ok(new { isAttachementRequired.return_value, hasExtraDays });
                 }
                 else
                 {
                     var isAttachementRequired = await codeUnitWebService.Client().GetLeaveAttachmentStatusAsync(LTYP);
 
-                    return Ok(new { isAttachementRequired.return_value });
+                    var hasExtradays = await codeUnitWebService.Client().HasLeaveHasExtraDaysAsync(LNO, LTYP);
+                    var hasExtraDays = LTYP == "EXAM LEAVE" ? true : false;
+
+                    return Ok(new { isAttachementRequired.return_value, hasExtraDays });
                     //return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = $"The Leave {LNO} of {LTYP} has not been recorded " });
                 }
             }
             catch (Exception x)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "LeaveType Create New Record Failed: " + x.Message }); 
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "LeaveType Create New Record Failed: " + x.Message });
             }
         }
 
@@ -231,17 +237,17 @@ namespace RPFBE.Controllers
         [Authorize]
         [HttpGet]
         [Route("checkifattachmentisrequired/{LTYP}")]
-        public async Task<IActionResult> IsAttachementRequired( string LTYP)
+        public async Task<IActionResult> IsAttachementRequired(string LTYP)
         {
             try
             {
-                
-                    //Check of selected leave type is attachment required
-                    var isAttachementRequired = await codeUnitWebService.Client().GetLeaveAttachmentStatusAsync(LTYP);
 
-                    //return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = $"The Leave {LNO} of {LTYP} has been recorded" });
-                    return Ok(new { isAttachementRequired.return_value });
-               
+                //Check of selected leave type is attachment required
+                var isAttachementRequired = await codeUnitWebService.Client().GetLeaveAttachmentStatusAsync(LTYP);
+
+                //return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = $"The Leave {LNO} of {LTYP} has been recorded" });
+                return Ok(new { isAttachementRequired.return_value });
+
             }
             catch (Exception x)
             {
@@ -260,12 +266,12 @@ namespace RPFBE.Controllers
             {
                 var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
                 var endDate = await codeUnitWebService.HRWS().GetLeaveEndDateAsync(user.EmployeeId, leaveEndDate.LeaveType, leaveEndDate.LeaveStartDate, leaveEndDate.DaysApplied);
-                var returnDate =await codeUnitWebService.HRWS().GetLeaveReturnDateAsync(user.EmployeeId, leaveEndDate.LeaveType, leaveEndDate.LeaveStartDate, leaveEndDate.DaysApplied);
+                var returnDate = await codeUnitWebService.HRWS().GetLeaveReturnDateAsync(user.EmployeeId, leaveEndDate.LeaveType, leaveEndDate.LeaveStartDate, leaveEndDate.DaysApplied);
 
                 DateTime EndDate = endDate.return_value;
                 DateTime ReturnDate = returnDate.return_value;
-                var EndD= EndDate.ToString("MM/dd/yyyy");
-                var ReturnD= ReturnDate.ToString("MM/dd/yyyy");
+                var EndD = EndDate.ToString("MM/dd/yyyy");
+                var ReturnD = ReturnDate.ToString("MM/dd/yyyy");
                 return Ok(new { EndD, ReturnD });
             }
             catch (Exception x)
@@ -278,7 +284,7 @@ namespace RPFBE.Controllers
         [Authorize]
         [Route("uploadleaveattachment/{LNO}/{LTYP}")]
         [HttpPost]
-        public async Task<IActionResult> UploadLeaveAttachment([FromForm] IFormFile formFile,string LNO,string LTYP)
+        public async Task<IActionResult> UploadLeaveAttachment([FromForm] IFormFile formFile, string LNO, string LTYP)
         {
             try
             {
@@ -289,7 +295,7 @@ namespace RPFBE.Controllers
                 var target = Path.Combine(webHostEnvironment.ContentRootPath, subDirectory);
                 // string fileName = new String(Path.GetFileNameWithoutExtension(formFile.FileName).Take(10).ToArray()).Replace(' ', '-');
                 // DateTime.Now.ToString("yymmssfff")
-                string fileName = LNO+"_"+LTYP;
+                string fileName = LNO + "_" + LTYP;
                 fileName = fileName + Path.GetExtension(formFile.FileName);
                 var path = Path.Combine(target, fileName);
                 using (FileStream stream = new FileStream(path, FileMode.Create))
@@ -348,7 +354,7 @@ namespace RPFBE.Controllers
             }
             catch (Exception x)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Attachment View failed " + x.Message});
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Attachment View failed " + x.Message });
             }
         }
 
@@ -371,9 +377,13 @@ namespace RPFBE.Controllers
                     try
                     {
                         var isApproved = await codeUnitWebService.HRWS().SendLeaveApplicationApprovalRequestAPIAsync(leaveEnd.LeaveAppNo);
-                        if (isApproved.return_value=="true")
+                        if (isApproved.return_value == "true")
                         {
-                            return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Your leave application was successfully sent for approval. Once approved, you will receive an email containing your leave details." });
+                            //Does Leave has Extra Days
+                            var hasExtradays = await codeUnitWebService.Client().HasLeaveHasExtraDaysAsync(leaveEnd.LeaveAppNo, leaveEnd.LeaveType);
+                            var hasExtraDays = leaveEnd.LeaveType == "EXAM LEAVE" ? true : false;
+
+                            return StatusCode(StatusCodes.Status200OK, new Response {HasExtraDays= hasExtraDays, Status = "Success", Message = "Your leave application was successfully sent for approval. Once approved, you will receive an email containing your leave details." });
                         }
                         else
                         {
@@ -391,14 +401,14 @@ namespace RPFBE.Controllers
                 }
                 else
                 {
-                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Leave Application Approval Workflow is Disabled."  });
+                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Leave Application Approval Workflow is Disabled." });
                 }
             }
             catch (Exception x)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Leave Data Upload Failed: " + x.Message });
             }
-        
+
         }
 
         //Get Employee List
@@ -444,7 +454,7 @@ namespace RPFBE.Controllers
          * 
          * ************************************************************************************************************
          */
-         
+
         //Get the approvees
         [Authorize]
         [HttpGet]
@@ -499,7 +509,7 @@ namespace RPFBE.Controllers
         {
             try
             {
-                var leaveApplication = await codeUnitWebService.HRWS().GetleavesAsync(LAPP,"");
+                var leaveApplication = await codeUnitWebService.HRWS().GetleavesAsync(LAPP, "");
                 dynamic leaveApplicationSerial = JsonConvert.DeserializeObject(leaveApplication.return_value);
                 List<LeaveApplicationList> leaveApplications = new List<LeaveApplicationList>();
 
@@ -572,7 +582,7 @@ namespace RPFBE.Controllers
         [Authorize]
         [HttpPost]
         [Route("rejectapproveeleave/{LNO}")]
-        public async Task<IActionResult> RejectApproveeLeave([FromBody]LeaveEndDate leaveRej,string LNO)
+        public async Task<IActionResult> RejectApproveeLeave([FromBody] LeaveEndDate leaveRej, string LNO)
         {
             try
             {
@@ -580,7 +590,7 @@ namespace RPFBE.Controllers
                 var res = await codeUnitWebService.ApprovalMGT().RejectDocumentWithCommentsAsync(user.EmployeeId, LNO, leaveRej.RejectionRemark);
                 if (res.return_value)
                 {
-                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Reject Leave Application, Success: "});
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Reject Leave Application, Success: " });
                 }
                 else
                 {
@@ -709,6 +719,109 @@ namespace RPFBE.Controllers
             catch (Exception x)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Fetching Manager Employee Failed: " + x.Message });
+            }
+        }
+
+        //Extra Days in Exam Days
+        //List of Extra Days
+        [HttpGet]
+        [Route("getextradays/{LeaveNo}")]
+        public async Task<IActionResult> GetExtraDays(string LeaveNo)
+        {
+            try
+            {
+               // DateTime datetime = DateTime.ParseExact(auxDate, "MM/dd/yyyy", null);
+
+                List<ExtraDaysList> extraDays = new List<ExtraDaysList>();
+                var rez = await codeUnitWebService.Client().GetExtraDaysAsync(LeaveNo);
+                dynamic rezSeria = JsonConvert.DeserializeObject(rez.return_value);
+                foreach (var item in rezSeria)
+                {
+                    //var stardate = DateTime.ParseExact(item.Startdate, "MM/dd/yyyy", null);
+                    //var enddate = DateTime.ParseExact(item.Enddate, "MM/dd/yyyy", null);
+                    //var returdate = DateTime.ParseExact(item.Returndate, "MM/dd/yyyy", null);
+
+                    ExtraDaysList edl = new ExtraDaysList
+                    {
+                        Leaveno = item.Leaveno,
+                        Employeeno = item.Employeeno,
+                        Startdate = item.Startdate,
+                        Days = item.Days,
+                        Enddate = item.Enddate,
+                        Returndate = item.Returndate,
+                        Assignedleaveno = item.Assignedleave
+                    };
+                    extraDays.Add(edl);
+
+                }
+                return Ok(new { extraDays });
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Fetching Extra Days Failed: " + x.Message });
+            }
+        }
+
+        //Add New Day
+        [Authorize]
+        [HttpPost]
+        [Route("addanextraday")]
+        public async Task<IActionResult> AddExtraDay([FromBody] ExtraDaySingle day)
+        {
+            try
+            {
+                List<ExtraDaysList> newday = new List<ExtraDaysList>();
+
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var res = await codeUnitWebService.Client().AddExtraDaysAsync(day.Leaveno, user.EmployeeId, day.Startdate, day.Days);
+                //dynamic resSeri = JsonConvert.DeserializeObject(res.return_value);
+                //foreach (var item in resSeri)
+                //{
+                //    ExtraDaysList edl = new ExtraDaysList
+                //    {
+                //        Leaveno = item.Leaveno,
+                //        Employeeno = item.Employeeno,
+                //        Startdate = item.Startdate,
+                //        Days = item.Days,
+                //        Enddate = item.Enddate,
+                //        Returndate = item.Returndate,
+                //        Assignedleaveno = item.Assignedleave
+                //    };
+                //    newday.Add(edl);
+                //}
+                return Ok(new { res.return_value });
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Add Extra Day Failed: " + x.Message });
+            }
+        }
+        //Delete A Day
+        [Authorize]
+        [HttpPost]
+        [Route("deleteday")]
+        public async Task<IActionResult> DeleteAday([FromBody] ExtraDaySingle extraDay)
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var rs = await codeUnitWebService.Client().DeleteExtraDaysAsync(extraDay.Leaveno, extraDay.Startdate, user.EmployeeId);
+
+                if (rs.return_value)
+                {
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Error", Message = "Remove Extra Day, Success " });
+
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Remove Extra Day Failed (DeleteExtraDays return false)" });
+
+                }
+              
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Remove Extra Day Failed: " + x.Message });
             }
         }
     }

@@ -17,81 +17,132 @@ namespace Mailer
     {
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:PerformanceMonitorMonth1", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<Mailer.PerformanceMonitorMonth1_Result> PerformanceMonitorMonth1Async(Mailer.PerformanceMonitorMonth1 request);
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:PerformanceMonitorMonth2", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<Mailer.PerformanceMonitorMonth2_Result> PerformanceMonitorMonth2Async(Mailer.PerformanceMonitorMonth2 request);
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:PerformanceMonitorMonth3", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<Mailer.PerformanceMonitorMonth3_Result> PerformanceMonitorMonth3Async(Mailer.PerformanceMonitorMonth3 request);
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:PerformanceMonitorApproval", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<Mailer.PerformanceMonitorApproval_Result> PerformanceMonitorApprovalAsync(Mailer.PerformanceMonitorApproval request);
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:PerformanceMonitorRejection" +
             "", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<Mailer.PerformanceMonitorRejection_Result> PerformanceMonitorRejectionAsync(Mailer.PerformanceMonitorRejection request);
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:PerformanceMonitortoHRfromH" +
             "OD", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<Mailer.PerformanceMonitortoHRfromHOD_Result> PerformanceMonitortoHRfromHODAsync(Mailer.PerformanceMonitortoHRfromHOD request);
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:StaffRequisitiontoHRfromHOD" +
             "", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<Mailer.StaffRequisitiontoHRfromHOD_Result> StaffRequisitiontoHRfromHODAsync(Mailer.StaffRequisitiontoHRfromHOD request);
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:StaffRequisitiontoMDfromHR", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<Mailer.StaffRequisitiontoMDfromHR_Result> StaffRequisitiontoMDfromHRAsync(Mailer.StaffRequisitiontoMDfromHR request);
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:StaffRequisitionHRApproval", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<Mailer.StaffRequisitionHRApproval_Result> StaffRequisitionHRApprovalAsync(Mailer.StaffRequisitionHRApproval request);
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:StaffRequisitionMDRejection" +
             "", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<Mailer.StaffRequisitionMDRejection_Result> StaffRequisitionMDRejectionAsync(Mailer.StaffRequisitionMDRejection request);
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:StaffRequisitiontoHRfromMD", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<Mailer.StaffRequisitiontoHRfromMD_Result> StaffRequisitiontoHRfromMDAsync(Mailer.StaffRequisitiontoHRfromMD request);
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:ShortlistedInterviewNotice", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<Mailer.ShortlistedInterviewNotice_Result> ShortlistedInterviewNoticeAsync(Mailer.ShortlistedInterviewNotice request);
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:EmployeeProbationManagerToH" +
             "R", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<Mailer.EmployeeProbationManagerToHR_Result> EmployeeProbationManagerToHRAsync(Mailer.EmployeeProbationManagerToHR request);
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:EmployeeProbationHRToMDFD", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<Mailer.EmployeeProbationHRToMDFD_Result> EmployeeProbationHRToMDFDAsync(Mailer.EmployeeProbationHRToMDFD request);
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:EmployeeProbationMDFDReject" +
             "s", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<Mailer.EmployeeProbationMDFDRejects_Result> EmployeeProbationMDFDRejectsAsync(Mailer.EmployeeProbationMDFDRejects request);
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:EmployeeProbationMDFDApprov" +
             "es", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<Mailer.EmployeeProbationMDFDApproves_Result> EmployeeProbationMDFDApprovesAsync(Mailer.EmployeeProbationMDFDApproves request);
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:EmployeeProbationHRApproves" +
             "", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<Mailer.EmployeeProbationHRApproves_Result> EmployeeProbationHRApprovesAsync(Mailer.EmployeeProbationHRApproves request);
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:EmployeeEOCManagerToHR", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<Mailer.EmployeeEOCManagerToHR_Result> EmployeeEOCManagerToHRAsync(Mailer.EmployeeEOCManagerToHR request);
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:EmployeeEOCHRToMDFD", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<Mailer.EmployeeEOCHRToMDFD_Result> EmployeeEOCHRToMDFDAsync(Mailer.EmployeeEOCHRToMDFD request);
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:EmployeeEOCMDFDRejects", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<Mailer.EmployeeEOCMDFDRejects_Result> EmployeeEOCMDFDRejectsAsync(Mailer.EmployeeEOCMDFDRejects request);
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:EmployeeEOCMDFDApproves", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<Mailer.EmployeeEOCMDFDApproves_Result> EmployeeEOCMDFDApprovesAsync(Mailer.EmployeeEOCMDFDApproves request);
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:EmployeeEOCHRApproves", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<Mailer.EmployeeEOCHRApproves_Result> EmployeeEOCHRApprovesAsync(Mailer.EmployeeEOCHRApproves request);
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:ExitInterview", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<Mailer.ExitInterview_Result> ExitInterviewAsync(Mailer.ExitInterview request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:TrainingNeedAlert", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<Mailer.TrainingNeedAlert_Result> TrainingNeedAlertAsync(Mailer.TrainingNeedAlert request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:RejectedRegretAlert", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<Mailer.RejectedRegretAlert_Result> RejectedRegretAlertAsync(Mailer.RejectedRegretAlert request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:ProbationNonConfirmation", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<Mailer.ProbationNonConfirmation_Result> ProbationNonConfirmationAsync(Mailer.ProbationNonConfirmation request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:ProbationConfirmation", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<Mailer.ProbationConfirmation_Result> ProbationConfirmationAsync(Mailer.ProbationConfirmation request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:ProbationExtension", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<Mailer.ProbationExtension_Result> ProbationExtensionAsync(Mailer.ProbationExtension request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:EndofContractNonRenewal", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<Mailer.EndofContractNonRenewal_Result> EndofContractNonRenewalAsync(Mailer.EndofContractNonRenewal request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:EndofContractRenewal", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<Mailer.EndofContractRenewal_Result> EndofContractRenewalAsync(Mailer.EndofContractRenewal request);
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -830,6 +881,323 @@ namespace Mailer
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="TrainingNeedAlert", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", IsWrapped=true)]
+    public partial class TrainingNeedAlert
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=0)]
+        public string fromNo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=1)]
+        public string toRank;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=2)]
+        public string tNo;
+        
+        public TrainingNeedAlert()
+        {
+        }
+        
+        public TrainingNeedAlert(string fromNo, string toRank, string tNo)
+        {
+            this.fromNo = fromNo;
+            this.toRank = toRank;
+            this.tNo = tNo;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="TrainingNeedAlert_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", IsWrapped=true)]
+    public partial class TrainingNeedAlert_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=0)]
+        public string return_value;
+        
+        public TrainingNeedAlert_Result()
+        {
+        }
+        
+        public TrainingNeedAlert_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="RejectedRegretAlert", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", IsWrapped=true)]
+    public partial class RejectedRegretAlert
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=0)]
+        public string emailId;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=1)]
+        public string username;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=2)]
+        public string jobTitle;
+        
+        public RejectedRegretAlert()
+        {
+        }
+        
+        public RejectedRegretAlert(string emailId, string username, string jobTitle)
+        {
+            this.emailId = emailId;
+            this.username = username;
+            this.jobTitle = jobTitle;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="RejectedRegretAlert_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", IsWrapped=true)]
+    public partial class RejectedRegretAlert_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=0)]
+        public bool return_value;
+        
+        public RejectedRegretAlert_Result()
+        {
+        }
+        
+        public RejectedRegretAlert_Result(bool return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ProbationNonConfirmation", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", IsWrapped=true)]
+    public partial class ProbationNonConfirmation
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=0)]
+        public string empNo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(DataType="date")]
+        public System.DateTime passDate;
+        
+        public ProbationNonConfirmation()
+        {
+        }
+        
+        public ProbationNonConfirmation(string empNo, System.DateTime passDate)
+        {
+            this.empNo = empNo;
+            this.passDate = passDate;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ProbationNonConfirmation_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", IsWrapped=true)]
+    public partial class ProbationNonConfirmation_Result
+    {
+        
+        public ProbationNonConfirmation_Result()
+        {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ProbationConfirmation", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", IsWrapped=true)]
+    public partial class ProbationConfirmation
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=0)]
+        public string empNo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(DataType="date")]
+        public System.DateTime passDate;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(DataType="date")]
+        public System.DateTime endDate;
+        
+        public ProbationConfirmation()
+        {
+        }
+        
+        public ProbationConfirmation(string empNo, System.DateTime passDate, System.DateTime endDate)
+        {
+            this.empNo = empNo;
+            this.passDate = passDate;
+            this.endDate = endDate;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ProbationConfirmation_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", IsWrapped=true)]
+    public partial class ProbationConfirmation_Result
+    {
+        
+        public ProbationConfirmation_Result()
+        {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ProbationExtension", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", IsWrapped=true)]
+    public partial class ProbationExtension
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=0)]
+        public string empNo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(DataType="date")]
+        public System.DateTime passDate;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(DataType="date")]
+        public System.DateTime endDate;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=3)]
+        public string duration;
+        
+        public ProbationExtension()
+        {
+        }
+        
+        public ProbationExtension(string empNo, System.DateTime passDate, System.DateTime endDate, string duration)
+        {
+            this.empNo = empNo;
+            this.passDate = passDate;
+            this.endDate = endDate;
+            this.duration = duration;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ProbationExtension_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", IsWrapped=true)]
+    public partial class ProbationExtension_Result
+    {
+        
+        public ProbationExtension_Result()
+        {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="EndofContractNonRenewal", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", IsWrapped=true)]
+    public partial class EndofContractNonRenewal
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(DataType="date")]
+        public System.DateTime terminationDate;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=1)]
+        public string empNo;
+        
+        public EndofContractNonRenewal()
+        {
+        }
+        
+        public EndofContractNonRenewal(System.DateTime terminationDate, string empNo)
+        {
+            this.terminationDate = terminationDate;
+            this.empNo = empNo;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="EndofContractNonRenewal_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", IsWrapped=true)]
+    public partial class EndofContractNonRenewal_Result
+    {
+        
+        public EndofContractNonRenewal_Result()
+        {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="EndofContractRenewal", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", IsWrapped=true)]
+    public partial class EndofContractRenewal
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=0)]
+        public string renewalTime;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(DataType="date")]
+        public System.DateTime contractedDate;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(DataType="date")]
+        public System.DateTime startDate;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(DataType="date")]
+        public System.DateTime endDate;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=4)]
+        public string empNo;
+        
+        public EndofContractRenewal()
+        {
+        }
+        
+        public EndofContractRenewal(string renewalTime, System.DateTime contractedDate, System.DateTime startDate, System.DateTime endDate, string empNo)
+        {
+            this.renewalTime = renewalTime;
+            this.contractedDate = contractedDate;
+            this.startDate = startDate;
+            this.endDate = endDate;
+            this.empNo = empNo;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="EndofContractRenewal_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", IsWrapped=true)]
+    public partial class EndofContractRenewal_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=0)]
+        public bool return_value;
+        
+        public EndofContractRenewal_Result()
+        {
+        }
+        
+        public EndofContractRenewal_Result(bool return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     public interface Notifications_PortChannel : Mailer.Notifications_Port, System.ServiceModel.IClientChannel
     {
@@ -1177,6 +1545,112 @@ namespace Mailer
             Mailer.ExitInterview inValue = new Mailer.ExitInterview();
             inValue.eID = eID;
             return ((Mailer.Notifications_Port)(this)).ExitInterviewAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<Mailer.TrainingNeedAlert_Result> Mailer.Notifications_Port.TrainingNeedAlertAsync(Mailer.TrainingNeedAlert request)
+        {
+            return base.Channel.TrainingNeedAlertAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<Mailer.TrainingNeedAlert_Result> TrainingNeedAlertAsync(string fromNo, string toRank, string tNo)
+        {
+            Mailer.TrainingNeedAlert inValue = new Mailer.TrainingNeedAlert();
+            inValue.fromNo = fromNo;
+            inValue.toRank = toRank;
+            inValue.tNo = tNo;
+            return ((Mailer.Notifications_Port)(this)).TrainingNeedAlertAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<Mailer.RejectedRegretAlert_Result> Mailer.Notifications_Port.RejectedRegretAlertAsync(Mailer.RejectedRegretAlert request)
+        {
+            return base.Channel.RejectedRegretAlertAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<Mailer.RejectedRegretAlert_Result> RejectedRegretAlertAsync(string emailId, string username, string jobTitle)
+        {
+            Mailer.RejectedRegretAlert inValue = new Mailer.RejectedRegretAlert();
+            inValue.emailId = emailId;
+            inValue.username = username;
+            inValue.jobTitle = jobTitle;
+            return ((Mailer.Notifications_Port)(this)).RejectedRegretAlertAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<Mailer.ProbationNonConfirmation_Result> Mailer.Notifications_Port.ProbationNonConfirmationAsync(Mailer.ProbationNonConfirmation request)
+        {
+            return base.Channel.ProbationNonConfirmationAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<Mailer.ProbationNonConfirmation_Result> ProbationNonConfirmationAsync(string empNo, System.DateTime passDate)
+        {
+            Mailer.ProbationNonConfirmation inValue = new Mailer.ProbationNonConfirmation();
+            inValue.empNo = empNo;
+            inValue.passDate = passDate;
+            return ((Mailer.Notifications_Port)(this)).ProbationNonConfirmationAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<Mailer.ProbationConfirmation_Result> Mailer.Notifications_Port.ProbationConfirmationAsync(Mailer.ProbationConfirmation request)
+        {
+            return base.Channel.ProbationConfirmationAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<Mailer.ProbationConfirmation_Result> ProbationConfirmationAsync(string empNo, System.DateTime passDate, System.DateTime endDate)
+        {
+            Mailer.ProbationConfirmation inValue = new Mailer.ProbationConfirmation();
+            inValue.empNo = empNo;
+            inValue.passDate = passDate;
+            inValue.endDate = endDate;
+            return ((Mailer.Notifications_Port)(this)).ProbationConfirmationAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<Mailer.ProbationExtension_Result> Mailer.Notifications_Port.ProbationExtensionAsync(Mailer.ProbationExtension request)
+        {
+            return base.Channel.ProbationExtensionAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<Mailer.ProbationExtension_Result> ProbationExtensionAsync(string empNo, System.DateTime passDate, System.DateTime endDate, string duration)
+        {
+            Mailer.ProbationExtension inValue = new Mailer.ProbationExtension();
+            inValue.empNo = empNo;
+            inValue.passDate = passDate;
+            inValue.endDate = endDate;
+            inValue.duration = duration;
+            return ((Mailer.Notifications_Port)(this)).ProbationExtensionAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<Mailer.EndofContractNonRenewal_Result> Mailer.Notifications_Port.EndofContractNonRenewalAsync(Mailer.EndofContractNonRenewal request)
+        {
+            return base.Channel.EndofContractNonRenewalAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<Mailer.EndofContractNonRenewal_Result> EndofContractNonRenewalAsync(System.DateTime terminationDate, string empNo)
+        {
+            Mailer.EndofContractNonRenewal inValue = new Mailer.EndofContractNonRenewal();
+            inValue.terminationDate = terminationDate;
+            inValue.empNo = empNo;
+            return ((Mailer.Notifications_Port)(this)).EndofContractNonRenewalAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<Mailer.EndofContractRenewal_Result> Mailer.Notifications_Port.EndofContractRenewalAsync(Mailer.EndofContractRenewal request)
+        {
+            return base.Channel.EndofContractRenewalAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<Mailer.EndofContractRenewal_Result> EndofContractRenewalAsync(string renewalTime, System.DateTime contractedDate, System.DateTime startDate, System.DateTime endDate, string empNo)
+        {
+            Mailer.EndofContractRenewal inValue = new Mailer.EndofContractRenewal();
+            inValue.renewalTime = renewalTime;
+            inValue.contractedDate = contractedDate;
+            inValue.startDate = startDate;
+            inValue.endDate = endDate;
+            inValue.empNo = empNo;
+            return ((Mailer.Notifications_Port)(this)).EndofContractRenewalAsync(inValue);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()

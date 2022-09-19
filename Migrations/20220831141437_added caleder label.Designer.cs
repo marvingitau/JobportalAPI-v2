@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RPFBE.Auth;
 
 namespace RPFBE.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220831141437_added caleder label")]
+    partial class addedcalederlabel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -259,9 +261,6 @@ namespace RPFBE.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("JobTitle")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Rejected")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
@@ -1227,9 +1226,6 @@ namespace RPFBE.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FMDComment")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("GenesisPoint")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("HODComment")

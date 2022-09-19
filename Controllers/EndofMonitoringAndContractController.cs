@@ -12,6 +12,7 @@ using RPFBE.Model.DBEntity;
 using RPFBE.Model.Repository;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -49,7 +50,7 @@ namespace RPFBE.Controllers
         }
         //Used for probation and endof contract
 
-        //[Authorize]
+        [Authorize]
         [HttpGet]
         [Route("createprobationview")]
         public async Task<IActionResult> EmployeeProbationProgress()
@@ -1115,6 +1116,70 @@ namespace RPFBE.Controllers
             }
         }
 
+        // HOD upload End Of Contract Support Documents
+
+        [Authorize]
+        [Route("hoduploadendofcontractdocs/{ID}")]
+        [HttpPost]
+        public async Task<IActionResult> HODUploadEndOfContractDocs([FromForm] IFormFile formFile, string ID)
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+
+
+                var subDirectory = "Files/Endofcontract";
+                var target = Path.Combine(webHostEnvironment.ContentRootPath, subDirectory);
+                string fileName = new String(Path.GetFileNameWithoutExtension(formFile.FileName).Take(10).ToArray()).Replace(' ', '-');
+                fileName = fileName + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(formFile.FileName);
+                var path = Path.Combine(target, fileName);
+                using (FileStream stream = new FileStream(path, FileMode.Create))
+                {
+                    formFile.CopyTo(stream);
+                }
+
+                /* 
+                 * var host = HttpContext.Request.Host.ToUriComponent();
+                 * var url = $"{HttpContext.Request.Scheme}://{host}/{path}";
+                 * return Content(url);
+                */
+
+                if (dbContext.MonitoringDoc.Where(x => x.UID == user.Id && x.MonitoringID == ID).Count() > 0)
+                {
+                    var specificCV = dbContext.MonitoringDoc.Where(x => x.UID == user.Id && x.MonitoringID == ID).FirstOrDefault();
+                    specificCV.Filepath = path;
+                    specificCV.Filename = formFile.FileName;
+                    specificCV.MonitoringID = ID;
+                    dbContext.Update(specificCV);
+                    await dbContext.SaveChangesAsync();
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Succes", Message = "End Of Contract Doc Updated" });
+
+                }
+                else
+                {
+                    MonitoringDoc mData = new MonitoringDoc
+                    {
+                        UID = user.Id,
+                        Filepath = path,
+                        Filename = formFile.FileName,
+                        MonitoringID = ID,
+
+                    };
+                    dbContext.MonitoringDoc.Add(mData);
+                    dbContext.SaveChanges();
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Succes", Message = "End of Contract Doc Uploaded" });
+                }
+
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = x.Message });
+            }
+        }
+
+
+
         /**
         * *****************************************************************************************************************
         *                                                      HR SECTION
@@ -1209,14 +1274,117 @@ namespace RPFBE.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Contract Card Update Failed: " + x.Message });
             }
         }
+        //HR View Attached Document
+        [Route("getendofdoc/{PID}")]
+        [HttpGet]
+        public IActionResult GetEndOfDoc(string PID)
+        {
+            try
+            {
+                //var path = System.AppContext.BaseDirectory;
+                var dbres = dbContext.MonitoringDoc.Where(x => x.MonitoringID == PID).First();
+                var file = dbres.Filepath;
+
+                // Response...
+                System.Net.Mime.ContentDisposition cd = new System.Net.Mime.ContentDisposition
+                {
+                    FileName = file,
+                    Inline = true // false = prompt the user for downloading;  true = browser to try to show the file inline
+                };
+                Response.Headers.Add("Content-Disposition", cd.ToString());
+                Response.Headers.Add("X-Content-Type-Options", "nosniff");
+
+                return File(System.IO.File.ReadAllBytes(file), "application/pdf");
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Supporting Doc View failed: " + x.Message });
+            }
+        }
+
+        //Non Renewal
+        [Authorize]
+        [HttpPost]
+        [Route("nonrenewaleocontract")]
+        public async Task<IActionResult> NonRenewalEndofContract([FromBody] EndofContractHeader header)
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var resRemarks = await codeUnitWebService.Client().ApproveContractHRAsync(header.EocID);
+                if (bool.Parse(resRemarks.return_value))
+                {
+                    var contModel = dbContext.EndofContractProgress.Where(x => x.ContractNo == header.EocID).First();
+                    contModel.Status = "Approved";
+                    dbContext.EndofContractProgress.Update(contModel);
+                    await dbContext.SaveChangesAsync();
+
+                    ////Mail MD/FD
+                    //@email
+
+                    var mailStaff = await codeUnitWebService.WSMailer().EndofContractNonRenewalAsync(header.TerminationDate, header.StaffNo);
+                    return Ok(bool.Parse(resRemarks.return_value));
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "End of Contract Non Renewal Failed" });
+
+                }
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "End of Contract Non Renewal Failed: " + x.Message });
+            }
+        }
+
+        //Renewal
+        [Authorize]
+        [HttpPost]
+        [Route("renewaleocontract")]
+        public async Task<IActionResult> RenewalEndofContract([FromBody] EndofContractHeader header)
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var resRemarks = await codeUnitWebService.Client().ApproveContractHRAsync(header.EocID);
+                if (bool.Parse(resRemarks.return_value))
+                {
+                    var contModel = dbContext.EndofContractProgress.Where(x => x.ContractNo == header.EocID).First();
+                    contModel.Status = "Approved";
+                    dbContext.EndofContractProgress.Update(contModel);
+                    await dbContext.SaveChangesAsync();
+
+                    //@email
+
+                    var mailStaff = await codeUnitWebService.WSMailer().EndofContractRenewalAsync(header.RenewalTime, header.ContractedDate, header.StartDate, header.EndDate, header.StaffNo);
+
+                    return Ok(bool.Parse(resRemarks.return_value));
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "End of Contract  Renewal Failed" });
+
+                }
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "End of Contract Renewal Failed: " + x.Message });
+            }
+        }
 
 
-         /**
-         * *****************************************************************************************************************
-         *                                                      FD SECTION
-         * 
-         * ************************************************************************************************************************
-         */
+
+
+
+
+
+        /**
+        * *****************************************************************************************************************
+        *                                                      FD SECTION
+        * 
+        * ************************************************************************************************************************
+        */
 
         //Get the FD list of created probations
         [Authorize]

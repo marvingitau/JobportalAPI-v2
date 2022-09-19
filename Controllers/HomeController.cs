@@ -241,7 +241,7 @@ namespace RPFBE.Controllers
                 {
                     return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Please Create your profile first" });
                 }
-                var duplicateCheck = dbContext.AppliedJobs.Where(y => y.UserId == user.Id).Where(x => x.UserId == user.Id && x.JobReqNo == appliedJob.JobReqNo).FirstOrDefault();
+                var duplicateCheck = dbContext.AppliedJobs.Where(x => x.UserId == user.Id && x.JobReqNo == appliedJob.JobReqNo ).FirstOrDefault();
                 if (duplicateCheck == null)
                 {
                     await dbContext.AppliedJobs.AddAsync(appliedJob);
@@ -699,7 +699,8 @@ namespace RPFBE.Controllers
                 Title = apps.JobTitle,
                 Name = user.Name,
                 AppDate = apps.ApplicationDate,
-                ReqNo = apps.JobReqNo
+                ReqNo = apps.JobReqNo,
+                Reject = apps.Rejected
 
                 }
                 ).Where(x => x.Viewed != true).ToList();
@@ -731,13 +732,65 @@ namespace RPFBE.Controllers
                     AppDate = apps.ApplicationDate,
                     ReqNo = apps.JobReqNo,
                     AppNo = apps.JobAppplicationNo,
-                    EmpNo = apps.EmpNo
+                    EmpNo = apps.EmpNo,
+                    Reject = apps.Rejected
                 }
                 ).Where(x => x.Viewed == true ).ToList();//&& x.EmpNo != ""
 
             return Ok(query);
         }
 
+        //Reject Pending Applicants
+        [Authorize]
+        [HttpGet]
+        [Route("rejectpendingapplicant")]
+        public async Task<IActionResult> RejectPendingApplicant()
+        {
+            try
+            {
+                var rejects = dbContext.AppliedJobs
+                .Join(
+                    dbContext.Users,
+                    apps => apps.UserId,
+                    user => user.Id,
+                    (apps, user) => new
+                    {
+                        Email = user.Email,
+                        Username = user.UserName,
+                        Viewed = apps.Viewed,
+                        Rejected = apps.Rejected,
+                        JobTitle = apps.JobTitle
+                      
+                    }
+                 ).Where(x => x.Viewed == false && x.Rejected == "FALSE").ToList();
+
+                //Emails Section
+                foreach (var item in rejects)
+                {
+                    await codeUnitWebService.WSMailer().RejectedRegretAlertAsync(item.Email, item.Username, item.JobTitle);
+                }
+
+
+                var res = dbContext.AppliedJobs.Where(x => x.Viewed == false && x.Rejected =="FALSE").ToList();
+                foreach (var item in res)
+                {
+                    item.Rejected = "TRUE";
+                }
+                dbContext.UpdateRange(res);
+                await dbContext.SaveChangesAsync();
+
+              
+
+
+                return StatusCode(StatusCodes.Status200OK, new Response { Status = "Succes", Message = "Reject Pending Applicant Success" });
+
+
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Reject Pending Applicant(s) failed: " + x.Message });
+            }
+        }
 
         //View Single Applicant i.e the CV
         //[Authorize]
@@ -1172,7 +1225,7 @@ namespace RPFBE.Controllers
             try
             {
                 //var path = System.AppContext.BaseDirectory;
-                var dbres = dbContext.MonitoringDoc.Where(x => x.MonitoringID == PID).FirstOrDefault();
+                var dbres = dbContext.MonitoringDoc.Where(x => x.MonitoringID == PID).First();
                 var file = dbres.Filepath;
 
                 // Response...
@@ -1186,10 +1239,10 @@ namespace RPFBE.Controllers
 
                 return File(System.IO.File.ReadAllBytes(file), "application/pdf");
             }
-            catch (Exception)
+            catch (Exception x)
             {
 
-                return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "Supporting Doc View failed" });
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Supporting Doc View failed: "+x.Message });
             }
         }
 

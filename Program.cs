@@ -13,6 +13,7 @@ namespace RPFBE
     {
         public static void Main(string[] args)
         {
+            // ver: 2.1
             CreateHostBuilder(args).Build().Run();
         }
 

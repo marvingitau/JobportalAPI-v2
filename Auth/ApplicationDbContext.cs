@@ -32,8 +32,7 @@ namespace RPFBE.Auth
         public DbSet<EndofContractProgress> EndofContractProgress { get; set; }
         public DbSet<GrievanceList> GrievanceList { get; set; }
         public DbSet<DocumentSetting> DocumentSetting { get; set; }
-
-
+        public DbSet<TrainingNeedList> TrainingNeedList { get; set; }
 
 
 

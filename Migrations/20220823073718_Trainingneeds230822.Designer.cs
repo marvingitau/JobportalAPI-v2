@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RPFBE.Auth;
 
 namespace RPFBE.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220823073718_Trainingneeds230822")]
+    partial class Trainingneeds230822
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -259,9 +261,6 @@ namespace RPFBE.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("JobTitle")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Rejected")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
@@ -1214,12 +1213,6 @@ namespace RPFBE.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Calender")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CalenderLabel")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("EID")
                         .HasColumnType("nvarchar(max)");
 
@@ -1229,25 +1222,16 @@ namespace RPFBE.Migrations
                     b.Property<string>("FMDComment")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("GenesisPoint")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("HODComment")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("HRComment")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("NeedNo")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("Stage")
                         .HasColumnType("int");
 
                     b.Property<string>("StageName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UID")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

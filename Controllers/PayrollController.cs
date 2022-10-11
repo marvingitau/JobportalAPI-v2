@@ -59,15 +59,19 @@ namespace RPFBE.Controllers
                 List<PayrollPeriod> periods = new List<PayrollPeriod>();
                 var res = await codeUnitWebService.PayrollMGT().GetPayrollPeriodsAsync(user.EmployeeId);
                 dynamic resSerial = JsonConvert.DeserializeObject(res.return_value);
-                foreach (var item in resSerial)
+                if(res.return_value != "")
                 {
-                    PayrollPeriod pp = new PayrollPeriod
+                    foreach (var item in resSerial)
                     {
-                        Value = item.Code,
-                        Label = item.Description
-                    };
-                    periods.Add(pp);
+                        PayrollPeriod pp = new PayrollPeriod
+                        {
+                            Value = item.Code,
+                            Label = item.Description
+                        };
+                        periods.Add(pp);
+                    }
                 }
+                
                 return Ok(new { periods });
             }
             catch (Exception x)

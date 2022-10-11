@@ -1094,8 +1094,9 @@ namespace RPFBE.Controllers
 
                 try
                 {
-                     await mailService.SendEmailPasswordReset(user.Email, link);
-                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Link Mailed" });
+                    // await mailService.SendEmailPasswordReset(user.Email, link);
+                    await codeUnitWebService.WSMailer().SendEmailPasswordResetAsync(user.Email, link);
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Token Mailed" });
                 }
                 catch (Exception x)
                 {
@@ -1500,10 +1501,10 @@ namespace RPFBE.Controllers
                 var usr = dbContext.Users.Where(x => x.EmployeeId == uid).First();
 
                 //var roless = await userManager.GetRolesAsync(usr);
-                if (await userManager.IsInRoleAsync(usr, "Normal"))
+                if (await userManager.IsInRoleAsync(usr, "NORMAL"))
                 {
 
-                    await userManager.RemoveFromRoleAsync(usr, "Normal");
+                    await userManager.RemoveFromRoleAsync(usr, "NORMAL");
                     if (!await roleManager.RoleExistsAsync(val))
                         await roleManager.CreateAsync(new IdentityRole(val));
 
@@ -1618,6 +1619,11 @@ namespace RPFBE.Controllers
                 {
                     pFlag = 1;//2;
                     sFlag = 2;
+                    //Since this is Employee Own Dept,prefill the own dept so HR can approve when the Rest of dept hods approves
+                    //employeeClearance.HODApproved = "TRUE";
+                    //employeeClearance.HODApprovedName = user.Name;
+                    //employeeClearance.HODApprovedUID = user.Id;
+
                 }
                    
 
@@ -1625,6 +1631,10 @@ namespace RPFBE.Controllers
                 {
                     pFlag = 1;// 3;
                     sFlag = 3;
+                    //Since this is Employee Own Dept,prefill the own dept so HR can approve when the Rest of dept hods approves
+                    //employeeClearance.HODApproved = "TRUE";
+                    //employeeClearance.HODApprovedName = user.Name;
+                    //employeeClearance.HODApprovedUID = user.Id;
                 }
                    
 
@@ -1632,12 +1642,20 @@ namespace RPFBE.Controllers
                 {
                     pFlag = 1;// 4;
                     sFlag = 4;
+                    //Since this is Employee Own Dept,prefill the own dept so HR can approve when the Rest of dept hods approves
+                    //employeeClearance.HODApproved = "TRUE";
+                    //employeeClearance.HODApprovedName = user.Name;
+                    //employeeClearance.HODApprovedUID = user.Id;
                 }
 
                 if (employeeClearance.SelectedRole == "HOD-FIN")
                 {
                     pFlag = 1;// 5;
                     sFlag = 5;
+                    //Since this is Employee Own Dept,prefill the own dept so HR can approve when the Rest of dept hods approves
+                    //employeeClearance.HODApproved = "TRUE";
+                    //employeeClearance.HODApprovedName = user.Name;
+                    //employeeClearance.HODApprovedUID = user.Id;
                 }
 
 
@@ -1724,6 +1742,9 @@ namespace RPFBE.Controllers
                     dbContext.EmployeeClearance.Update(resUp);
                     await dbContext.SaveChangesAsync();
 
+                    ///Mail the HR
+                    ///
+
                     return Ok(resUp.ProgressFlag);
                 }
                 else
@@ -1761,7 +1782,7 @@ namespace RPFBE.Controllers
                 var resUp = dbContext.EmployeeClearance.Where(x => x.Id == PK).FirstOrDefault();
 
 
-                if (resUp.ProgressFlag == resUp.ProgressStartFlag)
+                /*if (resUp.ProgressFlag == resUp.ProgressStartFlag)
                 {
                     //resUp.ProgressFlag = 2;
                     resUp.HODAdminApproved = "TRUE";
@@ -1783,6 +1804,38 @@ namespace RPFBE.Controllers
                     await dbContext.SaveChangesAsync();
 
                     return Ok(resUp.ProgressFlag);
+                }*/
+
+
+                // If Start origin is the Administration Dept 
+                // Approve both HODAdmin & HOD in the ESS db.
+                if ( resUp.ProgressStartFlag == 2)
+                {
+                    resUp.HODAdminApproved = "TRUE";
+                    resUp.HODAdminApprovedName = user.Name;
+                    resUp.HODAdminApprovedUID = user.Id;
+
+                    resUp.HODApproved = "TRUE";
+                    resUp.HODApprovedName = user.Name;
+                    resUp.HODApprovedUID = user.Id;
+
+                    dbContext.EmployeeClearance.Update(resUp);
+                    await dbContext.SaveChangesAsync();
+
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "HOD-ADMIN Clearance List Update, Succes " });
+
+                }
+                else
+                {
+                    resUp.HODAdminApproved = "TRUE";
+                    resUp.HODAdminApprovedName = user.Name;
+                    resUp.HODAdminApprovedUID = user.Id;
+
+                    dbContext.EmployeeClearance.Update(resUp);
+                    await dbContext.SaveChangesAsync();
+
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "HOD-ADMIN Clearance List Update, Succes " });
+
                 }
 
 
@@ -1805,7 +1858,7 @@ namespace RPFBE.Controllers
                 var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
                 var resUp = dbContext.EmployeeClearance.Where(x => x.Id == PK).FirstOrDefault();
 
-                if (resUp.ProgressFlag == resUp.ProgressStartFlag)
+                /*if (resUp.ProgressFlag == resUp.ProgressStartFlag)
                 {
                     //resUp.ProgressFlag = 2;
                     resUp.HODITApproved = "TRUE";
@@ -1829,7 +1882,39 @@ namespace RPFBE.Controllers
                     await dbContext.SaveChangesAsync();
 
                     return Ok(resUp.ProgressFlag);
+                }*/
+
+                // If Start origin is the Administration Dept 
+                // Approve both HODICT & HOD in the ESS db.
+                if (resUp.ProgressStartFlag == 3)
+                {
+                    resUp.HODITApproved = "TRUE";
+                    resUp.HODITApprovedName = user.Name;
+                    resUp.HODITApprovedUID = user.Id;
+
+                    resUp.HODApproved = "TRUE";
+                    resUp.HODApprovedName = user.Name;
+                    resUp.HODApprovedUID = user.Id;
+
+                    dbContext.EmployeeClearance.Update(resUp);
+                    await dbContext.SaveChangesAsync();
+
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "HOD-ICT Clearance List Update, Succes " });
+
                 }
+                else
+                {
+                    resUp.HODITApproved = "TRUE";
+                    resUp.HODITApprovedName = user.Name;
+                    resUp.HODITApprovedUID = user.Id;
+
+                    dbContext.EmployeeClearance.Update(resUp);
+                    await dbContext.SaveChangesAsync();
+
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "HOD-ICT Clearance List Update, Succes " });
+
+                }
+
 
 
             }
@@ -1862,6 +1947,10 @@ namespace RPFBE.Controllers
                     dbContext.EmployeeClearance.Update(resUp);
                     await dbContext.SaveChangesAsync();
 
+                    //@email
+                    //Mail HR
+
+
                     return Ok(resUp.ProgressFlag);
                 }
                 else
@@ -1882,7 +1971,7 @@ namespace RPFBE.Controllers
             }
             catch (Exception x)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "HOD-HR Clearance List Update Failed: " + x.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "HOD-HR Clearance List Push Failed: " + x.Message });
             }
         }
 
@@ -1931,28 +2020,31 @@ namespace RPFBE.Controllers
             }
         }
 
-        //HR Final Approval
+        //HR Pending Approval
         [Authorize]
         [HttpGet]
-        [Route("HRfinallappravelclearancerecord/{PK}")]
+        [Route("hrpendingclearancerecord/{PK}")]
 
-        public async Task<IActionResult> FINalApprvalClearanceLine(int PK)
+        public async Task<IActionResult> HRPendingClearanceLine(int PK)
         {
             try
             {
                 var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
                 var resUp = dbContext.EmployeeClearance.Where(x => x.Id == PK).FirstOrDefault();
                 //Approve in D365
-                var apprveRes = await codeUnitWebService.Client().ApproveClearanceAsync(resUp.ClearanceNo);
+                var apprveRes = await codeUnitWebService.Client().PendingClearanceAsync(resUp.ClearanceNo);
                 if (resUp.ProgressFlag == resUp.ProgressStartFlag)
                 {
                     //resUp.ProgressFlag = 2;
-                    resUp.HRApproved = "TRUE";
+                    resUp.HRApproved = "FALSE";
                     resUp.HRApprovedName = user.Name;
                     resUp.HRApprovedUID = user.Id;
 
                     dbContext.EmployeeClearance.Update(resUp);
                     await dbContext.SaveChangesAsync();
+
+                    //Mail Client
+                    // Fun(StaffNo)
 
                     return Ok(apprveRes.return_value);
                 }
@@ -1960,12 +2052,13 @@ namespace RPFBE.Controllers
                 {
 
                     //resUp.ProgressFlag = resUp.ProgressStartFlag == 7 ? 8 : 7; //
-                    resUp.HRApproved = "TRUE";
+                    resUp.HRApproved = "FALSE";
                     resUp.HRApprovedName = user.Name;
                     resUp.HRApprovedUID = user.Id;
 
                     dbContext.EmployeeClearance.Update(resUp);
                     await dbContext.SaveChangesAsync();
+
 
                     return Ok(apprveRes.return_value);
                 }
@@ -1975,6 +2068,38 @@ namespace RPFBE.Controllers
             catch (Exception x)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "HR Clearance List Update Failed: " + x.Message });
+            }
+        }
+
+        //HR Clearance Approval an Generation of Final Dues
+        [Authorize]
+        [HttpGet]
+        [Route("hrapprovingclearancerecord/{PK}")]
+        public async Task<IActionResult> HRApprovingClearanceLine(int PK)
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var resUp = dbContext.EmployeeClearance.Where(x => x.Id == PK).FirstOrDefault();
+                //Approve in D365
+                //Mail Client
+                // Fun(StaffNo)
+                var apprveRes = await codeUnitWebService.Client().ApproveClearanceAsync(resUp.ClearanceNo);
+                //resUp.ProgressFlag = 2;
+                resUp.HRApproved = "TRUE";
+                resUp.HRApprovedName = user.Name;
+                resUp.HRApprovedUID = user.Id;
+                dbContext.EmployeeClearance.Update(resUp);
+                await dbContext.SaveChangesAsync();
+
+              
+
+
+                return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "HR Clearance Approval Success " });
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "HR Clearance Approval Failed: " + x.Message });
             }
         }
 
@@ -1991,7 +2116,7 @@ namespace RPFBE.Controllers
             try
             {
                 //@from 5
-                var clisthod = dbContext.EmployeeClearance.Where(x => x.ProgressFlag == 1).ToList();
+                var clisthod = dbContext.EmployeeClearance.Where(x => x.ProgressFlag == 1 && x.ClearanceNo != null && x.ClearanceNo != "").ToList();
                 return Ok(new { clisthod });
 
             }
@@ -2010,7 +2135,7 @@ namespace RPFBE.Controllers
             try
             {
                 //@from 4
-                var clisthod = dbContext.EmployeeClearance.Where(x => x.ProgressFlag == 1).ToList();
+                var clisthod = dbContext.EmployeeClearance.Where(x => x.ProgressFlag == 1 && x.ClearanceNo != null && x.ClearanceNo != "").ToList();
                 return Ok(new { clisthod });
 
             }
@@ -2030,7 +2155,7 @@ namespace RPFBE.Controllers
             try
             {
                 //@from 3
-                var clisthod = dbContext.EmployeeClearance.Where(x => x.ProgressFlag == 1).ToList();
+                var clisthod = dbContext.EmployeeClearance.Where(x => x.ProgressFlag == 1 && x.ClearanceNo != null && x.ClearanceNo != "").ToList();
                 return Ok(new { clisthod });
 
             }
@@ -2049,7 +2174,7 @@ namespace RPFBE.Controllers
             try
             {
                 //No workflow do a second flag for HOD activity from 2
-                var clisthod = dbContext.EmployeeClearance.Where(x => x.ProgressFlag == 1 && x.ProgressStartFlag == 1).ToList();
+                var clisthod = dbContext.EmployeeClearance.Where(x => x.ProgressFlag == 1 && x.ProgressStartFlag == 1 && x.ClearanceNo != null && x.ClearanceNo != "").ToList();
                 return Ok(new { clisthod });
 
             }
@@ -2416,7 +2541,7 @@ namespace RPFBE.Controllers
             }
         }
 
-        //HOD-HR Push the Dataline
+        //HOD-HR Push/Create the Dataline
         [Authorize]
         [HttpPost]
         [Route("hodhrpushclearancelines")]
@@ -2442,6 +2567,34 @@ namespace RPFBE.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "HOD-HR Clearance Line Failed: " + x.Message });
             }
         }
+
+        //HOD-HR Update the Dataline
+        [Authorize]
+        [HttpPost]
+        [Route("hodhrupdateclearanceline")]
+        public async Task<IActionResult> HODHRUpdateClearanceLine([FromBody] ClearanceList clearanceList)
+        {
+            try
+            {
+                var resClearance = await codeUnitWebService.Client().ModifyClearanceLinesHRAsync(
+                clearanceList.Year,
+                decimal.Parse(clearanceList.AnnualLeaveDays),
+                decimal.Parse(clearanceList.AnnualDaysLess),
+                decimal.Parse(clearanceList.BalDays),
+                decimal.Parse(clearanceList.Kalue),
+                clearanceList.Remarks,
+                int.Parse(clearanceList.Lineno),
+                clearanceList.Clearance
+                );
+                return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "HOD-HR Clearance  Line Update, Success " });
+                //return Ok(resClearance.return_value);
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "HOD-HR Clearance Line Failed: " + x.Message });
+            }
+        }
+
 
 
         //Delete line

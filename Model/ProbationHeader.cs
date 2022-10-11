@@ -5,15 +5,15 @@ using System.Threading.Tasks;
 
 namespace RPFBE.Model
 {
-    public class MonitoringHeader
+    public class ProbationHeader
     {
         public string StaffID { get; set; }
-        public string MonitorID { get; set; }
+        public string ProbationID { get; set; }
         //Non-Confirmation
-        public DateTime ContractEndDate { get; set; }
+        public DateTime ProbationEndDate { get; set; }
         //Confirmation
-        public DateTime ContractDate { get; set; }
-        public DateTime ContractExpire { get; set; }
+        public DateTime ProbationDate { get; set; }
+        public DateTime ProbationExpire { get; set; }
         //Extend
         public string ExtendDuration { get; set; }
         public DateTime ExtendDate { get; set; }

@@ -16,6 +16,10 @@ namespace Mailer
     public interface Notifications_Port
     {
         
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:SendEmailPasswordReset", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<Mailer.SendEmailPasswordReset_Result> SendEmailPasswordResetAsync(Mailer.SendEmailPasswordReset request);
+        
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:PerformanceMonitorMonth1", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<Mailer.PerformanceMonitorMonth1_Result> PerformanceMonitorMonth1Async(Mailer.PerformanceMonitorMonth1 request);
@@ -41,6 +45,11 @@ namespace Mailer
             "OD", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<Mailer.PerformanceMonitortoHRfromHOD_Result> PerformanceMonitortoHRfromHODAsync(Mailer.PerformanceMonitortoHRfromHOD request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:PerformanceMonitoringSendPI" +
+            "PFromHR", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<Mailer.PerformanceMonitoringSendPIPFromHR_Result> PerformanceMonitoringSendPIPFromHRAsync(Mailer.PerformanceMonitoringSendPIPFromHR request);
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:StaffRequisitiontoHRfromHOD" +
             "", ReplyAction="*")]
@@ -143,6 +152,42 @@ namespace Mailer
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:EndofContractRenewal", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<Mailer.EndofContractRenewal_Result> EndofContractRenewalAsync(Mailer.EndofContractRenewal request);
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="SendEmailPasswordReset", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", IsWrapped=true)]
+    public partial class SendEmailPasswordReset
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=0)]
+        public string email;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=1)]
+        public string token;
+        
+        public SendEmailPasswordReset()
+        {
+        }
+        
+        public SendEmailPasswordReset(string email, string token)
+        {
+            this.email = email;
+            this.token = token;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="SendEmailPasswordReset_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", IsWrapped=true)]
+    public partial class SendEmailPasswordReset_Result
+    {
+        
+        public SendEmailPasswordReset_Result()
+        {
+        }
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -333,6 +378,38 @@ namespace Mailer
     {
         
         public PerformanceMonitortoHRfromHOD_Result()
+        {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="PerformanceMonitoringSendPIPFromHR", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", IsWrapped=true)]
+    public partial class PerformanceMonitoringSendPIPFromHR
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=0)]
+        public string monitorNo;
+        
+        public PerformanceMonitoringSendPIPFromHR()
+        {
+        }
+        
+        public PerformanceMonitoringSendPIPFromHR(string monitorNo)
+        {
+            this.monitorNo = monitorNo;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="PerformanceMonitoringSendPIPFromHR_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", IsWrapped=true)]
+    public partial class PerformanceMonitoringSendPIPFromHR_Result
+    {
+        
+        public PerformanceMonitoringSendPIPFromHR_Result()
         {
         }
     }
@@ -1249,6 +1326,20 @@ namespace Mailer
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<Mailer.SendEmailPasswordReset_Result> Mailer.Notifications_Port.SendEmailPasswordResetAsync(Mailer.SendEmailPasswordReset request)
+        {
+            return base.Channel.SendEmailPasswordResetAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<Mailer.SendEmailPasswordReset_Result> SendEmailPasswordResetAsync(string email, string token)
+        {
+            Mailer.SendEmailPasswordReset inValue = new Mailer.SendEmailPasswordReset();
+            inValue.email = email;
+            inValue.token = token;
+            return ((Mailer.Notifications_Port)(this)).SendEmailPasswordResetAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         System.Threading.Tasks.Task<Mailer.PerformanceMonitorMonth1_Result> Mailer.Notifications_Port.PerformanceMonitorMonth1Async(Mailer.PerformanceMonitorMonth1 request)
         {
             return base.Channel.PerformanceMonitorMonth1Async(request);
@@ -1324,6 +1415,19 @@ namespace Mailer
             Mailer.PerformanceMonitortoHRfromHOD inValue = new Mailer.PerformanceMonitortoHRfromHOD();
             inValue.pKey = pKey;
             return ((Mailer.Notifications_Port)(this)).PerformanceMonitortoHRfromHODAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<Mailer.PerformanceMonitoringSendPIPFromHR_Result> Mailer.Notifications_Port.PerformanceMonitoringSendPIPFromHRAsync(Mailer.PerformanceMonitoringSendPIPFromHR request)
+        {
+            return base.Channel.PerformanceMonitoringSendPIPFromHRAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<Mailer.PerformanceMonitoringSendPIPFromHR_Result> PerformanceMonitoringSendPIPFromHRAsync(string monitorNo)
+        {
+            Mailer.PerformanceMonitoringSendPIPFromHR inValue = new Mailer.PerformanceMonitoringSendPIPFromHR();
+            inValue.monitorNo = monitorNo;
+            return ((Mailer.Notifications_Port)(this)).PerformanceMonitoringSendPIPFromHRAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]

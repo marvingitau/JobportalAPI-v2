@@ -51,6 +51,21 @@ namespace RPFBE
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("RPFBE")));
 
             // For Identity  
+            //services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            //{
+            //    // Default Password settings.
+            //    options.Password.RequireDigit = false;
+            //    options.Password.RequireLowercase = false;
+            //    options.Password.RequireNonAlphanumeric = false;
+            //    options.Password.RequireUppercase = false;
+            //    options.Password.RequiredLength = 6;
+            //    options.Password.RequiredUniqueChars = 1;
+            //    options.User.RequireUniqueEmail = true;
+            //})
+            //    .AddEntityFrameworkStores<ApplicationDbContext>()
+            //    .AddDefaultTokenProviders();
+
+            //Custome Identity Error Describer
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 // Default Password settings.
@@ -62,8 +77,9 @@ namespace RPFBE
                 options.Password.RequiredUniqueChars = 1;
                 options.User.RequireUniqueEmail = true;
             })
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+                 .AddEntityFrameworkStores<ApplicationDbContext>()
+                 .AddDefaultTokenProviders()
+                 .AddErrorDescriber<CustomIdentityErrorDescriber>();
 
             // Adding Authentication  
             services.AddAuthentication(options =>

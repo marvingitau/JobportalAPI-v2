@@ -16,6 +16,70 @@ namespace HRActivity
     public interface HRManagementWS_Port
     {
         
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:GetModeratedPerformanceApp" +
+            "raisalEmployeeNo", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<HRActivity.GetModeratedPerformanceAppraisalEmployeeNo_Result> GetModeratedPerformanceAppraisalEmployeeNoAsync(HRActivity.GetModeratedPerformanceAppraisalEmployeeNo request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:GetModeratedPerformanceApp" +
+            "raisalSupervisorNo", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<HRActivity.GetModeratedPerformanceAppraisalSupervisorNo_Result> GetModeratedPerformanceAppraisalSupervisorNoAsync(HRActivity.GetModeratedPerformanceAppraisalSupervisorNo request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:GetModeratedPerformanceApp" +
+            "raisalHeaderNo", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<HRActivity.GetModeratedPerformanceAppraisalHeaderNo_Result> GetModeratedPerformanceAppraisalHeaderNoAsync(HRActivity.GetModeratedPerformanceAppraisalHeaderNo request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:GetModeratedPerformanceApp" +
+            "raisalIndicators", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<HRActivity.GetModeratedPerformanceAppraisalIndicators_Result> GetModeratedPerformanceAppraisalIndicatorsAsync(HRActivity.GetModeratedPerformanceAppraisalIndicators request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:GetModeratedPerformanceApp" +
+            "raisalIndicator", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<HRActivity.GetModeratedPerformanceAppraisalIndicator_Result> GetModeratedPerformanceAppraisalIndicatorAsync(HRActivity.GetModeratedPerformanceAppraisalIndicator request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:ModifyModeratedPerformance" +
+            "AppraisalIndicator", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<HRActivity.ModifyModeratedPerformanceAppraisalIndicator_Result> ModifyModeratedPerformanceAppraisalIndicatorAsync(HRActivity.ModifyModeratedPerformanceAppraisalIndicator request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:GetCompletePerformanceAppr" +
+            "aisalByEmployeeNo", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<HRActivity.GetCompletePerformanceAppraisalByEmployeeNo_Result> GetCompletePerformanceAppraisalByEmployeeNoAsync(HRActivity.GetCompletePerformanceAppraisalByEmployeeNo request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:GetCompleteEmployeePerform" +
+            "anceAppraisalHeaderNo", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<HRActivity.GetCompleteEmployeePerformanceAppraisalHeaderNo_Result> GetCompleteEmployeePerformanceAppraisalHeaderNoAsync(HRActivity.GetCompleteEmployeePerformanceAppraisalHeaderNo request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:GetCompleteSupervisorPerfo" +
+            "rmanceAppraisalSupervisorNo", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<HRActivity.GetCompleteSupervisorPerformanceAppraisalSupervisorNo_Result> GetCompleteSupervisorPerformanceAppraisalSupervisorNoAsync(HRActivity.GetCompleteSupervisorPerformanceAppraisalSupervisorNo request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:GetCompleteSupervisorPerfo" +
+            "rmanceAppraisalHeaderNo", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<HRActivity.GetCompleteSupervisorPerformanceAppraisalHeaderNo_Result> GetCompleteSupervisorPerformanceAppraisalHeaderNoAsync(HRActivity.GetCompleteSupervisorPerformanceAppraisalHeaderNo request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:GetEmployeeCompletePerform" +
+            "anceAppraisalIndicators", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<HRActivity.GetEmployeeCompletePerformanceAppraisalIndicators_Result> GetEmployeeCompletePerformanceAppraisalIndicatorsAsync(HRActivity.GetEmployeeCompletePerformanceAppraisalIndicators request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:GetSupervisorCompletePerfo" +
+            "rmanceAppraisalIndicators", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<HRActivity.GetSupervisorCompletePerformanceAppraisalIndicators_Result> GetSupervisorCompletePerformanceAppraisalIndicatorsAsync(HRActivity.GetSupervisorCompletePerformanceAppraisalIndicators request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:GenerateJobTargetsReport", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<HRActivity.GenerateJobTargetsReport_Result> GenerateJobTargetsReportAsync(HRActivity.GenerateJobTargetsReport request);
+        
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:GenerateEmployeeTargetsRep" +
             "ort", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -102,6 +166,11 @@ namespace HRActivity
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:SignPolicyDocuments", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<HRActivity.SignPolicyDocuments_Result> SignPolicyDocumentsAsync(HRActivity.SignPolicyDocuments request);
+        
+        // CODEGEN: Generating message contract since the operation has multiple return values.
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:GetEmployeeClearanceList", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<HRActivity.GetEmployeeClearanceList_Result> GetEmployeeClearanceListAsync(HRActivity.GetEmployeeClearanceList request);
         
         // CODEGEN: Generating message contract since the operation has multiple return values.
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:GetEmployeeClearanceListSt" +
@@ -454,15 +523,30 @@ namespace HRActivity
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<HRActivity.CreateAppraisalAreaofAchievement_Result> CreateAppraisalAreaofAchievementAsync(HRActivity.CreateAppraisalAreaofAchievement request);
         
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:CreateAppraisalAreaofAchie" +
+            "vementAPI", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<HRActivity.CreateAppraisalAreaofAchievementAPI_Result> CreateAppraisalAreaofAchievementAPIAsync(HRActivity.CreateAppraisalAreaofAchievementAPI request);
+        
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:ModifyAppraisalAreaofAchie" +
             "vement", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<HRActivity.ModifyAppraisalAreaofAchievement_Result> ModifyAppraisalAreaofAchievementAsync(HRActivity.ModifyAppraisalAreaofAchievement request);
         
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:ModifyAppraisalAreaofAchie" +
+            "vementAPI", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<HRActivity.ModifyAppraisalAreaofAchievementAPI_Result> ModifyAppraisalAreaofAchievementAPIAsync(HRActivity.ModifyAppraisalAreaofAchievementAPI request);
+        
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:DeleteAppraisalAreaofAchie" +
             "vement", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<HRActivity.DeleteAppraisalAreaofAchievement_Result> DeleteAppraisalAreaofAchievementAsync(HRActivity.DeleteAppraisalAreaofAchievement request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:DeleteAppraisalAreaofAchie" +
+            "vementAPI", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<HRActivity.DeleteAppraisalAreaofAchievementAPI_Result> DeleteAppraisalAreaofAchievementAPIAsync(HRActivity.DeleteAppraisalAreaofAchievementAPI request);
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:GetAppraisalAreaofAchievem" +
             "ent", ReplyAction="*")]
@@ -479,15 +563,30 @@ namespace HRActivity
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<HRActivity.CreateAppraisalAreaofDevelopment_Result> CreateAppraisalAreaofDevelopmentAsync(HRActivity.CreateAppraisalAreaofDevelopment request);
         
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:CreateAppraisalAreaofDevel" +
+            "opmentAPI", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<HRActivity.CreateAppraisalAreaofDevelopmentAPI_Result> CreateAppraisalAreaofDevelopmentAPIAsync(HRActivity.CreateAppraisalAreaofDevelopmentAPI request);
+        
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:ModifyAppraisalAreaofDevel" +
             "opment", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<HRActivity.ModifyAppraisalAreaofDevelopment_Result> ModifyAppraisalAreaofDevelopmentAsync(HRActivity.ModifyAppraisalAreaofDevelopment request);
         
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:ModifyAppraisalAreaofDevel" +
+            "opmentAPI", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<HRActivity.ModifyAppraisalAreaofDevelopmentAPI_Result> ModifyAppraisalAreaofDevelopmentAPIAsync(HRActivity.ModifyAppraisalAreaofDevelopmentAPI request);
+        
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:DeleteAppraisalAreaofDevel" +
             "opment", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<HRActivity.DeleteAppraisalAreaofDevelopment_Result> DeleteAppraisalAreaofDevelopmentAsync(HRActivity.DeleteAppraisalAreaofDevelopment request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:DeleteAppraisalAreaofDevel" +
+            "opmentAPI", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<HRActivity.DeleteAppraisalAreaofDevelopmentAPI_Result> DeleteAppraisalAreaofDevelopmentAPIAsync(HRActivity.DeleteAppraisalAreaofDevelopmentAPI request);
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:GetAppraisalAreaofDevelopm" +
             "ent", ReplyAction="*")]
@@ -504,15 +603,30 @@ namespace HRActivity
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<HRActivity.CreateAppraisalSpecificFocus_Result> CreateAppraisalSpecificFocusAsync(HRActivity.CreateAppraisalSpecificFocus request);
         
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:CreateAppraisalSpecificFoc" +
+            "usAPI", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<HRActivity.CreateAppraisalSpecificFocusAPI_Result> CreateAppraisalSpecificFocusAPIAsync(HRActivity.CreateAppraisalSpecificFocusAPI request);
+        
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:ModifyAppraisalSpecificFoc" +
             "us", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<HRActivity.ModifyAppraisalSpecificFocus_Result> ModifyAppraisalSpecificFocusAsync(HRActivity.ModifyAppraisalSpecificFocus request);
         
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:ModifyAppraisalSpecificFoc" +
+            "usAPI", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<HRActivity.ModifyAppraisalSpecificFocusAPI_Result> ModifyAppraisalSpecificFocusAPIAsync(HRActivity.ModifyAppraisalSpecificFocusAPI request);
+        
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:DeleteAppraisalSpecificFoc" +
             "us", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<HRActivity.DeleteAppraisalSpecificFocus_Result> DeleteAppraisalSpecificFocusAsync(HRActivity.DeleteAppraisalSpecificFocus request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:DeleteAppraisalSpecificFoc" +
+            "usAPI", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<HRActivity.DeleteAppraisalSpecificFocusAPI_Result> DeleteAppraisalSpecificFocusAPIAsync(HRActivity.DeleteAppraisalSpecificFocusAPI request);
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:GetAppraisalSpecificFocus", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -578,15 +692,30 @@ namespace HRActivity
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<HRActivity.CreateAppraisalAreaofImprovement_Result> CreateAppraisalAreaofImprovementAsync(HRActivity.CreateAppraisalAreaofImprovement request);
         
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:CreateAppraisalAreaofImpro" +
+            "vementAPI", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<HRActivity.CreateAppraisalAreaofImprovementAPI_Result> CreateAppraisalAreaofImprovementAPIAsync(HRActivity.CreateAppraisalAreaofImprovementAPI request);
+        
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:ModifyAppraisalAreaofImpro" +
             "vement", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<HRActivity.ModifyAppraisalAreaofImprovement_Result> ModifyAppraisalAreaofImprovementAsync(HRActivity.ModifyAppraisalAreaofImprovement request);
         
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:ModifyAppraisalAreaofImpro" +
+            "vementAPI", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<HRActivity.ModifyAppraisalAreaofImprovementAPI_Result> ModifyAppraisalAreaofImprovementAPIAsync(HRActivity.ModifyAppraisalAreaofImprovementAPI request);
+        
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:DeleteAppraisalAreaofImpro" +
             "vement", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<HRActivity.DeleteAppraisalAreaofImprovement_Result> DeleteAppraisalAreaofImprovementAsync(HRActivity.DeleteAppraisalAreaofImprovement request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:DeleteAppraisalAreaofImpro" +
+            "vementAPI", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<HRActivity.DeleteAppraisalAreaofImprovementAPI_Result> DeleteAppraisalAreaofImprovementAPIAsync(HRActivity.DeleteAppraisalAreaofImprovementAPI request);
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:GetAppraisalTrainingNeeds", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -602,79 +731,30 @@ namespace HRActivity
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<HRActivity.CreateAppraisalTrainingNeed_Result> CreateAppraisalTrainingNeedAsync(HRActivity.CreateAppraisalTrainingNeed request);
         
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:CreateAppraisalTrainingNee" +
+            "dAPI", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<HRActivity.CreateAppraisalTrainingNeedAPI_Result> CreateAppraisalTrainingNeedAPIAsync(HRActivity.CreateAppraisalTrainingNeedAPI request);
+        
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:ModifyAppraisalTrainingNee" +
             "d", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<HRActivity.ModifyAppraisalTrainingNeed_Result> ModifyAppraisalTrainingNeedAsync(HRActivity.ModifyAppraisalTrainingNeed request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:ModifyAppraisalTrainingNee" +
+            "dAPI", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<HRActivity.ModifyAppraisalTrainingNeedAPI_Result> ModifyAppraisalTrainingNeedAPIAsync(HRActivity.ModifyAppraisalTrainingNeedAPI request);
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:DeleteAppraisalTrainingNee" +
             "d", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<HRActivity.DeleteAppraisalTrainingNeed_Result> DeleteAppraisalTrainingNeedAsync(HRActivity.DeleteAppraisalTrainingNeed request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:GetModeratedPerformanceApp" +
-            "raisalEmployeeNo", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:DeleteAppraisalTrainingNee" +
+            "dAPI", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<HRActivity.GetModeratedPerformanceAppraisalEmployeeNo_Result> GetModeratedPerformanceAppraisalEmployeeNoAsync(HRActivity.GetModeratedPerformanceAppraisalEmployeeNo request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:GetModeratedPerformanceApp" +
-            "raisalSupervisorNo", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<HRActivity.GetModeratedPerformanceAppraisalSupervisorNo_Result> GetModeratedPerformanceAppraisalSupervisorNoAsync(HRActivity.GetModeratedPerformanceAppraisalSupervisorNo request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:GetModeratedPerformanceApp" +
-            "raisalHeaderNo", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<HRActivity.GetModeratedPerformanceAppraisalHeaderNo_Result> GetModeratedPerformanceAppraisalHeaderNoAsync(HRActivity.GetModeratedPerformanceAppraisalHeaderNo request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:GetModeratedPerformanceApp" +
-            "raisalIndicators", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<HRActivity.GetModeratedPerformanceAppraisalIndicators_Result> GetModeratedPerformanceAppraisalIndicatorsAsync(HRActivity.GetModeratedPerformanceAppraisalIndicators request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:GetModeratedPerformanceApp" +
-            "raisalIndicator", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<HRActivity.GetModeratedPerformanceAppraisalIndicator_Result> GetModeratedPerformanceAppraisalIndicatorAsync(HRActivity.GetModeratedPerformanceAppraisalIndicator request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:ModifyModeratedPerformance" +
-            "AppraisalIndicator", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<HRActivity.ModifyModeratedPerformanceAppraisalIndicator_Result> ModifyModeratedPerformanceAppraisalIndicatorAsync(HRActivity.ModifyModeratedPerformanceAppraisalIndicator request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:GetCompletePerformanceAppr" +
-            "aisalByEmployeeNo", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<HRActivity.GetCompletePerformanceAppraisalByEmployeeNo_Result> GetCompletePerformanceAppraisalByEmployeeNoAsync(HRActivity.GetCompletePerformanceAppraisalByEmployeeNo request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:GetCompleteEmployeePerform" +
-            "anceAppraisalHeaderNo", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<HRActivity.GetCompleteEmployeePerformanceAppraisalHeaderNo_Result> GetCompleteEmployeePerformanceAppraisalHeaderNoAsync(HRActivity.GetCompleteEmployeePerformanceAppraisalHeaderNo request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:GetCompleteSupervisorPerfo" +
-            "rmanceAppraisalSupervisorNo", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<HRActivity.GetCompleteSupervisorPerformanceAppraisalSupervisorNo_Result> GetCompleteSupervisorPerformanceAppraisalSupervisorNoAsync(HRActivity.GetCompleteSupervisorPerformanceAppraisalSupervisorNo request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:GetCompleteSupervisorPerfo" +
-            "rmanceAppraisalHeaderNo", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<HRActivity.GetCompleteSupervisorPerformanceAppraisalHeaderNo_Result> GetCompleteSupervisorPerformanceAppraisalHeaderNoAsync(HRActivity.GetCompleteSupervisorPerformanceAppraisalHeaderNo request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:GetEmployeeCompletePerform" +
-            "anceAppraisalIndicators", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<HRActivity.GetEmployeeCompletePerformanceAppraisalIndicators_Result> GetEmployeeCompletePerformanceAppraisalIndicatorsAsync(HRActivity.GetEmployeeCompletePerformanceAppraisalIndicators request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:GetSupervisorCompletePerfo" +
-            "rmanceAppraisalIndicators", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<HRActivity.GetSupervisorCompletePerformanceAppraisalIndicators_Result> GetSupervisorCompletePerformanceAppraisalIndicatorsAsync(HRActivity.GetSupervisorCompletePerformanceAppraisalIndicators request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:GenerateJobTargetsReport", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<HRActivity.GenerateJobTargetsReport_Result> GenerateJobTargetsReportAsync(HRActivity.GenerateJobTargetsReport request);
+        System.Threading.Tasks.Task<HRActivity.DeleteAppraisalTrainingNeedAPI_Result> DeleteAppraisalTrainingNeedAPIAsync(HRActivity.DeleteAppraisalTrainingNeedAPI request);
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:GetEmployeesPerManager", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -746,14 +826,14 @@ namespace HRActivity
         System.Threading.Tasks.Task<HRActivity.CheckLeaveApplicationApprovalWorkflowEnabled_Result> CheckLeaveApplicationApprovalWorkflowEnabledAsync(HRActivity.CheckLeaveApplicationApprovalWorkflowEnabled request);
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:SendLeaveApplicationApprov" +
-            "alRequest", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<HRActivity.SendLeaveApplicationApprovalRequest_Result> SendLeaveApplicationApprovalRequestAsync(HRActivity.SendLeaveApplicationApprovalRequest request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:SendLeaveApplicationApprov" +
             "alRequestAPI", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<HRActivity.SendLeaveApplicationApprovalRequestAPI_Result> SendLeaveApplicationApprovalRequestAPIAsync(HRActivity.SendLeaveApplicationApprovalRequestAPI request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:SendLeaveApplicationApprov" +
+            "alRequest", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<HRActivity.SendLeaveApplicationApprovalRequest_Result> SendLeaveApplicationApprovalRequestAsync(HRActivity.SendLeaveApplicationApprovalRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:CancelLeaveApplicationAppr" +
             "ovalRequest", ReplyAction="*")]
@@ -1161,11 +1241,562 @@ namespace HRActivity
             "alRequest", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<HRActivity.CancelEmpRequisitionApprovalRequest_Result> CancelEmpRequisitionApprovalRequestAsync(HRActivity.CancelEmpRequisitionApprovalRequest request);
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetModeratedPerformanceAppraisalEmployeeNo", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class GetModeratedPerformanceAppraisalEmployeeNo
+    {
         
-        // CODEGEN: Generating message contract since the operation has multiple return values.
-        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS:GetEmployeeClearanceList", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<HRActivity.GetEmployeeClearanceList_Result> GetEmployeeClearanceListAsync(HRActivity.GetEmployeeClearanceList request);
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string employeeNo;
+        
+        public GetModeratedPerformanceAppraisalEmployeeNo()
+        {
+        }
+        
+        public GetModeratedPerformanceAppraisalEmployeeNo(string employeeNo)
+        {
+            this.employeeNo = employeeNo;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetModeratedPerformanceAppraisalEmployeeNo_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class GetModeratedPerformanceAppraisalEmployeeNo_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string return_value;
+        
+        public GetModeratedPerformanceAppraisalEmployeeNo_Result()
+        {
+        }
+        
+        public GetModeratedPerformanceAppraisalEmployeeNo_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetModeratedPerformanceAppraisalSupervisorNo", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class GetModeratedPerformanceAppraisalSupervisorNo
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string employeeNo;
+        
+        public GetModeratedPerformanceAppraisalSupervisorNo()
+        {
+        }
+        
+        public GetModeratedPerformanceAppraisalSupervisorNo(string employeeNo)
+        {
+            this.employeeNo = employeeNo;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetModeratedPerformanceAppraisalSupervisorNo_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class GetModeratedPerformanceAppraisalSupervisorNo_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string return_value;
+        
+        public GetModeratedPerformanceAppraisalSupervisorNo_Result()
+        {
+        }
+        
+        public GetModeratedPerformanceAppraisalSupervisorNo_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetModeratedPerformanceAppraisalHeaderNo", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class GetModeratedPerformanceAppraisalHeaderNo
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string headerNo;
+        
+        public GetModeratedPerformanceAppraisalHeaderNo()
+        {
+        }
+        
+        public GetModeratedPerformanceAppraisalHeaderNo(string headerNo)
+        {
+            this.headerNo = headerNo;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetModeratedPerformanceAppraisalHeaderNo_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class GetModeratedPerformanceAppraisalHeaderNo_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string return_value;
+        
+        public GetModeratedPerformanceAppraisalHeaderNo_Result()
+        {
+        }
+        
+        public GetModeratedPerformanceAppraisalHeaderNo_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetModeratedPerformanceAppraisalIndicators", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class GetModeratedPerformanceAppraisalIndicators
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string headerNo;
+        
+        public GetModeratedPerformanceAppraisalIndicators()
+        {
+        }
+        
+        public GetModeratedPerformanceAppraisalIndicators(string headerNo)
+        {
+            this.headerNo = headerNo;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetModeratedPerformanceAppraisalIndicators_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class GetModeratedPerformanceAppraisalIndicators_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string return_value;
+        
+        public GetModeratedPerformanceAppraisalIndicators_Result()
+        {
+        }
+        
+        public GetModeratedPerformanceAppraisalIndicators_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetModeratedPerformanceAppraisalIndicator", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class GetModeratedPerformanceAppraisalIndicator
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public int targetCode;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=1)]
+        public int indicatorCode;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=2)]
+        public int kPICode;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=3)]
+        public string headerNo;
+        
+        public GetModeratedPerformanceAppraisalIndicator()
+        {
+        }
+        
+        public GetModeratedPerformanceAppraisalIndicator(int targetCode, int indicatorCode, int kPICode, string headerNo)
+        {
+            this.targetCode = targetCode;
+            this.indicatorCode = indicatorCode;
+            this.kPICode = kPICode;
+            this.headerNo = headerNo;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetModeratedPerformanceAppraisalIndicator_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class GetModeratedPerformanceAppraisalIndicator_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string return_value;
+        
+        public GetModeratedPerformanceAppraisalIndicator_Result()
+        {
+        }
+        
+        public GetModeratedPerformanceAppraisalIndicator_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ModifyModeratedPerformanceAppraisalIndicator", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class ModifyModeratedPerformanceAppraisalIndicator
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public int targetCode;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=1)]
+        public int indicatorCode;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=2)]
+        public int kPICode;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=3)]
+        public string headerNo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=4)]
+        public decimal achievedScoreSupervisor;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=5)]
+        public string supervisorCommentsEY;
+        
+        public ModifyModeratedPerformanceAppraisalIndicator()
+        {
+        }
+        
+        public ModifyModeratedPerformanceAppraisalIndicator(int targetCode, int indicatorCode, int kPICode, string headerNo, decimal achievedScoreSupervisor, string supervisorCommentsEY)
+        {
+            this.targetCode = targetCode;
+            this.indicatorCode = indicatorCode;
+            this.kPICode = kPICode;
+            this.headerNo = headerNo;
+            this.achievedScoreSupervisor = achievedScoreSupervisor;
+            this.supervisorCommentsEY = supervisorCommentsEY;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ModifyModeratedPerformanceAppraisalIndicator_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class ModifyModeratedPerformanceAppraisalIndicator_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public bool return_value;
+        
+        public ModifyModeratedPerformanceAppraisalIndicator_Result()
+        {
+        }
+        
+        public ModifyModeratedPerformanceAppraisalIndicator_Result(bool return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetCompletePerformanceAppraisalByEmployeeNo", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class GetCompletePerformanceAppraisalByEmployeeNo
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string employeeNo;
+        
+        public GetCompletePerformanceAppraisalByEmployeeNo()
+        {
+        }
+        
+        public GetCompletePerformanceAppraisalByEmployeeNo(string employeeNo)
+        {
+            this.employeeNo = employeeNo;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetCompletePerformanceAppraisalByEmployeeNo_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class GetCompletePerformanceAppraisalByEmployeeNo_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string return_value;
+        
+        public GetCompletePerformanceAppraisalByEmployeeNo_Result()
+        {
+        }
+        
+        public GetCompletePerformanceAppraisalByEmployeeNo_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetCompleteEmployeePerformanceAppraisalHeaderNo", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class GetCompleteEmployeePerformanceAppraisalHeaderNo
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string headerNo;
+        
+        public GetCompleteEmployeePerformanceAppraisalHeaderNo()
+        {
+        }
+        
+        public GetCompleteEmployeePerformanceAppraisalHeaderNo(string headerNo)
+        {
+            this.headerNo = headerNo;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetCompleteEmployeePerformanceAppraisalHeaderNo_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class GetCompleteEmployeePerformanceAppraisalHeaderNo_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string return_value;
+        
+        public GetCompleteEmployeePerformanceAppraisalHeaderNo_Result()
+        {
+        }
+        
+        public GetCompleteEmployeePerformanceAppraisalHeaderNo_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetCompleteSupervisorPerformanceAppraisalSupervisorNo", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class GetCompleteSupervisorPerformanceAppraisalSupervisorNo
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string employeeNo;
+        
+        public GetCompleteSupervisorPerformanceAppraisalSupervisorNo()
+        {
+        }
+        
+        public GetCompleteSupervisorPerformanceAppraisalSupervisorNo(string employeeNo)
+        {
+            this.employeeNo = employeeNo;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetCompleteSupervisorPerformanceAppraisalSupervisorNo_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class GetCompleteSupervisorPerformanceAppraisalSupervisorNo_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string return_value;
+        
+        public GetCompleteSupervisorPerformanceAppraisalSupervisorNo_Result()
+        {
+        }
+        
+        public GetCompleteSupervisorPerformanceAppraisalSupervisorNo_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetCompleteSupervisorPerformanceAppraisalHeaderNo", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class GetCompleteSupervisorPerformanceAppraisalHeaderNo
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string headerNo;
+        
+        public GetCompleteSupervisorPerformanceAppraisalHeaderNo()
+        {
+        }
+        
+        public GetCompleteSupervisorPerformanceAppraisalHeaderNo(string headerNo)
+        {
+            this.headerNo = headerNo;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetCompleteSupervisorPerformanceAppraisalHeaderNo_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class GetCompleteSupervisorPerformanceAppraisalHeaderNo_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string return_value;
+        
+        public GetCompleteSupervisorPerformanceAppraisalHeaderNo_Result()
+        {
+        }
+        
+        public GetCompleteSupervisorPerformanceAppraisalHeaderNo_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetEmployeeCompletePerformanceAppraisalIndicators", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class GetEmployeeCompletePerformanceAppraisalIndicators
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string headerNo;
+        
+        public GetEmployeeCompletePerformanceAppraisalIndicators()
+        {
+        }
+        
+        public GetEmployeeCompletePerformanceAppraisalIndicators(string headerNo)
+        {
+            this.headerNo = headerNo;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetEmployeeCompletePerformanceAppraisalIndicators_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class GetEmployeeCompletePerformanceAppraisalIndicators_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string return_value;
+        
+        public GetEmployeeCompletePerformanceAppraisalIndicators_Result()
+        {
+        }
+        
+        public GetEmployeeCompletePerformanceAppraisalIndicators_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetSupervisorCompletePerformanceAppraisalIndicators", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class GetSupervisorCompletePerformanceAppraisalIndicators
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string headerNo;
+        
+        public GetSupervisorCompletePerformanceAppraisalIndicators()
+        {
+        }
+        
+        public GetSupervisorCompletePerformanceAppraisalIndicators(string headerNo)
+        {
+            this.headerNo = headerNo;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetSupervisorCompletePerformanceAppraisalIndicators_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class GetSupervisorCompletePerformanceAppraisalIndicators_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string return_value;
+        
+        public GetSupervisorCompletePerformanceAppraisalIndicators_Result()
+        {
+        }
+        
+        public GetSupervisorCompletePerformanceAppraisalIndicators_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GenerateJobTargetsReport", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class GenerateJobTargetsReport
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string employeeNo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=1)]
+        public string headerNo;
+        
+        public GenerateJobTargetsReport()
+        {
+        }
+        
+        public GenerateJobTargetsReport(string employeeNo, string headerNo)
+        {
+            this.employeeNo = employeeNo;
+            this.headerNo = headerNo;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GenerateJobTargetsReport_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class GenerateJobTargetsReport_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string return_value;
+        
+        public GenerateJobTargetsReport_Result()
+        {
+        }
+        
+        public GenerateJobTargetsReport_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -7207,6 +7838,48 @@ namespace HRActivity
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetEmployeeClearanceList", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class GetEmployeeClearanceList
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public HRActivity.Clearanceroot clearanceExport;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=1)]
+        public string employeeNo;
+        
+        public GetEmployeeClearanceList()
+        {
+        }
+        
+        public GetEmployeeClearanceList(HRActivity.Clearanceroot clearanceExport, string employeeNo)
+        {
+            this.clearanceExport = clearanceExport;
+            this.employeeNo = employeeNo;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetEmployeeClearanceList_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class GetEmployeeClearanceList_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public HRActivity.Clearanceroot clearanceExport;
+        
+        public GetEmployeeClearanceList_Result()
+        {
+        }
+        
+        public GetEmployeeClearanceList_Result(HRActivity.Clearanceroot clearanceExport)
+        {
+            this.clearanceExport = clearanceExport;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     [System.ServiceModel.MessageContractAttribute(WrapperName="GetEmployeeClearanceListStatus", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
     public partial class GetEmployeeClearanceListStatus
     {
@@ -11047,6 +11720,50 @@ namespace HRActivity
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="CreateAppraisalAreaofAchievementAPI", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class CreateAppraisalAreaofAchievementAPI
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string headerNo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=1)]
+        public string areaOfAchievement;
+        
+        public CreateAppraisalAreaofAchievementAPI()
+        {
+        }
+        
+        public CreateAppraisalAreaofAchievementAPI(string headerNo, string areaOfAchievement)
+        {
+            this.headerNo = headerNo;
+            this.areaOfAchievement = areaOfAchievement;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="CreateAppraisalAreaofAchievementAPI_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class CreateAppraisalAreaofAchievementAPI_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string return_value;
+        
+        public CreateAppraisalAreaofAchievementAPI_Result()
+        {
+        }
+        
+        public CreateAppraisalAreaofAchievementAPI_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="ModifyAppraisalAreaofAchievement", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
     public partial class ModifyAppraisalAreaofAchievement
     {
@@ -11095,6 +11812,54 @@ namespace HRActivity
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ModifyAppraisalAreaofAchievementAPI", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class ModifyAppraisalAreaofAchievementAPI
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string headerNo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=1)]
+        public int lineNo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=2)]
+        public string areaofAchievement;
+        
+        public ModifyAppraisalAreaofAchievementAPI()
+        {
+        }
+        
+        public ModifyAppraisalAreaofAchievementAPI(string headerNo, int lineNo, string areaofAchievement)
+        {
+            this.headerNo = headerNo;
+            this.lineNo = lineNo;
+            this.areaofAchievement = areaofAchievement;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ModifyAppraisalAreaofAchievementAPI_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class ModifyAppraisalAreaofAchievementAPI_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string return_value;
+        
+        public ModifyAppraisalAreaofAchievementAPI_Result()
+        {
+        }
+        
+        public ModifyAppraisalAreaofAchievementAPI_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="DeleteAppraisalAreaofAchievement", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
     public partial class DeleteAppraisalAreaofAchievement
     {
@@ -11131,6 +11896,50 @@ namespace HRActivity
         }
         
         public DeleteAppraisalAreaofAchievement_Result(bool return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="DeleteAppraisalAreaofAchievementAPI", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class DeleteAppraisalAreaofAchievementAPI
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string headerNo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=1)]
+        public int lineNo;
+        
+        public DeleteAppraisalAreaofAchievementAPI()
+        {
+        }
+        
+        public DeleteAppraisalAreaofAchievementAPI(string headerNo, int lineNo)
+        {
+            this.headerNo = headerNo;
+            this.lineNo = lineNo;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="DeleteAppraisalAreaofAchievementAPI_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class DeleteAppraisalAreaofAchievementAPI_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public bool return_value;
+        
+        public DeleteAppraisalAreaofAchievementAPI_Result()
+        {
+        }
+        
+        public DeleteAppraisalAreaofAchievementAPI_Result(bool return_value)
         {
             this.return_value = return_value;
         }
@@ -11267,6 +12076,50 @@ namespace HRActivity
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="CreateAppraisalAreaofDevelopmentAPI", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class CreateAppraisalAreaofDevelopmentAPI
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string headerNo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=1)]
+        public string areaOfDevelopment;
+        
+        public CreateAppraisalAreaofDevelopmentAPI()
+        {
+        }
+        
+        public CreateAppraisalAreaofDevelopmentAPI(string headerNo, string areaOfDevelopment)
+        {
+            this.headerNo = headerNo;
+            this.areaOfDevelopment = areaOfDevelopment;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="CreateAppraisalAreaofDevelopmentAPI_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class CreateAppraisalAreaofDevelopmentAPI_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string return_value;
+        
+        public CreateAppraisalAreaofDevelopmentAPI_Result()
+        {
+        }
+        
+        public CreateAppraisalAreaofDevelopmentAPI_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="ModifyAppraisalAreaofDevelopment", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
     public partial class ModifyAppraisalAreaofDevelopment
     {
@@ -11315,6 +12168,54 @@ namespace HRActivity
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ModifyAppraisalAreaofDevelopmentAPI", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class ModifyAppraisalAreaofDevelopmentAPI
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string headerNo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=1)]
+        public int lineNo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=2)]
+        public string areaofDevelopment;
+        
+        public ModifyAppraisalAreaofDevelopmentAPI()
+        {
+        }
+        
+        public ModifyAppraisalAreaofDevelopmentAPI(string headerNo, int lineNo, string areaofDevelopment)
+        {
+            this.headerNo = headerNo;
+            this.lineNo = lineNo;
+            this.areaofDevelopment = areaofDevelopment;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ModifyAppraisalAreaofDevelopmentAPI_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class ModifyAppraisalAreaofDevelopmentAPI_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public bool return_value;
+        
+        public ModifyAppraisalAreaofDevelopmentAPI_Result()
+        {
+        }
+        
+        public ModifyAppraisalAreaofDevelopmentAPI_Result(bool return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="DeleteAppraisalAreaofDevelopment", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
     public partial class DeleteAppraisalAreaofDevelopment
     {
@@ -11351,6 +12252,50 @@ namespace HRActivity
         }
         
         public DeleteAppraisalAreaofDevelopment_Result(bool return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="DeleteAppraisalAreaofDevelopmentAPI", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class DeleteAppraisalAreaofDevelopmentAPI
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string headerNo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=1)]
+        public int lineNo;
+        
+        public DeleteAppraisalAreaofDevelopmentAPI()
+        {
+        }
+        
+        public DeleteAppraisalAreaofDevelopmentAPI(string headerNo, int lineNo)
+        {
+            this.headerNo = headerNo;
+            this.lineNo = lineNo;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="DeleteAppraisalAreaofDevelopmentAPI_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class DeleteAppraisalAreaofDevelopmentAPI_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public bool return_value;
+        
+        public DeleteAppraisalAreaofDevelopmentAPI_Result()
+        {
+        }
+        
+        public DeleteAppraisalAreaofDevelopmentAPI_Result(bool return_value)
         {
             this.return_value = return_value;
         }
@@ -11487,6 +12432,50 @@ namespace HRActivity
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="CreateAppraisalSpecificFocusAPI", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class CreateAppraisalSpecificFocusAPI
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string headerNo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=1)]
+        public string specificArea;
+        
+        public CreateAppraisalSpecificFocusAPI()
+        {
+        }
+        
+        public CreateAppraisalSpecificFocusAPI(string headerNo, string specificArea)
+        {
+            this.headerNo = headerNo;
+            this.specificArea = specificArea;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="CreateAppraisalSpecificFocusAPI_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class CreateAppraisalSpecificFocusAPI_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string return_value;
+        
+        public CreateAppraisalSpecificFocusAPI_Result()
+        {
+        }
+        
+        public CreateAppraisalSpecificFocusAPI_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="ModifyAppraisalSpecificFocus", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
     public partial class ModifyAppraisalSpecificFocus
     {
@@ -11535,6 +12524,54 @@ namespace HRActivity
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ModifyAppraisalSpecificFocusAPI", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class ModifyAppraisalSpecificFocusAPI
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string headerNo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=1)]
+        public int lineNo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=2)]
+        public string specificFocusArea;
+        
+        public ModifyAppraisalSpecificFocusAPI()
+        {
+        }
+        
+        public ModifyAppraisalSpecificFocusAPI(string headerNo, int lineNo, string specificFocusArea)
+        {
+            this.headerNo = headerNo;
+            this.lineNo = lineNo;
+            this.specificFocusArea = specificFocusArea;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ModifyAppraisalSpecificFocusAPI_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class ModifyAppraisalSpecificFocusAPI_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public bool return_value;
+        
+        public ModifyAppraisalSpecificFocusAPI_Result()
+        {
+        }
+        
+        public ModifyAppraisalSpecificFocusAPI_Result(bool return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="DeleteAppraisalSpecificFocus", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
     public partial class DeleteAppraisalSpecificFocus
     {
@@ -11571,6 +12608,50 @@ namespace HRActivity
         }
         
         public DeleteAppraisalSpecificFocus_Result(bool return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="DeleteAppraisalSpecificFocusAPI", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class DeleteAppraisalSpecificFocusAPI
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string headerNo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=1)]
+        public int lineNo;
+        
+        public DeleteAppraisalSpecificFocusAPI()
+        {
+        }
+        
+        public DeleteAppraisalSpecificFocusAPI(string headerNo, int lineNo)
+        {
+            this.headerNo = headerNo;
+            this.lineNo = lineNo;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="DeleteAppraisalSpecificFocusAPI_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class DeleteAppraisalSpecificFocusAPI_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public bool return_value;
+        
+        public DeleteAppraisalSpecificFocusAPI_Result()
+        {
+        }
+        
+        public DeleteAppraisalSpecificFocusAPI_Result(bool return_value)
         {
             this.return_value = return_value;
         }
@@ -12155,6 +13236,50 @@ namespace HRActivity
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="CreateAppraisalAreaofImprovementAPI", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class CreateAppraisalAreaofImprovementAPI
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string headerNo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=1)]
+        public string areaofImprovement;
+        
+        public CreateAppraisalAreaofImprovementAPI()
+        {
+        }
+        
+        public CreateAppraisalAreaofImprovementAPI(string headerNo, string areaofImprovement)
+        {
+            this.headerNo = headerNo;
+            this.areaofImprovement = areaofImprovement;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="CreateAppraisalAreaofImprovementAPI_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class CreateAppraisalAreaofImprovementAPI_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string return_value;
+        
+        public CreateAppraisalAreaofImprovementAPI_Result()
+        {
+        }
+        
+        public CreateAppraisalAreaofImprovementAPI_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="ModifyAppraisalAreaofImprovement", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
     public partial class ModifyAppraisalAreaofImprovement
     {
@@ -12203,6 +13328,54 @@ namespace HRActivity
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ModifyAppraisalAreaofImprovementAPI", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class ModifyAppraisalAreaofImprovementAPI
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string headerNo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=1)]
+        public int lineNo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=2)]
+        public string areaofImprovement;
+        
+        public ModifyAppraisalAreaofImprovementAPI()
+        {
+        }
+        
+        public ModifyAppraisalAreaofImprovementAPI(string headerNo, int lineNo, string areaofImprovement)
+        {
+            this.headerNo = headerNo;
+            this.lineNo = lineNo;
+            this.areaofImprovement = areaofImprovement;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ModifyAppraisalAreaofImprovementAPI_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class ModifyAppraisalAreaofImprovementAPI_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public bool return_value;
+        
+        public ModifyAppraisalAreaofImprovementAPI_Result()
+        {
+        }
+        
+        public ModifyAppraisalAreaofImprovementAPI_Result(bool return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="DeleteAppraisalAreaofImprovement", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
     public partial class DeleteAppraisalAreaofImprovement
     {
@@ -12239,6 +13412,50 @@ namespace HRActivity
         }
         
         public DeleteAppraisalAreaofImprovement_Result(bool return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="DeleteAppraisalAreaofImprovementAPI", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class DeleteAppraisalAreaofImprovementAPI
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string headerNo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=1)]
+        public int lineNo;
+        
+        public DeleteAppraisalAreaofImprovementAPI()
+        {
+        }
+        
+        public DeleteAppraisalAreaofImprovementAPI(string headerNo, int lineNo)
+        {
+            this.headerNo = headerNo;
+            this.lineNo = lineNo;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="DeleteAppraisalAreaofImprovementAPI_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class DeleteAppraisalAreaofImprovementAPI_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public bool return_value;
+        
+        public DeleteAppraisalAreaofImprovementAPI_Result()
+        {
+        }
+        
+        public DeleteAppraisalAreaofImprovementAPI_Result(bool return_value)
         {
             this.return_value = return_value;
         }
@@ -12375,6 +13592,50 @@ namespace HRActivity
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="CreateAppraisalTrainingNeedAPI", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class CreateAppraisalTrainingNeedAPI
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string headerNo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=1)]
+        public string trainingNeed;
+        
+        public CreateAppraisalTrainingNeedAPI()
+        {
+        }
+        
+        public CreateAppraisalTrainingNeedAPI(string headerNo, string trainingNeed)
+        {
+            this.headerNo = headerNo;
+            this.trainingNeed = trainingNeed;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="CreateAppraisalTrainingNeedAPI_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class CreateAppraisalTrainingNeedAPI_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string return_value;
+        
+        public CreateAppraisalTrainingNeedAPI_Result()
+        {
+        }
+        
+        public CreateAppraisalTrainingNeedAPI_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="ModifyAppraisalTrainingNeed", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
     public partial class ModifyAppraisalTrainingNeed
     {
@@ -12415,6 +13676,54 @@ namespace HRActivity
         }
         
         public ModifyAppraisalTrainingNeed_Result(bool return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ModifyAppraisalTrainingNeedAPI", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class ModifyAppraisalTrainingNeedAPI
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string headerNo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=1)]
+        public int lineNo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=2)]
+        public string trainingNeed;
+        
+        public ModifyAppraisalTrainingNeedAPI()
+        {
+        }
+        
+        public ModifyAppraisalTrainingNeedAPI(string headerNo, int lineNo, string trainingNeed)
+        {
+            this.headerNo = headerNo;
+            this.lineNo = lineNo;
+            this.trainingNeed = trainingNeed;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ModifyAppraisalTrainingNeedAPI_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class ModifyAppraisalTrainingNeedAPI_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public bool return_value;
+        
+        public ModifyAppraisalTrainingNeedAPI_Result()
+        {
+        }
+        
+        public ModifyAppraisalTrainingNeedAPI_Result(bool return_value)
         {
             this.return_value = return_value;
         }
@@ -12467,554 +13776,42 @@ namespace HRActivity
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GetModeratedPerformanceAppraisalEmployeeNo", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
-    public partial class GetModeratedPerformanceAppraisalEmployeeNo
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
-        public string employeeNo;
-        
-        public GetModeratedPerformanceAppraisalEmployeeNo()
-        {
-        }
-        
-        public GetModeratedPerformanceAppraisalEmployeeNo(string employeeNo)
-        {
-            this.employeeNo = employeeNo;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GetModeratedPerformanceAppraisalEmployeeNo_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
-    public partial class GetModeratedPerformanceAppraisalEmployeeNo_Result
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
-        public string return_value;
-        
-        public GetModeratedPerformanceAppraisalEmployeeNo_Result()
-        {
-        }
-        
-        public GetModeratedPerformanceAppraisalEmployeeNo_Result(string return_value)
-        {
-            this.return_value = return_value;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GetModeratedPerformanceAppraisalSupervisorNo", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
-    public partial class GetModeratedPerformanceAppraisalSupervisorNo
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
-        public string employeeNo;
-        
-        public GetModeratedPerformanceAppraisalSupervisorNo()
-        {
-        }
-        
-        public GetModeratedPerformanceAppraisalSupervisorNo(string employeeNo)
-        {
-            this.employeeNo = employeeNo;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GetModeratedPerformanceAppraisalSupervisorNo_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
-    public partial class GetModeratedPerformanceAppraisalSupervisorNo_Result
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
-        public string return_value;
-        
-        public GetModeratedPerformanceAppraisalSupervisorNo_Result()
-        {
-        }
-        
-        public GetModeratedPerformanceAppraisalSupervisorNo_Result(string return_value)
-        {
-            this.return_value = return_value;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GetModeratedPerformanceAppraisalHeaderNo", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
-    public partial class GetModeratedPerformanceAppraisalHeaderNo
+    [System.ServiceModel.MessageContractAttribute(WrapperName="DeleteAppraisalTrainingNeedAPI", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class DeleteAppraisalTrainingNeedAPI
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
         public string headerNo;
-        
-        public GetModeratedPerformanceAppraisalHeaderNo()
-        {
-        }
-        
-        public GetModeratedPerformanceAppraisalHeaderNo(string headerNo)
-        {
-            this.headerNo = headerNo;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GetModeratedPerformanceAppraisalHeaderNo_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
-    public partial class GetModeratedPerformanceAppraisalHeaderNo_Result
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
-        public string return_value;
-        
-        public GetModeratedPerformanceAppraisalHeaderNo_Result()
-        {
-        }
-        
-        public GetModeratedPerformanceAppraisalHeaderNo_Result(string return_value)
-        {
-            this.return_value = return_value;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GetModeratedPerformanceAppraisalIndicators", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
-    public partial class GetModeratedPerformanceAppraisalIndicators
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
-        public string headerNo;
-        
-        public GetModeratedPerformanceAppraisalIndicators()
-        {
-        }
-        
-        public GetModeratedPerformanceAppraisalIndicators(string headerNo)
-        {
-            this.headerNo = headerNo;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GetModeratedPerformanceAppraisalIndicators_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
-    public partial class GetModeratedPerformanceAppraisalIndicators_Result
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
-        public string return_value;
-        
-        public GetModeratedPerformanceAppraisalIndicators_Result()
-        {
-        }
-        
-        public GetModeratedPerformanceAppraisalIndicators_Result(string return_value)
-        {
-            this.return_value = return_value;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GetModeratedPerformanceAppraisalIndicator", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
-    public partial class GetModeratedPerformanceAppraisalIndicator
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
-        public int targetCode;
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=1)]
-        public int indicatorCode;
+        public int lineNo;
         
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=2)]
-        public int kPICode;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=3)]
-        public string headerNo;
-        
-        public GetModeratedPerformanceAppraisalIndicator()
+        public DeleteAppraisalTrainingNeedAPI()
         {
         }
         
-        public GetModeratedPerformanceAppraisalIndicator(int targetCode, int indicatorCode, int kPICode, string headerNo)
+        public DeleteAppraisalTrainingNeedAPI(string headerNo, int lineNo)
         {
-            this.targetCode = targetCode;
-            this.indicatorCode = indicatorCode;
-            this.kPICode = kPICode;
             this.headerNo = headerNo;
+            this.lineNo = lineNo;
         }
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GetModeratedPerformanceAppraisalIndicator_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
-    public partial class GetModeratedPerformanceAppraisalIndicator_Result
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
-        public string return_value;
-        
-        public GetModeratedPerformanceAppraisalIndicator_Result()
-        {
-        }
-        
-        public GetModeratedPerformanceAppraisalIndicator_Result(string return_value)
-        {
-            this.return_value = return_value;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="ModifyModeratedPerformanceAppraisalIndicator", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
-    public partial class ModifyModeratedPerformanceAppraisalIndicator
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
-        public int targetCode;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=1)]
-        public int indicatorCode;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=2)]
-        public int kPICode;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=3)]
-        public string headerNo;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=4)]
-        public decimal achievedScoreSupervisor;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=5)]
-        public string supervisorCommentsEY;
-        
-        public ModifyModeratedPerformanceAppraisalIndicator()
-        {
-        }
-        
-        public ModifyModeratedPerformanceAppraisalIndicator(int targetCode, int indicatorCode, int kPICode, string headerNo, decimal achievedScoreSupervisor, string supervisorCommentsEY)
-        {
-            this.targetCode = targetCode;
-            this.indicatorCode = indicatorCode;
-            this.kPICode = kPICode;
-            this.headerNo = headerNo;
-            this.achievedScoreSupervisor = achievedScoreSupervisor;
-            this.supervisorCommentsEY = supervisorCommentsEY;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="ModifyModeratedPerformanceAppraisalIndicator_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
-    public partial class ModifyModeratedPerformanceAppraisalIndicator_Result
+    [System.ServiceModel.MessageContractAttribute(WrapperName="DeleteAppraisalTrainingNeedAPI_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class DeleteAppraisalTrainingNeedAPI_Result
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
         public bool return_value;
         
-        public ModifyModeratedPerformanceAppraisalIndicator_Result()
+        public DeleteAppraisalTrainingNeedAPI_Result()
         {
         }
         
-        public ModifyModeratedPerformanceAppraisalIndicator_Result(bool return_value)
-        {
-            this.return_value = return_value;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GetCompletePerformanceAppraisalByEmployeeNo", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
-    public partial class GetCompletePerformanceAppraisalByEmployeeNo
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
-        public string employeeNo;
-        
-        public GetCompletePerformanceAppraisalByEmployeeNo()
-        {
-        }
-        
-        public GetCompletePerformanceAppraisalByEmployeeNo(string employeeNo)
-        {
-            this.employeeNo = employeeNo;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GetCompletePerformanceAppraisalByEmployeeNo_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
-    public partial class GetCompletePerformanceAppraisalByEmployeeNo_Result
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
-        public string return_value;
-        
-        public GetCompletePerformanceAppraisalByEmployeeNo_Result()
-        {
-        }
-        
-        public GetCompletePerformanceAppraisalByEmployeeNo_Result(string return_value)
-        {
-            this.return_value = return_value;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GetCompleteEmployeePerformanceAppraisalHeaderNo", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
-    public partial class GetCompleteEmployeePerformanceAppraisalHeaderNo
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
-        public string headerNo;
-        
-        public GetCompleteEmployeePerformanceAppraisalHeaderNo()
-        {
-        }
-        
-        public GetCompleteEmployeePerformanceAppraisalHeaderNo(string headerNo)
-        {
-            this.headerNo = headerNo;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GetCompleteEmployeePerformanceAppraisalHeaderNo_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
-    public partial class GetCompleteEmployeePerformanceAppraisalHeaderNo_Result
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
-        public string return_value;
-        
-        public GetCompleteEmployeePerformanceAppraisalHeaderNo_Result()
-        {
-        }
-        
-        public GetCompleteEmployeePerformanceAppraisalHeaderNo_Result(string return_value)
-        {
-            this.return_value = return_value;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GetCompleteSupervisorPerformanceAppraisalSupervisorNo", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
-    public partial class GetCompleteSupervisorPerformanceAppraisalSupervisorNo
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
-        public string employeeNo;
-        
-        public GetCompleteSupervisorPerformanceAppraisalSupervisorNo()
-        {
-        }
-        
-        public GetCompleteSupervisorPerformanceAppraisalSupervisorNo(string employeeNo)
-        {
-            this.employeeNo = employeeNo;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GetCompleteSupervisorPerformanceAppraisalSupervisorNo_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
-    public partial class GetCompleteSupervisorPerformanceAppraisalSupervisorNo_Result
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
-        public string return_value;
-        
-        public GetCompleteSupervisorPerformanceAppraisalSupervisorNo_Result()
-        {
-        }
-        
-        public GetCompleteSupervisorPerformanceAppraisalSupervisorNo_Result(string return_value)
-        {
-            this.return_value = return_value;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GetCompleteSupervisorPerformanceAppraisalHeaderNo", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
-    public partial class GetCompleteSupervisorPerformanceAppraisalHeaderNo
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
-        public string headerNo;
-        
-        public GetCompleteSupervisorPerformanceAppraisalHeaderNo()
-        {
-        }
-        
-        public GetCompleteSupervisorPerformanceAppraisalHeaderNo(string headerNo)
-        {
-            this.headerNo = headerNo;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GetCompleteSupervisorPerformanceAppraisalHeaderNo_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
-    public partial class GetCompleteSupervisorPerformanceAppraisalHeaderNo_Result
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
-        public string return_value;
-        
-        public GetCompleteSupervisorPerformanceAppraisalHeaderNo_Result()
-        {
-        }
-        
-        public GetCompleteSupervisorPerformanceAppraisalHeaderNo_Result(string return_value)
-        {
-            this.return_value = return_value;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GetEmployeeCompletePerformanceAppraisalIndicators", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
-    public partial class GetEmployeeCompletePerformanceAppraisalIndicators
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
-        public string headerNo;
-        
-        public GetEmployeeCompletePerformanceAppraisalIndicators()
-        {
-        }
-        
-        public GetEmployeeCompletePerformanceAppraisalIndicators(string headerNo)
-        {
-            this.headerNo = headerNo;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GetEmployeeCompletePerformanceAppraisalIndicators_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
-    public partial class GetEmployeeCompletePerformanceAppraisalIndicators_Result
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
-        public string return_value;
-        
-        public GetEmployeeCompletePerformanceAppraisalIndicators_Result()
-        {
-        }
-        
-        public GetEmployeeCompletePerformanceAppraisalIndicators_Result(string return_value)
-        {
-            this.return_value = return_value;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GetSupervisorCompletePerformanceAppraisalIndicators", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
-    public partial class GetSupervisorCompletePerformanceAppraisalIndicators
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
-        public string headerNo;
-        
-        public GetSupervisorCompletePerformanceAppraisalIndicators()
-        {
-        }
-        
-        public GetSupervisorCompletePerformanceAppraisalIndicators(string headerNo)
-        {
-            this.headerNo = headerNo;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GetSupervisorCompletePerformanceAppraisalIndicators_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
-    public partial class GetSupervisorCompletePerformanceAppraisalIndicators_Result
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
-        public string return_value;
-        
-        public GetSupervisorCompletePerformanceAppraisalIndicators_Result()
-        {
-        }
-        
-        public GetSupervisorCompletePerformanceAppraisalIndicators_Result(string return_value)
-        {
-            this.return_value = return_value;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GenerateJobTargetsReport", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
-    public partial class GenerateJobTargetsReport
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
-        public string employeeNo;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=1)]
-        public string headerNo;
-        
-        public GenerateJobTargetsReport()
-        {
-        }
-        
-        public GenerateJobTargetsReport(string employeeNo, string headerNo)
-        {
-            this.employeeNo = employeeNo;
-            this.headerNo = headerNo;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GenerateJobTargetsReport_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
-    public partial class GenerateJobTargetsReport_Result
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
-        public string return_value;
-        
-        public GenerateJobTargetsReport_Result()
-        {
-        }
-        
-        public GenerateJobTargetsReport_Result(string return_value)
+        public DeleteAppraisalTrainingNeedAPI_Result(bool return_value)
         {
             this.return_value = return_value;
         }
@@ -13741,46 +14538,6 @@ namespace HRActivity
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="SendLeaveApplicationApprovalRequest", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
-    public partial class SendLeaveApplicationApprovalRequest
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
-        public string hRLeaveApplicationNoa46;
-        
-        public SendLeaveApplicationApprovalRequest()
-        {
-        }
-        
-        public SendLeaveApplicationApprovalRequest(string hRLeaveApplicationNoa46)
-        {
-            this.hRLeaveApplicationNoa46 = hRLeaveApplicationNoa46;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="SendLeaveApplicationApprovalRequest_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
-    public partial class SendLeaveApplicationApprovalRequest_Result
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
-        public bool return_value;
-        
-        public SendLeaveApplicationApprovalRequest_Result()
-        {
-        }
-        
-        public SendLeaveApplicationApprovalRequest_Result(bool return_value)
-        {
-            this.return_value = return_value;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="SendLeaveApplicationApprovalRequestAPI", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
     public partial class SendLeaveApplicationApprovalRequestAPI
     {
@@ -13813,6 +14570,46 @@ namespace HRActivity
         }
         
         public SendLeaveApplicationApprovalRequestAPI_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="SendLeaveApplicationApprovalRequest", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class SendLeaveApplicationApprovalRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public string hRLeaveApplicationNoa46;
+        
+        public SendLeaveApplicationApprovalRequest()
+        {
+        }
+        
+        public SendLeaveApplicationApprovalRequest(string hRLeaveApplicationNoa46)
+        {
+            this.hRLeaveApplicationNoa46 = hRLeaveApplicationNoa46;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="SendLeaveApplicationApprovalRequest_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
+    public partial class SendLeaveApplicationApprovalRequest_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
+        public bool return_value;
+        
+        public SendLeaveApplicationApprovalRequest_Result()
+        {
+        }
+        
+        public SendLeaveApplicationApprovalRequest_Result(bool return_value)
         {
             this.return_value = return_value;
         }
@@ -17562,48 +18359,6 @@ namespace HRActivity
         }
     }
     
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GetEmployeeClearanceList", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
-    public partial class GetEmployeeClearanceList
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
-        public HRActivity.Clearanceroot clearanceExport;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=1)]
-        public string employeeNo;
-        
-        public GetEmployeeClearanceList()
-        {
-        }
-        
-        public GetEmployeeClearanceList(HRActivity.Clearanceroot clearanceExport, string employeeNo)
-        {
-            this.clearanceExport = clearanceExport;
-            this.employeeNo = employeeNo;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GetEmployeeClearanceList_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", IsWrapped=true)]
-    public partial class GetEmployeeClearanceList_Result
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=0)]
-        public HRActivity.Clearanceroot clearanceExport;
-        
-        public GetEmployeeClearanceList_Result()
-        {
-        }
-        
-        public GetEmployeeClearanceList_Result(HRActivity.Clearanceroot clearanceExport)
-        {
-            this.clearanceExport = clearanceExport;
-        }
-    }
-    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     public interface HRManagementWS_PortChannel : HRActivity.HRManagementWS_Port, System.ServiceModel.IClientChannel
     {
@@ -17652,6 +18407,184 @@ namespace HRActivity
         public HRManagementWS_PortClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress)
         {
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<HRActivity.GetModeratedPerformanceAppraisalEmployeeNo_Result> HRActivity.HRManagementWS_Port.GetModeratedPerformanceAppraisalEmployeeNoAsync(HRActivity.GetModeratedPerformanceAppraisalEmployeeNo request)
+        {
+            return base.Channel.GetModeratedPerformanceAppraisalEmployeeNoAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<HRActivity.GetModeratedPerformanceAppraisalEmployeeNo_Result> GetModeratedPerformanceAppraisalEmployeeNoAsync(string employeeNo)
+        {
+            HRActivity.GetModeratedPerformanceAppraisalEmployeeNo inValue = new HRActivity.GetModeratedPerformanceAppraisalEmployeeNo();
+            inValue.employeeNo = employeeNo;
+            return ((HRActivity.HRManagementWS_Port)(this)).GetModeratedPerformanceAppraisalEmployeeNoAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<HRActivity.GetModeratedPerformanceAppraisalSupervisorNo_Result> HRActivity.HRManagementWS_Port.GetModeratedPerformanceAppraisalSupervisorNoAsync(HRActivity.GetModeratedPerformanceAppraisalSupervisorNo request)
+        {
+            return base.Channel.GetModeratedPerformanceAppraisalSupervisorNoAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<HRActivity.GetModeratedPerformanceAppraisalSupervisorNo_Result> GetModeratedPerformanceAppraisalSupervisorNoAsync(string employeeNo)
+        {
+            HRActivity.GetModeratedPerformanceAppraisalSupervisorNo inValue = new HRActivity.GetModeratedPerformanceAppraisalSupervisorNo();
+            inValue.employeeNo = employeeNo;
+            return ((HRActivity.HRManagementWS_Port)(this)).GetModeratedPerformanceAppraisalSupervisorNoAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<HRActivity.GetModeratedPerformanceAppraisalHeaderNo_Result> HRActivity.HRManagementWS_Port.GetModeratedPerformanceAppraisalHeaderNoAsync(HRActivity.GetModeratedPerformanceAppraisalHeaderNo request)
+        {
+            return base.Channel.GetModeratedPerformanceAppraisalHeaderNoAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<HRActivity.GetModeratedPerformanceAppraisalHeaderNo_Result> GetModeratedPerformanceAppraisalHeaderNoAsync(string headerNo)
+        {
+            HRActivity.GetModeratedPerformanceAppraisalHeaderNo inValue = new HRActivity.GetModeratedPerformanceAppraisalHeaderNo();
+            inValue.headerNo = headerNo;
+            return ((HRActivity.HRManagementWS_Port)(this)).GetModeratedPerformanceAppraisalHeaderNoAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<HRActivity.GetModeratedPerformanceAppraisalIndicators_Result> HRActivity.HRManagementWS_Port.GetModeratedPerformanceAppraisalIndicatorsAsync(HRActivity.GetModeratedPerformanceAppraisalIndicators request)
+        {
+            return base.Channel.GetModeratedPerformanceAppraisalIndicatorsAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<HRActivity.GetModeratedPerformanceAppraisalIndicators_Result> GetModeratedPerformanceAppraisalIndicatorsAsync(string headerNo)
+        {
+            HRActivity.GetModeratedPerformanceAppraisalIndicators inValue = new HRActivity.GetModeratedPerformanceAppraisalIndicators();
+            inValue.headerNo = headerNo;
+            return ((HRActivity.HRManagementWS_Port)(this)).GetModeratedPerformanceAppraisalIndicatorsAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<HRActivity.GetModeratedPerformanceAppraisalIndicator_Result> HRActivity.HRManagementWS_Port.GetModeratedPerformanceAppraisalIndicatorAsync(HRActivity.GetModeratedPerformanceAppraisalIndicator request)
+        {
+            return base.Channel.GetModeratedPerformanceAppraisalIndicatorAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<HRActivity.GetModeratedPerformanceAppraisalIndicator_Result> GetModeratedPerformanceAppraisalIndicatorAsync(int targetCode, int indicatorCode, int kPICode, string headerNo)
+        {
+            HRActivity.GetModeratedPerformanceAppraisalIndicator inValue = new HRActivity.GetModeratedPerformanceAppraisalIndicator();
+            inValue.targetCode = targetCode;
+            inValue.indicatorCode = indicatorCode;
+            inValue.kPICode = kPICode;
+            inValue.headerNo = headerNo;
+            return ((HRActivity.HRManagementWS_Port)(this)).GetModeratedPerformanceAppraisalIndicatorAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<HRActivity.ModifyModeratedPerformanceAppraisalIndicator_Result> HRActivity.HRManagementWS_Port.ModifyModeratedPerformanceAppraisalIndicatorAsync(HRActivity.ModifyModeratedPerformanceAppraisalIndicator request)
+        {
+            return base.Channel.ModifyModeratedPerformanceAppraisalIndicatorAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<HRActivity.ModifyModeratedPerformanceAppraisalIndicator_Result> ModifyModeratedPerformanceAppraisalIndicatorAsync(int targetCode, int indicatorCode, int kPICode, string headerNo, decimal achievedScoreSupervisor, string supervisorCommentsEY)
+        {
+            HRActivity.ModifyModeratedPerformanceAppraisalIndicator inValue = new HRActivity.ModifyModeratedPerformanceAppraisalIndicator();
+            inValue.targetCode = targetCode;
+            inValue.indicatorCode = indicatorCode;
+            inValue.kPICode = kPICode;
+            inValue.headerNo = headerNo;
+            inValue.achievedScoreSupervisor = achievedScoreSupervisor;
+            inValue.supervisorCommentsEY = supervisorCommentsEY;
+            return ((HRActivity.HRManagementWS_Port)(this)).ModifyModeratedPerformanceAppraisalIndicatorAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<HRActivity.GetCompletePerformanceAppraisalByEmployeeNo_Result> HRActivity.HRManagementWS_Port.GetCompletePerformanceAppraisalByEmployeeNoAsync(HRActivity.GetCompletePerformanceAppraisalByEmployeeNo request)
+        {
+            return base.Channel.GetCompletePerformanceAppraisalByEmployeeNoAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<HRActivity.GetCompletePerformanceAppraisalByEmployeeNo_Result> GetCompletePerformanceAppraisalByEmployeeNoAsync(string employeeNo)
+        {
+            HRActivity.GetCompletePerformanceAppraisalByEmployeeNo inValue = new HRActivity.GetCompletePerformanceAppraisalByEmployeeNo();
+            inValue.employeeNo = employeeNo;
+            return ((HRActivity.HRManagementWS_Port)(this)).GetCompletePerformanceAppraisalByEmployeeNoAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<HRActivity.GetCompleteEmployeePerformanceAppraisalHeaderNo_Result> HRActivity.HRManagementWS_Port.GetCompleteEmployeePerformanceAppraisalHeaderNoAsync(HRActivity.GetCompleteEmployeePerformanceAppraisalHeaderNo request)
+        {
+            return base.Channel.GetCompleteEmployeePerformanceAppraisalHeaderNoAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<HRActivity.GetCompleteEmployeePerformanceAppraisalHeaderNo_Result> GetCompleteEmployeePerformanceAppraisalHeaderNoAsync(string headerNo)
+        {
+            HRActivity.GetCompleteEmployeePerformanceAppraisalHeaderNo inValue = new HRActivity.GetCompleteEmployeePerformanceAppraisalHeaderNo();
+            inValue.headerNo = headerNo;
+            return ((HRActivity.HRManagementWS_Port)(this)).GetCompleteEmployeePerformanceAppraisalHeaderNoAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<HRActivity.GetCompleteSupervisorPerformanceAppraisalSupervisorNo_Result> HRActivity.HRManagementWS_Port.GetCompleteSupervisorPerformanceAppraisalSupervisorNoAsync(HRActivity.GetCompleteSupervisorPerformanceAppraisalSupervisorNo request)
+        {
+            return base.Channel.GetCompleteSupervisorPerformanceAppraisalSupervisorNoAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<HRActivity.GetCompleteSupervisorPerformanceAppraisalSupervisorNo_Result> GetCompleteSupervisorPerformanceAppraisalSupervisorNoAsync(string employeeNo)
+        {
+            HRActivity.GetCompleteSupervisorPerformanceAppraisalSupervisorNo inValue = new HRActivity.GetCompleteSupervisorPerformanceAppraisalSupervisorNo();
+            inValue.employeeNo = employeeNo;
+            return ((HRActivity.HRManagementWS_Port)(this)).GetCompleteSupervisorPerformanceAppraisalSupervisorNoAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<HRActivity.GetCompleteSupervisorPerformanceAppraisalHeaderNo_Result> HRActivity.HRManagementWS_Port.GetCompleteSupervisorPerformanceAppraisalHeaderNoAsync(HRActivity.GetCompleteSupervisorPerformanceAppraisalHeaderNo request)
+        {
+            return base.Channel.GetCompleteSupervisorPerformanceAppraisalHeaderNoAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<HRActivity.GetCompleteSupervisorPerformanceAppraisalHeaderNo_Result> GetCompleteSupervisorPerformanceAppraisalHeaderNoAsync(string headerNo)
+        {
+            HRActivity.GetCompleteSupervisorPerformanceAppraisalHeaderNo inValue = new HRActivity.GetCompleteSupervisorPerformanceAppraisalHeaderNo();
+            inValue.headerNo = headerNo;
+            return ((HRActivity.HRManagementWS_Port)(this)).GetCompleteSupervisorPerformanceAppraisalHeaderNoAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<HRActivity.GetEmployeeCompletePerformanceAppraisalIndicators_Result> HRActivity.HRManagementWS_Port.GetEmployeeCompletePerformanceAppraisalIndicatorsAsync(HRActivity.GetEmployeeCompletePerformanceAppraisalIndicators request)
+        {
+            return base.Channel.GetEmployeeCompletePerformanceAppraisalIndicatorsAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<HRActivity.GetEmployeeCompletePerformanceAppraisalIndicators_Result> GetEmployeeCompletePerformanceAppraisalIndicatorsAsync(string headerNo)
+        {
+            HRActivity.GetEmployeeCompletePerformanceAppraisalIndicators inValue = new HRActivity.GetEmployeeCompletePerformanceAppraisalIndicators();
+            inValue.headerNo = headerNo;
+            return ((HRActivity.HRManagementWS_Port)(this)).GetEmployeeCompletePerformanceAppraisalIndicatorsAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<HRActivity.GetSupervisorCompletePerformanceAppraisalIndicators_Result> HRActivity.HRManagementWS_Port.GetSupervisorCompletePerformanceAppraisalIndicatorsAsync(HRActivity.GetSupervisorCompletePerformanceAppraisalIndicators request)
+        {
+            return base.Channel.GetSupervisorCompletePerformanceAppraisalIndicatorsAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<HRActivity.GetSupervisorCompletePerformanceAppraisalIndicators_Result> GetSupervisorCompletePerformanceAppraisalIndicatorsAsync(string headerNo)
+        {
+            HRActivity.GetSupervisorCompletePerformanceAppraisalIndicators inValue = new HRActivity.GetSupervisorCompletePerformanceAppraisalIndicators();
+            inValue.headerNo = headerNo;
+            return ((HRActivity.HRManagementWS_Port)(this)).GetSupervisorCompletePerformanceAppraisalIndicatorsAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<HRActivity.GenerateJobTargetsReport_Result> HRActivity.HRManagementWS_Port.GenerateJobTargetsReportAsync(HRActivity.GenerateJobTargetsReport request)
+        {
+            return base.Channel.GenerateJobTargetsReportAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<HRActivity.GenerateJobTargetsReport_Result> GenerateJobTargetsReportAsync(string employeeNo, string headerNo)
+        {
+            HRActivity.GenerateJobTargetsReport inValue = new HRActivity.GenerateJobTargetsReport();
+            inValue.employeeNo = employeeNo;
+            inValue.headerNo = headerNo;
+            return ((HRActivity.HRManagementWS_Port)(this)).GenerateJobTargetsReportAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -17914,6 +18847,11 @@ namespace HRActivity
             inValue.employeeno = employeeno;
             inValue.documentCode = documentCode;
             return ((HRActivity.HRManagementWS_Port)(this)).SignPolicyDocumentsAsync(inValue);
+        }
+        
+        public System.Threading.Tasks.Task<HRActivity.GetEmployeeClearanceList_Result> GetEmployeeClearanceListAsync(HRActivity.GetEmployeeClearanceList request)
+        {
+            return base.Channel.GetEmployeeClearanceListAsync(request);
         }
         
         public System.Threading.Tasks.Task<HRActivity.GetEmployeeClearanceListStatus_Result> GetEmployeeClearanceListStatusAsync(HRActivity.GetEmployeeClearanceListStatus request)
@@ -19037,6 +19975,20 @@ namespace HRActivity
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<HRActivity.CreateAppraisalAreaofAchievementAPI_Result> HRActivity.HRManagementWS_Port.CreateAppraisalAreaofAchievementAPIAsync(HRActivity.CreateAppraisalAreaofAchievementAPI request)
+        {
+            return base.Channel.CreateAppraisalAreaofAchievementAPIAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<HRActivity.CreateAppraisalAreaofAchievementAPI_Result> CreateAppraisalAreaofAchievementAPIAsync(string headerNo, string areaOfAchievement)
+        {
+            HRActivity.CreateAppraisalAreaofAchievementAPI inValue = new HRActivity.CreateAppraisalAreaofAchievementAPI();
+            inValue.headerNo = headerNo;
+            inValue.areaOfAchievement = areaOfAchievement;
+            return ((HRActivity.HRManagementWS_Port)(this)).CreateAppraisalAreaofAchievementAPIAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         System.Threading.Tasks.Task<HRActivity.ModifyAppraisalAreaofAchievement_Result> HRActivity.HRManagementWS_Port.ModifyAppraisalAreaofAchievementAsync(HRActivity.ModifyAppraisalAreaofAchievement request)
         {
             return base.Channel.ModifyAppraisalAreaofAchievementAsync(request);
@@ -19052,6 +20004,21 @@ namespace HRActivity
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<HRActivity.ModifyAppraisalAreaofAchievementAPI_Result> HRActivity.HRManagementWS_Port.ModifyAppraisalAreaofAchievementAPIAsync(HRActivity.ModifyAppraisalAreaofAchievementAPI request)
+        {
+            return base.Channel.ModifyAppraisalAreaofAchievementAPIAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<HRActivity.ModifyAppraisalAreaofAchievementAPI_Result> ModifyAppraisalAreaofAchievementAPIAsync(string headerNo, int lineNo, string areaofAchievement)
+        {
+            HRActivity.ModifyAppraisalAreaofAchievementAPI inValue = new HRActivity.ModifyAppraisalAreaofAchievementAPI();
+            inValue.headerNo = headerNo;
+            inValue.lineNo = lineNo;
+            inValue.areaofAchievement = areaofAchievement;
+            return ((HRActivity.HRManagementWS_Port)(this)).ModifyAppraisalAreaofAchievementAPIAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         System.Threading.Tasks.Task<HRActivity.DeleteAppraisalAreaofAchievement_Result> HRActivity.HRManagementWS_Port.DeleteAppraisalAreaofAchievementAsync(HRActivity.DeleteAppraisalAreaofAchievement request)
         {
             return base.Channel.DeleteAppraisalAreaofAchievementAsync(request);
@@ -19063,6 +20030,20 @@ namespace HRActivity
             inValue.headerNo = headerNo;
             inValue.lineNo = lineNo;
             return ((HRActivity.HRManagementWS_Port)(this)).DeleteAppraisalAreaofAchievementAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<HRActivity.DeleteAppraisalAreaofAchievementAPI_Result> HRActivity.HRManagementWS_Port.DeleteAppraisalAreaofAchievementAPIAsync(HRActivity.DeleteAppraisalAreaofAchievementAPI request)
+        {
+            return base.Channel.DeleteAppraisalAreaofAchievementAPIAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<HRActivity.DeleteAppraisalAreaofAchievementAPI_Result> DeleteAppraisalAreaofAchievementAPIAsync(string headerNo, int lineNo)
+        {
+            HRActivity.DeleteAppraisalAreaofAchievementAPI inValue = new HRActivity.DeleteAppraisalAreaofAchievementAPI();
+            inValue.headerNo = headerNo;
+            inValue.lineNo = lineNo;
+            return ((HRActivity.HRManagementWS_Port)(this)).DeleteAppraisalAreaofAchievementAPIAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -19107,6 +20088,20 @@ namespace HRActivity
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<HRActivity.CreateAppraisalAreaofDevelopmentAPI_Result> HRActivity.HRManagementWS_Port.CreateAppraisalAreaofDevelopmentAPIAsync(HRActivity.CreateAppraisalAreaofDevelopmentAPI request)
+        {
+            return base.Channel.CreateAppraisalAreaofDevelopmentAPIAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<HRActivity.CreateAppraisalAreaofDevelopmentAPI_Result> CreateAppraisalAreaofDevelopmentAPIAsync(string headerNo, string areaOfDevelopment)
+        {
+            HRActivity.CreateAppraisalAreaofDevelopmentAPI inValue = new HRActivity.CreateAppraisalAreaofDevelopmentAPI();
+            inValue.headerNo = headerNo;
+            inValue.areaOfDevelopment = areaOfDevelopment;
+            return ((HRActivity.HRManagementWS_Port)(this)).CreateAppraisalAreaofDevelopmentAPIAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         System.Threading.Tasks.Task<HRActivity.ModifyAppraisalAreaofDevelopment_Result> HRActivity.HRManagementWS_Port.ModifyAppraisalAreaofDevelopmentAsync(HRActivity.ModifyAppraisalAreaofDevelopment request)
         {
             return base.Channel.ModifyAppraisalAreaofDevelopmentAsync(request);
@@ -19122,6 +20117,21 @@ namespace HRActivity
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<HRActivity.ModifyAppraisalAreaofDevelopmentAPI_Result> HRActivity.HRManagementWS_Port.ModifyAppraisalAreaofDevelopmentAPIAsync(HRActivity.ModifyAppraisalAreaofDevelopmentAPI request)
+        {
+            return base.Channel.ModifyAppraisalAreaofDevelopmentAPIAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<HRActivity.ModifyAppraisalAreaofDevelopmentAPI_Result> ModifyAppraisalAreaofDevelopmentAPIAsync(string headerNo, int lineNo, string areaofDevelopment)
+        {
+            HRActivity.ModifyAppraisalAreaofDevelopmentAPI inValue = new HRActivity.ModifyAppraisalAreaofDevelopmentAPI();
+            inValue.headerNo = headerNo;
+            inValue.lineNo = lineNo;
+            inValue.areaofDevelopment = areaofDevelopment;
+            return ((HRActivity.HRManagementWS_Port)(this)).ModifyAppraisalAreaofDevelopmentAPIAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         System.Threading.Tasks.Task<HRActivity.DeleteAppraisalAreaofDevelopment_Result> HRActivity.HRManagementWS_Port.DeleteAppraisalAreaofDevelopmentAsync(HRActivity.DeleteAppraisalAreaofDevelopment request)
         {
             return base.Channel.DeleteAppraisalAreaofDevelopmentAsync(request);
@@ -19133,6 +20143,20 @@ namespace HRActivity
             inValue.headerNo = headerNo;
             inValue.lineNo = lineNo;
             return ((HRActivity.HRManagementWS_Port)(this)).DeleteAppraisalAreaofDevelopmentAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<HRActivity.DeleteAppraisalAreaofDevelopmentAPI_Result> HRActivity.HRManagementWS_Port.DeleteAppraisalAreaofDevelopmentAPIAsync(HRActivity.DeleteAppraisalAreaofDevelopmentAPI request)
+        {
+            return base.Channel.DeleteAppraisalAreaofDevelopmentAPIAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<HRActivity.DeleteAppraisalAreaofDevelopmentAPI_Result> DeleteAppraisalAreaofDevelopmentAPIAsync(string headerNo, int lineNo)
+        {
+            HRActivity.DeleteAppraisalAreaofDevelopmentAPI inValue = new HRActivity.DeleteAppraisalAreaofDevelopmentAPI();
+            inValue.headerNo = headerNo;
+            inValue.lineNo = lineNo;
+            return ((HRActivity.HRManagementWS_Port)(this)).DeleteAppraisalAreaofDevelopmentAPIAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -19177,6 +20201,20 @@ namespace HRActivity
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<HRActivity.CreateAppraisalSpecificFocusAPI_Result> HRActivity.HRManagementWS_Port.CreateAppraisalSpecificFocusAPIAsync(HRActivity.CreateAppraisalSpecificFocusAPI request)
+        {
+            return base.Channel.CreateAppraisalSpecificFocusAPIAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<HRActivity.CreateAppraisalSpecificFocusAPI_Result> CreateAppraisalSpecificFocusAPIAsync(string headerNo, string specificArea)
+        {
+            HRActivity.CreateAppraisalSpecificFocusAPI inValue = new HRActivity.CreateAppraisalSpecificFocusAPI();
+            inValue.headerNo = headerNo;
+            inValue.specificArea = specificArea;
+            return ((HRActivity.HRManagementWS_Port)(this)).CreateAppraisalSpecificFocusAPIAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         System.Threading.Tasks.Task<HRActivity.ModifyAppraisalSpecificFocus_Result> HRActivity.HRManagementWS_Port.ModifyAppraisalSpecificFocusAsync(HRActivity.ModifyAppraisalSpecificFocus request)
         {
             return base.Channel.ModifyAppraisalSpecificFocusAsync(request);
@@ -19192,6 +20230,21 @@ namespace HRActivity
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<HRActivity.ModifyAppraisalSpecificFocusAPI_Result> HRActivity.HRManagementWS_Port.ModifyAppraisalSpecificFocusAPIAsync(HRActivity.ModifyAppraisalSpecificFocusAPI request)
+        {
+            return base.Channel.ModifyAppraisalSpecificFocusAPIAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<HRActivity.ModifyAppraisalSpecificFocusAPI_Result> ModifyAppraisalSpecificFocusAPIAsync(string headerNo, int lineNo, string specificFocusArea)
+        {
+            HRActivity.ModifyAppraisalSpecificFocusAPI inValue = new HRActivity.ModifyAppraisalSpecificFocusAPI();
+            inValue.headerNo = headerNo;
+            inValue.lineNo = lineNo;
+            inValue.specificFocusArea = specificFocusArea;
+            return ((HRActivity.HRManagementWS_Port)(this)).ModifyAppraisalSpecificFocusAPIAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         System.Threading.Tasks.Task<HRActivity.DeleteAppraisalSpecificFocus_Result> HRActivity.HRManagementWS_Port.DeleteAppraisalSpecificFocusAsync(HRActivity.DeleteAppraisalSpecificFocus request)
         {
             return base.Channel.DeleteAppraisalSpecificFocusAsync(request);
@@ -19203,6 +20256,20 @@ namespace HRActivity
             inValue.headerNo = headerNo;
             inValue.lineNo = lineNo;
             return ((HRActivity.HRManagementWS_Port)(this)).DeleteAppraisalSpecificFocusAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<HRActivity.DeleteAppraisalSpecificFocusAPI_Result> HRActivity.HRManagementWS_Port.DeleteAppraisalSpecificFocusAPIAsync(HRActivity.DeleteAppraisalSpecificFocusAPI request)
+        {
+            return base.Channel.DeleteAppraisalSpecificFocusAPIAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<HRActivity.DeleteAppraisalSpecificFocusAPI_Result> DeleteAppraisalSpecificFocusAPIAsync(string headerNo, int lineNo)
+        {
+            HRActivity.DeleteAppraisalSpecificFocusAPI inValue = new HRActivity.DeleteAppraisalSpecificFocusAPI();
+            inValue.headerNo = headerNo;
+            inValue.lineNo = lineNo;
+            return ((HRActivity.HRManagementWS_Port)(this)).DeleteAppraisalSpecificFocusAPIAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -19389,6 +20456,20 @@ namespace HRActivity
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<HRActivity.CreateAppraisalAreaofImprovementAPI_Result> HRActivity.HRManagementWS_Port.CreateAppraisalAreaofImprovementAPIAsync(HRActivity.CreateAppraisalAreaofImprovementAPI request)
+        {
+            return base.Channel.CreateAppraisalAreaofImprovementAPIAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<HRActivity.CreateAppraisalAreaofImprovementAPI_Result> CreateAppraisalAreaofImprovementAPIAsync(string headerNo, string areaofImprovement)
+        {
+            HRActivity.CreateAppraisalAreaofImprovementAPI inValue = new HRActivity.CreateAppraisalAreaofImprovementAPI();
+            inValue.headerNo = headerNo;
+            inValue.areaofImprovement = areaofImprovement;
+            return ((HRActivity.HRManagementWS_Port)(this)).CreateAppraisalAreaofImprovementAPIAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         System.Threading.Tasks.Task<HRActivity.ModifyAppraisalAreaofImprovement_Result> HRActivity.HRManagementWS_Port.ModifyAppraisalAreaofImprovementAsync(HRActivity.ModifyAppraisalAreaofImprovement request)
         {
             return base.Channel.ModifyAppraisalAreaofImprovementAsync(request);
@@ -19404,6 +20485,21 @@ namespace HRActivity
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<HRActivity.ModifyAppraisalAreaofImprovementAPI_Result> HRActivity.HRManagementWS_Port.ModifyAppraisalAreaofImprovementAPIAsync(HRActivity.ModifyAppraisalAreaofImprovementAPI request)
+        {
+            return base.Channel.ModifyAppraisalAreaofImprovementAPIAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<HRActivity.ModifyAppraisalAreaofImprovementAPI_Result> ModifyAppraisalAreaofImprovementAPIAsync(string headerNo, int lineNo, string areaofImprovement)
+        {
+            HRActivity.ModifyAppraisalAreaofImprovementAPI inValue = new HRActivity.ModifyAppraisalAreaofImprovementAPI();
+            inValue.headerNo = headerNo;
+            inValue.lineNo = lineNo;
+            inValue.areaofImprovement = areaofImprovement;
+            return ((HRActivity.HRManagementWS_Port)(this)).ModifyAppraisalAreaofImprovementAPIAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         System.Threading.Tasks.Task<HRActivity.DeleteAppraisalAreaofImprovement_Result> HRActivity.HRManagementWS_Port.DeleteAppraisalAreaofImprovementAsync(HRActivity.DeleteAppraisalAreaofImprovement request)
         {
             return base.Channel.DeleteAppraisalAreaofImprovementAsync(request);
@@ -19415,6 +20511,20 @@ namespace HRActivity
             inValue.headerNo = headerNo;
             inValue.lineNo = lineNo;
             return ((HRActivity.HRManagementWS_Port)(this)).DeleteAppraisalAreaofImprovementAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<HRActivity.DeleteAppraisalAreaofImprovementAPI_Result> HRActivity.HRManagementWS_Port.DeleteAppraisalAreaofImprovementAPIAsync(HRActivity.DeleteAppraisalAreaofImprovementAPI request)
+        {
+            return base.Channel.DeleteAppraisalAreaofImprovementAPIAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<HRActivity.DeleteAppraisalAreaofImprovementAPI_Result> DeleteAppraisalAreaofImprovementAPIAsync(string headerNo, int lineNo)
+        {
+            HRActivity.DeleteAppraisalAreaofImprovementAPI inValue = new HRActivity.DeleteAppraisalAreaofImprovementAPI();
+            inValue.headerNo = headerNo;
+            inValue.lineNo = lineNo;
+            return ((HRActivity.HRManagementWS_Port)(this)).DeleteAppraisalAreaofImprovementAPIAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -19459,6 +20569,20 @@ namespace HRActivity
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<HRActivity.CreateAppraisalTrainingNeedAPI_Result> HRActivity.HRManagementWS_Port.CreateAppraisalTrainingNeedAPIAsync(HRActivity.CreateAppraisalTrainingNeedAPI request)
+        {
+            return base.Channel.CreateAppraisalTrainingNeedAPIAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<HRActivity.CreateAppraisalTrainingNeedAPI_Result> CreateAppraisalTrainingNeedAPIAsync(string headerNo, string trainingNeed)
+        {
+            HRActivity.CreateAppraisalTrainingNeedAPI inValue = new HRActivity.CreateAppraisalTrainingNeedAPI();
+            inValue.headerNo = headerNo;
+            inValue.trainingNeed = trainingNeed;
+            return ((HRActivity.HRManagementWS_Port)(this)).CreateAppraisalTrainingNeedAPIAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         System.Threading.Tasks.Task<HRActivity.ModifyAppraisalTrainingNeed_Result> HRActivity.HRManagementWS_Port.ModifyAppraisalTrainingNeedAsync(HRActivity.ModifyAppraisalTrainingNeed request)
         {
             return base.Channel.ModifyAppraisalTrainingNeedAsync(request);
@@ -19471,6 +20595,21 @@ namespace HRActivity
             inValue.lineNo = lineNo;
             inValue.trainingNeed = trainingNeed;
             return ((HRActivity.HRManagementWS_Port)(this)).ModifyAppraisalTrainingNeedAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<HRActivity.ModifyAppraisalTrainingNeedAPI_Result> HRActivity.HRManagementWS_Port.ModifyAppraisalTrainingNeedAPIAsync(HRActivity.ModifyAppraisalTrainingNeedAPI request)
+        {
+            return base.Channel.ModifyAppraisalTrainingNeedAPIAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<HRActivity.ModifyAppraisalTrainingNeedAPI_Result> ModifyAppraisalTrainingNeedAPIAsync(string headerNo, int lineNo, string trainingNeed)
+        {
+            HRActivity.ModifyAppraisalTrainingNeedAPI inValue = new HRActivity.ModifyAppraisalTrainingNeedAPI();
+            inValue.headerNo = headerNo;
+            inValue.lineNo = lineNo;
+            inValue.trainingNeed = trainingNeed;
+            return ((HRActivity.HRManagementWS_Port)(this)).ModifyAppraisalTrainingNeedAPIAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -19488,181 +20627,17 @@ namespace HRActivity
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<HRActivity.GetModeratedPerformanceAppraisalEmployeeNo_Result> HRActivity.HRManagementWS_Port.GetModeratedPerformanceAppraisalEmployeeNoAsync(HRActivity.GetModeratedPerformanceAppraisalEmployeeNo request)
+        System.Threading.Tasks.Task<HRActivity.DeleteAppraisalTrainingNeedAPI_Result> HRActivity.HRManagementWS_Port.DeleteAppraisalTrainingNeedAPIAsync(HRActivity.DeleteAppraisalTrainingNeedAPI request)
         {
-            return base.Channel.GetModeratedPerformanceAppraisalEmployeeNoAsync(request);
+            return base.Channel.DeleteAppraisalTrainingNeedAPIAsync(request);
         }
         
-        public System.Threading.Tasks.Task<HRActivity.GetModeratedPerformanceAppraisalEmployeeNo_Result> GetModeratedPerformanceAppraisalEmployeeNoAsync(string employeeNo)
+        public System.Threading.Tasks.Task<HRActivity.DeleteAppraisalTrainingNeedAPI_Result> DeleteAppraisalTrainingNeedAPIAsync(string headerNo, int lineNo)
         {
-            HRActivity.GetModeratedPerformanceAppraisalEmployeeNo inValue = new HRActivity.GetModeratedPerformanceAppraisalEmployeeNo();
-            inValue.employeeNo = employeeNo;
-            return ((HRActivity.HRManagementWS_Port)(this)).GetModeratedPerformanceAppraisalEmployeeNoAsync(inValue);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<HRActivity.GetModeratedPerformanceAppraisalSupervisorNo_Result> HRActivity.HRManagementWS_Port.GetModeratedPerformanceAppraisalSupervisorNoAsync(HRActivity.GetModeratedPerformanceAppraisalSupervisorNo request)
-        {
-            return base.Channel.GetModeratedPerformanceAppraisalSupervisorNoAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<HRActivity.GetModeratedPerformanceAppraisalSupervisorNo_Result> GetModeratedPerformanceAppraisalSupervisorNoAsync(string employeeNo)
-        {
-            HRActivity.GetModeratedPerformanceAppraisalSupervisorNo inValue = new HRActivity.GetModeratedPerformanceAppraisalSupervisorNo();
-            inValue.employeeNo = employeeNo;
-            return ((HRActivity.HRManagementWS_Port)(this)).GetModeratedPerformanceAppraisalSupervisorNoAsync(inValue);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<HRActivity.GetModeratedPerformanceAppraisalHeaderNo_Result> HRActivity.HRManagementWS_Port.GetModeratedPerformanceAppraisalHeaderNoAsync(HRActivity.GetModeratedPerformanceAppraisalHeaderNo request)
-        {
-            return base.Channel.GetModeratedPerformanceAppraisalHeaderNoAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<HRActivity.GetModeratedPerformanceAppraisalHeaderNo_Result> GetModeratedPerformanceAppraisalHeaderNoAsync(string headerNo)
-        {
-            HRActivity.GetModeratedPerformanceAppraisalHeaderNo inValue = new HRActivity.GetModeratedPerformanceAppraisalHeaderNo();
+            HRActivity.DeleteAppraisalTrainingNeedAPI inValue = new HRActivity.DeleteAppraisalTrainingNeedAPI();
             inValue.headerNo = headerNo;
-            return ((HRActivity.HRManagementWS_Port)(this)).GetModeratedPerformanceAppraisalHeaderNoAsync(inValue);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<HRActivity.GetModeratedPerformanceAppraisalIndicators_Result> HRActivity.HRManagementWS_Port.GetModeratedPerformanceAppraisalIndicatorsAsync(HRActivity.GetModeratedPerformanceAppraisalIndicators request)
-        {
-            return base.Channel.GetModeratedPerformanceAppraisalIndicatorsAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<HRActivity.GetModeratedPerformanceAppraisalIndicators_Result> GetModeratedPerformanceAppraisalIndicatorsAsync(string headerNo)
-        {
-            HRActivity.GetModeratedPerformanceAppraisalIndicators inValue = new HRActivity.GetModeratedPerformanceAppraisalIndicators();
-            inValue.headerNo = headerNo;
-            return ((HRActivity.HRManagementWS_Port)(this)).GetModeratedPerformanceAppraisalIndicatorsAsync(inValue);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<HRActivity.GetModeratedPerformanceAppraisalIndicator_Result> HRActivity.HRManagementWS_Port.GetModeratedPerformanceAppraisalIndicatorAsync(HRActivity.GetModeratedPerformanceAppraisalIndicator request)
-        {
-            return base.Channel.GetModeratedPerformanceAppraisalIndicatorAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<HRActivity.GetModeratedPerformanceAppraisalIndicator_Result> GetModeratedPerformanceAppraisalIndicatorAsync(int targetCode, int indicatorCode, int kPICode, string headerNo)
-        {
-            HRActivity.GetModeratedPerformanceAppraisalIndicator inValue = new HRActivity.GetModeratedPerformanceAppraisalIndicator();
-            inValue.targetCode = targetCode;
-            inValue.indicatorCode = indicatorCode;
-            inValue.kPICode = kPICode;
-            inValue.headerNo = headerNo;
-            return ((HRActivity.HRManagementWS_Port)(this)).GetModeratedPerformanceAppraisalIndicatorAsync(inValue);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<HRActivity.ModifyModeratedPerformanceAppraisalIndicator_Result> HRActivity.HRManagementWS_Port.ModifyModeratedPerformanceAppraisalIndicatorAsync(HRActivity.ModifyModeratedPerformanceAppraisalIndicator request)
-        {
-            return base.Channel.ModifyModeratedPerformanceAppraisalIndicatorAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<HRActivity.ModifyModeratedPerformanceAppraisalIndicator_Result> ModifyModeratedPerformanceAppraisalIndicatorAsync(int targetCode, int indicatorCode, int kPICode, string headerNo, decimal achievedScoreSupervisor, string supervisorCommentsEY)
-        {
-            HRActivity.ModifyModeratedPerformanceAppraisalIndicator inValue = new HRActivity.ModifyModeratedPerformanceAppraisalIndicator();
-            inValue.targetCode = targetCode;
-            inValue.indicatorCode = indicatorCode;
-            inValue.kPICode = kPICode;
-            inValue.headerNo = headerNo;
-            inValue.achievedScoreSupervisor = achievedScoreSupervisor;
-            inValue.supervisorCommentsEY = supervisorCommentsEY;
-            return ((HRActivity.HRManagementWS_Port)(this)).ModifyModeratedPerformanceAppraisalIndicatorAsync(inValue);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<HRActivity.GetCompletePerformanceAppraisalByEmployeeNo_Result> HRActivity.HRManagementWS_Port.GetCompletePerformanceAppraisalByEmployeeNoAsync(HRActivity.GetCompletePerformanceAppraisalByEmployeeNo request)
-        {
-            return base.Channel.GetCompletePerformanceAppraisalByEmployeeNoAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<HRActivity.GetCompletePerformanceAppraisalByEmployeeNo_Result> GetCompletePerformanceAppraisalByEmployeeNoAsync(string employeeNo)
-        {
-            HRActivity.GetCompletePerformanceAppraisalByEmployeeNo inValue = new HRActivity.GetCompletePerformanceAppraisalByEmployeeNo();
-            inValue.employeeNo = employeeNo;
-            return ((HRActivity.HRManagementWS_Port)(this)).GetCompletePerformanceAppraisalByEmployeeNoAsync(inValue);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<HRActivity.GetCompleteEmployeePerformanceAppraisalHeaderNo_Result> HRActivity.HRManagementWS_Port.GetCompleteEmployeePerformanceAppraisalHeaderNoAsync(HRActivity.GetCompleteEmployeePerformanceAppraisalHeaderNo request)
-        {
-            return base.Channel.GetCompleteEmployeePerformanceAppraisalHeaderNoAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<HRActivity.GetCompleteEmployeePerformanceAppraisalHeaderNo_Result> GetCompleteEmployeePerformanceAppraisalHeaderNoAsync(string headerNo)
-        {
-            HRActivity.GetCompleteEmployeePerformanceAppraisalHeaderNo inValue = new HRActivity.GetCompleteEmployeePerformanceAppraisalHeaderNo();
-            inValue.headerNo = headerNo;
-            return ((HRActivity.HRManagementWS_Port)(this)).GetCompleteEmployeePerformanceAppraisalHeaderNoAsync(inValue);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<HRActivity.GetCompleteSupervisorPerformanceAppraisalSupervisorNo_Result> HRActivity.HRManagementWS_Port.GetCompleteSupervisorPerformanceAppraisalSupervisorNoAsync(HRActivity.GetCompleteSupervisorPerformanceAppraisalSupervisorNo request)
-        {
-            return base.Channel.GetCompleteSupervisorPerformanceAppraisalSupervisorNoAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<HRActivity.GetCompleteSupervisorPerformanceAppraisalSupervisorNo_Result> GetCompleteSupervisorPerformanceAppraisalSupervisorNoAsync(string employeeNo)
-        {
-            HRActivity.GetCompleteSupervisorPerformanceAppraisalSupervisorNo inValue = new HRActivity.GetCompleteSupervisorPerformanceAppraisalSupervisorNo();
-            inValue.employeeNo = employeeNo;
-            return ((HRActivity.HRManagementWS_Port)(this)).GetCompleteSupervisorPerformanceAppraisalSupervisorNoAsync(inValue);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<HRActivity.GetCompleteSupervisorPerformanceAppraisalHeaderNo_Result> HRActivity.HRManagementWS_Port.GetCompleteSupervisorPerformanceAppraisalHeaderNoAsync(HRActivity.GetCompleteSupervisorPerformanceAppraisalHeaderNo request)
-        {
-            return base.Channel.GetCompleteSupervisorPerformanceAppraisalHeaderNoAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<HRActivity.GetCompleteSupervisorPerformanceAppraisalHeaderNo_Result> GetCompleteSupervisorPerformanceAppraisalHeaderNoAsync(string headerNo)
-        {
-            HRActivity.GetCompleteSupervisorPerformanceAppraisalHeaderNo inValue = new HRActivity.GetCompleteSupervisorPerformanceAppraisalHeaderNo();
-            inValue.headerNo = headerNo;
-            return ((HRActivity.HRManagementWS_Port)(this)).GetCompleteSupervisorPerformanceAppraisalHeaderNoAsync(inValue);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<HRActivity.GetEmployeeCompletePerformanceAppraisalIndicators_Result> HRActivity.HRManagementWS_Port.GetEmployeeCompletePerformanceAppraisalIndicatorsAsync(HRActivity.GetEmployeeCompletePerformanceAppraisalIndicators request)
-        {
-            return base.Channel.GetEmployeeCompletePerformanceAppraisalIndicatorsAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<HRActivity.GetEmployeeCompletePerformanceAppraisalIndicators_Result> GetEmployeeCompletePerformanceAppraisalIndicatorsAsync(string headerNo)
-        {
-            HRActivity.GetEmployeeCompletePerformanceAppraisalIndicators inValue = new HRActivity.GetEmployeeCompletePerformanceAppraisalIndicators();
-            inValue.headerNo = headerNo;
-            return ((HRActivity.HRManagementWS_Port)(this)).GetEmployeeCompletePerformanceAppraisalIndicatorsAsync(inValue);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<HRActivity.GetSupervisorCompletePerformanceAppraisalIndicators_Result> HRActivity.HRManagementWS_Port.GetSupervisorCompletePerformanceAppraisalIndicatorsAsync(HRActivity.GetSupervisorCompletePerformanceAppraisalIndicators request)
-        {
-            return base.Channel.GetSupervisorCompletePerformanceAppraisalIndicatorsAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<HRActivity.GetSupervisorCompletePerformanceAppraisalIndicators_Result> GetSupervisorCompletePerformanceAppraisalIndicatorsAsync(string headerNo)
-        {
-            HRActivity.GetSupervisorCompletePerformanceAppraisalIndicators inValue = new HRActivity.GetSupervisorCompletePerformanceAppraisalIndicators();
-            inValue.headerNo = headerNo;
-            return ((HRActivity.HRManagementWS_Port)(this)).GetSupervisorCompletePerformanceAppraisalIndicatorsAsync(inValue);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<HRActivity.GenerateJobTargetsReport_Result> HRActivity.HRManagementWS_Port.GenerateJobTargetsReportAsync(HRActivity.GenerateJobTargetsReport request)
-        {
-            return base.Channel.GenerateJobTargetsReportAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<HRActivity.GenerateJobTargetsReport_Result> GenerateJobTargetsReportAsync(string employeeNo, string headerNo)
-        {
-            HRActivity.GenerateJobTargetsReport inValue = new HRActivity.GenerateJobTargetsReport();
-            inValue.employeeNo = employeeNo;
-            inValue.headerNo = headerNo;
-            return ((HRActivity.HRManagementWS_Port)(this)).GenerateJobTargetsReportAsync(inValue);
+            inValue.lineNo = lineNo;
+            return ((HRActivity.HRManagementWS_Port)(this)).DeleteAppraisalTrainingNeedAPIAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -19892,19 +20867,6 @@ namespace HRActivity
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<HRActivity.SendLeaveApplicationApprovalRequest_Result> HRActivity.HRManagementWS_Port.SendLeaveApplicationApprovalRequestAsync(HRActivity.SendLeaveApplicationApprovalRequest request)
-        {
-            return base.Channel.SendLeaveApplicationApprovalRequestAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<HRActivity.SendLeaveApplicationApprovalRequest_Result> SendLeaveApplicationApprovalRequestAsync(string hRLeaveApplicationNoa46)
-        {
-            HRActivity.SendLeaveApplicationApprovalRequest inValue = new HRActivity.SendLeaveApplicationApprovalRequest();
-            inValue.hRLeaveApplicationNoa46 = hRLeaveApplicationNoa46;
-            return ((HRActivity.HRManagementWS_Port)(this)).SendLeaveApplicationApprovalRequestAsync(inValue);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         System.Threading.Tasks.Task<HRActivity.SendLeaveApplicationApprovalRequestAPI_Result> HRActivity.HRManagementWS_Port.SendLeaveApplicationApprovalRequestAPIAsync(HRActivity.SendLeaveApplicationApprovalRequestAPI request)
         {
             return base.Channel.SendLeaveApplicationApprovalRequestAPIAsync(request);
@@ -19915,6 +20877,19 @@ namespace HRActivity
             HRActivity.SendLeaveApplicationApprovalRequestAPI inValue = new HRActivity.SendLeaveApplicationApprovalRequestAPI();
             inValue.hRLeaveApplicationNo = hRLeaveApplicationNo;
             return ((HRActivity.HRManagementWS_Port)(this)).SendLeaveApplicationApprovalRequestAPIAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<HRActivity.SendLeaveApplicationApprovalRequest_Result> HRActivity.HRManagementWS_Port.SendLeaveApplicationApprovalRequestAsync(HRActivity.SendLeaveApplicationApprovalRequest request)
+        {
+            return base.Channel.SendLeaveApplicationApprovalRequestAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<HRActivity.SendLeaveApplicationApprovalRequest_Result> SendLeaveApplicationApprovalRequestAsync(string hRLeaveApplicationNoa46)
+        {
+            HRActivity.SendLeaveApplicationApprovalRequest inValue = new HRActivity.SendLeaveApplicationApprovalRequest();
+            inValue.hRLeaveApplicationNoa46 = hRLeaveApplicationNoa46;
+            return ((HRActivity.HRManagementWS_Port)(this)).SendLeaveApplicationApprovalRequestAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -20794,11 +21769,6 @@ namespace HRActivity
             HRActivity.CancelEmpRequisitionApprovalRequest inValue = new HRActivity.CancelEmpRequisitionApprovalRequest();
             inValue.employeeReqNo = employeeReqNo;
             return ((HRActivity.HRManagementWS_Port)(this)).CancelEmpRequisitionApprovalRequestAsync(inValue);
-        }
-        
-        public System.Threading.Tasks.Task<HRActivity.GetEmployeeClearanceList_Result> GetEmployeeClearanceListAsync(HRActivity.GetEmployeeClearanceList request)
-        {
-            return base.Channel.GetEmployeeClearanceListAsync(request);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()

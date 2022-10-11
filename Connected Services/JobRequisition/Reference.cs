@@ -16,6 +16,22 @@ namespace JobRequisition
     public interface JWS_Port
     {
         
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:CreateModifyPIPLine", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.CreateModifyPIPLine_Result> CreateModifyPIPLineAsync(JobRequisition.CreateModifyPIPLine request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:DeletePIPLine", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.DeletePIPLine_Result> DeletePIPLineAsync(JobRequisition.DeletePIPLine request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:GetPIPHeader", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.GetPIPHeader_Result> GetPIPHeaderAsync(JobRequisition.GetPIPHeader request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:GetPIPLines", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.GetPIPLines_Result> GetPIPLinesAsync(JobRequisition.GetPIPLines request);
+        
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:GetPostedJobs", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.GetPostedJobs_Result> GetPostedJobsAsync(JobRequisition.GetPostedJobs request);
@@ -252,6 +268,10 @@ namespace JobRequisition
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.CreateClearance_Result> CreateClearanceAsync(JobRequisition.CreateClearance request);
         
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:PendingClearance", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.PendingClearance_Result> PendingClearanceAsync(JobRequisition.PendingClearance request);
+        
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:ApproveClearance", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.ApproveClearance_Result> ApproveClearanceAsync(JobRequisition.ApproveClearance request);
@@ -283,6 +303,10 @@ namespace JobRequisition
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:InsertClearanceLinesHR", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.InsertClearanceLinesHR_Result> InsertClearanceLinesHRAsync(JobRequisition.InsertClearanceLinesHR request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:ModifyClearanceLinesHR", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.ModifyClearanceLinesHR_Result> ModifyClearanceLinesHRAsync(JobRequisition.ModifyClearanceLinesHR request);
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:InsertClearanceLineFinance", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -459,6 +483,186 @@ namespace JobRequisition
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:CreateTrainingNeedLine", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.CreateTrainingNeedLine_Result> CreateTrainingNeedLineAsync(JobRequisition.CreateTrainingNeedLine request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:CreateModifyPIPHeader", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.CreateModifyPIPHeader_Result> CreateModifyPIPHeaderAsync(JobRequisition.CreateModifyPIPHeader request);
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="CreateModifyPIPLine", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class CreateModifyPIPLine
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string headerNo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=1)]
+        public int lineNo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=2)]
+        public string month;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=3)]
+        public string salesTarget;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=4)]
+        public string salesRep;
+        
+        public CreateModifyPIPLine()
+        {
+        }
+        
+        public CreateModifyPIPLine(string headerNo, int lineNo, string month, string salesTarget, string salesRep)
+        {
+            this.headerNo = headerNo;
+            this.lineNo = lineNo;
+            this.month = month;
+            this.salesTarget = salesTarget;
+            this.salesRep = salesRep;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="CreateModifyPIPLine_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class CreateModifyPIPLine_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public CreateModifyPIPLine_Result()
+        {
+        }
+        
+        public CreateModifyPIPLine_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="DeletePIPLine", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class DeletePIPLine
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public int lineNo;
+        
+        public DeletePIPLine()
+        {
+        }
+        
+        public DeletePIPLine(int lineNo)
+        {
+            this.lineNo = lineNo;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="DeletePIPLine_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class DeletePIPLine_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public DeletePIPLine_Result()
+        {
+        }
+        
+        public DeletePIPLine_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetPIPHeader", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GetPIPHeader
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string pK;
+        
+        public GetPIPHeader()
+        {
+        }
+        
+        public GetPIPHeader(string pK)
+        {
+            this.pK = pK;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetPIPHeader_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GetPIPHeader_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public GetPIPHeader_Result()
+        {
+        }
+        
+        public GetPIPHeader_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetPIPLines", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GetPIPLines
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string monitorNo;
+        
+        public GetPIPLines()
+        {
+        }
+        
+        public GetPIPLines(string monitorNo)
+        {
+            this.monitorNo = monitorNo;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetPIPLines_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GetPIPLines_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public GetPIPLines_Result()
+        {
+        }
+        
+        public GetPIPLines_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -2898,6 +3102,46 @@ namespace JobRequisition
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="PendingClearance", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class PendingClearance
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string pK;
+        
+        public PendingClearance()
+        {
+        }
+        
+        public PendingClearance(string pK)
+        {
+            this.pK = pK;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="PendingClearance_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class PendingClearance_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public PendingClearance_Result()
+        {
+        }
+        
+        public PendingClearance_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="ApproveClearance", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
     public partial class ApproveClearance
     {
@@ -3258,6 +3502,74 @@ namespace JobRequisition
         }
         
         public InsertClearanceLinesHR_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ModifyClearanceLinesHR", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class ModifyClearanceLinesHR
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string year;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=1)]
+        public decimal annualLeaveDays;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=2)]
+        public decimal annualDaysLess;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=3)]
+        public decimal balanceDays;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=4)]
+        public decimal leaveWorth;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=5)]
+        public string remarks;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=6)]
+        public int lineno;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=7)]
+        public string clearance;
+        
+        public ModifyClearanceLinesHR()
+        {
+        }
+        
+        public ModifyClearanceLinesHR(string year, decimal annualLeaveDays, decimal annualDaysLess, decimal balanceDays, decimal leaveWorth, string remarks, int lineno, string clearance)
+        {
+            this.year = year;
+            this.annualLeaveDays = annualLeaveDays;
+            this.annualDaysLess = annualDaysLess;
+            this.balanceDays = balanceDays;
+            this.leaveWorth = leaveWorth;
+            this.remarks = remarks;
+            this.lineno = lineno;
+            this.clearance = clearance;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ModifyClearanceLinesHR_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class ModifyClearanceLinesHR_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public ModifyClearanceLinesHR_Result()
+        {
+        }
+        
+        public ModifyClearanceLinesHR_Result(string return_value)
         {
             this.return_value = return_value;
         }
@@ -5319,6 +5631,54 @@ namespace JobRequisition
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="CreateModifyPIPHeader", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class CreateModifyPIPHeader
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string pK;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=1)]
+        public string performanceMonth;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=2)]
+        public string reviewDate;
+        
+        public CreateModifyPIPHeader()
+        {
+        }
+        
+        public CreateModifyPIPHeader(string pK, string performanceMonth, string reviewDate)
+        {
+            this.pK = pK;
+            this.performanceMonth = performanceMonth;
+            this.reviewDate = reviewDate;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="CreateModifyPIPHeader_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class CreateModifyPIPHeader_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public CreateModifyPIPHeader_Result()
+        {
+        }
+        
+        public CreateModifyPIPHeader_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     public interface JWS_PortChannel : JobRequisition.JWS_Port, System.ServiceModel.IClientChannel
     {
@@ -5367,6 +5727,62 @@ namespace JobRequisition
         public JWS_PortClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress)
         {
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.CreateModifyPIPLine_Result> JobRequisition.JWS_Port.CreateModifyPIPLineAsync(JobRequisition.CreateModifyPIPLine request)
+        {
+            return base.Channel.CreateModifyPIPLineAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.CreateModifyPIPLine_Result> CreateModifyPIPLineAsync(string headerNo, int lineNo, string month, string salesTarget, string salesRep)
+        {
+            JobRequisition.CreateModifyPIPLine inValue = new JobRequisition.CreateModifyPIPLine();
+            inValue.headerNo = headerNo;
+            inValue.lineNo = lineNo;
+            inValue.month = month;
+            inValue.salesTarget = salesTarget;
+            inValue.salesRep = salesRep;
+            return ((JobRequisition.JWS_Port)(this)).CreateModifyPIPLineAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.DeletePIPLine_Result> JobRequisition.JWS_Port.DeletePIPLineAsync(JobRequisition.DeletePIPLine request)
+        {
+            return base.Channel.DeletePIPLineAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.DeletePIPLine_Result> DeletePIPLineAsync(int lineNo)
+        {
+            JobRequisition.DeletePIPLine inValue = new JobRequisition.DeletePIPLine();
+            inValue.lineNo = lineNo;
+            return ((JobRequisition.JWS_Port)(this)).DeletePIPLineAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.GetPIPHeader_Result> JobRequisition.JWS_Port.GetPIPHeaderAsync(JobRequisition.GetPIPHeader request)
+        {
+            return base.Channel.GetPIPHeaderAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.GetPIPHeader_Result> GetPIPHeaderAsync(string pK)
+        {
+            JobRequisition.GetPIPHeader inValue = new JobRequisition.GetPIPHeader();
+            inValue.pK = pK;
+            return ((JobRequisition.JWS_Port)(this)).GetPIPHeaderAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.GetPIPLines_Result> JobRequisition.JWS_Port.GetPIPLinesAsync(JobRequisition.GetPIPLines request)
+        {
+            return base.Channel.GetPIPLinesAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.GetPIPLines_Result> GetPIPLinesAsync(string monitorNo)
+        {
+            JobRequisition.GetPIPLines inValue = new JobRequisition.GetPIPLines();
+            inValue.monitorNo = monitorNo;
+            return ((JobRequisition.JWS_Port)(this)).GetPIPLinesAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -6176,6 +6592,19 @@ namespace JobRequisition
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.PendingClearance_Result> JobRequisition.JWS_Port.PendingClearanceAsync(JobRequisition.PendingClearance request)
+        {
+            return base.Channel.PendingClearanceAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.PendingClearance_Result> PendingClearanceAsync(string pK)
+        {
+            JobRequisition.PendingClearance inValue = new JobRequisition.PendingClearance();
+            inValue.pK = pK;
+            return ((JobRequisition.JWS_Port)(this)).PendingClearanceAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         System.Threading.Tasks.Task<JobRequisition.ApproveClearance_Result> JobRequisition.JWS_Port.ApproveClearanceAsync(JobRequisition.ApproveClearance request)
         {
             return base.Channel.ApproveClearanceAsync(request);
@@ -6289,6 +6718,26 @@ namespace JobRequisition
             inValue.department = department;
             inValue.pK = pK;
             return ((JobRequisition.JWS_Port)(this)).InsertClearanceLinesHRAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.ModifyClearanceLinesHR_Result> JobRequisition.JWS_Port.ModifyClearanceLinesHRAsync(JobRequisition.ModifyClearanceLinesHR request)
+        {
+            return base.Channel.ModifyClearanceLinesHRAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.ModifyClearanceLinesHR_Result> ModifyClearanceLinesHRAsync(string year, decimal annualLeaveDays, decimal annualDaysLess, decimal balanceDays, decimal leaveWorth, string remarks, int lineno, string clearance)
+        {
+            JobRequisition.ModifyClearanceLinesHR inValue = new JobRequisition.ModifyClearanceLinesHR();
+            inValue.year = year;
+            inValue.annualLeaveDays = annualLeaveDays;
+            inValue.annualDaysLess = annualDaysLess;
+            inValue.balanceDays = balanceDays;
+            inValue.leaveWorth = leaveWorth;
+            inValue.remarks = remarks;
+            inValue.lineno = lineno;
+            inValue.clearance = clearance;
+            return ((JobRequisition.JWS_Port)(this)).ModifyClearanceLinesHRAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -6935,6 +7384,21 @@ namespace JobRequisition
             inValue.trainingscheduleto = trainingscheduleto;
             inValue.estimatedcost = estimatedcost;
             return ((JobRequisition.JWS_Port)(this)).CreateTrainingNeedLineAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.CreateModifyPIPHeader_Result> JobRequisition.JWS_Port.CreateModifyPIPHeaderAsync(JobRequisition.CreateModifyPIPHeader request)
+        {
+            return base.Channel.CreateModifyPIPHeaderAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.CreateModifyPIPHeader_Result> CreateModifyPIPHeaderAsync(string pK, string performanceMonth, string reviewDate)
+        {
+            JobRequisition.CreateModifyPIPHeader inValue = new JobRequisition.CreateModifyPIPHeader();
+            inValue.pK = pK;
+            inValue.performanceMonth = performanceMonth;
+            inValue.reviewDate = reviewDate;
+            return ((JobRequisition.JWS_Port)(this)).CreateModifyPIPHeaderAsync(inValue);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()

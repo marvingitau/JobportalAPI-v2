@@ -535,9 +535,10 @@ namespace RPFBE.Controllers
                         effectiveWithDifferent = item.effectiveWithDifferent,
                         differentAssingment = item.differentAssingment,
                         recommendationSectionComment = item.recommendationSectionComment,
-                        empRecConfirm = item.empRecConfirm,
-                        empRecExtProb = item.empRecExtProb,
-                        empRecTerminate = item.empRecTerminate,
+
+                        empRecConfirm = item.empRecConfirm == "Yes" ? "true" : "false",
+                        empRecExtProb = item.empRecExtProb == "Yes" ? "true" : "false",
+                        empRecTerminate = item.empRecTerminate == "Yes" ? "true" : "false",
 
 
                     };
@@ -607,6 +608,8 @@ namespace RPFBE.Controllers
 
                     ////Mail MD/FD
                     ///@email
+                    var mailsMFD = await codeUnitWebService.WSMailer().EmployeeProbationHRToMDFDAsync(PID);
+
                     //var emailArr = dbContext.Users.Where(x => x.Rank == "MD" || x.Rank =="FD")
                     //    .Select(t => t.Email).ToArray();
 
@@ -1231,6 +1234,9 @@ namespace RPFBE.Controllers
                     ////Mail MD/FD
                     ///@email
                     
+                    var mailStaff = await codeUnitWebService.WSMailer().EmployeeEOCHRToMDFDAsync(PID);
+
+
 
                     return Ok(bool.Parse(resRemarks.return_value));
                 }
@@ -1322,9 +1328,9 @@ namespace RPFBE.Controllers
 
                     ////Mail MD/FD
                     //@email
-
                     var mailStaff = await codeUnitWebService.WSMailer().EndofContractNonRenewalAsync(header.TerminationDate, header.StaffNo);
-                    return Ok(bool.Parse(resRemarks.return_value));
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "End of Contract Non Renewal, Success" });
+
                 }
                 else
                 {
@@ -1356,10 +1362,10 @@ namespace RPFBE.Controllers
                     await dbContext.SaveChangesAsync();
 
                     //@email
-
                     var mailStaff = await codeUnitWebService.WSMailer().EndofContractRenewalAsync(header.RenewalTime, header.ContractedDate, header.StartDate, header.EndDate, header.StaffNo);
 
-                    return Ok(bool.Parse(resRemarks.return_value));
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "End of Contract Renewal, Success" });
+
                 }
                 else
                 {
@@ -1478,6 +1484,131 @@ namespace RPFBE.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Contract Card Update Failed: " + x.Message });
             }
         }
+
+
+
+        //***************************************************************************************
+        //
+        //
+        //                                   EMPLOYEE PROBATION PROGRESS
+        //
+        //****************************************************************************************
+
+
+        //Non-Confirmation
+        [Authorize]
+        [HttpPost]
+        [Route("nonconfirmation")]
+        public async Task<IActionResult> NonConfirmation([FromBody] ProbationHeader header)
+        {
+            try
+            {
+        
+                var res = await codeUnitWebService.Client().ApproveProbationHRAsync(header.ProbationID);
+                if (res.return_value == "true")
+                {
+                    var probModel = dbContext.ProbationProgress.Where(x => x.ProbationNo == header.ProbationID).First();
+                    probModel.Status = "Approved";
+                    dbContext.ProbationProgress.Update(probModel);
+                    await dbContext.SaveChangesAsync();
+
+                    //mail Employee
+                    var mailEmployee = await codeUnitWebService.WSMailer().ProbationNonConfirmationAsync(header.StaffID, header.ProbationEndDate);
+                    //mail MD/FD
+                    var mailsManager = await codeUnitWebService.WSMailer().EmployeeProbationHRApprovesAsync(header.ProbationID);
+
+
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Non Confirmation Success" });
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Success", Message = "Non Confirmation Failed" });
+                }
+
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Non Confirmation Failed " + x.Message });
+            }
+        }
+
+        //Confirmation
+        [Authorize]
+        [HttpPost]
+        [Route("confirmation")]
+        public async Task<IActionResult> Confirmation([FromBody] ProbationHeader header)
+        {
+            try
+            {
+                var res = await codeUnitWebService.Client().ApproveProbationHRAsync(header.ProbationID);
+                if (res.return_value == "true")
+                {
+                    var probModel = dbContext.ProbationProgress.Where(x => x.ProbationNo == header.ProbationID).First();
+                    probModel.Status = "Approved";
+                    dbContext.ProbationProgress.Update(probModel);
+                    await dbContext.SaveChangesAsync();
+
+                    //mail Employee
+                    var mailEmployee = await codeUnitWebService.WSMailer().ProbationConfirmationAsync(header.StaffID, header.ProbationDate, header.ProbationExpire);
+                    //mail MD/FD
+                    var mailsManager = await codeUnitWebService.WSMailer().EmployeeProbationHRApprovesAsync(header.ProbationID);
+
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Confirmation Success" });
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Success", Message = " Confirmation Failed" });
+                }
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Confirmation Failed " + x.Message });
+            }
+        }
+
+        //Extension
+        [Authorize]
+        [HttpPost]
+        [Route("extension")]
+        public async Task<IActionResult> Extension([FromBody] ProbationHeader header)
+        {
+            try
+            {
+                var res = await codeUnitWebService.Client().ApproveProbationHRAsync(header.ProbationID);
+                if (res.return_value == "true")
+                {
+
+                    /* var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                     var monModel = dbContext.PerformanceMonitoring.Where(x => x.PerformanceId == header.ProbationID).FirstOrDefault();
+                     monModel.Progresscode = 2;
+                     monModel.HRId = user.Id;
+                     monModel.ApprovalStatus = "Approved";
+                     dbContext.PerformanceMonitoring.Update(monModel);
+                     await dbContext.SaveChangesAsync();*/
+                    var probModel = dbContext.ProbationProgress.Where(x => x.ProbationNo == header.ProbationID).First();
+                    probModel.Status = "Approved";
+                    dbContext.ProbationProgress.Update(probModel);
+                    await dbContext.SaveChangesAsync();
+
+
+                    //mail Employee
+                    var mailEmployee = await codeUnitWebService.WSMailer().ProbationExtensionAsync(header.StaffID, header.ExtendDate, header.NextReviewDate, header.ExtendDuration);
+                    //mail MD/FD
+                    var mailsManager = await codeUnitWebService.WSMailer().EmployeeProbationHRApprovesAsync(header.ProbationID);
+
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Extension Success" });
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Success", Message = " Extension Failed" });
+                }
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Extension Failed " + x.Message });
+            }
+        }
+
 
 
 

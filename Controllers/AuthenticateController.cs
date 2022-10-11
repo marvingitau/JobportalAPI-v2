@@ -152,21 +152,26 @@ namespace RPFBE.Controllers
                             Rank = loginEmpCore.Rank
                         };
                         var result = await userManager.CreateAsync(user, model.Password);
-                        var errs = result.Errors.Select(x => "Code: " + x.Code + " Description: " + x.Description).ToArray();
+                        //var errs = result.Errors.Select(x => "Code: " + x.Code + " Description: " + x.Description).ToArray();
+
+                        //Catch Identity Errors
+                        List<IdentityError> errorList = result.Errors.ToList();
+                        var errors = string.Join(", ", errorList.Select(e => e.Description));
+
                         if (!result.Succeeded)
                         {
                             //return Ok(new { errs });
-                            return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = errs });
+                            return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = errors });
 
                         }
-                        if (!await roleManager.RoleExistsAsync(loginEmpCore.Rank))
-                            await roleManager.CreateAsync(new IdentityRole(loginEmpCore.Rank));
+                        if (!await roleManager.RoleExistsAsync(loginEmpCore.Rank.ToUpper()))
+                            await roleManager.CreateAsync(new IdentityRole(loginEmpCore.Rank.ToUpper()));
                         if (!await roleManager.RoleExistsAsync(UserRoles.User))
                             await roleManager.CreateAsync(new IdentityRole(UserRoles.User));
 
-                        if (await roleManager.RoleExistsAsync(loginEmpCore.Rank))
+                        if (await roleManager.RoleExistsAsync(loginEmpCore.Rank.ToUpper()))
                         {
-                            await userManager.AddToRoleAsync(user, loginEmpCore.Rank);
+                            await userManager.AddToRoleAsync(user, loginEmpCore.Rank.ToUpper());
 
                         }
 
@@ -199,9 +204,9 @@ namespace RPFBE.Controllers
         {
             try
             {
-                var userExists = await userManager.FindByNameAsync(model.Username);
-                if (userExists != null)
-                    return StatusCode(StatusCodes.Status208AlreadyReported, new Response { Status = "Error", Message = "USER_EXIST" });
+                //var userExists = await userManager.FindByNameAsync(model.Username);
+                //if (userExists != null)
+                //    return StatusCode(StatusCodes.Status208AlreadyReported, new Response { Status = "Error", Message = "USER_EXIST" });
 
                 ApplicationUser user = new ApplicationUser()
                 {
@@ -212,9 +217,13 @@ namespace RPFBE.Controllers
                     Pcode = Cryptography.Hash(model.Password)
                 };
                 var result = await userManager.CreateAsync(user, model.Password);
+                //Catch Identity Errors
+                List<IdentityError> errorList = result.Errors.ToList();
+                var errors = string.Join(", ", errorList.Select(e => e.Description));
+
                 if (!result.Succeeded)
-                    return StatusCode(StatusCodes.Status208AlreadyReported, new Response { Status = "Error", Message = "User creation failed; " + result.Errors.ToString() });
-                //return Ok(result);
+                    return StatusCode(StatusCodes.Status208AlreadyReported, new Response { Status = "Error", Message = "User creation failed: " + errors });
+         
 
                 return Ok(new Response { Status = "Success", Message = "User created successfully!" });
             }
@@ -358,7 +367,7 @@ namespace RPFBE.Controllers
                         {
                             //Check if Token is expired
                             var isTokenExpired = await codeUnitWebService.EmployeeAccount().IsPasswordResetTokenExpiredAsync(newpassword.EmployeeId, newpassword.Token);
-                            if (isTokenExpired.return_value)
+                            if (!isTokenExpired.return_value)
                             {
                                 //Set Passcode
                                 var isTokenSet = await codeUnitWebService.EmployeeAccount().ResetEmployeePortalPasswordAsync(newpassword.EmployeeId, Cryptography.Hash(newpassword.Password));

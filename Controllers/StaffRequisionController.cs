@@ -44,8 +44,21 @@ namespace RPFBE.Controllers
         {
             try
             {
+                List<JobList> jobLists = new List<JobList>();
                 var res = await codeUnitWebService.Client().GetJobsAsync();
-                return Ok(res.return_value);
+                dynamic resSerial = JsonConvert.DeserializeObject(res.return_value);
+
+                foreach (var item in resSerial)
+                {
+                    JobList jl = new JobList
+                    {
+                        Label = item.Title,
+                        Value = item.No,
+                    };
+                    jobLists.Add(jl);
+                }
+
+                return Ok(new { jobLists });
             }
             catch (Exception)
             {
@@ -1076,7 +1089,42 @@ namespace RPFBE.Controllers
                         performanceLineModels.Add(lineModel);
                     }
 
-                    return Ok(new { performanceLineModels, dbPerMonitor });
+                //Get Monitoring Invoked PIP Head & Line
+                List<MonitoringInvokePIP> pipHeader = new List<MonitoringInvokePIP>();
+                List<MonitoringInvokePIP> pipLines = new List<MonitoringInvokePIP>();
+
+                var resPIPHeader = await codeUnitWebService.Client().GetPIPHeaderAsync(ID);
+                dynamic resPIPHeaderSerial = JsonConvert.DeserializeObject(resPIPHeader.return_value);
+                foreach (var h in resPIPHeaderSerial)
+                {
+                    MonitoringInvokePIP piph = new MonitoringInvokePIP
+                    {
+                        MonitorNo = h.MonitorNo,
+                        //Lineno = h.Lineno,
+                        PerformanceMonths = h.PerformanceMonth,
+                        ReviewDate = h.ReviewDate
+                    };
+                    pipHeader.Add(piph);
+                }
+
+                var resPIPLine = await codeUnitWebService.Client().GetPIPLinesAsync(ID);
+                dynamic resPIPLineSerial = JsonConvert.DeserializeObject(resPIPLine.return_value);
+                foreach (var l in resPIPLineSerial)
+                {
+                   
+
+                    MonitoringInvokePIP pipl = new MonitoringInvokePIP
+                    {
+                        MonitorNo = l.HeaderNo,
+                        Lineno = l.Lineno,
+                        Month = l.Month,
+                        SalesTarget = l.SalesTarget,
+                        SalesRep = l.SalesRep
+                    };
+                    pipLines.Add(pipl);
+                }
+
+                return Ok(new { performanceLineModels, dbPerMonitor, pipHeader,pipLines });
                
             }
             catch (Exception x)
@@ -1185,6 +1233,7 @@ namespace RPFBE.Controllers
                     dbContext.PerformanceMonitoring.Update(monModel);
                     await dbContext.SaveChangesAsync();
 
+                    //Mail Staff
                     var hrApproveEmail = await codeUnitWebService.WSMailer().PerformanceMonitorApprovalAsync(ID);
 
                     return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Approve Success" });
@@ -1221,7 +1270,7 @@ namespace RPFBE.Controllers
                     await dbContext.SaveChangesAsync();
 
                     /*
-                     * DEPRECATED- Emails to send to 
+                     *  Emails to send to  staff
                      * **/
                     var rejectMail = await codeUnitWebService.WSMailer().PerformanceMonitorRejectionAsync(ID);
 
@@ -1249,9 +1298,9 @@ namespace RPFBE.Controllers
             try
             {
                 var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
-                if(dbContext.PerformanceMonitoring.Where(x=>x.PerformanceId == monitoring.PerformanceId && x.Progresscode == 1).Count() > 0)
+                if(dbContext.PerformanceMonitoring.Where(x=>x.PerformanceId == monitoring.PerformanceId).Count() > 0)
                 {
-                    var duplModel = dbContext.PerformanceMonitoring.Where(x => x.PerformanceId == monitoring.PerformanceId && x.Progresscode == 1).FirstOrDefault();
+                    var duplModel = dbContext.PerformanceMonitoring.Where(x => x.PerformanceId == monitoring.PerformanceId).FirstOrDefault();
                     duplModel.Progresscode = 1;
                     duplModel.HODId = user.Id;
 
@@ -1261,16 +1310,20 @@ namespace RPFBE.Controllers
                     var mailHRMonitoring = await codeUnitWebService.WSMailer().PerformanceMonitortoHRfromHODAsync(monitoring.PerformanceId);
                     return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Pushing Update Success" });
                 }
-                monitoring.Progresscode = 1;
-                monitoring.HODId = user.Id;
+                else
+                {
+                    monitoring.Progresscode = 1;
+                    monitoring.HODId = user.Id;
 
-                dbContext.PerformanceMonitoring.Add(monitoring);
-                await dbContext.SaveChangesAsync();
+                    dbContext.PerformanceMonitoring.Add(monitoring);
+                    await dbContext.SaveChangesAsync();
 
-                // var hodPushMail = await codeUnitWebService.WSMailer().
-                //@check on this
-                //var mailHRMonitoring2 = await codeUnitWebService.WSMailer().PerformanceMonitortoHRfromHODAsync(monitoring.PerformanceId);
-                return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Pushing Success" });
+                    // var hodPushMail = await codeUnitWebService.WSMailer().
+                    //@check on this
+                    var mailHRMonitoring2 = await codeUnitWebService.WSMailer().PerformanceMonitortoHRfromHODAsync(monitoring.PerformanceId);
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Pushing Success" });
+                }
+               
             }
             catch (Exception x)
             {
@@ -1358,118 +1411,90 @@ namespace RPFBE.Controllers
             }
         }
     
+        //***************************  HR Generate PIP ********************************
+        //CreateUpdate PIP Header
+        [Authorize]
+        [HttpPost]
+        [Route("createupdatepipheader")]
+        public async Task<IActionResult> CreateUpdatePIPHeader([FromBody] MonitoringInvokePIP invokePIP)
+        {
+            try
+            {
+                var res = await codeUnitWebService.Client().CreateModifyPIPHeaderAsync(
+                    invokePIP.MonitorNo, 
+                    invokePIP.PerformanceMonths, 
+                    invokePIP.ReviewDate);
+
+                return Ok(res.return_value);
+                //return StatusCode(StatusCodes.Status200OK, new Response { Status = "Error", Message = "Create/Update PIP Header, Success "});
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Create/Update PIP Header Failed " + x.Message });
+            }
+        }
+        //CreateUpdate PIP Line
+        [Authorize]
+        [HttpPost]
+        [Route("createupdatepipline")]
+        public async Task<IActionResult> CreateUpdatePIPLine([FromBody] MonitoringInvokePIP invokePIP)
+        {
+            try
+            {
+
+                //int auxLineno = String.IsNullOrEmpty(invokePIP.Lineno.ToString()) ? -1 : invokePIP.Lineno;
+
+                var res = await codeUnitWebService.Client().CreateModifyPIPLineAsync(
+                    invokePIP.MonitorNo,
+                    invokePIP.Lineno,
+                    invokePIP.Month,
+                    invokePIP.SalesTarget,
+                    invokePIP.SalesRep);
+
+                //return Ok(res.return_value);
+                return StatusCode(StatusCodes.Status200OK, new Response { Status = "Error", Message = "Create/Update PIP Header, Success ",ExtMessage= res.return_value });
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Create/Update PIP Line Failed " + x.Message });
+            }
+        }
+        //Delete PIP Line
+        [Authorize]
+        [HttpPost]
+        [Route("deletepipline")]
+        public async Task<IActionResult> DeletePIPLine([FromBody] MonitoringInvokePIP invokePIP)
+        {
+            try
+            {
+                var res = await codeUnitWebService.Client().DeletePIPLineAsync(invokePIP.Lineno);
+                return Ok(res.return_value);
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Create/Update PIP Line Failed " + x.Message });
+            }
+        }
+
+        //Alert The Staff in PIP
+        [Authorize]
+        [HttpGet]
+        [Route("alertstaffforpip/{monitorNo}")]
+        public async Task<IActionResult> AlertStaffForPIP(string monitorNo)
+        {
+            try
+            {
+                var alertStaff = await codeUnitWebService.WSMailer().PerformanceMonitoringSendPIPFromHRAsync(monitorNo);
+                return StatusCode(StatusCodes.Status200OK, new Response { Status = "Error", Message = "Alert Staff for PIP, Success" });
+
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Alert Staff for PIP Failed " + x.Message });
+            }
+        }
     
-        //Non-Confirmation
-        [Authorize]
-        [HttpPost]
-        [Route("nonconfirmation")]
-        public async Task<IActionResult> NonConfirmation([FromBody] MonitoringHeader header)
-        {
-            try
-            {
-                var res = await codeUnitWebService.Client().ApprovePerformanceMonitoringAsync(header.MonitorID);
-                if (res.return_value == "TRUE")
-                {
-                    var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
-                    var monModel = dbContext.PerformanceMonitoring.Where(x => x.PerformanceId == header.MonitorID).FirstOrDefault();
-                    monModel.Progresscode = 2;
-                    monModel.HRId = user.Id;
-                    monModel.ApprovalStatus = "Approved";
-
-                    dbContext.PerformanceMonitoring.Update(monModel);
-                    await dbContext.SaveChangesAsync();
-
-                    //mail Employee
-                    var mailEmployee = await codeUnitWebService.WSMailer().ProbationNonConfirmationAsync(header.StaffID, header.ContractEndDate);
-
-                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Non Confirmation Success" });
-                }
-                else
-                {
-                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Non Confirmation Failed" });
-                }
-
-            }
-            catch (Exception x)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Non Confirmation Failed " + x.Message });
-            }
-        }
-
-        //Confirmation
-        [Authorize]
-        [HttpPost]
-        [Route("confirmation")]
-        public async Task<IActionResult> Confirmation ([FromBody] MonitoringHeader header)
-        {
-            try
-            {
-                var res = await codeUnitWebService.Client().ApprovePerformanceMonitoringAsync(header.MonitorID);
-                if (res.return_value == "TRUE")
-                {
-                    var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
-                    var monModel = dbContext.PerformanceMonitoring.Where(x => x.PerformanceId == header.MonitorID).FirstOrDefault();
-                    monModel.Progresscode = 2;
-                    monModel.HRId = user.Id;
-                    monModel.ApprovalStatus = "Approved";
-
-                    dbContext.PerformanceMonitoring.Update(monModel);
-                    await dbContext.SaveChangesAsync();
-
-                    //mail Employee
-                    var mailEmployee = await codeUnitWebService.WSMailer().ProbationConfirmationAsync(header.StaffID, header.ContractDate, header.ContractExpire);
-
-                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Confirmation Success" });
-                }
-                else
-                {
-                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = " Confirmation Failed" });
-                }
-            }
-            catch (Exception x)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Confirmation Failed " + x.Message });
-            }
-        }
-
-        //Extension
-        [Authorize]
-        [HttpPost]
-        [Route("extension")]
-        public async Task<IActionResult> Extension([FromBody] MonitoringHeader header)
-        {
-            try
-            {
-                var res = await codeUnitWebService.Client().ApprovePerformanceMonitoringAsync(header.MonitorID);
-                if (res.return_value == "TRUE")
-                {
-                    var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
-                    var monModel = dbContext.PerformanceMonitoring.Where(x => x.PerformanceId == header.MonitorID).FirstOrDefault();
-                    monModel.Progresscode = 2;
-                    monModel.HRId = user.Id;
-                    monModel.ApprovalStatus = "Approved";
-
-                    dbContext.PerformanceMonitoring.Update(monModel);
-                    await dbContext.SaveChangesAsync();
-
-                    //mail Employee
-                    var mailEmployee = await codeUnitWebService.WSMailer().ProbationExtensionAsync(header.StaffID, header.ExtendDate, header.NextReviewDate, header.ExtendDuration);
-                       
-
-                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Extension Success" });
-                }
-                else
-                {
-                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = " Extension Failed" });
-                }
-            }
-            catch (Exception x)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Extension Failed " + x.Message });
-            }
-        }
-
-
+      
 
     }
 }

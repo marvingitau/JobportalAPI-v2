@@ -521,7 +521,7 @@ namespace RPFBE.Controllers
                     var requsitionModel = dbContext.AppliedJobs.Where(x => x.JobAppplicationNo == JAPNO).FirstOrDefault();
                     var user = dbContext.Users.Where(y => y.Id == requsitionModel.UserId).FirstOrDefault();
                     user.EmployeeId = res.return_value;
-                    user.Rank = "Normal";
+                    user.Rank = "NORMAL";
                     dbContext.Users.Update(user);
                     await dbContext.SaveChangesAsync();
 
@@ -529,9 +529,9 @@ namespace RPFBE.Controllers
                     //    await roleManager.CreateAsync(new IdentityRole("Normal"));
                    
 
-                    if (await roleManager.RoleExistsAsync("Normal"))
+                    if (await roleManager.RoleExistsAsync("NORMAL"))
                     {
-                        await userManager.AddToRoleAsync(user, "Normal");
+                        await userManager.AddToRoleAsync(user, "NORMAL");
 
                     }
 

@@ -474,16 +474,10 @@ namespace RPFBE.Controllers
         {
             try
             {
-                var resAchieve = await codeUnitWebService.HRWS().CreateAppraisalAreaofAchievementAsync(dataAchieve.HeaderNo, dataAchieve.AreaOfAchievement);
-                if (resAchieve.return_value)
-                {
-                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Create Area of Achievement, Success" });
-                }
-                else
-                {
-                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Create Area of Achievement failed" });
-
-                }
+                var resAchieve = await codeUnitWebService.HRWS().CreateAppraisalAreaofAchievementAPIAsync(dataAchieve.HeaderNo, dataAchieve.AreaOfAchievement);
+               
+                return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Create Area of Achievement, Success",ExtMessage= resAchieve.return_value });
+               
             }
             catch (Exception x)
             {
@@ -554,16 +548,11 @@ namespace RPFBE.Controllers
         {
             try
             {
-                var resAchieve = await codeUnitWebService.HRWS().CreateAppraisalAreaofDevelopmentAsync(reflectionDevelopment.HeaderNo, reflectionDevelopment.AreaOfDevelopment);
-                if (resAchieve.return_value)
-                {
-                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Create Area of Development, Success" });
-                }
-                else
-                {
-                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Create Area of Development failed" });
-
-                }
+                var resAchieve = await codeUnitWebService.HRWS().CreateAppraisalAreaofDevelopmentAPIAsync(reflectionDevelopment.HeaderNo, reflectionDevelopment.AreaOfDevelopment);
+               
+                return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Create Area of Development, Success",ExtMessage= resAchieve.return_value });
+               
+                
             }
             catch (Exception x)
             {
@@ -636,16 +625,9 @@ namespace RPFBE.Controllers
         {
             try
             {
-                var resAchieve = await codeUnitWebService.HRWS().CreateAppraisalSpecificFocusAsync(dataFocus.HeaderNo, dataFocus.SpecificFocusArea);
-                if (resAchieve.return_value)
-                {
-                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Create Specific Focus, Success" });
-                }
-                else
-                {
-                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Create Specific Focus failed" });
-
-                }
+                var resAchieve = await codeUnitWebService.HRWS().CreateAppraisalSpecificFocusAPIAsync(dataFocus.HeaderNo, dataFocus.SpecificFocusArea);
+                return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Create Specific Focus, Success",ExtMessage= resAchieve.return_value });
+               
             }
             catch (Exception x)
             {
@@ -919,16 +901,11 @@ namespace RPFBE.Controllers
         {
             try
             {
-                var resAchieve = await codeUnitWebService.HRWS().CreateAppraisalAreaofImprovementAsync(reflectionDevelopment.HeaderNo, reflectionDevelopment.AreaOfDevelopment);
-                if (resAchieve.return_value)
-                {
-                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Create Area of Improvement, Success" });
-                }
-                else
-                {
-                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Create Area of Improvement failed" });
-
-                }
+                var resAchieve = await codeUnitWebService.HRWS().CreateAppraisalAreaofImprovementAPIAsync(reflectionDevelopment.HeaderNo, reflectionDevelopment.AreaOfDevelopment);
+                
+                 return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Create Area of Improvement, Success",ExtMessage= resAchieve.return_value });
+                
+              
             }
             catch (Exception x)
             {
@@ -1000,16 +977,10 @@ namespace RPFBE.Controllers
         {
             try
             {
-                var resAchieve = await codeUnitWebService.HRWS().CreateAppraisalTrainingNeedAsync(dataFocus.HeaderNo, dataFocus.SpecificFocusArea);
-                if (resAchieve.return_value)
-                {
-                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Create Training Need, Success" });
-                }
-                else
-                {
-                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Create Training Need failed" });
-
-                }
+                var resAchieve = await codeUnitWebService.HRWS().CreateAppraisalTrainingNeedAPIAsync(dataFocus.HeaderNo, dataFocus.SpecificFocusArea);
+               
+               return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Create Training Need, Success",ExtMessage= resAchieve.return_value });
+         
             }
             catch (Exception x)
             {

@@ -575,7 +575,26 @@ namespace RPFBE.Controllers
             try
             {
                 var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
-                var employeeEndofs = dbContext.ProbationProgress.Where(x=>x.ProbationStatus == 1 || x.ProbationStatus == 3).ToList();
+                var employeeEndofs = dbContext.ProbationProgress.Where(x=>x.ProbationStatus == 1).ToList();
+
+                return Ok(new { employeeEndofs });
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation List Failed: " + x.Message });
+            }
+        }
+        //Get the HEAD-HR list of created probations
+        [Authorize]
+        [HttpGet]
+        [Route("getheadhrprobationlist")]
+        public async Task<IActionResult> GetHeadHRProbationList()
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var employeeEndofs = dbContext.ProbationProgress.Where(x => x.ProbationStatus == 1 || x.ProbationStatus >= 3).ToList();
 
                 return Ok(new { employeeEndofs });
             }
@@ -647,6 +666,7 @@ namespace RPFBE.Controllers
                 {
                     var probModel = dbContext.ProbationProgress.Where(x => x.ProbationNo == PID).First();
                     probModel.Status = "Approved";
+                    probModel.ProbationStatus = 4; //approv is 4 while reject  is 5
                     dbContext.ProbationProgress.Update(probModel);
                     await dbContext.SaveChangesAsync();
 
@@ -1200,7 +1220,7 @@ namespace RPFBE.Controllers
             try
             {
                 var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
-                var employeeEndofs = dbContext.EndofContractProgress.Where(x => x.ContractStatus == 1 || x.ContractStatus == 3).ToList();
+                var employeeEndofs = dbContext.EndofContractProgress.Where(x => x.ContractStatus == 1).ToList();
 
                 return Ok(new { employeeEndofs });
             }
@@ -1210,6 +1230,27 @@ namespace RPFBE.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Contract List Failed: " + x.Message });
             }
         }
+
+        //Get the HR list of created contracts
+        [Authorize]
+        [HttpGet]
+        [Route("getheadhrcontractlist")]
+        public async Task<IActionResult> GetHEADHRContractList()
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var employeeEndofs = dbContext.EndofContractProgress.Where(x => x.ContractStatus == 1 || x.ContractStatus >= 3).ToList();
+
+                return Ok(new { employeeEndofs });
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Contract List Failed: " + x.Message });
+            }
+        }
+
 
         //HR Push the comment
         [Authorize]
@@ -1263,6 +1304,7 @@ namespace RPFBE.Controllers
                 {
                     var contModel = dbContext.EndofContractProgress.Where(x => x.ContractNo == PID).First();
                     contModel.Status = "Approved";
+                    contModel.ContractStatus = 4;
                     dbContext.EndofContractProgress.Update(contModel);
                     await dbContext.SaveChangesAsync();
 
@@ -1323,6 +1365,7 @@ namespace RPFBE.Controllers
                 {
                     var contModel = dbContext.EndofContractProgress.Where(x => x.ContractNo == header.EocID).First();
                     contModel.Status = "Approved";
+                    contModel.ContractStatus = 4;
                     dbContext.EndofContractProgress.Update(contModel);
                     await dbContext.SaveChangesAsync();
 
@@ -1358,6 +1401,7 @@ namespace RPFBE.Controllers
                 {
                     var contModel = dbContext.EndofContractProgress.Where(x => x.ContractNo == header.EocID).First();
                     contModel.Status = "Approved";
+                    contModel.ContractStatus = 4;
                     dbContext.EndofContractProgress.Update(contModel);
                     await dbContext.SaveChangesAsync();
 
@@ -1509,6 +1553,7 @@ namespace RPFBE.Controllers
                 {
                     var probModel = dbContext.ProbationProgress.Where(x => x.ProbationNo == header.ProbationID).First();
                     probModel.Status = "Approved";
+                    probModel.ProbationStatus = 4; //approv is 4 while reject  is 5
                     dbContext.ProbationProgress.Update(probModel);
                     await dbContext.SaveChangesAsync();
 
@@ -1545,6 +1590,7 @@ namespace RPFBE.Controllers
                 {
                     var probModel = dbContext.ProbationProgress.Where(x => x.ProbationNo == header.ProbationID).First();
                     probModel.Status = "Approved";
+                    probModel.ProbationStatus = 4; //approv is 4 while reject  is 5
                     dbContext.ProbationProgress.Update(probModel);
                     await dbContext.SaveChangesAsync();
 
@@ -1587,6 +1633,7 @@ namespace RPFBE.Controllers
                      await dbContext.SaveChangesAsync();*/
                     var probModel = dbContext.ProbationProgress.Where(x => x.ProbationNo == header.ProbationID).First();
                     probModel.Status = "Approved";
+                    probModel.ProbationStatus = 4; //approv is 4 while reject  is 5
                     dbContext.ProbationProgress.Update(probModel);
                     await dbContext.SaveChangesAsync();
 

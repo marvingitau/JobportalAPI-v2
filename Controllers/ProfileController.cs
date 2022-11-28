@@ -101,7 +101,6 @@ namespace RPFBE.Controllers
             return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Skill uploaded" });
         }
         
-
         
         [Route("profile")]
         [HttpGet]
@@ -267,6 +266,7 @@ namespace RPFBE.Controllers
 
             }
         }
+        [Authorize]
         [Route("setprofile")]
         [HttpPost]
         public async Task<IActionResult> SetProfile([FromBody] Profile profile)
@@ -358,6 +358,7 @@ namespace RPFBE.Controllers
 
             }
         }
+        
         [Route("createapp/{reqNo}/{UID}")]
         [HttpGet]
         public async Task<IActionResult> CreateJobApplication(string reqNo,string UID )
@@ -390,7 +391,6 @@ namespace RPFBE.Controllers
             }
            
         }
-
 
         [Route("modifyapp")]
         [HttpPost]
@@ -555,5 +555,71 @@ namespace RPFBE.Controllers
             }
         }
     
+        //****Normal Staff Profile Section
+        //Get Profile if it exists
+        [Authorize]
+        [HttpGet]
+        [Route("getstaffprofile")]
+        public async Task<IActionResult> GetStaffProfile()
+        {
+            try
+            {
+                var userModel = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var profiletableModel = dbContext.Profiles.Where(x => x.UserId == userModel.Id).FirstOrDefault();
+                
+                return Ok(new { userModel.UserName, profiletableModel });
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "Get Profile Failed: " + x.Message });
+            }
+        }
+
+        //Update Staff profil
+        [Authorize]
+        [HttpPost]
+        [Route("setstaffprofile")]
+        public async Task<IActionResult> SetStaffProfile([FromBody] Profile profile)
+        {
+            try
+            {
+                var userModel = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var profileModel = dbContext.Profiles.Where(x => x.UserId == userModel.Id).FirstOrDefault();
+                if(profileModel != null)
+                {
+                    profileModel.FirstName = profile.FirstName;
+                    profileModel.SurName = profile.SurName;
+                    profileModel.LastName = profile.LastName;
+                    profileModel.Gender = profile.Gender;
+                    profileModel.PersonWithDisability = profile.PersonWithDisability;
+                    profileModel.MaritalStatus = profile.MaritalStatus;
+                    profileModel.Religion = profile.Religion;
+                    profileModel.Experience = profile.Experience;
+                    profileModel.HighestEducation = profile.HighestEducation;
+                    profileModel.DOB = profile.DOB;
+                    profileModel.Age = profile.Age;
+
+                    dbContext.Update(profileModel);
+                    await dbContext.SaveChangesAsync();
+                }
+                else
+                {
+                    profile.UserId = userModel.Id;
+                    dbContext.Profiles.Add(profile);
+                    await dbContext.SaveChangesAsync();
+                }
+
+                userModel.Name = profile.FirstName + " " + profile.SurName + " " + profile.LastName;
+                userModel.ProfileId = profile.Id;
+                await userManager.UpdateAsync(userModel);
+
+                return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Set Profile Success " });
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "Set Profile Failed: " + x.Message });
+            }
+        }
+
 }
 }

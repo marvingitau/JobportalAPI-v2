@@ -70,15 +70,12 @@ namespace RPFBE.Controllers
                         Label = emp.Fullname,
                     };
                     employeeListModels.Add(e);
-
                 }
 
                 return Ok(new { employeeListModels });
-
             }
             catch (Exception x)
             {
-
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Create Probation View Failed: "+x.Message });
             }
            
@@ -164,6 +161,27 @@ namespace RPFBE.Controllers
 
                 //}
                 var employeeEndofs = dbContext.ProbationProgress.Where(x => x.MgrID == user.EmployeeId && x.ProbationStatus==0).ToList();
+
+                return Ok(new { employeeEndofs });
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation List Failed: " + x.Message });
+            }
+        }
+
+        //Get the Immediate Supervisor list of created probations
+        [Authorize]
+        [HttpGet]
+        [Route("getprobationlistimmediatemanager")]
+        public async Task<IActionResult> GetProbationListImmediateManager()
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+               
+                var employeeEndofs = dbContext.ProbationProgress.Where(x => x.ImmediateManagerID == user.EmployeeId && x.ProbationStatus == 999).ToList();
 
                 return Ok(new { employeeEndofs });
             }
@@ -401,6 +419,52 @@ namespace RPFBE.Controllers
             }
         }
 
+
+        //Move Probation To Immediate Manager
+        [Authorize]
+        [HttpGet]
+        [Route("moveprobationfromhodtomanger/{PID}")]
+        public async Task<IActionResult> MoveProbationFromHODToManager(string PID)
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var immediateManager = await codeUnitWebService.Client().GetImmediateManagerAsync(PID);
+
+                var probModel = dbContext.ProbationProgress.Where(p => p.ProbationNo == PID && p.ProbationStatus == 0).First();
+                probModel.UID = user.Id;
+                probModel.ProbationStatus = 999;
+                probModel.ImmediateManagerID = immediateManager.return_value.ToString();
+
+                dbContext.ProbationProgress.Update(probModel);
+                await dbContext.SaveChangesAsync();
+
+                //Mail HR
+                // var emailArr = dbContext.Users.Where(x => x.Rank == "HR")
+                //     .Select(t => t.Email).ToArray();
+
+                // var unameArr = dbContext.Users.Where(x => x.Rank == "HR")
+                //     .Select(t => t.UserName).ToArray();
+
+                // List<ProbationProgressMail> v = new List<ProbationProgressMail>();
+                //// v.AddRange(userList);
+                ///
+
+                //---mailService.SendEmail(emailArr, unameArr, PID);
+
+                var probationMailHR = await codeUnitWebService.WSMailer().EmployeeProbationHODToImmediateManagerAsync(PID);
+
+                // return Ok(userList);
+
+                return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Probation Moved: " });
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation Move Failed: " + x.Message });
+            }
+        }
+
         //Probation Card Data
         [Authorize]
         [HttpGet]
@@ -410,9 +474,9 @@ namespace RPFBE.Controllers
             try
             {
                 List<ProbationFirstSection> probationFirstList = new List<ProbationFirstSection>();
+                var probprogress = dbContext.ProbationProgress.Where(x => x.ProbationNo == PID).First();
                 var res = await codeUnitWebService.Client().GetProbationCardDataAsync(PID);
                 dynamic resSerial = JsonConvert.DeserializeObject(res.return_value);
-
                 foreach (var item in resSerial)
                 {
                     ProbationFirstSection probationFirstSection = new ProbationFirstSection
@@ -526,6 +590,7 @@ namespace RPFBE.Controllers
 
                         HRcomment = item.HRcomment,
                         MDcomment = item.MDcomment,
+                        ImmediateManagerComment = probprogress!=null? probprogress.ImmediateManagerComment: item.MDcomment,
 
                         empStrongestpt = item.empStrongestpt,
                         empWeakestPt = item.empWeakestPt,
@@ -557,6 +622,76 @@ namespace RPFBE.Controllers
         }
 
 
+        /**
+         * *****************************************************************************************************************
+         *                                                      IMMEDIATE MANAGER SECTION
+         * 
+         * ************************************************************************************************************************
+         */
+        //Get the Immediate Manager list
+        [Authorize]
+        [HttpGet]
+        [Route("getimmediatemanagerprobationlist")]
+        public async Task<IActionResult> GetImmediateManagerProbationList()
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var employeeEndofs = dbContext.ProbationProgress.Where(x => x.ProbationStatus == 999).ToList();
+
+                return Ok(new { employeeEndofs });
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation List Failed: " + x.Message });
+            }
+        }
+
+
+        [Authorize]
+        [HttpPost]
+        [Route("immediatepushtohr/{PID}")]
+        public async Task<IActionResult> ImmediatePushToHR([FromBody] ProbationRecommendationModel probationFirst, string PID)
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+               
+                    var probModel = dbContext.ProbationProgress.Where(x => x.ProbationNo == PID).FirstOrDefault();
+                    probModel.ProbationStatus = 1;
+                    //probModel.UIDTwo = user.Id;
+                    probModel.ImmediateManagerComment = probationFirst.ImmediateManagerComment;
+
+                    dbContext.ProbationProgress.Update(probModel);
+                    await dbContext.SaveChangesAsync();
+
+                ////Mail HR
+                ///@email
+                var probationMailHR = await codeUnitWebService.WSMailer().EmployeeProbationManagerToHRAsync(PID);
+
+                //var emailArr = dbContext.Users.Where(x => x.Rank == "MD" || x.Rank =="FD")
+                //    .Select(t => t.Email).ToArray();
+
+
+
+                //var unameArr = dbContext.Users.Where(x => x.Rank == "MD" || x.Rank == "FD")
+                //    .Select(t => t.UserName).ToArray();
+
+                //List<ProbationProgressMail> v = new List<ProbationProgressMail>();
+                //// v.AddRange(userList);
+                //mailService.SendEmail(emailArr, unameArr, PID);
+
+
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation Card Update Failed: D365 failed " });
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation Card Update Failed: " + x.Message });
+            }
+        }
 
         /**
          * *****************************************************************************************************************
@@ -564,6 +699,7 @@ namespace RPFBE.Controllers
          * 
          * ************************************************************************************************************************
          */
+
 
 
         //Get the HR list of created probations
@@ -594,7 +730,7 @@ namespace RPFBE.Controllers
             try
             {
                 var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
-                var employeeEndofs = dbContext.ProbationProgress.Where(x => x.ProbationStatus == 1 || x.ProbationStatus >= 3).ToList();
+                var employeeEndofs = dbContext.ProbationProgress.Where(x => x.ProbationStatus == 1 || x.ProbationStatus == 3).ToList();
 
                 return Ok(new { employeeEndofs });
             }
@@ -1201,6 +1337,69 @@ namespace RPFBE.Controllers
             }
         }
 
+        // HOD upload Probation Support Documents
+
+        [Authorize]
+        [Route("hoduploadprobationdocs/{ID}")]
+        [HttpPost]
+        public async Task<IActionResult> HODUploadProbationDocs([FromForm] IFormFile formFile, string ID)
+        {
+            //***********************************USES END OF CONTRACT DOCUMENTS DB AND FILE*******************************************
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+
+
+                var subDirectory = "Files/Endofcontract";
+                var target = Path.Combine(webHostEnvironment.ContentRootPath, subDirectory);
+                string fileName = new String(Path.GetFileNameWithoutExtension(formFile.FileName).Take(10).ToArray()).Replace(' ', '-');
+                fileName = fileName + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(formFile.FileName);
+                var path = Path.Combine(target, fileName);
+                using (FileStream stream = new FileStream(path, FileMode.Create))
+                {
+                    formFile.CopyTo(stream);
+                }
+
+                /* 
+                 * var host = HttpContext.Request.Host.ToUriComponent();
+                 * var url = $"{HttpContext.Request.Scheme}://{host}/{path}";
+                 * return Content(url);
+                */
+
+                if (dbContext.MonitoringDoc.Where(x => x.UID == user.Id && x.MonitoringID == ID).Count() > 0)
+                {
+                    var specificCV = dbContext.MonitoringDoc.Where(x => x.UID == user.Id && x.MonitoringID == ID).FirstOrDefault();
+                    specificCV.Filepath = path;
+                    specificCV.Filename = formFile.FileName;
+                    specificCV.MonitoringID = ID;
+                    dbContext.Update(specificCV);
+                    await dbContext.SaveChangesAsync();
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Succes", Message = "Probation Document Updated" });
+
+                }
+                else
+                {
+                    MonitoringDoc mData = new MonitoringDoc
+                    {
+                        UID = user.Id,
+                        Filepath = path,
+                        Filename = formFile.FileName,
+                        MonitoringID = ID,
+
+                    };
+                    dbContext.MonitoringDoc.Add(mData);
+                    dbContext.SaveChanges();
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Succes", Message = "Probation Document Uploaded" });
+                }
+
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = x.Message });
+            }
+        }
+
 
 
         /**
@@ -1373,6 +1572,9 @@ namespace RPFBE.Controllers
                     //@email
                     var mailStaff = await codeUnitWebService.WSMailer().EndofContractNonRenewalAsync(header.TerminationDate, header.StaffNo);
                     return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "End of Contract Non Renewal, Success" });
+                   
+                   
+                    
 
                 }
                 else
@@ -1406,9 +1608,20 @@ namespace RPFBE.Controllers
                     await dbContext.SaveChangesAsync();
 
                     //@email
-                    var mailStaff = await codeUnitWebService.WSMailer().EndofContractRenewalAsync(header.RenewalTime, header.ContractedDate, header.StartDate, header.EndDate, header.StaffNo);
+                    //Mail depending 
+                    if(header.NewSalary.Length <= 0)
+                    {
+                        var mailStaff = await codeUnitWebService.WSMailer().EndofContractRenewalAsync(header.RenewalTime, header.ContractedDate, header.StartDate, header.EndDate, header.StaffNo);
 
-                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "End of Contract Renewal, Success" });
+                        return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "End of Contract Renewal, Success" });
+                    }
+                    else
+                    {
+                        var mailStaff = await codeUnitWebService.WSMailer().EndofContractRenewalWithARaiseAsync(header.RenewalTime, header.ContractedDate, header.StartDate, header.EndDate, header.StaffNo,header.NewSalary);
+
+                        return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "End of Contract Renewal, Success" });
+                    }
+                 
 
                 }
                 else

@@ -95,6 +95,41 @@ namespace RPFBE.Controllers
 
         }
 
+        //Internal Job List
+        [Authorize]
+        [HttpGet]
+        [Route("internal-vacancy")]
+        public async Task<IActionResult> InternalVacancy()
+        {
+            try
+            {
+                List<PostedJobModel> postedJobsList = new List<PostedJobModel>();
+
+                var result = await codeUnitWebService.Client().GetPostedInternalJobsAsync();
+                dynamic postedJobs = JsonConvert.DeserializeObject<List<PostedJobModel>>(result.return_value);
+
+                foreach (var postedJob in postedJobs)
+                {
+                    PostedJobModel postedJobModel = new PostedJobModel();
+                    postedJobModel.Jobno = postedJob.Jobno;
+                    postedJobModel.No = postedJob.No;
+                    postedJobModel.Jobtitle = postedJob.Jobtitle;
+                    postedJobModel.Closingdate = postedJob.Closingdate;
+
+                    postedJobsList.Add(postedJobModel);
+                }
+
+                //return Content(postedJobs );
+                return Ok(new { postedJobsList });
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Get Internal Vacancy Failed: " + x.Message });
+            }
+
+        }
+
+
         [HttpGet]
         [Route("jobdata/{ReqNo}")]
         public IActionResult GetJobData(string ReqNo)
@@ -221,6 +256,7 @@ namespace RPFBE.Controllers
             }
         }
 
+
         [HttpPost]
         [Route("applyjob")]
         public async Task<IActionResult> ApplyJob([FromBody] AppliedJob appliedJob)
@@ -260,6 +296,47 @@ namespace RPFBE.Controllers
             }
 
         }
+
+        [HttpPost]
+        [Route("applyinternaljob")]
+        public async Task<IActionResult> ApplyInternalJob([FromBody] AppliedJob appliedJob)
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+
+
+                if (!ModelState.IsValid)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Application Failed" });
+                }
+                appliedJob.UserId = user.Id;
+                appliedJob.ApplicationDate = DateTime.Now;
+                var profileExist = dbContext.Users.Where(x => x.Id == user.Id && x.ProfileId != 0).Count();
+                if (profileExist == 0)
+                {
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Please Create your profile first" });
+                }
+                var duplicateCheck = dbContext.AppliedJobs.Where(x => x.UserId == user.Id && x.JobReqNo == appliedJob.JobReqNo).FirstOrDefault();
+                if (duplicateCheck == null)
+                {
+                    await dbContext.AppliedJobs.AddAsync(appliedJob);
+                    await dbContext.SaveChangesAsync();
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Job Applied" });
+
+                }
+
+
+                return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Job Applied Already" });
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Apply Job Failed: "+x.Message });
+
+            }
+
+        }
+
 
 
         //Checklist Documents !(Roles="Admin")
@@ -1492,7 +1569,7 @@ namespace RPFBE.Controllers
         //Update Roles
         [Authorize]
         [Route("updaterole/{uid}/{val}")]
-        [HttpGet()]
+        [HttpGet]
 
         public async Task<IActionResult> HRUpdateProfile(string uid, string val)
         {

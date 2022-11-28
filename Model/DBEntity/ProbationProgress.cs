@@ -28,5 +28,7 @@ namespace RPFBE.Model.DBEntity
         public string Status { get; set; }
         public string Position { get; set; }
 
+        public string ImmediateManagerID { get; set; }
+        public string ImmediateManagerComment { get; set; }
     }
 }

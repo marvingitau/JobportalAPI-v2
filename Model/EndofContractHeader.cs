@@ -16,6 +16,7 @@ namespace RPFBE.Model
         public DateTime ContractedDate { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public string NewSalary { get; set; }
 
 
 

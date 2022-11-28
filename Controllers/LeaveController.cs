@@ -211,7 +211,7 @@ namespace RPFBE.Controllers
                     var isAttachementRequired = await codeUnitWebService.Client().GetLeaveAttachmentStatusAsync(LTYP);
                     //Does Leave has Extra Days -- DEPRECATED -- Moved to onleavesubmit
                     var hasExtradays = await codeUnitWebService.Client().HasLeaveHasExtraDaysAsync(LNO,LTYP);
-                    var hasExtraDays = LTYP == "EXAM LEAVE" ? true : false;
+                    var hasExtraDays = LTYP == config.Value.LeaveType ? true : false;
 
                     //return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = $"The Leave {LNO} of {LTYP} has been recorded" });
                     return Ok(new { isAttachementRequired.return_value, hasExtraDays });
@@ -221,7 +221,7 @@ namespace RPFBE.Controllers
                     var isAttachementRequired = await codeUnitWebService.Client().GetLeaveAttachmentStatusAsync(LTYP);
 
                     var hasExtradays = await codeUnitWebService.Client().HasLeaveHasExtraDaysAsync(LNO, LTYP);
-                    var hasExtraDays = LTYP == "EXAM LEAVE" ? true : false;
+                    var hasExtraDays = LTYP == config.Value.LeaveType ? true : false;
 
                     return Ok(new { isAttachementRequired.return_value, hasExtraDays });
                     //return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = $"The Leave {LNO} of {LTYP} has not been recorded " });
@@ -381,7 +381,7 @@ namespace RPFBE.Controllers
                         {
                             //Does Leave has Extra Days
                             var hasExtradays = await codeUnitWebService.Client().HasLeaveHasExtraDaysAsync(leaveEnd.LeaveAppNo, leaveEnd.LeaveType);
-                            var hasExtraDays = leaveEnd.LeaveType == "EXAM LEAVE" ? true : false;
+                            var hasExtraDays = leaveEnd.LeaveType == config.Value.LeaveType ? true : false;
 
                             return StatusCode(StatusCodes.Status200OK, new Response {HasExtraDays= hasExtraDays, Status = "Success", Message = "Your leave application was successfully sent for approval. Once approved, you will receive an email containing your leave details." });
                         }
@@ -824,6 +824,119 @@ namespace RPFBE.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Remove Extra Day Failed: " + x.Message });
             }
         }
+    
+        // Leave Status Dashboard
+        [Authorize]
+        [HttpPost]
+        [Route("leavestatusdashboard")]
+        public async Task<IEnumerable<LeaveSubmanager>> LeaveStatusDashboard(LeaveDashboard leaveDashboard)
+        {
+           
+            List<LeaveSubmanager> leaveDashList = new List<LeaveSubmanager>();
+            try
+            {
+                var userModel = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var leaveResult = await codeUnitWebService.Client().GetLeaveDashboardAsync(userModel.EmployeeId, leaveDashboard.StartDate, leaveDashboard.EndDate);
+                //process the data ---
+                dynamic leaveSerial = JsonConvert.DeserializeObject<List<LeaveSubmanager>>(leaveResult.return_value);
+                //Dictionary<LeaveSubmanager, List<LeaveSubmanagerEmployee>> data = new Dictionary<LeaveSubmanager, List<LeaveSubmanagerEmployee>>();
+                //List<LeaveSubmanagerEmployee> lList = new List<LeaveSubmanagerEmployee>();
+
+                //foreach (var item in leaveSerial)
+                //{
+                //    LeaveSubmanager ls = new LeaveSubmanager();
+                //    ls.EmployeeId = item.SubmanagerId;
+                //    ls.EmployeeName = item.SubmanagerName;
+                //    ls.ManagerId = item.ManagerId;
+                //    ls.LeaveType = item.LeaveType;
+                //    ls.LeaveDays = item.LeaveDays;
+                //    ls.LeaveStart = item.LeaveStart;
+                //    ls.LeaveEnd = item.LeaveEnd;
+
+                //    if (item.subRows != null)
+                //    {
+
+                //        foreach (var itm in item.subRows)
+                //        {
+                //            LeaveSubmanagerEmployee lse = new LeaveSubmanagerEmployee();
+                //            lse.EmployeeId = itm.EmployeeId;
+                //            lse.EmployeeName = itm.EmployeeName;
+                //            lse.ManagerId = itm.ManagerId;
+                //            lse.LeaveType = itm.LeaveType;
+                //            lse.LeaveDays = itm.LeaveDays;
+                //            lse.LeaveStart = itm.LeaveStart;
+                //            lse.LeaveEnd = itm.LeaveEnd;
+
+                //            lList.Add(lse);
+
+
+                //        }
+                //        data.Add(ls, lList);
+                //        continue;
+                //    }
+                //    else
+                //    {
+                //        data.Add(ls, null);
+                //    }
+
+                //}
+
+
+
+
+                //foreach (var item in leaveSerial)
+                //{
+
+                //    LeaveSubmanager ls = new LeaveSubmanager();
+                //    ls.EmployeeId = item.SubmanagerId;
+                //    ls.EmployeeName = item.SubmanagerName;
+                //    ls.ManagerId = item.ManagerId;
+                //    ls.LeaveType = item.LeaveType;
+                //    ls.LeaveDays = item.LeaveDays;
+                //    ls.LeaveStart = item.LeaveStart;
+                //    ls.LeaveEnd = item.LeaveEnd;
+
+
+                //    if (item.subRows != null)
+                //    {
+
+                //        foreach (var itm in item.subRows)
+                //        {
+                //            LeaveSubmanagerEmployee lse = new LeaveSubmanagerEmployee();
+                //            lse.EmployeeId = itm.EmployeeId;
+                //            lse.EmployeeName = itm.EmployeeName;
+                //            lse.ManagerId = itm.ManagerId;
+                //            lse.LeaveType = itm.LeaveType;
+                //            lse.LeaveDays = itm.LeaveDays;
+                //            lse.LeaveStart = itm.LeaveStart;
+                //            lse.LeaveEnd = itm.LeaveEnd;
+
+                //            lList.Add(lse);
+                //        }
+
+                //        ls.SubRows = lList;
+                //        leaveDashList.Add(ls);
+                //    }
+                //    else
+                //    {
+                //        leaveDashList.Add(ls);
+                //    }
+
+
+
+                //}
+
+                return leaveSerial;
+                
+            }
+            catch (Exception)
+            {
+                return leaveDashList;
+                //return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Fetch Leave Status Dashboard Failed: " + x.Message });
+            }
+        }
+
+       
     }
 
 

@@ -92,16 +92,14 @@ namespace RPFBE.Controllers
                         signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
                         );
 
-
-
-
+                    var Name = user.UserName;
                     return Ok(new
                     {
                         idToken = new JwtSecurityTokenHandler().WriteToken(token),
                         expiresIn = token.ValidTo.TimeOfDay.TotalMilliseconds,
                         expireDate = token.ValidTo,
                         user = userRoles,
-                        user.Name,
+                        Name,
                     });
                 }
                 return StatusCode(StatusCodes.Status401Unauthorized, new Response { Status = "Error", Message = "INVALID_USER" });

@@ -46,6 +46,7 @@ namespace RPFBE.Model.DBEntity
         public string HighestEducation{ get; set; }
         public string CurrentSalary{ get; set; }
         public string ExpectedSalary{ get; set; }
+        //public string Username { get; set; }
 
 
     }

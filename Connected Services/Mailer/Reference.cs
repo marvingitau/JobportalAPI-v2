@@ -82,6 +82,11 @@ namespace Mailer
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<Mailer.EmployeeProbationManagerToHR_Result> EmployeeProbationManagerToHRAsync(Mailer.EmployeeProbationManagerToHR request);
         
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:EmployeeProbationHODToImmed" +
+            "iateManager", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<Mailer.EmployeeProbationHODToImmediateManager_Result> EmployeeProbationHODToImmediateManagerAsync(Mailer.EmployeeProbationHODToImmediateManager request);
+        
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:EmployeeProbationHRToMDFD", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<Mailer.EmployeeProbationHRToMDFD_Result> EmployeeProbationHRToMDFDAsync(Mailer.EmployeeProbationHRToMDFD request);
@@ -152,6 +157,11 @@ namespace Mailer
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:EndofContractRenewal", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<Mailer.EndofContractRenewal_Result> EndofContractRenewalAsync(Mailer.EndofContractRenewal request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:EndofContractRenewalWithARa" +
+            "ise", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<Mailer.EndofContractRenewalWithARaise_Result> EndofContractRenewalWithARaiseAsync(Mailer.EndofContractRenewalWithARaise request);
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -634,6 +644,38 @@ namespace Mailer
     {
         
         public EmployeeProbationManagerToHR_Result()
+        {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="EmployeeProbationHODToImmediateManager", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", IsWrapped=true)]
+    public partial class EmployeeProbationHODToImmediateManager
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=0)]
+        public string pKey;
+        
+        public EmployeeProbationHODToImmediateManager()
+        {
+        }
+        
+        public EmployeeProbationHODToImmediateManager(string pKey)
+        {
+            this.pKey = pKey;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="EmployeeProbationHODToImmediateManager_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", IsWrapped=true)]
+    public partial class EmployeeProbationHODToImmediateManager_Result
+    {
+        
+        public EmployeeProbationHODToImmediateManager_Result()
         {
         }
     }
@@ -1275,6 +1317,69 @@ namespace Mailer
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="EndofContractRenewalWithARaise", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", IsWrapped=true)]
+    public partial class EndofContractRenewalWithARaise
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=0)]
+        public string renewalTime;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(DataType="date")]
+        public System.DateTime contractedDate;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(DataType="date")]
+        public System.DateTime startDate;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(DataType="date")]
+        public System.DateTime endDate;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=4)]
+        public string empNo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=5)]
+        public string raise;
+        
+        public EndofContractRenewalWithARaise()
+        {
+        }
+        
+        public EndofContractRenewalWithARaise(string renewalTime, System.DateTime contractedDate, System.DateTime startDate, System.DateTime endDate, string empNo, string raise)
+        {
+            this.renewalTime = renewalTime;
+            this.contractedDate = contractedDate;
+            this.startDate = startDate;
+            this.endDate = endDate;
+            this.empNo = empNo;
+            this.raise = raise;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="EndofContractRenewalWithARaise_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", IsWrapped=true)]
+    public partial class EndofContractRenewalWithARaise_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=0)]
+        public bool return_value;
+        
+        public EndofContractRenewalWithARaise_Result()
+        {
+        }
+        
+        public EndofContractRenewalWithARaise_Result(bool return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     public interface Notifications_PortChannel : Mailer.Notifications_Port, System.ServiceModel.IClientChannel
     {
@@ -1522,6 +1627,19 @@ namespace Mailer
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<Mailer.EmployeeProbationHODToImmediateManager_Result> Mailer.Notifications_Port.EmployeeProbationHODToImmediateManagerAsync(Mailer.EmployeeProbationHODToImmediateManager request)
+        {
+            return base.Channel.EmployeeProbationHODToImmediateManagerAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<Mailer.EmployeeProbationHODToImmediateManager_Result> EmployeeProbationHODToImmediateManagerAsync(string pKey)
+        {
+            Mailer.EmployeeProbationHODToImmediateManager inValue = new Mailer.EmployeeProbationHODToImmediateManager();
+            inValue.pKey = pKey;
+            return ((Mailer.Notifications_Port)(this)).EmployeeProbationHODToImmediateManagerAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         System.Threading.Tasks.Task<Mailer.EmployeeProbationHRToMDFD_Result> Mailer.Notifications_Port.EmployeeProbationHRToMDFDAsync(Mailer.EmployeeProbationHRToMDFD request)
         {
             return base.Channel.EmployeeProbationHRToMDFDAsync(request);
@@ -1755,6 +1873,24 @@ namespace Mailer
             inValue.endDate = endDate;
             inValue.empNo = empNo;
             return ((Mailer.Notifications_Port)(this)).EndofContractRenewalAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<Mailer.EndofContractRenewalWithARaise_Result> Mailer.Notifications_Port.EndofContractRenewalWithARaiseAsync(Mailer.EndofContractRenewalWithARaise request)
+        {
+            return base.Channel.EndofContractRenewalWithARaiseAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<Mailer.EndofContractRenewalWithARaise_Result> EndofContractRenewalWithARaiseAsync(string renewalTime, System.DateTime contractedDate, System.DateTime startDate, System.DateTime endDate, string empNo, string raise)
+        {
+            Mailer.EndofContractRenewalWithARaise inValue = new Mailer.EndofContractRenewalWithARaise();
+            inValue.renewalTime = renewalTime;
+            inValue.contractedDate = contractedDate;
+            inValue.startDate = startDate;
+            inValue.endDate = endDate;
+            inValue.empNo = empNo;
+            inValue.raise = raise;
+            return ((Mailer.Notifications_Port)(this)).EndofContractRenewalWithARaiseAsync(inValue);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()

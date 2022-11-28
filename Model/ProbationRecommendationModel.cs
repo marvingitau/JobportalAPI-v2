@@ -9,5 +9,6 @@ namespace RPFBE.Model
     {
         public string HRcomment { get; set; }
         public string MDcomment { get; set; }
+        public string ImmediateManagerComment { get; set; }
     }
 }

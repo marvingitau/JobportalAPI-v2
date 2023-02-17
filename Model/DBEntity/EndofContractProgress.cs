@@ -30,5 +30,8 @@ namespace RPFBE.Model.DBEntity
         public string RenewReason { get; set; }
         public string Howlong { get; set; }
 
+
+        public string BackTrackingReason { get; set; }
+
     }
 }

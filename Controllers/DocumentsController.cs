@@ -309,5 +309,121 @@ namespace RPFBE.Controllers
             }
         }
 
+        //****************************************************************************************************************************
+        //
+        //                              CONTRACT & PROBATION DOCUMENTS
+        //
+        //****************************************************************************************************************************
+        [Authorize]
+        [HttpGet]
+        [Route("getcontractprobationdocs")]
+        public async Task<IActionResult> GetContractProbationDocs()
+        {
+            try
+            {
+                var usr = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                List<ContractProbationModel> cp = new List<ContractProbationModel>();
+
+                var res = await codeUnitWebService.Client().GetContProbListAsync(usr.EmployeeId);
+                dynamic resSerial = JsonConvert.DeserializeObject(res.return_value);
+                if(resSerial != null)
+                {
+                    foreach (var item in resSerial)
+                    {
+                        ContractProbationModel cpm = new ContractProbationModel
+                        {
+                            Lineno = item.Lineno,
+                            Docname = item.Docname,
+                            Signed = item.Signed,
+                            Doctype = item.Doctype,
+                            Creationdate = item.Creationdate,
+                            Url = item.Url
+                        };
+                        cp.Add(cpm);
+                    }
+                    return Ok(new { cp });
+                }
+                else
+                {
+                    return Ok(new { cp });
+                }
+              
+
+               
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Get probation/contract document list failed: " + x.Message });
+            }
+        }
+
+        [Authorize]
+        [HttpGet]
+        [Route("getcontractprobationdocshr")]
+        public async Task<IActionResult> GetContractProbationDocsHR()
+        {
+            try
+            {
+                var usr = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                List<ContractProbationModel> cp = new List<ContractProbationModel>();
+
+                var res = await codeUnitWebService.Client().GetContProbListHRAsync();
+                dynamic resSerial = JsonConvert.DeserializeObject(res.return_value);
+                if (resSerial != null)
+                {
+                    foreach (var item in resSerial)
+                    {
+                        ContractProbationModel cpm = new ContractProbationModel
+                        {
+                            Lineno = item.Lineno,
+                            Docname = item.Docname,
+                            Employeeid = item.Employeeid,
+                            Employeename = item.Employeename,
+                            Signed = item.Signed,
+                            Doctype = item.Doctype,
+                            Creationdate = item.Creationdate,
+                            Url = item.Url
+
+                        };
+                        cp.Add(cpm);
+                    }
+
+                    return Ok(new { cp });
+
+                }
+                else
+                {
+                    return Ok(new { cp });
+                }
+
+
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Get probation/contract document list failed: " + x.Message });
+            }
+        }
+
+        [Authorize]
+        [HttpGet]
+        [Route("approvecontractprobationdocs/{id}")]
+        public async Task<IActionResult> ApproveContractProbationDoc(string id)
+        {
+            try
+            {
+                var res = await codeUnitWebService.Client().ContProbListApprovalAsync(Int32.Parse(id));
+                if(res.return_value == true)
+                {
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Approve probation/contract document item success" });
+                }
+                return StatusCode(StatusCodes.Status501NotImplemented, new Response { Status = "Error", Message = "Approve probation/contract document item failed "});
+
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Approve probation/contract document item failed: " + x.Message });
+            }
+        }
+
     }
 }

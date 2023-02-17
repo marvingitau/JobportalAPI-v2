@@ -150,6 +150,10 @@ namespace Mailer
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<Mailer.ProbationExtension_Result> ProbationExtensionAsync(Mailer.ProbationExtension request);
         
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:ProbationReversal", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<Mailer.ProbationReversal_Result> ProbationReversalAsync(Mailer.ProbationReversal request);
+        
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:EndofContractNonRenewal", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<Mailer.EndofContractNonRenewal_Result> EndofContractNonRenewalAsync(Mailer.EndofContractNonRenewal request);
@@ -162,6 +166,10 @@ namespace Mailer
             "ise", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<Mailer.EndofContractRenewalWithARaise_Result> EndofContractRenewalWithARaiseAsync(Mailer.EndofContractRenewalWithARaise request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:EndofContractReversal", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<Mailer.EndofContractReversal_Result> EndofContractReversalAsync(Mailer.EndofContractReversal request);
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -1224,6 +1232,54 @@ namespace Mailer
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ProbationReversal", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", IsWrapped=true)]
+    public partial class ProbationReversal
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=0)]
+        public string recipient;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=1)]
+        public string reason;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=2)]
+        public string pID;
+        
+        public ProbationReversal()
+        {
+        }
+        
+        public ProbationReversal(string recipient, string reason, string pID)
+        {
+            this.recipient = recipient;
+            this.reason = reason;
+            this.pID = pID;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ProbationReversal_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", IsWrapped=true)]
+    public partial class ProbationReversal_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=0)]
+        public string return_value;
+        
+        public ProbationReversal_Result()
+        {
+        }
+        
+        public ProbationReversal_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="EndofContractNonRenewal", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", IsWrapped=true)]
     public partial class EndofContractNonRenewal
     {
@@ -1375,6 +1431,54 @@ namespace Mailer
         }
         
         public EndofContractRenewalWithARaise_Result(bool return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="EndofContractReversal", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", IsWrapped=true)]
+    public partial class EndofContractReversal
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=0)]
+        public string pK;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=1)]
+        public string recipient;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=2)]
+        public string reason;
+        
+        public EndofContractReversal()
+        {
+        }
+        
+        public EndofContractReversal(string pK, string recipient, string reason)
+        {
+            this.pK = pK;
+            this.recipient = recipient;
+            this.reason = reason;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="EndofContractReversal_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", IsWrapped=true)]
+    public partial class EndofContractReversal_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=0)]
+        public string return_value;
+        
+        public EndofContractReversal_Result()
+        {
+        }
+        
+        public EndofContractReversal_Result(string return_value)
         {
             this.return_value = return_value;
         }
@@ -1845,6 +1949,21 @@ namespace Mailer
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<Mailer.ProbationReversal_Result> Mailer.Notifications_Port.ProbationReversalAsync(Mailer.ProbationReversal request)
+        {
+            return base.Channel.ProbationReversalAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<Mailer.ProbationReversal_Result> ProbationReversalAsync(string recipient, string reason, string pID)
+        {
+            Mailer.ProbationReversal inValue = new Mailer.ProbationReversal();
+            inValue.recipient = recipient;
+            inValue.reason = reason;
+            inValue.pID = pID;
+            return ((Mailer.Notifications_Port)(this)).ProbationReversalAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         System.Threading.Tasks.Task<Mailer.EndofContractNonRenewal_Result> Mailer.Notifications_Port.EndofContractNonRenewalAsync(Mailer.EndofContractNonRenewal request)
         {
             return base.Channel.EndofContractNonRenewalAsync(request);
@@ -1891,6 +2010,21 @@ namespace Mailer
             inValue.empNo = empNo;
             inValue.raise = raise;
             return ((Mailer.Notifications_Port)(this)).EndofContractRenewalWithARaiseAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<Mailer.EndofContractReversal_Result> Mailer.Notifications_Port.EndofContractReversalAsync(Mailer.EndofContractReversal request)
+        {
+            return base.Channel.EndofContractReversalAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<Mailer.EndofContractReversal_Result> EndofContractReversalAsync(string pK, string recipient, string reason)
+        {
+            Mailer.EndofContractReversal inValue = new Mailer.EndofContractReversal();
+            inValue.pK = pK;
+            inValue.recipient = recipient;
+            inValue.reason = reason;
+            return ((Mailer.Notifications_Port)(this)).EndofContractReversalAsync(inValue);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()

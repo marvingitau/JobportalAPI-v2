@@ -30,5 +30,7 @@ namespace RPFBE.Model.DBEntity
 
         public string ImmediateManagerID { get; set; }
         public string ImmediateManagerComment { get; set; }
+
+        public string BackTrackingReason { get; set; }
     }
 }

@@ -430,6 +430,36 @@ namespace RPFBE.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("deleteuser/{EID}")]
+        public async Task<IActionResult> DeleteUser(string EID)
+        {
+            try
+            {
+                var user = await userManager.FindByIdAsync(EID);
+                if (user != null)
+                {
+                    IdentityResult result = await userManager.DeleteAsync(user);
+                    if (result.Succeeded)
+                    {
+                        return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "User Deletion Success " });
+
+                    }
+                    else
+                    {
+                        return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User Deletion Failed" });
+
+                    }
+                }
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User Not Found: "});
+
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User Deletion Failed: " + x.Message });
+            }
+        }
 
     }
 }

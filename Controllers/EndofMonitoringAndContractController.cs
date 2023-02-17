@@ -58,6 +58,8 @@ namespace RPFBE.Controllers
             try
             {
                 List<EmployeeListModel> employeeListModels = new List<EmployeeListModel>();
+                var user =await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                string EID = user.EmployeeId;
 
                 var resEmp = await codeUnitWebService.Client().EmployeeListAsync();
                 dynamic resEmpSerial = JsonConvert.DeserializeObject(resEmp.return_value);
@@ -72,7 +74,7 @@ namespace RPFBE.Controllers
                     employeeListModels.Add(e);
                 }
 
-                return Ok(new { employeeListModels });
+                return Ok(new { employeeListModels, EID });
             }
             catch (Exception x)
             {
@@ -130,6 +132,59 @@ namespace RPFBE.Controllers
             }
         }
 
+        [Authorize]
+        [HttpPost]
+        [Route("v1/storeprobationcreatefirstsection")]
+        public async Task<IActionResult> StoreProbationCreateV1([FromBody] EmployeeEndofForm employeeEndofForm)
+        {
+            try
+            {
+                List<ProbationProgress> probationProgresses = new List<ProbationProgress>();
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var res = await codeUnitWebService.Client().UpdateProbationGenSectionAsync(
+                    employeeEndofForm.Probationno,
+                    employeeEndofForm.SupervisionTime,
+                    employeeEndofForm.ImportantSkills
+                    );
+
+                dynamic resSerial = JsonConvert.DeserializeObject(res.return_value);
+
+
+                foreach (var item in resSerial)
+                {
+                    ProbationProgress pp = new ProbationProgress
+                    {
+                        UID = user.Id,
+                        ProbationStatus = 0,
+                        ProbationNo = item.Probationno,
+                        SupervisionTime=employeeEndofForm.SupervisionTime,
+                        ImportantSkills=employeeEndofForm.ImportantSkills,
+                        EmpID = item.Employeeno,
+                        EmpName = item.Employeename,
+                        MgrID = item.Managerno,
+                        MgrName = item.Managername,
+                        CreationDate = item.Creationdate,
+                        Department = item.Department,
+                        Status = item.Status,
+                        Position = item.Position,
+                    };
+                    dbContext.ProbationProgress.Add(pp);
+                    await dbContext.SaveChangesAsync();
+
+                    return Ok(true);
+
+                }
+                return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "Update Probation First Section Failed" });
+
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Update Probation First Section Failed: " + x.Message });
+            }
+        }
+
+
         //Get the individual(manager) list of created probations
         [Authorize]
         [HttpGet]
@@ -170,6 +225,50 @@ namespace RPFBE.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation List Failed: " + x.Message });
             }
         }
+
+        //Get the individual(manager) list of created probations
+        [Authorize]
+        [HttpGet]
+        [Route("v1/getprobationlist")]
+        public async Task<IActionResult> GetProbationListV1()
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var objRes = await codeUnitWebService.Client().GetProbationListAsync(user.EmployeeId);
+                dynamic objSerial = JsonConvert.DeserializeObject(objRes.return_value);
+
+                List<ProbationProgress> PROBs = new List<ProbationProgress>();
+
+                if (objSerial != null)
+                {
+                    foreach (var item in objSerial)
+                    {
+                        ProbationProgress endofForm = new ProbationProgress
+                        {
+                            EmpID = item.EmpID,
+                            EmpName = item.EmpName,
+                            CreationDate = item.CreationDate,
+                            Status = item.Status,
+                            ProbationNo = item.ProbationNo
+                        };
+                        PROBs.Add(endofForm);
+
+
+                    }
+                }
+                List<ProbationProgress> employeeEndofs = dbContext.ProbationProgress.Where(x => x.MgrID == user.EmployeeId && x.ProbationStatus == 0).ToList();
+                PROBs.AddRange(employeeEndofs);
+
+                return Ok(new { PROBs });
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation List Failed: " + x.Message });
+            }
+        }
+
 
         //Get the Immediate Supervisor list of created probations
         [Authorize]
@@ -977,6 +1076,60 @@ namespace RPFBE.Controllers
         }
 
 
+        //FD Rejects
+        [Authorize]
+        [HttpPost]
+        [Route("probationreversal")]
+        public async Task<IActionResult> ProbationReversal([FromBody] ProbationProgress probation)
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var probModel = dbContext.ProbationProgress.Where(x => x.ProbationNo == probation.ProbationNo).First();
+                probModel.ProbationStatus = probation.ProbationStatus;
+                probModel.BackTrackingReason = probation.BackTrackingReason;
+
+                dbContext.ProbationProgress.Update(probModel);
+                await dbContext.SaveChangesAsync();
+
+                //Mail Reversal Recepient
+                //@email
+                //@recipient
+                if(probModel.ProbationStatus == 0)
+                {
+                    var rec = dbContext.Users.Where(x => x.Id == probModel.UID).First();
+
+                    var mailManagerHR = await codeUnitWebService.WSMailer().ProbationReversalAsync(
+                        rec.EmployeeId,
+                        probation.BackTrackingReason,
+                        probation.ProbationNo
+                        );
+
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Probation Card Re-versal Success " });
+
+                }
+                else
+                {
+                    var rec = dbContext.Users.Where(x => x.Id == probModel.UIDTwo).First();
+
+                    var mailManagerHR = await codeUnitWebService.WSMailer().ProbationReversalAsync(
+                        rec.EmployeeId,
+                        probation.BackTrackingReason,
+                        probation.ProbationNo
+                        );
+
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Probation Card Re-versal Success " });
+
+                }
+
+
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation Card Re-versal Failed: " + x.Message });
+            }
+        }
 
         /*******************************************************************************************************************
         *-- -------------------------------------------------                                                      
@@ -1003,9 +1156,8 @@ namespace RPFBE.Controllers
                     endofContract.Howlong
                     );
 
+                // This will be moved to update of record.
                 dynamic resSerial = JsonConvert.DeserializeObject(res.return_value);
-
-
                 foreach (var item in resSerial)
                 {
                     EndofContractProgress pp = new EndofContractProgress
@@ -1043,6 +1195,64 @@ namespace RPFBE.Controllers
             }
         }
 
+        //Store the Initial Card Data
+        [Authorize]
+        [HttpPost]
+        [Route("v1/storeendofcontractfirstdata")]
+        public async Task<IActionResult> StoreEndofContractCreateV1([FromBody] EndofContractProgress endofContract)
+        {
+            try
+            {
+                List<EndofContractProgress> endofContracts = new List<EndofContractProgress>();
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var res = await codeUnitWebService.Client().UpdateEndofContractGenSectionAsync(
+                    endofContract.ContractNo,
+                    endofContract.SupervisionTime,
+                    endofContract.DoRenew,
+                    endofContract.Howlong,
+                    endofContract.RenewReason
+                    );
+
+                // This create the record in the Aux DB for progression.
+                dynamic resSerial = JsonConvert.DeserializeObject(res.return_value);
+                foreach (var item in resSerial)
+                {
+                    EndofContractProgress pp = new EndofContractProgress
+                    {
+                        UID = user.Id,
+                        ContractStatus = 0,
+                        ContractNo = item.Contractno,
+
+                        EmpID = item.Employeeno,
+                        EmpName = item.Employeename,
+                        MgrID = item.Managerno,
+                        MgrName = item.Managername,
+                        CreationDate = item.Creationdate,
+                        Department = item.Department,
+                        Status = item.Status,
+                        Position = item.Position,
+                        RenewReason = endofContract.RenewReason,
+                        Howlong = endofContract.Howlong,
+                        SupervisionTime = item.Supervisiontime,
+                        DoRenew = item.Dorenew,
+                    };
+                    dbContext.EndofContractProgress.Add(pp);
+                    await dbContext.SaveChangesAsync();
+
+                    return Ok(true);
+
+                }
+                return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "D365 Update Contract General Data Failed" });
+
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Update Contract General Data Failed: " + x.Message });
+            }
+        }
+
+
         //Get the Staff/Imediate Manager list of created contracts
         [Authorize]
         [HttpGet]
@@ -1051,10 +1261,53 @@ namespace RPFBE.Controllers
         {
             try
             {
+                //The pull will be from D365 directly
                 var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
                 var employeeContracts = dbContext.EndofContractProgress.Where(x => x.ContractStatus == 0 && x.MgrID == user.EmployeeId).ToList();
 
                 return Ok(new { employeeContracts });
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Contract List Failed: " + x.Message });
+            }
+        }
+
+        //Get the Staff/Imediate Manager list of created contracts
+        [Authorize]
+        [HttpGet]
+        [Route("v1/getstaffcontractlist")]
+        public async Task<IActionResult> GetStaffContractListExtend()
+        {
+            try
+            {
+                //The pull will be from D365 directly Then Aux to append to the end.
+                List<EndofContractProgress> EOCs = new List<EndofContractProgress>();
+
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var eoc = await codeUnitWebService.Client().GetEndofContractListAsync(user.EmployeeId);
+                dynamic eocSerial = JsonConvert.DeserializeObject(eoc.return_value);
+                if(eocSerial != null) {
+                    foreach (var item in eocSerial)
+                    {
+                        EndofContractProgress eocp = new EndofContractProgress
+                        {
+                            ContractNo = item.ContractNo,
+                            EmpName = item.EmpName,
+                            EmpID = item.EmpID,
+                            CreationDate = item.CreationDate,
+                            Status = item.Status,
+                        };
+                        EOCs.Add(eocp);
+                    }
+                }
+              
+
+                List<EndofContractProgress> employeeContracts = dbContext.EndofContractProgress.Where(x => x.ContractStatus == 0 && x.MgrID == user.EmployeeId).ToList();
+                EOCs.AddRange(employeeContracts);
+
+                return Ok(new { EOCs });
             }
             catch (Exception x)
             {
@@ -1162,6 +1415,7 @@ namespace RPFBE.Controllers
 
                 dbContext.EndofContractProgress.Update(cModel);
                 await dbContext.SaveChangesAsync();
+                await codeUnitWebService.Client().UpdateEndofContractCardStatusAsync(PID);
 
                 //Mail HR
                 //@email
@@ -1611,7 +1865,7 @@ namespace RPFBE.Controllers
                     //Mail depending 
                     if(header.NewSalary.Length <= 0)
                     {
-                        var mailStaff = await codeUnitWebService.WSMailer().EndofContractRenewalAsync(header.RenewalTime, header.ContractedDate, header.StartDate, header.EndDate, header.StaffNo);
+                        //var mailStaff = await codeUnitWebService.WSMailer().EndofContractRenewalAsync(header.RenewalTime, header.ContractedDate, header.StartDate, header.EndDate, header.StaffNo);
 
                         return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "End of Contract Renewal, Success" });
                     }
@@ -1742,6 +1996,64 @@ namespace RPFBE.Controllers
             }
         }
 
+        //FD Rerverses
+        [Authorize]
+        [HttpPost]
+        [Route("contractreversal")]
+        public async Task<IActionResult> FDReverseContract([FromBody] EndofContractProgress contractProgress)
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var contModel = dbContext.EndofContractProgress.Where(x => x.ContractNo == contractProgress.ContractNo).First();
+                contModel.ContractStatus = contractProgress.ContractStatus;
+                contModel.BackTrackingReason = contractProgress.BackTrackingReason;
+                dbContext.EndofContractProgress.Update(contModel);
+                await dbContext.SaveChangesAsync();
+
+                //@email
+                try
+                {
+               
+                    if(contractProgress.ContractStatus == 0)
+                    {
+
+                    //Status 0
+                    var rec = dbContext.Users.Where(x => x.Id == contModel.UID).First();
+                    var mailHR = await codeUnitWebService.WSMailer().EndofContractReversalAsync(
+                        contractProgress.ContractNo,
+                        rec.EmployeeId,
+                        contractProgress.BackTrackingReason
+                      );
+
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Contract Card Reversal Success" });
+                    }
+                    else
+                    {
+                        //Status 1
+                        var rec = dbContext.Users.Where(x => x.Id == contModel.UIDTwo).First();
+
+                        var mailHR = await codeUnitWebService.WSMailer().EndofContractReversalAsync(
+                            contractProgress.ContractNo,
+                            rec.EmployeeId,
+                            contractProgress.BackTrackingReason
+                          );
+
+                        return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Contract Card Reversal Success" });
+                    }
+                }
+                catch (Exception e)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Contract Creator Missing: "+e.Message});
+                }
+                  
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Contract Card Update Failed: " + x.Message });
+            }
+        }
 
 
         //***************************************************************************************

@@ -8,8 +8,8 @@ namespace RPFBE.Model.DBEntity
     public class EndofContractProgress
     {
         public int Id { get; set; }
-        public string UID { get; set; }//Manager
-        public string UIDComment { get; set; }//Manager
+        public string UID { get; set; }//Immediate Sup
+        public string UIDComment { get; set; }//Immediate Sup
         public string UIDTwo { get; set; }//HR
         public string UIDTwoComment { get; set; }//HR
         public string UIDThree { get; set; }//MD/FD
@@ -30,8 +30,12 @@ namespace RPFBE.Model.DBEntity
         public string RenewReason { get; set; }
         public string Howlong { get; set; }
 
+        public string HODEid { get; set; }
+        public string HODComment { get; set; }
 
         public string BackTrackingReason { get; set; }
+
+    
 
     }
 }

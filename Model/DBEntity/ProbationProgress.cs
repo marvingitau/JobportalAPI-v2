@@ -8,8 +8,8 @@ namespace RPFBE.Model.DBEntity
     public class ProbationProgress
     {
         public int Id { get; set; }
-        public string UID { get; set; }//Manager
-        public string UIDComment { get; set; }//Manager
+        public string UID { get; set; }//Immediate Sup
+        public string UIDComment { get; set; }//Immediate Sup
         public string UIDTwo { get; set; }//HR
         public string UIDTwoComment { get; set; }//HR
         public string UIDThree { get; set; }//MD/FD
@@ -28,8 +28,8 @@ namespace RPFBE.Model.DBEntity
         public string Status { get; set; }
         public string Position { get; set; }
 
-        public string ImmediateManagerID { get; set; }
-        public string ImmediateManagerComment { get; set; }
+        public string HODEid { get; set; }
+        public string HODComment { get; set; }
 
         public string BackTrackingReason { get; set; }
     }

@@ -154,6 +154,10 @@ namespace Mailer
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<Mailer.ProbationReversal_Result> ProbationReversalAsync(Mailer.ProbationReversal request);
         
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:SupervisorToHODProbation", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<Mailer.SupervisorToHODProbation_Result> SupervisorToHODProbationAsync(Mailer.SupervisorToHODProbation request);
+        
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:EndofContractNonRenewal", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<Mailer.EndofContractNonRenewal_Result> EndofContractNonRenewalAsync(Mailer.EndofContractNonRenewal request);
@@ -170,6 +174,10 @@ namespace Mailer
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:EndofContractReversal", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<Mailer.EndofContractReversal_Result> EndofContractReversalAsync(Mailer.EndofContractReversal request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:SupervisorToHODEOC", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<Mailer.SupervisorToHODEOC_Result> SupervisorToHODEOCAsync(Mailer.SupervisorToHODEOC request);
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -1280,6 +1288,50 @@ namespace Mailer
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="SupervisorToHODProbation", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", IsWrapped=true)]
+    public partial class SupervisorToHODProbation
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=0)]
+        public string recipient;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=1)]
+        public string pID;
+        
+        public SupervisorToHODProbation()
+        {
+        }
+        
+        public SupervisorToHODProbation(string recipient, string pID)
+        {
+            this.recipient = recipient;
+            this.pID = pID;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="SupervisorToHODProbation_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", IsWrapped=true)]
+    public partial class SupervisorToHODProbation_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=0)]
+        public string return_value;
+        
+        public SupervisorToHODProbation_Result()
+        {
+        }
+        
+        public SupervisorToHODProbation_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="EndofContractNonRenewal", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", IsWrapped=true)]
     public partial class EndofContractNonRenewal
     {
@@ -1479,6 +1531,50 @@ namespace Mailer
         }
         
         public EndofContractReversal_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="SupervisorToHODEOC", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", IsWrapped=true)]
+    public partial class SupervisorToHODEOC
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=0)]
+        public string pK;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=1)]
+        public string recipient;
+        
+        public SupervisorToHODEOC()
+        {
+        }
+        
+        public SupervisorToHODEOC(string pK, string recipient)
+        {
+            this.pK = pK;
+            this.recipient = recipient;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="SupervisorToHODEOC_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", IsWrapped=true)]
+    public partial class SupervisorToHODEOC_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=0)]
+        public string return_value;
+        
+        public SupervisorToHODEOC_Result()
+        {
+        }
+        
+        public SupervisorToHODEOC_Result(string return_value)
         {
             this.return_value = return_value;
         }
@@ -1964,6 +2060,20 @@ namespace Mailer
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<Mailer.SupervisorToHODProbation_Result> Mailer.Notifications_Port.SupervisorToHODProbationAsync(Mailer.SupervisorToHODProbation request)
+        {
+            return base.Channel.SupervisorToHODProbationAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<Mailer.SupervisorToHODProbation_Result> SupervisorToHODProbationAsync(string recipient, string pID)
+        {
+            Mailer.SupervisorToHODProbation inValue = new Mailer.SupervisorToHODProbation();
+            inValue.recipient = recipient;
+            inValue.pID = pID;
+            return ((Mailer.Notifications_Port)(this)).SupervisorToHODProbationAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         System.Threading.Tasks.Task<Mailer.EndofContractNonRenewal_Result> Mailer.Notifications_Port.EndofContractNonRenewalAsync(Mailer.EndofContractNonRenewal request)
         {
             return base.Channel.EndofContractNonRenewalAsync(request);
@@ -2025,6 +2135,20 @@ namespace Mailer
             inValue.recipient = recipient;
             inValue.reason = reason;
             return ((Mailer.Notifications_Port)(this)).EndofContractReversalAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<Mailer.SupervisorToHODEOC_Result> Mailer.Notifications_Port.SupervisorToHODEOCAsync(Mailer.SupervisorToHODEOC request)
+        {
+            return base.Channel.SupervisorToHODEOCAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<Mailer.SupervisorToHODEOC_Result> SupervisorToHODEOCAsync(string pK, string recipient)
+        {
+            Mailer.SupervisorToHODEOC inValue = new Mailer.SupervisorToHODEOC();
+            inValue.pK = pK;
+            inValue.recipient = recipient;
+            return ((Mailer.Notifications_Port)(this)).SupervisorToHODEOCAsync(inValue);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()

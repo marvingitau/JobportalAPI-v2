@@ -92,6 +92,7 @@ namespace RPFBE.Controllers
             {
                 List<ProbationProgress> probationProgresses = new List<ProbationProgress>();
                 var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                //progress status 2
                 var res = await codeUnitWebService.Client().CreateProbationProgressGeneralAsync(employeeEndofForm.EmpID,
                     user.EmployeeId, employeeEndofForm.SupervisionTime, employeeEndofForm.ImportantSkills
                     );
@@ -151,6 +152,8 @@ namespace RPFBE.Controllers
                     );
 
                 dynamic resSerial = JsonConvert.DeserializeObject(res.return_value);
+                // Release automatic records
+                await codeUnitWebService.Client().UpdateProbationCardProgressStatusAsync(employeeEndofForm.Probationno);
 
 
                 foreach (var item in resSerial)
@@ -170,11 +173,39 @@ namespace RPFBE.Controllers
                         Department = item.Department,
                         Status = item.Status,
                         Position = item.Position,
+                        HODEid = item.Hodid,
                     };
-                    dbContext.ProbationProgress.Add(pp);
-                    await dbContext.SaveChangesAsync();
+                    var probK = dbContext.ProbationProgress.Where(x => x.ProbationNo == employeeEndofForm.Probationno).Count();
+                    if(probK == 1)
+                    {
+                        var probModel = dbContext.ProbationProgress.Where(x => x.ProbationNo == employeeEndofForm.Probationno).First();
+                        probModel.UID = user.Id;
+                        probModel.ProbationStatus = 0;
+                        probModel.ProbationNo = pp.ProbationNo;
+                        probModel.SupervisionTime = employeeEndofForm.SupervisionTime;
+                        probModel.ImportantSkills = employeeEndofForm.ImportantSkills;
+                        probModel.EmpID = pp.EmpID;
+                        probModel.EmpName = pp.EmpName;
+                        probModel.MgrID = pp.MgrID;
+                        probModel.MgrName = pp.MgrName;
+                        probModel.CreationDate = pp.CreationDate;
+                        probModel.Department = pp.Department;
+                        probModel.Status = pp.Status;
+                        probModel.Position = pp.Position;
+                        probModel.HODEid = pp.HODEid;
+                        dbContext.ProbationProgress.Update(probModel);
+                        await dbContext.SaveChangesAsync();
 
-                    return Ok(true);
+                        return Ok(true);
+                    }
+                    else
+                    {
+                        dbContext.ProbationProgress.Add(pp);
+                        await dbContext.SaveChangesAsync();
+
+                        return Ok(true);
+                    }
+                  
 
                 }
                 return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "Update Probation First Section Failed" });
@@ -273,26 +304,26 @@ namespace RPFBE.Controllers
         }
 
 
-        //Get the Immediate Supervisor list of created probations
-        /*[Authorize]
+        //Get the HOD Level probation probations List
+        [Authorize]
         [HttpGet]
-        [Route("getprobationlistimmediatemanager")]
-        public async Task<IActionResult> GetProbationListImmediateManager()
+        [Route("getprobationlisthod")]
+        public async Task<IActionResult> GetProbationListHOD()
         {
             try
             {
                 var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
                
-                var employeeEndofs = dbContext.ProbationProgress.Where(x => x.ImmediateManagerID == user.EmployeeId && x.ProbationStatus == 999).ToList();
+                var employeeProbs = dbContext.ProbationProgress.Where(x => x.HODEid == user.EmployeeId && x.ProbationStatus == 1).ToList();
 
-                return Ok(new { employeeEndofs });
+                return Ok(new { employeeProbs });
             }
             catch (Exception x)
             {
 
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation List Failed: " + x.Message });
             }
-        }*/
+        }
 
         // Get individual single probation
         [Authorize]
@@ -620,7 +651,7 @@ namespace RPFBE.Controllers
 
                 //Mail HOD
 
-                var probationMailHR = await codeUnitWebService.WSMailer().EmployeeProbationHODToImmediateManagerAsync(PID);
+                var probationMailHR = await codeUnitWebService.WSMailer().SupervisorToHODProbationAsync(probModel.HODEid, probModel.ProbationNo);
 
                 return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Probation Moved" });
             }
@@ -633,7 +664,7 @@ namespace RPFBE.Controllers
 
 
         //Probation Card Data
-        /*[Authorize]
+        [Authorize]
         [HttpGet]
         [Route("probationcarddata/{PID}")]
         public async Task<IActionResult> ProbationCardData(string PID)
@@ -757,7 +788,7 @@ namespace RPFBE.Controllers
 
                         HRcomment = item.HRcomment,
                         MDcomment = item.MDcomment,
-                        ImmediateManagerComment = probprogress!=null? probprogress.ImmediateManagerComment: item.MDcomment,
+                        HODComment = probprogress!=null? probprogress.HODComment: item.MDcomment,
 
                         empStrongestpt = item.empStrongestpt,
                         empWeakestPt = item.empWeakestPt,
@@ -786,7 +817,7 @@ namespace RPFBE.Controllers
 
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation Card Failed: " + x.Message });
             }
-        }*/
+        }
 
 
         /**
@@ -816,19 +847,19 @@ namespace RPFBE.Controllers
         }
 
 
-        /*[Authorize]
+        [Authorize]
         [HttpPost]
-        [Route("immediatepushtohr/{PID}")]
-        public async Task<IActionResult> ImmediatePushToHR([FromBody] ProbationRecommendationModel probationFirst, string PID)
+        [Route("hodpushtohr/{PID}")]
+        public async Task<IActionResult> ImmediateHODPushToHR([FromBody] ProbationRecommendationModel probationFirst, string PID)
         {
             try
             {
                 var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
                
                     var probModel = dbContext.ProbationProgress.Where(x => x.ProbationNo == PID).FirstOrDefault();
-                    probModel.ProbationStatus = 1;
+                    probModel.ProbationStatus = 2;
                     //probModel.UIDTwo = user.Id;
-                    probModel.ImmediateManagerComment = probationFirst.ImmediateManagerComment;
+                    probModel.HODComment = probationFirst.HODComment;
 
                     dbContext.ProbationProgress.Update(probModel);
                     await dbContext.SaveChangesAsync();
@@ -859,7 +890,7 @@ namespace RPFBE.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation Card Update Failed: " + x.Message });
             }
         }
-        */
+        
         /**
          * *****************************************************************************************************************
          *                                                      HR SECTION
@@ -869,7 +900,7 @@ namespace RPFBE.Controllers
 
 
 
-        //Get the HR list of created probations
+        //Get the HR ready probation List
         [Authorize]
         [HttpGet]
         [Route("gethrprobationlist")]
@@ -878,7 +909,7 @@ namespace RPFBE.Controllers
             try
             {
                 var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
-                var employeeEndofs = dbContext.ProbationProgress.Where(x=>x.ProbationStatus == 1).ToList();
+                var employeeEndofs = dbContext.ProbationProgress.Where(x=>x.ProbationStatus == 2).ToList();
 
                 return Ok(new { employeeEndofs });
             }
@@ -897,7 +928,7 @@ namespace RPFBE.Controllers
             try
             {
                 var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
-                var employeeEndofs = dbContext.ProbationProgress.Where(x => x.ProbationStatus == 1 || x.ProbationStatus == 3).ToList();
+                var employeeEndofs = dbContext.ProbationProgress.Where(x => x.ProbationStatus == 2 || x.ProbationStatus == 4).ToList();
 
                 return Ok(new { employeeEndofs });
             }
@@ -921,7 +952,7 @@ namespace RPFBE.Controllers
                 if (bool.Parse(resRemarks.return_value))
                 {
                    var probModel = dbContext.ProbationProgress.Where(x => x.ProbationNo == PID).FirstOrDefault();
-                    probModel.ProbationStatus = 2;
+                    probModel.ProbationStatus = 3;
                     probModel.UIDTwo = user.Id;
                     probModel.UIDTwoComment = probationFirst.HRcomment;
 
@@ -1030,7 +1061,7 @@ namespace RPFBE.Controllers
             }
         }
 
-        //Get the FD list of created probations
+        //Get the MFD ready probation List
         [Authorize]
         [HttpGet]
         [Route("getfdprobationlist")]
@@ -1039,7 +1070,7 @@ namespace RPFBE.Controllers
             try
             {
                 var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
-                var employeeEndofs = dbContext.ProbationProgress.Where(x => x.ProbationStatus == 2).ToList();
+                var employeeEndofs = dbContext.ProbationProgress.Where(x => x.ProbationStatus == 3).ToList();
 
                 return Ok(new { employeeEndofs });
             }
@@ -1057,36 +1088,36 @@ namespace RPFBE.Controllers
         public async Task<IActionResult> FDApproveProbation([FromBody] ProbationRecommendationModel probationRecommendationModel,string PID)
         {
             try { 
-                       var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
-            var resRemarks = await codeUnitWebService.Client().UpdateProbationMFDremarkAsync(PID, probationRecommendationModel.MDcomment);
-            if (bool.Parse(resRemarks.return_value))
-            {
-                var probModel = dbContext.ProbationProgress.Where(x => x.ProbationNo == PID).First();
-                probModel.ProbationStatus = 3;
-                probModel.UIDThree = user.Id;
-                probModel.UIDThreeComment = probationRecommendationModel.MDcomment;
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var resRemarks = await codeUnitWebService.Client().UpdateProbationMFDremarkAsync(PID, probationRecommendationModel.MDcomment);
+                if (bool.Parse(resRemarks.return_value))
+                {
+                    var probModel = dbContext.ProbationProgress.Where(x => x.ProbationNo == PID).First();
+                    probModel.ProbationStatus = 4;
+                    probModel.UIDThree = user.Id;
+                    probModel.UIDThreeComment = probationRecommendationModel.MDcomment;
 
-                dbContext.ProbationProgress.Update(probModel);
-                await dbContext.SaveChangesAsync();
+                    dbContext.ProbationProgress.Update(probModel);
+                    await dbContext.SaveChangesAsync();
 
-                    //Mail MD/FD
-                    //@email
-                    var emailHRManager = await codeUnitWebService.WSMailer().EmployeeProbationMDFDApprovesAsync(PID);
-                //var emailArr = dbContext.Users.Where(x => x.Rank == "HR")
-                //    .Select(t => t.Email).ToArray();
+                        //Mail MD/FD
+                        //@email
+                        var emailHRManager = await codeUnitWebService.WSMailer().EmployeeProbationMDFDApprovesAsync(PID);
+                    //var emailArr = dbContext.Users.Where(x => x.Rank == "HR")
+                    //    .Select(t => t.Email).ToArray();
 
 
 
-                //var unameArr = dbContext.Users.Where(x => x.Rank == "HR")
-                //    .Select(t => t.UserName).ToArray();
+                    //var unameArr = dbContext.Users.Where(x => x.Rank == "HR")
+                    //    .Select(t => t.UserName).ToArray();
 
-                //List<ProbationProgressMail> v = new List<ProbationProgressMail>();
-                //// v.AddRange(userList);
-                //mailService.SendEmail(emailArr, unameArr, PID);
+                    //List<ProbationProgressMail> v = new List<ProbationProgressMail>();
+                    //// v.AddRange(userList);
+                    //mailService.SendEmail(emailArr, unameArr, PID);
 
-                return Ok(bool.Parse(resRemarks.return_value));
-            }
-            return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation Card Update Failed: D365 failed " });
+                    return Ok(bool.Parse(resRemarks.return_value));
+                }
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation Card Update Failed: D365 failed " });
             }
             catch (Exception x)
             {
@@ -1109,7 +1140,7 @@ namespace RPFBE.Controllers
                 {
                     var rejectRes = await codeUnitWebService.Client().RejectProbationMFDAsync(PID);
                     var probModel = dbContext.ProbationProgress.Where(x => x.ProbationNo == PID).First();
-                    probModel.ProbationStatus = 3;
+                    probModel.ProbationStatus = 4;
                     probModel.UIDThree = user.Id;
                     probModel.Status = "Rejected";
                     probModel.UIDThreeComment = probationRecommendationModel.MDcomment;
@@ -1215,6 +1246,7 @@ namespace RPFBE.Controllers
             {
                 List<EndofContractProgress> endofContracts = new List<EndofContractProgress>();
                 var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                //prgress status 2 rec
                 var res = await codeUnitWebService.Client().CreateEndofContractGeneralAsync(
                     endofContract.EmpID,
                     user.EmployeeId, //Immediate Supervisor
@@ -1305,11 +1337,44 @@ namespace RPFBE.Controllers
                         Howlong = endofContract.Howlong,
                         SupervisionTime = item.Supervisiontime,
                         DoRenew = item.Dorenew,
+                        HODEid = item.Hodno,
                     };
-                    dbContext.EndofContractProgress.Add(pp);
-                    await dbContext.SaveChangesAsync();
+                    var endofMod = dbContext.EndofContractProgress.Where(x => x.ContractNo == endofContract.ContractNo).Count();
+                    //Release the autogenerated record from queue
+                    await codeUnitWebService.Client().UpdateEndofContractCardStatusAsync(endofContract.ContractNo);
+                    if (endofMod == 1)
+                    {
+                        var eocModel = dbContext.EndofContractProgress.Where(x => x.ContractNo == endofContract.ContractNo).First();
+                        eocModel.UID = user.Id;
+                        eocModel.ContractStatus = 0;
+                        eocModel.ContractNo = pp.ContractNo;
+                        eocModel.EmpID = pp.EmpID;
+                        eocModel.EmpName = pp.EmpName;
+                        eocModel.MgrID = pp.MgrID;
+                        eocModel.MgrName = pp.MgrName;
+                        eocModel.CreationDate = pp.CreationDate;
+                        eocModel.Department = pp.Department;
+                        eocModel.Status = pp.Status;
+                        eocModel.Position = pp.Position;
+                        eocModel.RenewReason = endofContract.RenewReason;
+                        eocModel.Howlong = endofContract.Howlong;
+                        eocModel.SupervisionTime = pp.SupervisionTime;
+                        eocModel.DoRenew = pp.DoRenew;
+                        eocModel.HODEid = pp.HODEid;
 
-                    return Ok(true);
+                        dbContext.EndofContractProgress.Update(eocModel);
+                        await dbContext.SaveChangesAsync();
+
+                        return Ok(true);
+                    }
+                    else
+                    {
+                        dbContext.EndofContractProgress.Add(pp);
+                        await dbContext.SaveChangesAsync();
+
+                        return Ok(true);
+                    }
+                  
 
                 }
                 return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "D365 Update Contract General Data Failed" });
@@ -1366,7 +1431,7 @@ namespace RPFBE.Controllers
         }
 
 
-        //Get the Staff/Imediate Manager list of created contracts
+        //Get all Ranks Lev3l EOC plus Dynamics recs
         [Authorize]
         [HttpGet]
         [Route("v1/getstaffcontractlist")]
@@ -1589,16 +1654,16 @@ namespace RPFBE.Controllers
                 var cModel = dbContext.EndofContractProgress.Where(p => p.ContractNo == endofContractProgress.ContractNo && p.ContractStatus == 0).First();
                 cModel.UID = user.Id;
                 cModel.ContractStatus = 1;
-                //cModel.UIDComment = endofContractProgress.UIDComment;
 
                 dbContext.EndofContractProgress.Update(cModel);
                 await dbContext.SaveChangesAsync();
-                await codeUnitWebService.Client().UpdateEndofContractCardStatusAsync(endofContractProgress.ContractNo);
+
+                //await codeUnitWebService.Client().UpdateEndofContractCardStatusAsync(endofContractProgress.ContractNo);
 
                 //Mail Specific HOD
                 //@email
 
-                var mailHR = await codeUnitWebService.WSMailer().EmployeeEOCManagerToHRAsync(endofContractProgress.ContractNo);
+                var mailHR = await codeUnitWebService.WSMailer().SupervisorToHODEOCAsync(cModel.ContractNo, cModel.HODEid);
            
 
                 return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Contract Moved" });

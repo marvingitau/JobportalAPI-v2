@@ -76,10 +76,14 @@ namespace RPFBE
                 options.Password.RequiredLength = 6;
                 options.Password.RequiredUniqueChars = 1;
                 options.User.RequireUniqueEmail = true;
+                //Token shorter one
+                //options.Tokens.EmailConfirmationTokenProvider = TokenOptions.DefaultEmailProvider;
+                options.Tokens.PasswordResetTokenProvider = ResetPasswordTokenProvider.ProviderKey;
             })
-                 .AddEntityFrameworkStores<ApplicationDbContext>()
-                 .AddDefaultTokenProviders()
-                 .AddErrorDescriber<CustomIdentityErrorDescriber>();
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders()
+                .AddTokenProvider<ResetPasswordTokenProvider>(ResetPasswordTokenProvider.ProviderKey)
+                .AddErrorDescriber<CustomIdentityErrorDescriber>();
 
             // Adding Authentication  
             services.AddAuthentication(options =>

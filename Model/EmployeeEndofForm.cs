@@ -17,7 +17,15 @@ namespace RPFBE.Model
         public string Status { get; set; }
         public string Position { get; set; }
         public string Probationno { get; set; }
-        
+
+        public string Contractno { get; set; }
+        public string Jobtitle { get; set; }
+        public string Branch { get; set; }
+        public string Product { get; set; }
+        public string Employmentyear { get; set; }
+        public string Tenureofservice { get; set; }
+
+
 
 
     }

@@ -76,6 +76,22 @@ namespace JobRequisition
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.ContProbListApproval_Result> ContProbListApprovalAsync(JobRequisition.ContProbListApproval request);
         
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:GetCompetenceListStaff", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.GetCompetenceListStaff_Result> GetCompetenceListStaffAsync(JobRequisition.GetCompetenceListStaff request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:GetCompetenceGeneralStaff", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.GetCompetenceGeneralStaff_Result> GetCompetenceGeneralStaffAsync(JobRequisition.GetCompetenceGeneralStaff request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:GetCompetenceLineStaff", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.GetCompetenceLineStaff_Result> GetCompetenceLineStaffAsync(JobRequisition.GetCompetenceLineStaff request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:ModifyCompetencyLine", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.ModifyCompetencyLine_Result> ModifyCompetencyLineAsync(JobRequisition.ModifyCompetencyLine request);
+        
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:GetPostedJobs", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.GetPostedJobs_Result> GetPostedJobsAsync(JobRequisition.GetPostedJobs request);
@@ -451,6 +467,10 @@ namespace JobRequisition
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:GetContractCardData", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.GetContractCardData_Result> GetContractCardDataAsync(JobRequisition.GetContractCardData request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:GetContractCardGeneral", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.GetContractCardGeneral_Result> GetContractCardGeneralAsync(JobRequisition.GetContractCardGeneral request);
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:UpdateContractHRremark", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -1212,6 +1232,178 @@ namespace JobRequisition
         }
         
         public ContProbListApproval_Result(bool return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetCompetenceListStaff", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GetCompetenceListStaff
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string empNo;
+        
+        public GetCompetenceListStaff()
+        {
+        }
+        
+        public GetCompetenceListStaff(string empNo)
+        {
+            this.empNo = empNo;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetCompetenceListStaff_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GetCompetenceListStaff_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public GetCompetenceListStaff_Result()
+        {
+        }
+        
+        public GetCompetenceListStaff_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetCompetenceGeneralStaff", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GetCompetenceGeneralStaff
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string cNo;
+        
+        public GetCompetenceGeneralStaff()
+        {
+        }
+        
+        public GetCompetenceGeneralStaff(string cNo)
+        {
+            this.cNo = cNo;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetCompetenceGeneralStaff_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GetCompetenceGeneralStaff_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public GetCompetenceGeneralStaff_Result()
+        {
+        }
+        
+        public GetCompetenceGeneralStaff_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetCompetenceLineStaff", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GetCompetenceLineStaff
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string cno;
+        
+        public GetCompetenceLineStaff()
+        {
+        }
+        
+        public GetCompetenceLineStaff(string cno)
+        {
+            this.cno = cno;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetCompetenceLineStaff_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GetCompetenceLineStaff_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public GetCompetenceLineStaff_Result()
+        {
+        }
+        
+        public GetCompetenceLineStaff_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ModifyCompetencyLine", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class ModifyCompetencyLine
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public int cline;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=1)]
+        public string assesment;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=2)]
+        public string comment;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=3)]
+        public string sender;
+        
+        public ModifyCompetencyLine()
+        {
+        }
+        
+        public ModifyCompetencyLine(int cline, string assesment, string comment, string sender)
+        {
+            this.cline = cline;
+            this.assesment = assesment;
+            this.comment = comment;
+            this.sender = sender;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ModifyCompetencyLine_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class ModifyCompetencyLine_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public bool return_value;
+        
+        public ModifyCompetencyLine_Result()
+        {
+        }
+        
+        public ModifyCompetencyLine_Result(bool return_value)
         {
             this.return_value = return_value;
         }
@@ -5289,6 +5481,46 @@ namespace JobRequisition
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetContractCardGeneral", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GetContractCardGeneral
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string pK;
+        
+        public GetContractCardGeneral()
+        {
+        }
+        
+        public GetContractCardGeneral(string pK)
+        {
+            this.pK = pK;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetContractCardGeneral_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GetContractCardGeneral_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public GetContractCardGeneral_Result()
+        {
+        }
+        
+        public GetContractCardGeneral_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="UpdateContractHRremark", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
     public partial class UpdateContractHRremark
     {
@@ -6490,6 +6722,61 @@ namespace JobRequisition
             JobRequisition.ContProbListApproval inValue = new JobRequisition.ContProbListApproval();
             inValue.lineno = lineno;
             return ((JobRequisition.JWS_Port)(this)).ContProbListApprovalAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.GetCompetenceListStaff_Result> JobRequisition.JWS_Port.GetCompetenceListStaffAsync(JobRequisition.GetCompetenceListStaff request)
+        {
+            return base.Channel.GetCompetenceListStaffAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.GetCompetenceListStaff_Result> GetCompetenceListStaffAsync(string empNo)
+        {
+            JobRequisition.GetCompetenceListStaff inValue = new JobRequisition.GetCompetenceListStaff();
+            inValue.empNo = empNo;
+            return ((JobRequisition.JWS_Port)(this)).GetCompetenceListStaffAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.GetCompetenceGeneralStaff_Result> JobRequisition.JWS_Port.GetCompetenceGeneralStaffAsync(JobRequisition.GetCompetenceGeneralStaff request)
+        {
+            return base.Channel.GetCompetenceGeneralStaffAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.GetCompetenceGeneralStaff_Result> GetCompetenceGeneralStaffAsync(string cNo)
+        {
+            JobRequisition.GetCompetenceGeneralStaff inValue = new JobRequisition.GetCompetenceGeneralStaff();
+            inValue.cNo = cNo;
+            return ((JobRequisition.JWS_Port)(this)).GetCompetenceGeneralStaffAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.GetCompetenceLineStaff_Result> JobRequisition.JWS_Port.GetCompetenceLineStaffAsync(JobRequisition.GetCompetenceLineStaff request)
+        {
+            return base.Channel.GetCompetenceLineStaffAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.GetCompetenceLineStaff_Result> GetCompetenceLineStaffAsync(string cno)
+        {
+            JobRequisition.GetCompetenceLineStaff inValue = new JobRequisition.GetCompetenceLineStaff();
+            inValue.cno = cno;
+            return ((JobRequisition.JWS_Port)(this)).GetCompetenceLineStaffAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.ModifyCompetencyLine_Result> JobRequisition.JWS_Port.ModifyCompetencyLineAsync(JobRequisition.ModifyCompetencyLine request)
+        {
+            return base.Channel.ModifyCompetencyLineAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.ModifyCompetencyLine_Result> ModifyCompetencyLineAsync(int cline, string assesment, string comment, string sender)
+        {
+            JobRequisition.ModifyCompetencyLine inValue = new JobRequisition.ModifyCompetencyLine();
+            inValue.cline = cline;
+            inValue.assesment = assesment;
+            inValue.comment = comment;
+            inValue.sender = sender;
+            return ((JobRequisition.JWS_Port)(this)).ModifyCompetencyLineAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -7809,6 +8096,19 @@ namespace JobRequisition
             JobRequisition.GetContractCardData inValue = new JobRequisition.GetContractCardData();
             inValue.pK = pK;
             return ((JobRequisition.JWS_Port)(this)).GetContractCardDataAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.GetContractCardGeneral_Result> JobRequisition.JWS_Port.GetContractCardGeneralAsync(JobRequisition.GetContractCardGeneral request)
+        {
+            return base.Channel.GetContractCardGeneralAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.GetContractCardGeneral_Result> GetContractCardGeneralAsync(string pK)
+        {
+            JobRequisition.GetContractCardGeneral inValue = new JobRequisition.GetContractCardGeneral();
+            inValue.pK = pK;
+            return ((JobRequisition.JWS_Port)(this)).GetContractCardGeneralAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]

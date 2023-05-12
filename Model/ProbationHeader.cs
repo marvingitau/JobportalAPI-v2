@@ -18,6 +18,7 @@ namespace RPFBE.Model
         public string ExtendDuration { get; set; }
         public DateTime ExtendDate { get; set; }
         public DateTime NextReviewDate { get; set; }
+        public string DateFormulae { get; set; }
 
     }
 }

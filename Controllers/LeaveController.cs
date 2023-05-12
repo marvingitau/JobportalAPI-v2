@@ -84,6 +84,41 @@ namespace RPFBE.Controllers
             }
         }
 
+        [Authorize]
+        [HttpGet]
+        [Route("getstaffleavebalance/{eid}")]
+        public async Task<IActionResult> GetApproveeLeaveBalance(string eid)
+        {
+            try
+            {
+                //var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var leavetypelist = await codeUnitWebService.Client().EmployeeLeavesAsync(eid);
+                List<LeaveTypes> leaveTypeList = new List<LeaveTypes>();
+
+                dynamic leavetypelistSerial = JsonConvert.DeserializeObject(leavetypelist.return_value);
+
+                foreach (var item in leavetypelistSerial)
+                {
+                    LeaveTypes ltyp = new LeaveTypes
+                    {
+                        Value = item.Value,
+                        Label = item.Label,
+                        Leavebalance = item.Leavebalance,
+                        Allocationdays = item.Allocationdays,
+                        Employeeno = item.Employeeno
+                    };
+                    leaveTypeList.Add(ltyp);
+                }
+                return Ok(new { leaveTypeList });
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Document Read check failed: " + x.Message });
+            }
+        }
+
+
         //Leave Application List
         [Authorize]
         [HttpGet]
@@ -265,8 +300,8 @@ namespace RPFBE.Controllers
             try
             {
                 var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
-                var endDate = await codeUnitWebService.HRWS().GetLeaveEndDateAsync(user.EmployeeId, leaveEndDate.LeaveType, leaveEndDate.LeaveStartDate, leaveEndDate.DaysApplied);
-                var returnDate = await codeUnitWebService.HRWS().GetLeaveReturnDateAsync(user.EmployeeId, leaveEndDate.LeaveType, leaveEndDate.LeaveStartDate, leaveEndDate.DaysApplied);
+                var endDate = await codeUnitWebService.HRWS().GetLeaveEndDateAsync(user.EmployeeId, leaveEndDate.LeaveType, leaveEndDate.LeaveStartDate, Convert.ToDecimal(leaveEndDate.DaysApplied));
+                var returnDate = await codeUnitWebService.HRWS().GetLeaveReturnDateAsync(user.EmployeeId, leaveEndDate.LeaveType, leaveEndDate.LeaveStartDate, Convert.ToDecimal(leaveEndDate.DaysApplied));
 
                 DateTime EndDate = endDate.return_value;
                 DateTime ReturnDate = returnDate.return_value;
@@ -367,7 +402,7 @@ namespace RPFBE.Controllers
             try
             {
                 var updateRes = await codeUnitWebService.HRWS().ModifyLeaveApplicationAsync(leaveEnd.LeaveAppNo, leaveEnd.LeaveType,
-                    leaveEnd.LeaveStartDate, leaveEnd.DaysApplied, leaveEnd.RelieverRemark, leaveEnd.RelieverNo);
+                    leaveEnd.LeaveStartDate, Convert.ToDecimal(leaveEnd.DaysApplied), leaveEnd.RelieverRemark, leaveEnd.RelieverNo);
                 //check if the leave has a valid workflow
                 var isWorkflowEnabled = await codeUnitWebService.HRWS().CheckLeaveApplicationApprovalWorkflowEnabledAsync(leaveEnd.LeaveAppNo);
                 if (isWorkflowEnabled.return_value)
@@ -411,6 +446,24 @@ namespace RPFBE.Controllers
 
         }
 
+        //Own leave cancelling
+        [Authorize]
+        [Route("usercancelleaveapplication/{leaveno}")]
+        [HttpGet]
+        public async Task<IActionResult> UserCancelLeaveApplication(string leaveno)
+        {
+            try
+            {
+                var resp = await codeUnitWebService.HRWS().CancelLeaveApplicationApprovalRequestAsync(leaveno);
+
+                return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = resp.return_value.ToString() });
+
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Leave Cancellation Failed: " + x.Message });
+            }
+        }
         //Get Employee List
         [Authorize]
         [HttpGet]
@@ -836,7 +889,8 @@ namespace RPFBE.Controllers
             try
             {
                 var userModel = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
-                var leaveResult = await codeUnitWebService.Client().GetLeaveDashboardAsync(userModel.EmployeeId, leaveDashboard.StartDate, leaveDashboard.EndDate);
+                string EID = userModel.EmployeeId;
+                var leaveResult = await codeUnitWebService.Client().GetLeaveDashboardAsync(EID, leaveDashboard.StartDate, leaveDashboard.EndDate);
                 //process the data ---
                 dynamic leaveSerial = JsonConvert.DeserializeObject<List<LeaveSubmanager>>(leaveResult.return_value);
                 //Dictionary<LeaveSubmanager, List<LeaveSubmanagerEmployee>> data = new Dictionary<LeaveSubmanager, List<LeaveSubmanagerEmployee>>();

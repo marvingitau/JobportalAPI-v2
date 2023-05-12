@@ -11,7 +11,7 @@ namespace RPFBE.Model.LeaveModels
         public string EmployeeNo { get; set; }
         public string LeaveType { get; set; }
         public DateTime LeaveStartDate { get; set; }
-        public int DaysApplied { get; set; }
+        public decimal DaysApplied { get; set; }
         public string LeaveAppNo { get; set; }
         public string RelieverNo { get; set; }
         public string RelieverRemark { get; set; }

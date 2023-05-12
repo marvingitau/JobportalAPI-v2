@@ -14325,13 +14325,13 @@ namespace HRActivity
         public System.DateTime leaveStartDate;
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=3)]
-        public int daysApplied;
+        public decimal daysApplied;
         
         public GetLeaveEndDate()
         {
         }
         
-        public GetLeaveEndDate(string employeeNoa46, string leaveType, System.DateTime leaveStartDate, int daysApplied)
+        public GetLeaveEndDate(string employeeNoa46, string leaveType, System.DateTime leaveStartDate, decimal daysApplied)
         {
             this.employeeNoa46 = employeeNoa46;
             this.leaveType = leaveType;
@@ -14379,13 +14379,13 @@ namespace HRActivity
         public System.DateTime leaveStartDate;
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/HRManagementWS", Order=3)]
-        public int daysApplied;
+        public decimal daysApplied;
         
         public GetLeaveReturnDate()
         {
         }
         
-        public GetLeaveReturnDate(string employeeNoa46, string leaveType, System.DateTime leaveStartDate, int daysApplied)
+        public GetLeaveReturnDate(string employeeNoa46, string leaveType, System.DateTime leaveStartDate, decimal daysApplied)
         {
             this.employeeNoa46 = employeeNoa46;
             this.leaveType = leaveType;
@@ -20801,7 +20801,7 @@ namespace HRActivity
             return base.Channel.GetLeaveEndDateAsync(request);
         }
         
-        public System.Threading.Tasks.Task<HRActivity.GetLeaveEndDate_Result> GetLeaveEndDateAsync(string employeeNoa46, string leaveType, System.DateTime leaveStartDate, int daysApplied)
+        public System.Threading.Tasks.Task<HRActivity.GetLeaveEndDate_Result> GetLeaveEndDateAsync(string employeeNoa46, string leaveType, System.DateTime leaveStartDate, decimal daysApplied)
         {
             HRActivity.GetLeaveEndDate inValue = new HRActivity.GetLeaveEndDate();
             inValue.employeeNoa46 = employeeNoa46;
@@ -20817,7 +20817,7 @@ namespace HRActivity
             return base.Channel.GetLeaveReturnDateAsync(request);
         }
         
-        public System.Threading.Tasks.Task<HRActivity.GetLeaveReturnDate_Result> GetLeaveReturnDateAsync(string employeeNoa46, string leaveType, System.DateTime leaveStartDate, int daysApplied)
+        public System.Threading.Tasks.Task<HRActivity.GetLeaveReturnDate_Result> GetLeaveReturnDateAsync(string employeeNoa46, string leaveType, System.DateTime leaveStartDate, decimal daysApplied)
         {
             HRActivity.GetLeaveReturnDate inValue = new HRActivity.GetLeaveReturnDate();
             inValue.employeeNoa46 = employeeNoa46;

@@ -82,6 +82,11 @@ namespace Mailer
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<Mailer.EmployeeProbationManagerToHR_Result> EmployeeProbationManagerToHRAsync(Mailer.EmployeeProbationManagerToHR request);
         
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:EmployeeProbationHRToHeadHR" +
+            "", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<Mailer.EmployeeProbationHRToHeadHR_Result> EmployeeProbationHRToHeadHRAsync(Mailer.EmployeeProbationHRToHeadHR request);
+        
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:EmployeeProbationHODToImmed" +
             "iateManager", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -109,6 +114,10 @@ namespace Mailer
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:EmployeeEOCManagerToHR", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<Mailer.EmployeeEOCManagerToHR_Result> EmployeeEOCManagerToHRAsync(Mailer.EmployeeEOCManagerToHR request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:EmployeeEOCHRToHeadHR", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<Mailer.EmployeeEOCHRToHeadHR_Result> EmployeeEOCHRToHeadHRAsync(Mailer.EmployeeEOCHRToHeadHR request);
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:EmployeeEOCHRToMDFD", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -667,6 +676,38 @@ namespace Mailer
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="EmployeeProbationHRToHeadHR", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", IsWrapped=true)]
+    public partial class EmployeeProbationHRToHeadHR
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=0)]
+        public string pKey;
+        
+        public EmployeeProbationHRToHeadHR()
+        {
+        }
+        
+        public EmployeeProbationHRToHeadHR(string pKey)
+        {
+            this.pKey = pKey;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="EmployeeProbationHRToHeadHR_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", IsWrapped=true)]
+    public partial class EmployeeProbationHRToHeadHR_Result
+    {
+        
+        public EmployeeProbationHRToHeadHR_Result()
+        {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="EmployeeProbationHODToImmediateManager", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", IsWrapped=true)]
     public partial class EmployeeProbationHODToImmediateManager
     {
@@ -852,6 +893,38 @@ namespace Mailer
     {
         
         public EmployeeEOCManagerToHR_Result()
+        {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="EmployeeEOCHRToHeadHR", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", IsWrapped=true)]
+    public partial class EmployeeEOCHRToHeadHR
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=0)]
+        public string pKey;
+        
+        public EmployeeEOCHRToHeadHR()
+        {
+        }
+        
+        public EmployeeEOCHRToHeadHR(string pKey)
+        {
+            this.pKey = pKey;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="EmployeeEOCHRToHeadHR_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", IsWrapped=true)]
+    public partial class EmployeeEOCHRToHeadHR_Result
+    {
+        
+        public EmployeeEOCHRToHeadHR_Result()
         {
         }
     }
@@ -1144,8 +1217,16 @@ namespace Mailer
     public partial class ProbationNonConfirmation_Result
     {
         
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=0)]
+        public string return_value;
+        
         public ProbationNonConfirmation_Result()
         {
+        }
+        
+        public ProbationNonConfirmation_Result(string return_value)
+        {
+            this.return_value = return_value;
         }
     }
     
@@ -1186,8 +1267,16 @@ namespace Mailer
     public partial class ProbationConfirmation_Result
     {
         
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=0)]
+        public string return_value;
+        
         public ProbationConfirmation_Result()
         {
+        }
+        
+        public ProbationConfirmation_Result(string return_value)
+        {
+            this.return_value = return_value;
         }
     }
     
@@ -1212,16 +1301,20 @@ namespace Mailer
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=3)]
         public string duration;
         
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=4)]
+        public string renewalTimeFormul;
+        
         public ProbationExtension()
         {
         }
         
-        public ProbationExtension(string empNo, System.DateTime passDate, System.DateTime endDate, string duration)
+        public ProbationExtension(string empNo, System.DateTime passDate, System.DateTime endDate, string duration, string renewalTimeFormul)
         {
             this.empNo = empNo;
             this.passDate = passDate;
             this.endDate = endDate;
             this.duration = duration;
+            this.renewalTimeFormul = renewalTimeFormul;
         }
     }
     
@@ -1232,8 +1325,16 @@ namespace Mailer
     public partial class ProbationExtension_Result
     {
         
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=0)]
+        public string return_value;
+        
         public ProbationExtension_Result()
         {
+        }
+        
+        public ProbationExtension_Result(string return_value)
+        {
+            this.return_value = return_value;
         }
     }
     
@@ -1245,23 +1346,27 @@ namespace Mailer
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=0)]
-        public string recipient;
+        public string pK;
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=1)]
-        public string reason;
+        public string recipient;
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=2)]
-        public string pID;
+        public string reason;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=3)]
+        public string from;
         
         public ProbationReversal()
         {
         }
         
-        public ProbationReversal(string recipient, string reason, string pID)
+        public ProbationReversal(string pK, string recipient, string reason, string from)
         {
+            this.pK = pK;
             this.recipient = recipient;
             this.reason = reason;
-            this.pID = pID;
+            this.from = from;
         }
     }
     
@@ -1361,8 +1466,16 @@ namespace Mailer
     public partial class EndofContractNonRenewal_Result
     {
         
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=0)]
+        public string return_value;
+        
         public EndofContractNonRenewal_Result()
         {
+        }
+        
+        public EndofContractNonRenewal_Result(string return_value)
+        {
+            this.return_value = return_value;
         }
     }
     
@@ -1391,17 +1504,21 @@ namespace Mailer
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=4)]
         public string empNo;
         
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=5)]
+        public string renewalTimeFormul;
+        
         public EndofContractRenewal()
         {
         }
         
-        public EndofContractRenewal(string renewalTime, System.DateTime contractedDate, System.DateTime startDate, System.DateTime endDate, string empNo)
+        public EndofContractRenewal(string renewalTime, System.DateTime contractedDate, System.DateTime startDate, System.DateTime endDate, string empNo, string renewalTimeFormul)
         {
             this.renewalTime = renewalTime;
             this.contractedDate = contractedDate;
             this.startDate = startDate;
             this.endDate = endDate;
             this.empNo = empNo;
+            this.renewalTimeFormul = renewalTimeFormul;
         }
     }
     
@@ -1413,13 +1530,13 @@ namespace Mailer
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=0)]
-        public bool return_value;
+        public string return_value;
         
         public EndofContractRenewal_Result()
         {
         }
         
-        public EndofContractRenewal_Result(bool return_value)
+        public EndofContractRenewal_Result(string return_value)
         {
             this.return_value = return_value;
         }
@@ -1453,11 +1570,14 @@ namespace Mailer
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=5)]
         public string raise;
         
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=6)]
+        public string renewalTimeFormul;
+        
         public EndofContractRenewalWithARaise()
         {
         }
         
-        public EndofContractRenewalWithARaise(string renewalTime, System.DateTime contractedDate, System.DateTime startDate, System.DateTime endDate, string empNo, string raise)
+        public EndofContractRenewalWithARaise(string renewalTime, System.DateTime contractedDate, System.DateTime startDate, System.DateTime endDate, string empNo, string raise, string renewalTimeFormul)
         {
             this.renewalTime = renewalTime;
             this.contractedDate = contractedDate;
@@ -1465,6 +1585,7 @@ namespace Mailer
             this.endDate = endDate;
             this.empNo = empNo;
             this.raise = raise;
+            this.renewalTimeFormul = renewalTimeFormul;
         }
     }
     
@@ -1476,13 +1597,13 @@ namespace Mailer
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=0)]
-        public bool return_value;
+        public string return_value;
         
         public EndofContractRenewalWithARaise_Result()
         {
         }
         
-        public EndofContractRenewalWithARaise_Result(bool return_value)
+        public EndofContractRenewalWithARaise_Result(string return_value)
         {
             this.return_value = return_value;
         }
@@ -1504,15 +1625,19 @@ namespace Mailer
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=2)]
         public string reason;
         
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=3)]
+        public string from;
+        
         public EndofContractReversal()
         {
         }
         
-        public EndofContractReversal(string pK, string recipient, string reason)
+        public EndofContractReversal(string pK, string recipient, string reason, string from)
         {
             this.pK = pK;
             this.recipient = recipient;
             this.reason = reason;
+            this.from = from;
         }
     }
     
@@ -1827,6 +1952,19 @@ namespace Mailer
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<Mailer.EmployeeProbationHRToHeadHR_Result> Mailer.Notifications_Port.EmployeeProbationHRToHeadHRAsync(Mailer.EmployeeProbationHRToHeadHR request)
+        {
+            return base.Channel.EmployeeProbationHRToHeadHRAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<Mailer.EmployeeProbationHRToHeadHR_Result> EmployeeProbationHRToHeadHRAsync(string pKey)
+        {
+            Mailer.EmployeeProbationHRToHeadHR inValue = new Mailer.EmployeeProbationHRToHeadHR();
+            inValue.pKey = pKey;
+            return ((Mailer.Notifications_Port)(this)).EmployeeProbationHRToHeadHRAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         System.Threading.Tasks.Task<Mailer.EmployeeProbationHODToImmediateManager_Result> Mailer.Notifications_Port.EmployeeProbationHODToImmediateManagerAsync(Mailer.EmployeeProbationHODToImmediateManager request)
         {
             return base.Channel.EmployeeProbationHODToImmediateManagerAsync(request);
@@ -1902,6 +2040,19 @@ namespace Mailer
             Mailer.EmployeeEOCManagerToHR inValue = new Mailer.EmployeeEOCManagerToHR();
             inValue.pKey = pKey;
             return ((Mailer.Notifications_Port)(this)).EmployeeEOCManagerToHRAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<Mailer.EmployeeEOCHRToHeadHR_Result> Mailer.Notifications_Port.EmployeeEOCHRToHeadHRAsync(Mailer.EmployeeEOCHRToHeadHR request)
+        {
+            return base.Channel.EmployeeEOCHRToHeadHRAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<Mailer.EmployeeEOCHRToHeadHR_Result> EmployeeEOCHRToHeadHRAsync(string pKey)
+        {
+            Mailer.EmployeeEOCHRToHeadHR inValue = new Mailer.EmployeeEOCHRToHeadHR();
+            inValue.pKey = pKey;
+            return ((Mailer.Notifications_Port)(this)).EmployeeEOCHRToHeadHRAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -2034,13 +2185,14 @@ namespace Mailer
             return base.Channel.ProbationExtensionAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Mailer.ProbationExtension_Result> ProbationExtensionAsync(string empNo, System.DateTime passDate, System.DateTime endDate, string duration)
+        public System.Threading.Tasks.Task<Mailer.ProbationExtension_Result> ProbationExtensionAsync(string empNo, System.DateTime passDate, System.DateTime endDate, string duration, string renewalTimeFormul)
         {
             Mailer.ProbationExtension inValue = new Mailer.ProbationExtension();
             inValue.empNo = empNo;
             inValue.passDate = passDate;
             inValue.endDate = endDate;
             inValue.duration = duration;
+            inValue.renewalTimeFormul = renewalTimeFormul;
             return ((Mailer.Notifications_Port)(this)).ProbationExtensionAsync(inValue);
         }
         
@@ -2050,12 +2202,13 @@ namespace Mailer
             return base.Channel.ProbationReversalAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Mailer.ProbationReversal_Result> ProbationReversalAsync(string recipient, string reason, string pID)
+        public System.Threading.Tasks.Task<Mailer.ProbationReversal_Result> ProbationReversalAsync(string pK, string recipient, string reason, string from)
         {
             Mailer.ProbationReversal inValue = new Mailer.ProbationReversal();
+            inValue.pK = pK;
             inValue.recipient = recipient;
             inValue.reason = reason;
-            inValue.pID = pID;
+            inValue.from = from;
             return ((Mailer.Notifications_Port)(this)).ProbationReversalAsync(inValue);
         }
         
@@ -2093,7 +2246,7 @@ namespace Mailer
             return base.Channel.EndofContractRenewalAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Mailer.EndofContractRenewal_Result> EndofContractRenewalAsync(string renewalTime, System.DateTime contractedDate, System.DateTime startDate, System.DateTime endDate, string empNo)
+        public System.Threading.Tasks.Task<Mailer.EndofContractRenewal_Result> EndofContractRenewalAsync(string renewalTime, System.DateTime contractedDate, System.DateTime startDate, System.DateTime endDate, string empNo, string renewalTimeFormul)
         {
             Mailer.EndofContractRenewal inValue = new Mailer.EndofContractRenewal();
             inValue.renewalTime = renewalTime;
@@ -2101,6 +2254,7 @@ namespace Mailer
             inValue.startDate = startDate;
             inValue.endDate = endDate;
             inValue.empNo = empNo;
+            inValue.renewalTimeFormul = renewalTimeFormul;
             return ((Mailer.Notifications_Port)(this)).EndofContractRenewalAsync(inValue);
         }
         
@@ -2110,7 +2264,7 @@ namespace Mailer
             return base.Channel.EndofContractRenewalWithARaiseAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Mailer.EndofContractRenewalWithARaise_Result> EndofContractRenewalWithARaiseAsync(string renewalTime, System.DateTime contractedDate, System.DateTime startDate, System.DateTime endDate, string empNo, string raise)
+        public System.Threading.Tasks.Task<Mailer.EndofContractRenewalWithARaise_Result> EndofContractRenewalWithARaiseAsync(string renewalTime, System.DateTime contractedDate, System.DateTime startDate, System.DateTime endDate, string empNo, string raise, string renewalTimeFormul)
         {
             Mailer.EndofContractRenewalWithARaise inValue = new Mailer.EndofContractRenewalWithARaise();
             inValue.renewalTime = renewalTime;
@@ -2119,6 +2273,7 @@ namespace Mailer
             inValue.endDate = endDate;
             inValue.empNo = empNo;
             inValue.raise = raise;
+            inValue.renewalTimeFormul = renewalTimeFormul;
             return ((Mailer.Notifications_Port)(this)).EndofContractRenewalWithARaiseAsync(inValue);
         }
         
@@ -2128,12 +2283,13 @@ namespace Mailer
             return base.Channel.EndofContractReversalAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Mailer.EndofContractReversal_Result> EndofContractReversalAsync(string pK, string recipient, string reason)
+        public System.Threading.Tasks.Task<Mailer.EndofContractReversal_Result> EndofContractReversalAsync(string pK, string recipient, string reason, string from)
         {
             Mailer.EndofContractReversal inValue = new Mailer.EndofContractReversal();
             inValue.pK = pK;
             inValue.recipient = recipient;
             inValue.reason = reason;
+            inValue.from = from;
             return ((Mailer.Notifications_Port)(this)).EndofContractReversalAsync(inValue);
         }
         

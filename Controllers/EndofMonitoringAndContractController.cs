@@ -346,7 +346,13 @@ namespace RPFBE.Controllers
                         CreationDate = item.Creationdate,
                         Department = item.Department,
                         Status = item.Status,
-                        Position = item.Position
+                        Position = item.Position,
+
+                        Jobtitle = item.Jobtitle,
+                        Branch = item.Branch,
+                        Product = item.Product,
+                        Employmentyear = item.Employmentyear,
+                        Tenureofservice = item.Tenureofservice,
                     };
 
                     employeeEndofForms.Add(endofForm);
@@ -803,7 +809,11 @@ namespace RPFBE.Controllers
                         empRecExtProb = item.empRecExtProb == "Yes" ? "true" : "false",
                         empRecTerminate = item.empRecTerminate == "Yes" ? "true" : "false",
 
-
+                        Jobtitle = item.Jobtitle,
+                        Branch = item.Branch,
+                        Product = item.Product,
+                        Employmentyear = item.Employmentyear,
+                        Tenureofservice = item.Tenureofservice,
                     };
 
                     probationFirstList.Add(probationFirstSection);
@@ -846,7 +856,7 @@ namespace RPFBE.Controllers
             }
         }
 
-
+        //Push Probation from HOD to HR
         [Authorize]
         [HttpPost]
         [Route("hodpushtohr/{PID}")]
@@ -882,7 +892,7 @@ namespace RPFBE.Controllers
 
 
 
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation Card Update Failed: D365 failed " });
+                return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Probation Card Moved " });
             }
             catch (Exception x)
             {
@@ -1196,26 +1206,28 @@ namespace RPFBE.Controllers
                 //@recipient
                 if(probModel.ProbationStatus == 0)
                 {
+                    //Status 1 :: HOD
                     var rec = dbContext.Users.Where(x => x.Id == probModel.UID).First();
 
-                    var mailManagerHR = await codeUnitWebService.WSMailer().ProbationReversalAsync(
-                        rec.EmployeeId,
-                        probation.BackTrackingReason,
-                        probation.ProbationNo
-                        );
+                    //var mailManagerHR = await codeUnitWebService.WSMailer().ProbationReversalAsync(
+                    //    rec.EmployeeId,
+                    //    probation.BackTrackingReason,
+                    //    probation.ProbationNo
+                    //    );
 
                     return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Probation Card Re-versal Success " });
 
                 }
                 else
                 {
+                    //Status 2 :: HR
                     var rec = dbContext.Users.Where(x => x.Id == probModel.UIDTwo).First();
 
-                    var mailManagerHR = await codeUnitWebService.WSMailer().ProbationReversalAsync(
-                        rec.EmployeeId,
-                        probation.BackTrackingReason,
-                        probation.ProbationNo
-                        );
+                    //var mailManagerHR = await codeUnitWebService.WSMailer().ProbationReversalAsync(
+                    //    rec.EmployeeId,
+                    //    probation.BackTrackingReason,
+                    //    probation.ProbationNo
+                    //    );
 
                     return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Probation Card Re-versal Success " });
 
@@ -1296,6 +1308,48 @@ namespace RPFBE.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Create Contract Store Failed: " + x.Message });
             }
         }
+
+        [Authorize]
+        [HttpGet]
+        [Route("geteocgeneralcard/{CardID}")]
+        public async Task<IActionResult> GetEOCGeneralCard(string CardID)
+        {
+            try
+            {
+                var res = await codeUnitWebService.Client().GetContractCardGeneralAsync(CardID);
+                dynamic resSerial = JsonConvert.DeserializeObject(res.return_value);
+                List<EmployeeEndofForm> employeeEndofForms = new List<EmployeeEndofForm>();
+
+                foreach (var item in resSerial)
+                {
+                    EmployeeEndofForm endofForm = new EmployeeEndofForm
+                    {
+                        EmpName = item.Employeename,
+                        CreationDate = item.Creationdate,
+                        Department = item.Department,
+                        Status = item.Status,
+                        Position = item.Position,
+
+                        Contractno = item.Contractno,
+                        Jobtitle = item.Jobtitle,
+                        Branch = item.Branch,
+                        Product = item.Product,
+                        Employmentyear = item.Employmentyear,
+                        Tenureofservice = item.Tenureofservice
+                    };
+
+                    employeeEndofForms.Add(endofForm);
+                }
+
+                return Ok(new { employeeEndofForms });
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Contract Card Failed: " + x.Message });
+            }
+        }
+
 
         //Store the Initial Card Data
         [Authorize]
@@ -1748,6 +1802,12 @@ namespace RPFBE.Controllers
                         empRecExtProb = item.empRecExtProb,
                         empRecTerminate = item.empRecTerminate,
 
+                        Jobtitle = item.Jobtitle,
+                        Branch = item.Branch,
+                        Product = item.Product,
+                        Employmentyear = item.Employmentyear,
+                        Tenureofservice = item.Tenureofservice,
+
 
                     };
 
@@ -1889,6 +1949,255 @@ namespace RPFBE.Controllers
             }
         }
 
+        //HOD Rerverses
+        [Authorize]
+        [HttpPost]
+        [Route("contractreversalfromhod")]
+        public async Task<IActionResult> HODReverseContract([FromBody] EndofContractProgress contractProgress)
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var contModel = dbContext.EndofContractProgress.Where(x => x.ContractNo == contractProgress.ContractNo).First();
+                contModel.ContractStatus = contractProgress.ContractStatus;
+                contModel.BackTrackingReason = contractProgress.BackTrackingReason;
+                dbContext.EndofContractProgress.Update(contModel);
+                await dbContext.SaveChangesAsync();
+
+                //@email
+                try
+                {
+
+                    if (contractProgress.ContractStatus == 0)
+                    {
+
+                        //Status 0 :: Immediate Supervisor
+                        var rec = dbContext.Users.Where(x => x.Id == contModel.UID).First();
+                        var mailHR = await codeUnitWebService.WSMailer().EndofContractReversalAsync(
+                            contractProgress.ContractNo,
+                            rec.EmployeeId,
+                            contractProgress.BackTrackingReason,
+                            "HOD"
+                          );
+
+                        return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Contract Card Reversal Success" });
+                    }
+
+                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Contract Card Reversal Failed - Stage not selected" });
+
+                }
+                catch (Exception e)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Contract Creator Missing: " + e.Message });
+                }
+
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Contract Card Update Failed: " + x.Message });
+            }
+        }
+
+
+        //HR Rerverses
+        [Authorize]
+        [HttpPost]
+        [Route("contractreversalfromhr")]
+        public async Task<IActionResult> HRReverseContract([FromBody] EndofContractProgress contractProgress)
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var contModel = dbContext.EndofContractProgress.Where(x => x.ContractNo == contractProgress.ContractNo).First();
+                contModel.ContractStatus = contractProgress.ContractStatus;
+                contModel.BackTrackingReason = contractProgress.BackTrackingReason;
+                dbContext.EndofContractProgress.Update(contModel);
+                await dbContext.SaveChangesAsync();
+
+                //@email
+                try
+                {
+
+                    if (contractProgress.ContractStatus == 0)
+                    {
+
+                        //Status 0 :: Immediate Supervisor
+                        var rec = dbContext.Users.Where(x => x.Id == contModel.UID).First();
+                        var mailHR = await codeUnitWebService.WSMailer().EndofContractReversalAsync(
+                            contractProgress.ContractNo,
+                            rec.EmployeeId,
+                            contractProgress.BackTrackingReason,
+                            "HR"
+                          );
+
+                        return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Contract Card Reversal Success" });
+
+                    }
+                    else if(contractProgress.ContractStatus == 1)
+                    {
+                        //Status 1 :: HOD
+                        var rec = dbContext.Users.Where(x => x.Id == contModel.UID).First();
+                        var mailHR = await codeUnitWebService.WSMailer().EndofContractReversalAsync(
+                            contractProgress.ContractNo,
+                            contModel.HODEid,
+                            contractProgress.BackTrackingReason,
+                            "HR"
+                          );
+
+                        return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Contract Card Reversal Success" });
+                    }
+                    else
+                    {
+                        return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Contract Card Reversal Failed - Stage not selected" });
+                    }
+                }
+                catch (Exception e)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Contract Creator Missing: " + e.Message });
+                }
+
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Contract Card Update Failed: " + x.Message });
+            }
+        }
+
+
+        //********************************* Bucket List **********************************************
+
+        //HOD  Bucket List => Specialized Bucket List
+        [Authorize]
+        [HttpGet]
+        [Route("gethodspecializedbucketlist")]
+        public async Task<IActionResult> GetHODSpecializedBucketList()
+        {
+            try
+            {
+
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var employeeContracts = dbContext.EndofContractProgress.Where(x => x.ContractStatus == 10 && x.UIDFour == user.Id).ToList();
+
+                return Ok(new { employeeContracts });
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Bucket Contract List Failed: " + x.Message });
+            }
+        }
+        //HR Bucket List => Specialized Bucket List
+        [Authorize]
+        [HttpGet]
+        [Route("gethrspecializedbucketlist")]
+        public async Task<IActionResult> GetHRSpecializedBucketList()
+        {
+            try
+            {
+
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var employeeContracts = dbContext.EndofContractProgress.Where(x => x.ContractStatus == 10 && x.UIDTwo == user.Id).ToList();
+
+                return Ok(new { employeeContracts });
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Bucket Contract List Failed: " + x.Message });
+            }
+        }
+
+        //HEAD  Bucket List => Standard Bucket List
+        [Authorize]
+        [HttpGet]
+        [Route("getheadstandardbucketlist")]
+        public async Task<IActionResult> GetStandardBucketList()
+        {
+            try
+            {
+
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var employeeContracts = dbContext.EndofContractProgress.Where(x => x.ContractStatus == 10).ToList();
+
+                return Ok(new { employeeContracts });
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Bucket Contract List Failed: " + x.Message });
+            }
+        }
+
+        //Moved Contract to Bucket List HOD
+        [Authorize]
+        [HttpGet]
+        [Route("movecontracttobuckethod/{PID}")]
+        public async Task<IActionResult> MoveContractToBucketHOD(string PID)
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+
+                var cModel = dbContext.EndofContractProgress.Where(p => p.ContractNo == PID).First();
+                cModel.UIDFour = user.Id;
+                cModel.ContractStatus = 10;
+
+                dbContext.EndofContractProgress.Update(cModel);
+                await dbContext.SaveChangesAsync();
+               // await codeUnitWebService.Client().UpdateEndofContractCardStatusAsync(PID);
+
+                //Mail HR
+                //@email
+
+                //var mailHR = await codeUnitWebService.WSMailer().EmployeeEOCManagerToHRAsync(PID);
+
+               
+
+                return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Contract Moved " });
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Contract Move Failed: " + x.Message });
+            }
+        }
+
+        //Moved Contract to Bucket List HR
+        [Authorize]
+        [HttpGet]
+        [Route("movecontracttobuckethr/{PID}")]
+        public async Task<IActionResult> MoveContractToBucketHR(string PID)
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+
+                var cModel = dbContext.EndofContractProgress.Where(p => p.ContractNo == PID).First();
+                cModel.UIDTwo = user.Id;
+                cModel.ContractStatus = 10;
+
+                dbContext.EndofContractProgress.Update(cModel);
+                await dbContext.SaveChangesAsync();
+                // await codeUnitWebService.Client().UpdateEndofContractCardStatusAsync(PID);
+
+                //Mail HR
+                //@email
+
+                //var mailHR = await codeUnitWebService.WSMailer().EmployeeEOCManagerToHRAsync(PID);
+
+
+
+                return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Contract Moved " });
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Contract Move Failed: " + x.Message });
+            }
+        }
+
 
 
         /**
@@ -1928,7 +2237,7 @@ namespace RPFBE.Controllers
             try
             {
                 var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
-                var employeeEndofs = dbContext.EndofContractProgress.Where(x => x.ContractStatus == 2 || x.ContractStatus >=4 ).ToList();
+                var employeeEndofs = dbContext.EndofContractProgress.Where(x => x.ContractStatus == 2 || x.ContractStatus == 4 ).ToList();
 
                 return Ok(new { employeeEndofs });
             } 
@@ -1977,6 +2286,45 @@ namespace RPFBE.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Contract Card Update Failed: " + x.Message });
             }
         }
+
+        //HR push to Head HR
+        [Authorize]
+        [HttpPost]
+        [Route("hrpushcontracttoheadhr/{PID}")]
+        public async Task<IActionResult> HRPushContractToHeadHR([FromBody] ProbationRecommendationModel probationFirst, string PID)
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var resRemarks = await codeUnitWebService.Client().UpdateContractHRremarkAsync(PID, probationFirst.HRcomment);
+                if (bool.Parse(resRemarks.return_value))
+                {
+                    var contModel = dbContext.EndofContractProgress.Where(x => x.ContractNo == PID).First();
+                    contModel.ContractStatus = 4;
+                    contModel.UIDTwo = user.Id;
+                    contModel.UIDTwoComment = probationFirst.HRcomment;
+
+                    dbContext.EndofContractProgress.Update(contModel);
+                    await dbContext.SaveChangesAsync();
+
+                    ////Mail HEAD HR
+                    ///@email
+
+                    var mailStaff = await codeUnitWebService.WSMailer().EmployeeEOCHRToHeadHRAsync(PID);
+
+
+
+                    return Ok(bool.Parse(resRemarks.return_value));
+                }
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Contract Card Update Failed: D365 failed " });
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Contract Card Update Failed: " + x.Message });
+            }
+        }
+
 
         //HR Approves
         [Authorize]
@@ -2060,7 +2408,19 @@ namespace RPFBE.Controllers
                     ////Mail MD/FD
                     //@email
                     var mailStaff = await codeUnitWebService.WSMailer().EndofContractNonRenewalAsync(header.TerminationDate, header.StaffNo);
-                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "End of Contract Non Renewal, Success" });
+                    
+                    var file = mailStaff.return_value;
+                    System.Net.Mime.ContentDisposition cd = new System.Net.Mime.ContentDisposition
+                    {
+                        FileName = file,
+                        Inline = true // false = prompt the user for downloading;  true = browser to try to show the file inline
+                    };
+                    Response.Headers.Add("Content-Disposition", cd.ToString());
+                    Response.Headers.Add("X-Content-Type-Options", "nosniff");
+
+                    return File(System.IO.File.ReadAllBytes(file), "application/msword");
+
+                    //return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "End of Contract Non Renewal, Success" });
                    
                    
                     
@@ -2100,17 +2460,39 @@ namespace RPFBE.Controllers
                     //Mail depending 
                     if(header.NewSalary.Length <= 0)
                     {
-                        //var mailStaff = await codeUnitWebService.WSMailer().EndofContractRenewalAsync(header.RenewalTime, header.ContractedDate, header.StartDate, header.EndDate, header.StaffNo);
+                        var mailStaff = await codeUnitWebService.WSMailer().EndofContractRenewalAsync(header.RenewalTime, header.ContractedDate, header.StartDate, header.EndDate, header.StaffNo,header.DateFormulae);
 
-                        return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "End of Contract Renewal, Success" });
+                        var file = mailStaff.return_value;
+                        System.Net.Mime.ContentDisposition cd = new System.Net.Mime.ContentDisposition
+                        {
+                            FileName = file,
+                            Inline = true // false = prompt the user for downloading;  true = browser to try to show the file inline
+                        };
+                        Response.Headers.Add("Content-Disposition", cd.ToString());
+                        Response.Headers.Add("X-Content-Type-Options", "nosniff");
+
+                        return File(System.IO.File.ReadAllBytes(file), "application/msword");
+
+                        //return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "End of Contract Renewal, Success" });
                     }
                     else
                     {
-                        var mailStaff = await codeUnitWebService.WSMailer().EndofContractRenewalWithARaiseAsync(header.RenewalTime, header.ContractedDate, header.StartDate, header.EndDate, header.StaffNo,header.NewSalary);
+                        var mailStaff = await codeUnitWebService.WSMailer().EndofContractRenewalWithARaiseAsync(header.RenewalTime, header.ContractedDate, header.StartDate, header.EndDate, header.StaffNo,header.NewSalary, header.DateFormulae);
+                        
+                        var file = mailStaff.return_value;
+                        System.Net.Mime.ContentDisposition cd = new System.Net.Mime.ContentDisposition
+                        {
+                            FileName = file,
+                            Inline = true // false = prompt the user for downloading;  true = browser to try to show the file inline
+                        };
+                        Response.Headers.Add("Content-Disposition", cd.ToString());
+                        Response.Headers.Add("X-Content-Type-Options", "nosniff");
 
-                        return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "End of Contract Renewal, Success" });
+                        return File(System.IO.File.ReadAllBytes(file), "application/msword");
+                        
+                        //return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "End of Contract Renewal, Success" });
                     }
-                 
+
 
                 }
                 else
@@ -2250,7 +2632,7 @@ namespace RPFBE.Controllers
                 try
                 {
                
-                    if(contractProgress.ContractStatus == 0)
+                    if(contractProgress.ContractStatus == 1)
                     {
 
                     //Status 1 :: HOD
@@ -2258,7 +2640,8 @@ namespace RPFBE.Controllers
                     var mailHR = await codeUnitWebService.WSMailer().EndofContractReversalAsync(
                         contractProgress.ContractNo,
                         contModel.HODEid,
-                        contractProgress.BackTrackingReason
+                        contractProgress.BackTrackingReason,
+                        "MD"
                       );
 
                     return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Contract Card Reversal Success" });
@@ -2271,7 +2654,8 @@ namespace RPFBE.Controllers
                         var mailHR = await codeUnitWebService.WSMailer().EndofContractReversalAsync(
                             contractProgress.ContractNo,
                             rec.EmployeeId,
-                            contractProgress.BackTrackingReason
+                            contractProgress.BackTrackingReason,
+                            "MD"
                           );
 
                         return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Contract Card Reversal Success" });
@@ -2319,11 +2703,20 @@ namespace RPFBE.Controllers
 
                     //mail Employee
                     var mailEmployee = await codeUnitWebService.WSMailer().ProbationNonConfirmationAsync(header.StaffID, header.ProbationEndDate);
+                    var file = mailEmployee.return_value;
+                    System.Net.Mime.ContentDisposition cd = new System.Net.Mime.ContentDisposition
+                    {
+                        FileName = file,
+                        Inline = true // false = prompt the user for downloading;  true = browser to try to show the file inline
+                    };
+                    Response.Headers.Add("Content-Disposition", cd.ToString());
+                    Response.Headers.Add("X-Content-Type-Options", "nosniff");
+
+                    return File(System.IO.File.ReadAllBytes(file), "application/msword");
+
                     //mail MD/FD
-                    var mailsManager = await codeUnitWebService.WSMailer().EmployeeProbationHRApprovesAsync(header.ProbationID);
-
-
-                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Non Confirmation Success" });
+                    //var mailsManager = await codeUnitWebService.WSMailer().EmployeeProbationHRApprovesAsync(header.ProbationID);
+                    //return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Non Confirmation Success" });
                 }
                 else
                 {
@@ -2356,10 +2749,22 @@ namespace RPFBE.Controllers
 
                     //mail Employee
                     var mailEmployee = await codeUnitWebService.WSMailer().ProbationConfirmationAsync(header.StaffID, header.ProbationDate, header.ProbationExpire);
-                    //mail MD/FD
-                    var mailsManager = await codeUnitWebService.WSMailer().EmployeeProbationHRApprovesAsync(header.ProbationID);
+                    var file = mailEmployee.return_value;
+                    System.Net.Mime.ContentDisposition cd = new System.Net.Mime.ContentDisposition
+                    {
+                        FileName = file,
+                        Inline = true // false = prompt the user for downloading;  true = browser to try to show the file inline
+                    };
+                    Response.Headers.Add("Content-Disposition", cd.ToString());
+                    Response.Headers.Add("X-Content-Type-Options", "nosniff");
 
-                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Confirmation Success" });
+                    return File(System.IO.File.ReadAllBytes(file), "application/msword");
+
+
+                    //mail MD/FD
+                    //var mailsManager = await codeUnitWebService.WSMailer().EmployeeProbationHRApprovesAsync(header.ProbationID);
+
+                    //return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Confirmation Success" });
                 }
                 else
                 {
@@ -2399,11 +2804,23 @@ namespace RPFBE.Controllers
 
 
                     //mail Employee
-                    var mailEmployee = await codeUnitWebService.WSMailer().ProbationExtensionAsync(header.StaffID, header.ExtendDate, header.NextReviewDate, header.ExtendDuration);
-                    //mail MD/FD
-                    var mailsManager = await codeUnitWebService.WSMailer().EmployeeProbationHRApprovesAsync(header.ProbationID);
+                    var mailEmployee = await codeUnitWebService.WSMailer().ProbationExtensionAsync(header.StaffID, header.ExtendDate, header.NextReviewDate, header.ExtendDuration,header.DateFormulae);
+                    var file = mailEmployee.return_value;
+                    System.Net.Mime.ContentDisposition cd = new System.Net.Mime.ContentDisposition
+                    {
+                        FileName = file,
+                        Inline = true // false = prompt the user for downloading;  true = browser to try to show the file inline
+                    };
+                    Response.Headers.Add("Content-Disposition", cd.ToString());
+                    Response.Headers.Add("X-Content-Type-Options", "nosniff");
 
-                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Extension Success" });
+                    return File(System.IO.File.ReadAllBytes(file), "application/msword");
+
+
+                    //mail MD/FD
+                    //var mailsManager = await codeUnitWebService.WSMailer().EmployeeProbationHRApprovesAsync(header.ProbationID);
+
+                    //return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Extension Success" });
                 }
                 else
                 {
@@ -2416,6 +2833,299 @@ namespace RPFBE.Controllers
             }
         }
 
+
+
+        //HOD Rerverses
+        [Authorize]
+        [HttpPost]
+        [Route("probationreversalfromhod")]
+        public async Task<IActionResult> HODReverseProbation([FromBody] ProbationProgress probationProgress)
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var contModel = dbContext.ProbationProgress.Where(x => x.ProbationNo == probationProgress.ProbationNo).First();
+                contModel.ProbationStatus = probationProgress.ProbationStatus;
+                contModel.BackTrackingReason = probationProgress.BackTrackingReason;
+                dbContext.ProbationProgress.Update(contModel);
+                await dbContext.SaveChangesAsync();
+
+                //@email
+                try
+                {
+
+                    if (probationProgress.ProbationStatus == 0)
+                    {
+
+                        //Status 0 :: Immediate Supervisor
+                        var rec = dbContext.Users.Where(x => x.Id == contModel.UID).First();
+                        var mailHR = await codeUnitWebService.WSMailer().ProbationReversalAsync(
+                            probationProgress.ProbationNo,
+                            rec.EmployeeId,
+                            probationProgress.BackTrackingReason,
+                            "HOD"
+                          );
+
+                        return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Probation Card Reversal Success" });
+                    }
+
+                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation Card Reversal Failed - Stage not selected" });
+
+                }
+                catch (Exception e)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation Creator Missing: " + e.Message });
+                }
+
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation Card Update Failed: " + x.Message });
+            }
+        }
+        
+        //HR Rerverses
+        [Authorize]
+        [HttpPost]
+        [Route("probationreversalfromhr")]
+        public async Task<IActionResult> HRReverseProbation([FromBody] ProbationProgress probationProgress)
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var contModel = dbContext.ProbationProgress.Where(x => x.ProbationNo == probationProgress.ProbationNo).First();
+                contModel.ProbationStatus = probationProgress.ProbationStatus;
+                contModel.BackTrackingReason = probationProgress.BackTrackingReason;
+                dbContext.ProbationProgress.Update(contModel);
+                await dbContext.SaveChangesAsync();
+
+                //@email
+                try
+                {
+
+                    if (probationProgress.ProbationStatus == 0)
+                    {
+
+                        //Status 0 :: Immediate Supervisor
+                        var rec = dbContext.Users.Where(x => x.Id == contModel.UID).First();
+                        var mailHR = await codeUnitWebService.WSMailer().ProbationReversalAsync(
+                            probationProgress.ProbationNo,
+                            rec.EmployeeId,
+                            probationProgress.BackTrackingReason,
+                            "HR"
+                          );
+
+                        return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Probation Card Reversal Success" });
+
+                    }
+                    else if (probationProgress.ProbationStatus == 1)
+                    {
+                        //Status 1 :: HOD
+                        var rec = dbContext.Users.Where(x => x.Id == contModel.UID).First();
+                        var mailHR = await codeUnitWebService.WSMailer().EndofContractReversalAsync(
+                            probationProgress.ProbationNo,
+                            contModel.HODEid,
+                            probationProgress.BackTrackingReason,
+                            "HR"
+                          );
+
+                        return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Probation Card Reversal Success" });
+                    }
+                    else
+                    {
+                        return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation Card Reversal Failed - Stage not selected" });
+                    }
+                }
+                catch (Exception e)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation Creator Missing: " + e.Message });
+                }
+
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation Card Update Failed: " + x.Message });
+            }
+        }
+
+
+
+
+        //Moved Probation to Bucket List HOD
+        [Authorize]
+        [HttpGet]
+        [Route("moveprobationtobuckethod/{PID}")]
+        public async Task<IActionResult> MoveProbationToBucketHOD(string PID)
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+
+                var cModel = dbContext.ProbationProgress.Where(p => p.ProbationNo == PID).First();
+                cModel.UIDFour = user.Id;
+                cModel.ProbationStatus = 10;
+                dbContext.ProbationProgress.Update(cModel);
+                await dbContext.SaveChangesAsync();
+              
+
+                // await codeUnitWebService.Client().UpdateEndofContractCardStatusAsync(PID);
+
+                //Mail HR
+                //@email
+
+                //var mailHR = await codeUnitWebService.WSMailer().EmployeeEOCManagerToHRAsync(PID);
+
+
+
+                return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Probation Moved " });
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation Move Failed: " + x.Message });
+            }
+        }
+
+        //Moved Probation to Bucket List HR
+        [Authorize]
+        [HttpGet]
+        [Route("moveprobationtobuckethr/{PID}")]
+        public async Task<IActionResult> MoveProbationToBucketHR(string PID)
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+
+                var cModel = dbContext.ProbationProgress.Where(p => p.ProbationNo == PID).First();
+                cModel.UIDTwo = user.Id;
+                cModel.ProbationStatus = 10;
+
+                dbContext.ProbationProgress.Update(cModel);
+                await dbContext.SaveChangesAsync();
+                // await codeUnitWebService.Client().UpdateEndofContractCardStatusAsync(PID);
+
+                //Mail HR
+                //@email
+
+                //var mailHR = await codeUnitWebService.WSMailer().EmployeeEOCManagerToHRAsync(PID);
+
+
+
+                return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Probation Moved " });
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Proation Move Failed: " + x.Message });
+            }
+        }
+
+
+
+        //HOD  Bucket List => Specialized Bucket List
+        [Authorize]
+        [HttpGet]
+        [Route("gethodprobationbucketlist")]
+        public async Task<IActionResult> GetHODProbationBucketList()
+        {
+            try
+            {
+
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var employeeProbations = dbContext.ProbationProgress.Where(x => x.ProbationStatus == 10 && x.UIDFour == user.Id).ToList();
+
+                return Ok(new { employeeProbations });
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Bucket Probation List Failed: " + x.Message });
+            }
+        }
+
+        //HR Bucket List => Specialized Bucket List
+        [Authorize]
+        [HttpGet]
+        [Route("gethrprobationbucketlist")]
+        public async Task<IActionResult> GetHRProbationBucketList()
+        {
+            try
+            {
+
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var employeeProbations = dbContext.ProbationProgress.Where(x => x.ProbationStatus == 10 && x.UIDTwo == user.Id).ToList();
+
+                return Ok(new { employeeProbations });
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Bucket Probation List Failed: " + x.Message });
+            }
+        }
+
+        //HEAD  Bucket List => Standard Bucket List
+        [Authorize]
+        [HttpGet]
+        [Route("getheadprobationbucketlist")]
+        public async Task<IActionResult> GetProbationBucketList()
+        {
+            try
+            {
+
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var employeeProbations = dbContext.ProbationProgress.Where(x => x.ProbationStatus == 10).ToList();
+
+                return Ok(new { employeeProbations });
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Bucket Probation List Failed: " + x.Message });
+            }
+        }
+
+
+
+        //HR push to Head HR
+        [Authorize]
+        [HttpPost]
+        [Route("hrpushprobationtoheadhr/{PID}")]
+        public async Task<IActionResult> HRPushProbationToHeadHR([FromBody] ProbationRecommendationModel probationFirst, string PID)
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var resRemarks = await codeUnitWebService.Client().UpdateProbationHRremarkAsync(PID, probationFirst.HRcomment);
+                if (bool.Parse(resRemarks.return_value))
+                {
+                    var contModel = dbContext.ProbationProgress.Where(x => x.ProbationNo == PID).First();
+                    contModel.ProbationStatus = 4;
+                    contModel.UIDTwo = user.Id;
+                    contModel.UIDTwoComment = probationFirst.HRcomment;
+
+                    dbContext.ProbationProgress.Update(contModel);
+                    await dbContext.SaveChangesAsync();
+
+                    ////Mail HEAD HR
+                    ///@email
+
+                    var mailStaff = await codeUnitWebService.WSMailer().EmployeeProbationHRToHeadHRAsync(PID);
+
+
+
+                    return Ok(bool.Parse(resRemarks.return_value));
+                }
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation Card Update Failed: D365 failed " });
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation Card Update Failed: " + x.Message });
+            }
+        }
 
 
 

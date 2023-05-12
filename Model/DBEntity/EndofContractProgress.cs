@@ -32,7 +32,8 @@ namespace RPFBE.Model.DBEntity
 
         public string HODEid { get; set; }
         public string HODComment { get; set; }
-
+        public string UIDFour { get; set; }//HOD - Bucketing option
+        public string UIDFourComment { get; set; }//HOD 
         public string BackTrackingReason { get; set; }
 
     

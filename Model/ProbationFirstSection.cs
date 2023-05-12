@@ -131,5 +131,11 @@ namespace RPFBE.Model
         public string empRecExtProb { get; set; }
         public string empRecTerminate { get; set; }
 
+        public string Jobtitle { get; set; }
+        public string Branch { get; set; }
+        public string Product { get; set; }
+        public string Employmentyear { get; set; }
+        public string Tenureofservice { get; set; }
+
     }
 }

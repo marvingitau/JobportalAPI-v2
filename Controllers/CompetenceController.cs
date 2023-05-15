@@ -211,7 +211,155 @@ namespace RPFBE.Controllers
             }
             catch (Exception x)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Get Staff Competence General Failed: " + x.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Modify  Competence Line Failed: " + x.Message });
+            }
+        }
+
+        //Staff Calculate score
+        [Authorize]
+        [HttpGet]
+        [Route("staffcalculatescore/{cno}")]
+        public async Task<IActionResult> StaffCalculateScore(string cno)
+        {
+            try
+            {
+                var res = await codeUnitWebService.Client().CalculateScoresStaffAsync(cno);
+                return Ok(res.return_value);
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Competence Calculation Failed: " + x.Message });
+            }
+        }
+
+        //Move Competence Record to Supervisor
+        [Authorize]
+        [HttpGet]
+        [Route("staffpushtosupervisor/{cno}")]
+        public async Task<IActionResult> StaffPushToSup(string cno)
+        {
+            try
+            {
+                var res = await codeUnitWebService.Client().PushToSupervisorAsync(cno);
+                return Ok(res.return_value);
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Push to Supervisor failed: " + x.Message });
+            }
+        }
+        //Get Competency Report
+        [Authorize]
+        [HttpGet]
+        [Route("getcompentencyreport/{cno}")]
+        public async Task<IActionResult> GetCompentencyReport(string cno)
+        {
+            try
+            {
+                var path = await codeUnitWebService.Client().GetCompetenceReportAsync(cno);
+                var file = path.return_value;
+
+                // Response...
+                System.Net.Mime.ContentDisposition cd = new System.Net.Mime.ContentDisposition
+                {
+                    FileName = file,
+                    Inline = true // false = prompt the user for downloading;  true = browser to try to show the file inline
+                };
+                Response.Headers.Add("Content-Disposition", cd.ToString());
+                Response.Headers.Add("X-Content-Type-Options", "nosniff");
+
+                return File(System.IO.File.ReadAllBytes(file), "application/pdf");
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Report failed: " + x.Message });
+            }
+        }
+        //Supervisor Competence Record
+        [Authorize]
+        [HttpGet]
+        [Route("getsupercompetencelist")]
+        public async Task<IActionResult> GetSuperCompetenceList()
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                List<CompetenceFrameworkModel> competenceFrameworks = new List<CompetenceFrameworkModel>();
+                var res = await codeUnitWebService.Client().GetCompetenceListManagerAsync(user.EmployeeId);
+                dynamic resSerial = JsonConvert.DeserializeObject(res.return_value);
+
+                if (resSerial != null)
+                {
+                    foreach (var item in resSerial)
+                    {
+                        CompetenceFrameworkModel cfm = new CompetenceFrameworkModel
+                        {
+                            Cno = item.Cno,
+                            Staffno = item.Staffno,
+                            Staffname = item.Staffname,
+                            Supervisorno = item.Supervisorno,
+                            Supervisorname = item.Supervisorname,
+                            Startdate = item.Startdate,
+                            Enddate = item.Enddate,
+                            Behavescoreemp = item.Behavescoreemp,
+                            Behavescoresup = item.Behavescoresup,
+                            Behavescoreavg = item.Behavescoreavg,
+                            Techscoreemp = item.Techscoreemp,
+                            Techscoresup = item.Techscoresup,
+                            Techscoreavg = item.Techscoreavg,
+                            Averagescore = item.Averagescore,
+                            Percentagescore = item.Percentagescore,
+                            Status = item.Status,
+                        };
+                        competenceFrameworks.Add(cfm);
+                    }
+                    return Ok(new { competenceFrameworks });
+                }
+                else
+                {
+                    return Ok(new { competenceFrameworks });
+                }
+
+
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Get Supervisor Competence Failed: " + x.Message });
+            }
+        }
+        
+        //Modify Supervisor Compentence Line
+        [Authorize]
+        [HttpPost]
+        [Route("modifysupervisorcompetenceline")]
+        public async Task<IActionResult> ModifySupervisorCompetenceLine([FromBody] CompetenceLineModel competenceLineModel)
+        {
+            try
+            {
+                var res = await codeUnitWebService.Client().ModifyCompetencyLineAsync(Int32.Parse(competenceLineModel.Lineno), competenceLineModel.Supervisorassesment, competenceLineModel.Supervisorcomment, "1"); //Supervisr
+                return Ok(new { res.return_value });
+
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Supervisor Competence Line Modification Failed: " + x.Message });
+            }
+        }
+        //Supervisor Calculate score
+        [Authorize]
+        [HttpGet]
+        [Route("supervisorcalculatescore/{cno}")]
+        public async Task<IActionResult> SupervisorCalculateScore(string cno)
+        {
+            try
+            {
+                var res = await codeUnitWebService.Client().CalculateScoresManagerAsync(cno);
+                return Ok(res.return_value);
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Competence Calculation Failed: " + x.Message });
             }
         }
     }

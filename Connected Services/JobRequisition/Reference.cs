@@ -80,6 +80,10 @@ namespace JobRequisition
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.GetCompetenceListStaff_Result> GetCompetenceListStaffAsync(JobRequisition.GetCompetenceListStaff request);
         
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:GetCompetenceListManager", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.GetCompetenceListManager_Result> GetCompetenceListManagerAsync(JobRequisition.GetCompetenceListManager request);
+        
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:GetCompetenceGeneralStaff", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.GetCompetenceGeneralStaff_Result> GetCompetenceGeneralStaffAsync(JobRequisition.GetCompetenceGeneralStaff request);
@@ -91,6 +95,22 @@ namespace JobRequisition
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:ModifyCompetencyLine", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.ModifyCompetencyLine_Result> ModifyCompetencyLineAsync(JobRequisition.ModifyCompetencyLine request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:CalculateScoresStaff", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.CalculateScoresStaff_Result> CalculateScoresStaffAsync(JobRequisition.CalculateScoresStaff request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:CalculateScoresManager", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.CalculateScoresManager_Result> CalculateScoresManagerAsync(JobRequisition.CalculateScoresManager request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:PushToSupervisor", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.PushToSupervisor_Result> PushToSupervisorAsync(JobRequisition.PushToSupervisor request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:GetCompetenceReport", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.GetCompetenceReport_Result> GetCompetenceReportAsync(JobRequisition.GetCompetenceReport request);
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:GetPostedJobs", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -1280,6 +1300,46 @@ namespace JobRequisition
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetCompetenceListManager", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GetCompetenceListManager
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string manNo;
+        
+        public GetCompetenceListManager()
+        {
+        }
+        
+        public GetCompetenceListManager(string manNo)
+        {
+            this.manNo = manNo;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetCompetenceListManager_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GetCompetenceListManager_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public GetCompetenceListManager_Result()
+        {
+        }
+        
+        public GetCompetenceListManager_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="GetCompetenceGeneralStaff", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
     public partial class GetCompetenceGeneralStaff
     {
@@ -1404,6 +1464,166 @@ namespace JobRequisition
         }
         
         public ModifyCompetencyLine_Result(bool return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="CalculateScoresStaff", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class CalculateScoresStaff
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string cNo;
+        
+        public CalculateScoresStaff()
+        {
+        }
+        
+        public CalculateScoresStaff(string cNo)
+        {
+            this.cNo = cNo;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="CalculateScoresStaff_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class CalculateScoresStaff_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public bool return_value;
+        
+        public CalculateScoresStaff_Result()
+        {
+        }
+        
+        public CalculateScoresStaff_Result(bool return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="CalculateScoresManager", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class CalculateScoresManager
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string cNo;
+        
+        public CalculateScoresManager()
+        {
+        }
+        
+        public CalculateScoresManager(string cNo)
+        {
+            this.cNo = cNo;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="CalculateScoresManager_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class CalculateScoresManager_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public bool return_value;
+        
+        public CalculateScoresManager_Result()
+        {
+        }
+        
+        public CalculateScoresManager_Result(bool return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="PushToSupervisor", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class PushToSupervisor
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string cno;
+        
+        public PushToSupervisor()
+        {
+        }
+        
+        public PushToSupervisor(string cno)
+        {
+            this.cno = cno;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="PushToSupervisor_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class PushToSupervisor_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public bool return_value;
+        
+        public PushToSupervisor_Result()
+        {
+        }
+        
+        public PushToSupervisor_Result(bool return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetCompetenceReport", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GetCompetenceReport
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string cno;
+        
+        public GetCompetenceReport()
+        {
+        }
+        
+        public GetCompetenceReport(string cno)
+        {
+            this.cno = cno;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetCompetenceReport_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GetCompetenceReport_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public GetCompetenceReport_Result()
+        {
+        }
+        
+        public GetCompetenceReport_Result(string return_value)
         {
             this.return_value = return_value;
         }
@@ -6738,6 +6958,19 @@ namespace JobRequisition
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.GetCompetenceListManager_Result> JobRequisition.JWS_Port.GetCompetenceListManagerAsync(JobRequisition.GetCompetenceListManager request)
+        {
+            return base.Channel.GetCompetenceListManagerAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.GetCompetenceListManager_Result> GetCompetenceListManagerAsync(string manNo)
+        {
+            JobRequisition.GetCompetenceListManager inValue = new JobRequisition.GetCompetenceListManager();
+            inValue.manNo = manNo;
+            return ((JobRequisition.JWS_Port)(this)).GetCompetenceListManagerAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         System.Threading.Tasks.Task<JobRequisition.GetCompetenceGeneralStaff_Result> JobRequisition.JWS_Port.GetCompetenceGeneralStaffAsync(JobRequisition.GetCompetenceGeneralStaff request)
         {
             return base.Channel.GetCompetenceGeneralStaffAsync(request);
@@ -6777,6 +7010,58 @@ namespace JobRequisition
             inValue.comment = comment;
             inValue.sender = sender;
             return ((JobRequisition.JWS_Port)(this)).ModifyCompetencyLineAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.CalculateScoresStaff_Result> JobRequisition.JWS_Port.CalculateScoresStaffAsync(JobRequisition.CalculateScoresStaff request)
+        {
+            return base.Channel.CalculateScoresStaffAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.CalculateScoresStaff_Result> CalculateScoresStaffAsync(string cNo)
+        {
+            JobRequisition.CalculateScoresStaff inValue = new JobRequisition.CalculateScoresStaff();
+            inValue.cNo = cNo;
+            return ((JobRequisition.JWS_Port)(this)).CalculateScoresStaffAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.CalculateScoresManager_Result> JobRequisition.JWS_Port.CalculateScoresManagerAsync(JobRequisition.CalculateScoresManager request)
+        {
+            return base.Channel.CalculateScoresManagerAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.CalculateScoresManager_Result> CalculateScoresManagerAsync(string cNo)
+        {
+            JobRequisition.CalculateScoresManager inValue = new JobRequisition.CalculateScoresManager();
+            inValue.cNo = cNo;
+            return ((JobRequisition.JWS_Port)(this)).CalculateScoresManagerAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.PushToSupervisor_Result> JobRequisition.JWS_Port.PushToSupervisorAsync(JobRequisition.PushToSupervisor request)
+        {
+            return base.Channel.PushToSupervisorAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.PushToSupervisor_Result> PushToSupervisorAsync(string cno)
+        {
+            JobRequisition.PushToSupervisor inValue = new JobRequisition.PushToSupervisor();
+            inValue.cno = cno;
+            return ((JobRequisition.JWS_Port)(this)).PushToSupervisorAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.GetCompetenceReport_Result> JobRequisition.JWS_Port.GetCompetenceReportAsync(JobRequisition.GetCompetenceReport request)
+        {
+            return base.Channel.GetCompetenceReportAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.GetCompetenceReport_Result> GetCompetenceReportAsync(string cno)
+        {
+            JobRequisition.GetCompetenceReport inValue = new JobRequisition.GetCompetenceReport();
+            inValue.cno = cno;
+            return ((JobRequisition.JWS_Port)(this)).GetCompetenceReportAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]

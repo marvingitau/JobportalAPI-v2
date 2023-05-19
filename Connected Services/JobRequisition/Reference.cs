@@ -1425,23 +1425,27 @@ namespace JobRequisition
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
-        public int cline;
+        public string ctemp;
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=1)]
-        public string assesment;
+        public int cline;
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=2)]
-        public string comment;
+        public string assesment;
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=3)]
+        public string comment;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=4)]
         public string sender;
         
         public ModifyCompetencyLine()
         {
         }
         
-        public ModifyCompetencyLine(int cline, string assesment, string comment, string sender)
+        public ModifyCompetencyLine(string ctemp, int cline, string assesment, string comment, string sender)
         {
+            this.ctemp = ctemp;
             this.cline = cline;
             this.assesment = assesment;
             this.comment = comment;
@@ -7002,9 +7006,10 @@ namespace JobRequisition
             return base.Channel.ModifyCompetencyLineAsync(request);
         }
         
-        public System.Threading.Tasks.Task<JobRequisition.ModifyCompetencyLine_Result> ModifyCompetencyLineAsync(int cline, string assesment, string comment, string sender)
+        public System.Threading.Tasks.Task<JobRequisition.ModifyCompetencyLine_Result> ModifyCompetencyLineAsync(string ctemp, int cline, string assesment, string comment, string sender)
         {
             JobRequisition.ModifyCompetencyLine inValue = new JobRequisition.ModifyCompetencyLine();
+            inValue.ctemp = ctemp;
             inValue.cline = cline;
             inValue.assesment = assesment;
             inValue.comment = comment;

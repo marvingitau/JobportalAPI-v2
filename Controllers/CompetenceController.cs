@@ -205,7 +205,7 @@ namespace RPFBE.Controllers
         {
             try
             {
-                var res = await codeUnitWebService.Client().ModifyCompetencyLineAsync(Int32.Parse(competenceLineModel.Lineno), competenceLineModel.Employeeassesment, competenceLineModel.Employeecomment, "0"); //Stadd
+                var res = await codeUnitWebService.Client().ModifyCompetencyLineAsync(competenceLineModel.Cno,Int32.Parse(competenceLineModel.Lineno), competenceLineModel.Employeeassesment, competenceLineModel.Employeecomment, "0"); //Stadd
                 return Ok(new { res.return_value });
 
             }
@@ -337,7 +337,7 @@ namespace RPFBE.Controllers
         {
             try
             {
-                var res = await codeUnitWebService.Client().ModifyCompetencyLineAsync(Int32.Parse(competenceLineModel.Lineno), competenceLineModel.Supervisorassesment, competenceLineModel.Supervisorcomment, "1"); //Supervisr
+                var res = await codeUnitWebService.Client().ModifyCompetencyLineAsync(competenceLineModel.Cno,Int32.Parse(competenceLineModel.Lineno), competenceLineModel.Supervisorassesment, competenceLineModel.Supervisorcomment, "1"); //Supervisr
                 return Ok(new { res.return_value });
 
             }

@@ -1431,6 +1431,7 @@ namespace RPFBE.Controllers
                         latestEntryModel.SeparationDate = interviewCard1.SeparationDate;
                         latestEntryModel.LengthOfService = interviewCard1.LengthOfService;
                         latestEntryModel.OtherPositionsHeld = interviewCard1.OtherPositionsHeld;
+                        latestEntryModel.FormUploaded = 0;
 
 
                         dbContext.ExitInterviewCard.Update(latestEntryModel);

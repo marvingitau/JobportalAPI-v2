@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using RPFBE.Auth;
 using RPFBE.Model.DBEntity;
 using RPFBE.Model.Repository;
@@ -114,10 +115,69 @@ namespace RPFBE.Controllers
             try
             {
                 var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var exitcard = dbContext.ExitInterviewCard.Where(x => x.EID == user.EmployeeId).First(); //get the exit card pk
+                string[] textArr = new string[10];
+                bool[] boolArr = new bool[5];
+                int[] intArr = new int[40];
 
                 var duplicate = dbContext.ExitInterviewForm.Where(x => x.UID == user.Id).Count();
                 if (duplicate > 0)
                 {
+                    string modextform = "";
+                    if (true)
+                    {
+
+                        intArr[0] = int.Parse(exitInterview.Fairnessofworkload);
+                        intArr[1] = int.Parse(exitInterview.Salary);
+                        intArr[2] = int.Parse(exitInterview.WorkingconditionOne);
+                        intArr[3] = int.Parse(exitInterview.Toolsprovided);
+                        intArr[4] = int.Parse(exitInterview.Trainingreceived);
+                        intArr[5] = int.Parse(exitInterview.Rxtioncoworker);
+                        intArr[6] = int.Parse(exitInterview.Typeworkperformed);
+                        intArr[7] = int.Parse(exitInterview.Supervisonreceived);
+                        intArr[8] = int.Parse(exitInterview.Decisionaffected);
+                        intArr[9] = int.Parse(exitInterview.Recruitmentprocess);
+                        intArr[10] = int.Parse(exitInterview.Employeeorientation);
+                        intArr[11] = int.Parse(exitInterview.Trainingopportunity);
+                        intArr[12] = int.Parse(exitInterview.Careerdevops);
+                        intArr[13] = int.Parse(exitInterview.Employeemorale);
+                        intArr[14] = int.Parse(exitInterview.Fairtreatment);
+                        intArr[15] = int.Parse(exitInterview.Recognitionofwelldone);
+                        intArr[16] = int.Parse(exitInterview.Suportofworklifebal);
+                        intArr[17] = int.Parse(exitInterview.Cooperationinoffice);
+                        intArr[18] = int.Parse(exitInterview.Communicationmgtemp);
+                        intArr[19] = int.Parse(exitInterview.Performancedevplan);
+                        intArr[20] = int.Parse(exitInterview.Interestinvemp);
+                        intArr[21] = int.Parse(exitInterview.CommitmentCustServ);
+                        intArr[22] = int.Parse(exitInterview.ConcernedQualityExcellence);
+                        intArr[23] = int.Parse(exitInterview.AdminPolicy);
+                        intArr[24] = int.Parse(exitInterview.RecognitionAccomp);
+                        intArr[25] = int.Parse(exitInterview.ClearlyCommExpectation);
+                        intArr[26] = int.Parse(exitInterview.TreatedFairly);
+                        intArr[27] = int.Parse(exitInterview.CoarchedTrainedDev);
+                        intArr[28] = int.Parse(exitInterview.ProvidedLeadership);
+                        intArr[29] = int.Parse(exitInterview.EncouragedTeamworkCoop);
+                        intArr[30] = int.Parse(exitInterview.ResolvedConcerns);
+                        intArr[31] = int.Parse(exitInterview.ListeningToSuggetions);
+                        intArr[32] = int.Parse(exitInterview.KeptTeamInfo);
+                        intArr[33] = int.Parse(exitInterview.SupportedWorkLifeBal);
+                        intArr[34] = int.Parse(exitInterview.AppropriateChallengingAssignments);
+
+                        boolArr[0] = exitInterview.Typeofwork == "YES";
+                        boolArr[1] = exitInterview.Workingcondition == "YES";
+                        boolArr[2] = exitInterview.Payment == "YES";
+                        boolArr[3] = exitInterview.Manager == "YES";
+
+                        textArr[0] = exitInterview.Whatulldosummarydous;
+                        textArr[1] = exitInterview.TheJobLeaving;
+                        textArr[2] = exitInterview.TheOrgoverla;
+                        textArr[3] = exitInterview.YourSupervisorMgr;
+                        textArr[4] = exitInterview.AnyOtherSuggetionQ;
+                        //WS
+                        var resWS = await codeUnitWebService.Client().UpdateExitFormAsync(exitcard.ExitNo, intArr, boolArr, textArr);
+                        modextform = resWS.return_value;
+
+                    }
 
                     //update
                     var mode = dbContext.ExitInterviewForm.Where(x => x.UID == user.Id).FirstOrDefault();
@@ -207,7 +267,9 @@ namespace RPFBE.Controllers
                     mode.ExitCardRef = exitInterview.ExitCardRef;
 
                     dbContext.ExitInterviewForm.Update(mode);
-                    await dbContext.SaveChangesAsync();
+                    var resp = await dbContext.SaveChangesAsync();
+
+                  
 
                     //Update card
                     var rec = dbContext.ExitInterviewCard.Where(x => x.Id == exitInterview.ExitCardRef).FirstOrDefault();
@@ -216,10 +278,66 @@ namespace RPFBE.Controllers
                     await dbContext.SaveChangesAsync();
 
 
-                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Succes", Message = "Exit form Updated" });
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Succes", Message = "Exit form Updated,"+modextform });
                 }
                 else
                 {
+                    string modextform = "";
+                    if (true)
+                    {
+
+                        intArr[0] = int.Parse(exitInterview.Fairnessofworkload);
+                        intArr[1] = int.Parse(exitInterview.Salary);
+                        intArr[2] = int.Parse(exitInterview.WorkingconditionOne);
+                        intArr[3] = int.Parse(exitInterview.Toolsprovided);
+                        intArr[4] = int.Parse(exitInterview.Trainingreceived);
+                        intArr[5] = int.Parse(exitInterview.Rxtioncoworker);
+                        intArr[6] = int.Parse(exitInterview.Typeworkperformed);
+                        intArr[7] = int.Parse(exitInterview.Supervisonreceived);
+                        intArr[8] = int.Parse(exitInterview.Decisionaffected);
+                        intArr[9] = int.Parse(exitInterview.Recruitmentprocess);
+                        intArr[10] = int.Parse(exitInterview.Employeeorientation);
+                        intArr[11] = int.Parse(exitInterview.Trainingopportunity);
+                        intArr[12] = int.Parse(exitInterview.Careerdevops);
+                        intArr[13] = int.Parse(exitInterview.Employeemorale);
+                        intArr[14] = int.Parse(exitInterview.Fairtreatment);
+                        intArr[15] = int.Parse(exitInterview.Recognitionofwelldone);
+                        intArr[16] = int.Parse(exitInterview.Suportofworklifebal);
+                        intArr[17] = int.Parse(exitInterview.Cooperationinoffice);
+                        intArr[18] = int.Parse(exitInterview.Communicationmgtemp);
+                        intArr[19] = int.Parse(exitInterview.Performancedevplan);
+                        intArr[20] = int.Parse(exitInterview.Interestinvemp);
+                        intArr[21] = int.Parse(exitInterview.CommitmentCustServ);
+                        intArr[22] = int.Parse(exitInterview.ConcernedQualityExcellence);
+                        intArr[23] = int.Parse(exitInterview.AdminPolicy);
+                        intArr[24] = int.Parse(exitInterview.RecognitionAccomp);
+                        intArr[25] = int.Parse(exitInterview.ClearlyCommExpectation);
+                        intArr[26] = int.Parse(exitInterview.TreatedFairly);
+                        intArr[27] = int.Parse(exitInterview.CoarchedTrainedDev);
+                        intArr[28] = int.Parse(exitInterview.ProvidedLeadership);
+                        intArr[29] = int.Parse(exitInterview.EncouragedTeamworkCoop);
+                        intArr[30] = int.Parse(exitInterview.ResolvedConcerns);
+                        intArr[31] = int.Parse(exitInterview.ListeningToSuggetions);
+                        intArr[32] = int.Parse(exitInterview.KeptTeamInfo);
+                        intArr[33] = int.Parse(exitInterview.SupportedWorkLifeBal);
+                        intArr[34] = int.Parse(exitInterview.AppropriateChallengingAssignments);
+
+                        boolArr[0] = exitInterview.Typeofwork == "YES";
+                        boolArr[1] = exitInterview.Workingcondition == "YES";
+                        boolArr[2] = exitInterview.Payment == "YES";
+                        boolArr[3] = exitInterview.Manager == "YES";
+
+                        textArr[0] = exitInterview.Whatulldosummarydous;
+                        textArr[1] = exitInterview.TheJobLeaving;
+                        textArr[2] = exitInterview.TheOrgoverla;
+                        textArr[3] = exitInterview.YourSupervisorMgr;
+                        textArr[4] = exitInterview.AnyOtherSuggetionQ;
+                        //WS
+                        var resWS = await codeUnitWebService.Client().UpdateExitFormAsync(exitcard.ExitNo, intArr, boolArr, textArr);
+                        modextform = resWS.return_value;
+
+                    }
+
                     //create
                     ExitInterviewForm aux = new ExitInterviewForm
                     {
@@ -228,7 +346,7 @@ namespace RPFBE.Controllers
                         Workingcondition = exitInterview.Workingcondition,
                         Payment = exitInterview.Payment,
                         Manager = exitInterview.Manager,
-
+                       
                         /*Fairnessofworkload = ((ScaleOne)int.Parse(exitInterview.Fairnessofworkload)).ToString(),
                          Salary = ((ScaleOne)int.Parse(exitInterview.Salary)).ToString(),
                          WorkingconditionOne = ((ScaleOne)int.Parse(exitInterview.WorkingconditionOne)).ToString(),
@@ -312,19 +430,17 @@ namespace RPFBE.Controllers
                     };
 
                     dbContext.ExitInterviewForm.Add(aux);
-                    await dbContext.SaveChangesAsync();
-
+                    var resp = await dbContext.SaveChangesAsync();
+                 
                     //Update card
                     var rec= dbContext.ExitInterviewCard.Where(x => x.Id == exitInterview.ExitCardRef).FirstOrDefault();
                     rec.FormUploaded = 1;
                     dbContext.ExitInterviewCard.Update(rec);
                     await dbContext.SaveChangesAsync();
 
-                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Succes", Message = "Exit form Uploaded" });
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Succes", Message = "Exit form Uploaded," + modextform });
                 }
                
-
-                //return Ok(aux);
             }
             catch (Exception x)
             {
@@ -349,6 +465,6 @@ namespace RPFBE.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Employee Exit Form err " + x.Message });
             }
         }
-    
+
     }
 }

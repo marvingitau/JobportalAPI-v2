@@ -28,5 +28,24 @@ namespace RPFBE.Model.DBEntity
         public string Resolver { get; set; }
         public string ResolverID { get; set; }
 
+        public int CycleNo { get; set; } = 0;
+        public int ProgressNo { get; set; } = 0;
+        public string NextStageStaff { get; set; }
+        public string Action { get; set; }
+        public string Actionuser { get; set; }
+        public string Actiondetails { get; set; }
+
+        public string CycletwoInitreason { get; set; }
+        public string Cycletwosteps { get; set; }
+        public string Cycletwooutcome { get; set; }
+        public string Cycletworecommendation { get; set; }
+
+        public string AppealAlternativeRemark { get; set; }
+        public string AppealOutcomeRemark { get; set; }
+
+
+
+
+
     }
 }

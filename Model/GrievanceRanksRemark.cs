@@ -19,5 +19,11 @@ namespace RPFBE.Model
 
         public string MDrem { get; set; } = "";
         public string MDref { get; set; } = "";
+
+        public string Suprem { get; set; } = "";
+        public string Supref { get; set; } = "";
+
+        public string HeadHRrem { get; set; } = "";
+        public string HeadHRref { get; set; } = "";
     }
 }

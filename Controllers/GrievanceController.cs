@@ -29,6 +29,8 @@ namespace RPFBE.Controllers
         private readonly IMailService mailService;
         private readonly IOptions<WebserviceCreds> config;
 
+
+
         public GrievanceController(
             UserManager<ApplicationUser> userManager,
                 ApplicationDbContext dbContext,
@@ -116,13 +118,15 @@ namespace RPFBE.Controllers
         {
             try
             {
+
                 string[] textArr = new string[20];
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
 
                 textArr[0] = grievanceCard.EmpID;
                 textArr[1] = grievanceCard.Station;
                 textArr[2] = grievanceCard.Section;
                 textArr[3] = grievanceCard.Dept;
-                textArr[4] = grievanceCard.Supervisor;
+                textArr[4] = grievanceCard.NextStageStaff;
                 textArr[5] = grievanceCard.CurrentStage;
                 textArr[6] = grievanceCard.NextStage;
                 textArr[7] = grievanceCard.GrievanceType;
@@ -165,8 +169,15 @@ namespace RPFBE.Controllers
                             Outcome = grievanceCard.Outcome,
                             Comment = grievanceCard.Comment,
                             Recommendation = grievanceCard.Recommendation,
-                            Resolved= false
-                            
+                            Resolved = false,
+
+                            CycleNo = 1,
+                            ProgressNo = 1,
+                            NextStageStaff = grievanceCard.NextStageStaff,
+
+                            Action = Auth.Action.CREATED,
+                            Actionuser = user.EmployeeId,
+                            Actiondetails = Auth.Action.CREATED+" Record",
                         };
 
                         dbContext.GrievanceList.Add(grievanceList);
@@ -244,18 +255,41 @@ namespace RPFBE.Controllers
                         HOSrem = item.HOSremark,
 
                         MDrem = item.MDremark,
-                        MDref = item.MDreference
+                        MDref = item.MDreference,
 
+                        Suprem = item.HODremark,
+                        Supref = item.HODreference,
+
+                        HeadHRref = item.HOSreference,
+                        HeadHRrem = item.HOSremark,
                     };
                     grievanceRanksRemarks.Add(grr);
                 }
-                return Ok(new { grievancesingle,grievanceRanksRemarks });
+
+                List<EmployeeListModel> employeeList = new List<EmployeeListModel>();
+
+                var resEmp = await codeUnitWebService.Client().EmployeeListAsync();
+                dynamic resEmpSerial = JsonConvert.DeserializeObject(resEmp.return_value);
+
+                foreach (var emp in resEmpSerial)
+                {
+                    EmployeeListModel e = new EmployeeListModel
+                    {
+                        Value = emp.No,
+                        Label = emp.Fullname,
+                    };
+                    employeeList.Add(e);
+
+                }
+
+                return Ok(new { grievancesingle,grievanceRanksRemarks, employeeList });
             }
             catch (Exception x)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Grievance Single Failed: " + x.Message });
             }
         }
+
 
         //Modify/create the Rank value
         [Authorize]
@@ -342,7 +376,8 @@ namespace RPFBE.Controllers
                 {
                     var grievanceRecord = dbContext.GrievanceList.Where(x => x.GID == GID).First();
                     grievanceRecord.Resolver = user.Name;
-                    grievanceRecord.ResolverID = user.Id;
+                    grievanceRecord.ResolverID = user.EmployeeId;
+                    grievanceRecord.Resolved = true;
 
                     dbContext.GrievanceList.Update(grievanceRecord);
                     await dbContext.SaveChangesAsync();
@@ -356,6 +391,348 @@ namespace RPFBE.Controllers
             }
         }
 
-        //
+
+        //Upload the Recommendations
+        [Authorize]
+        [HttpPost]
+        [Route("uploadprogressonecycleone")]
+        public async Task<IActionResult> UploadFromProgressOneCycleOne([FromBody] GrievanceCard grievanceCard)
+        {
+            try
+            {
+
+                string[] textArr = new string[20];
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var rec = dbContext.GrievanceList.Where(x => x.GID == grievanceCard.GID).FirstOrDefault();
+
+
+                textArr[0] = grievanceCard.StepTaken;
+                textArr[1] = grievanceCard.Outcome;
+                textArr[2] = grievanceCard.Comment;
+                textArr[3] = grievanceCard.Recommendation;
+                textArr[4] = grievanceCard.GeneralRemark; //depend on rank
+                textArr[5] = user.Rank;
+                textArr[6] = user.EmployeeId;
+                textArr[7] = "Employee";
+
+
+                var res = await codeUnitWebService.Client().UpdateGrievanceAsync(textArr, grievanceCard.GID);
+
+                rec.StepTaken = grievanceCard.StepTaken;
+                rec.Outcome = grievanceCard.Outcome;
+                rec.Comment = grievanceCard.Comment;
+                rec.Recommendation = grievanceCard.Recommendation;
+                rec.CycleNo = 1;
+                rec.ProgressNo = 2;
+                rec.Nextstage = "Employee";
+                rec.NextStageStaff = grievanceCard.NextStageStaff;
+
+                rec.Action = Auth.Action.UPDATED;
+                rec.Actionuser = user.EmployeeId;
+                rec.Actiondetails = Auth.Action.UPDATED + " Record";
+
+                dbContext.GrievanceList.Update(rec);
+                await dbContext.SaveChangesAsync();
+
+                return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Grievance Updated/"+res.return_value });
+                  
+
+                
+
+
+              
+
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Grievance Creation Failed: " + x.Message });
+            }
+        }
+
+        //Upload Prog 3 cycle 2
+        [Authorize]
+        [HttpPost]
+        [Route("uploadprogressthreecycletwo")]
+        public async Task<IActionResult> UploadFromProgressThreeCycleTwo([FromBody] GrievanceCard grievanceCard)
+        {
+            try
+            {
+
+                string[] textArr = new string[20];
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var res = await codeUnitWebService.Client().ReasonForCycleTwoGrievanceAsync(grievanceCard.GID, grievanceCard.CycletwoInitreason, grievanceCard.NextStageStaff, grievanceCard.NextStage);
+                
+                var rec = dbContext.GrievanceList.Where(x => x.GID == grievanceCard.GID).FirstOrDefault();
+                rec.CycletwoInitreason = grievanceCard.CycletwoInitreason;
+                rec.CycleNo = 2;
+                rec.ProgressNo = 3;
+                rec.Nextstage = grievanceCard.NextStage;
+                rec.NextStageStaff = grievanceCard.NextStageStaff;
+
+                rec.Action = Auth.Action.UPDATED;
+                rec.Actionuser = user.EmployeeId;
+                rec.Actiondetails = Auth.Action.UPDATED + " Record 2nd Cycled 3rd Prog";
+
+                dbContext.GrievanceList.Update(rec);
+                await dbContext.SaveChangesAsync();
+
+                return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Grievance Updated/" + res.return_value });
+
+
+
+
+
+
+
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Grievance Creation Failed: " + x.Message });
+            }
+        }
+
+        //Upload Prog 4 cycle 2
+        [Authorize]
+        [HttpPost]
+        [Route("uploadprogressfourcycletwo")]
+        public async Task<IActionResult> UploadFromProgressForuCycleTwo([FromBody] GrievanceCard grievanceCard)
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+
+                string[] textArr = new string[20];
+                textArr[0] = grievanceCard.Cycletwosteps;
+                textArr[1] = grievanceCard.Cycletwooutcome;
+                textArr[2] = grievanceCard.Cycletworecommendation;
+                textArr[3] = grievanceCard.NextStageStaff;
+                textArr[4] = grievanceCard.GeneralRemark;
+                textArr[5] = user.Rank;
+                textArr[6] = user.EmployeeId;
+                textArr[7] = "Employee";
+
+                var res = await codeUnitWebService.Client().UpdateGrievanceCycleTwoAsync(textArr,grievanceCard.GID);
+
+                var rec = dbContext.GrievanceList.Where(x => x.GID == grievanceCard.GID).FirstOrDefault();
+                rec.Cycletwosteps = grievanceCard.Cycletwosteps;
+                rec.Cycletwooutcome = grievanceCard.Cycletwooutcome;
+                rec.Cycletworecommendation = grievanceCard.Cycletworecommendation;
+                rec.CycleNo = 2;
+                rec.ProgressNo = 4;
+                rec.Nextstage = grievanceCard.NextStage;
+                rec.NextStageStaff = grievanceCard.NextStageStaff;
+
+                rec.Action = Auth.Action.UPDATED;
+                rec.Actionuser = user.EmployeeId;
+                rec.Actiondetails = Auth.Action.UPDATED + " Record 2nd Cycled 4th Prog";
+
+                dbContext.GrievanceList.Update(rec);
+                await dbContext.SaveChangesAsync();
+
+                return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Grievance Updated/" + res.return_value });
+
+
+
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Grievance Creation Failed: " + x.Message });
+            }
+        }
+
+        //Upload Prog 5 cycle 3
+        [Authorize]
+        [HttpPost]
+        [Route("uploadprogressfivecyclethree")]
+        public async Task<IActionResult> UploadFromProgressFiveCycleThree([FromBody] GrievanceCard grievanceCard)
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+
+                string[] textArr = new string[20];
+                textArr[0] = grievanceCard.NextStage;
+                textArr[1] = grievanceCard.NextStageStaff;
+
+               
+
+                var res = await codeUnitWebService.Client().UpdateGrievanceAppealAsync(textArr, grievanceCard.GID);
+
+                var rec = dbContext.GrievanceList.Where(x => x.GID == grievanceCard.GID).FirstOrDefault();
+ 
+                rec.CycleNo = 3;
+                rec.ProgressNo = 5;
+                rec.Nextstage = grievanceCard.NextStage;
+                rec.NextStageStaff = grievanceCard.NextStageStaff;
+
+                rec.Action = Auth.Action.UPDATED;
+                rec.Actionuser = user.EmployeeId;
+                rec.Actiondetails = Auth.Action.UPDATED + " Record 3nd Cycled 5th Prog";
+
+                dbContext.GrievanceList.Update(rec);
+                await dbContext.SaveChangesAsync();
+
+                return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Grievance Updated/" + res.return_value });
+
+
+
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Grievance Creation Failed: " + x.Message });
+            }
+        }
+
+        //Dismis Appeal
+        [Authorize]
+        [HttpPost]
+        [Route("dismissappeal")]
+        public async Task<IActionResult> DismissAppeal([FromBody] GrievanceCard grievanceCard)
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+
+                var res = await codeUnitWebService.Client().DeclineGrievaneAppealAsync(grievanceCard.GID, grievanceCard.AppealAlternativeRemark, grievanceCard.NextStageStaff, grievanceCard.NextStage,user.EmployeeId);
+
+                var rec = dbContext.GrievanceList.Where(x => x.GID == grievanceCard.GID).FirstOrDefault();
+
+                rec.Resolver = user.Name;
+                rec.ResolverID = user.EmployeeId;
+                rec.Resolved = true;
+                rec.CycleNo = 3;
+                rec.ProgressNo = 6;
+                rec.Nextstage = grievanceCard.NextStage;
+                rec.NextStageStaff = grievanceCard.NextStageStaff;
+                rec.AppealAlternativeRemark = grievanceCard.AppealAlternativeRemark;
+
+                rec.Action = Auth.Action.COMPLETED;
+                rec.Actionuser = user.EmployeeId;
+                rec.Actiondetails = Auth.Action.COMPLETED + " Record 3nd Cycled 6th Prog";
+
+                dbContext.GrievanceList.Update(rec);
+                await dbContext.SaveChangesAsync();
+
+                return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Grievance Dismissed" + res.return_value });
+
+
+
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Grievance Dismissed Failed: " + x.Message });
+            }
+        }
+
+
+        //Uphold Appeal
+        [Authorize]
+        [HttpPost]
+        [Route("upholdappeal")]
+        public async Task<IActionResult> UpholdAppeal([FromBody] GrievanceCard grievanceCard)
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+
+                var res = await codeUnitWebService.Client().UpholdGrievaneAppealAsync(grievanceCard.GID, grievanceCard.AppealOutcomeRemark, grievanceCard.NextStageStaff, grievanceCard.NextStage, user.EmployeeId); ;
+
+                var rec = dbContext.GrievanceList.Where(x => x.GID == grievanceCard.GID).FirstOrDefault();
+
+                rec.Resolver = user.Name;
+                rec.ResolverID = user.EmployeeId;
+                rec.Resolved = true;
+                rec.CycleNo = 3;
+                rec.ProgressNo = 5;
+                rec.Nextstage = grievanceCard.NextStage;
+                rec.NextStageStaff = grievanceCard.NextStageStaff;
+                rec.AppealOutcomeRemark = grievanceCard.AppealOutcomeRemark;
+
+                rec.Action = Auth.Action.COMPLETED;
+                rec.Actionuser = user.EmployeeId;
+                rec.Actiondetails = Auth.Action.COMPLETED + " Record 3nd Cycled 6th Prog";
+
+                dbContext.GrievanceList.Update(rec);
+                await dbContext.SaveChangesAsync();
+
+                return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Grievance Appeal Success" + res.return_value });
+
+
+
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Grievance Appeal Failed: " + x.Message });
+            }
+        }
+
+
+        //************************************** APPROVAL LEVEL ****************************************
+        //First Cycle, first Status 
+        [Authorize]
+        [HttpGet]
+        [Route("getapprovalgrievancelist")]
+        public async Task<IActionResult> GetApprovalGrievanceList()
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                //.Select(x => new { x.Supervisorname, x.Employeename, x.GID, x.Employeeno, x.Supervisor, x.Currentstage, x.Nextstage, x.Resolved }).ToList();
+                var grievancelist = dbContext.GrievanceList.Where(x => x.NextStageStaff == user.EmployeeId && (x.ProgressNo == 1 || x.ProgressNo == 2) && x.CycleNo == 1).ToList();
+                return Ok(new { grievancelist });
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Get Grievance Approval List Failed: " + x.Message });
+            }
+        }
+
+        //2 Cycle, 3 Status 
+        [Authorize]
+        [HttpGet]
+        [Route("getctwosthreegrievancelist")]
+        public async Task<IActionResult> GetCtwoSThreeGrievanceList()
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                //.Select(x => new { x.Supervisorname, x.Employeename, x.GID, x.Employeeno, x.Supervisor, x.Currentstage, x.Nextstage, x.Resolved }).ToList();
+                var grievancelist = dbContext.GrievanceList.Where(x => x.NextStageStaff == user.EmployeeId && (x.ProgressNo == 3 || x.ProgressNo == 4) && x.CycleNo == 2).ToList();
+                return Ok(new { grievancelist });
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Get Grievance Approval List Failed: " + x.Message });
+            }
+        }
+
+        //3 Cycle, 5 Status 
+        [Authorize]
+        [HttpGet]
+        [Route("getcthreesfivegrievancelist")]
+        public async Task<IActionResult> GetCthreeSfiveGrievanceList()
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                //.Select(x => new { x.Supervisorname, x.Employeename, x.GID, x.Employeeno, x.Supervisor, x.Currentstage, x.Nextstage, x.Resolved }).ToList();
+                var grievancelist = dbContext.GrievanceList.Where(x => x.NextStageStaff == user.EmployeeId && (x.ProgressNo == 5 || x.ProgressNo == 6) && x.CycleNo == 3).ToList();
+                return Ok(new { grievancelist });
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Get Grievance Approval List Failed: " + x.Message });
+            }
+        }
+
     }
 }

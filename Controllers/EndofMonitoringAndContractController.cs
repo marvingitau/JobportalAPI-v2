@@ -1807,6 +1807,8 @@ namespace RPFBE.Controllers
                         Product = item.Product,
                         Employmentyear = item.Employmentyear,
                         Tenureofservice = item.Tenureofservice,
+                        Contractstart = item.Contractstart,
+                        Contractexpiry = item.Contractexpiry,
 
 
                     };
@@ -3126,6 +3128,78 @@ namespace RPFBE.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation Card Update Failed: " + x.Message });
             }
         }
+
+
+
+        //Move contract from Bucket
+        [Authorize]
+        [HttpGet]
+        [Route("movecontractfrombucket/{CID}/{SID}")]
+        public async Task<IActionResult> MoveContractFromBucket(string CID,string SID)
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+
+                var cModel = dbContext.EndofContractProgress.Where(p => p.ContractNo == CID).First();
+                //cModel.UIDTwo = user.Id;
+                cModel.ContractStatus = int.Parse(SID);
+
+                dbContext.EndofContractProgress.Update(cModel);
+                await dbContext.SaveChangesAsync();
+                // await codeUnitWebService.Client().UpdateEndofContractCardStatusAsync(PID);
+
+                //Mail HR
+                //@email
+
+                //var mailHR = await codeUnitWebService.WSMailer().EmployeeEOCManagerToHRAsync(PID);
+
+
+
+                return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Contract Moved " });
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Contract Move Failed: " + x.Message });
+            }
+        }
+
+
+        //Moved Probation from Bucket List
+        [Authorize]
+        [HttpGet]
+        [Route("moveprobationfrombucket/{PID}/{SID}")]
+        public async Task<IActionResult> MoveProbationFromBucket(string PID,string SID)
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+
+                var cModel = dbContext.ProbationProgress.Where(p => p.ProbationNo == PID).First();
+                //cModel.UIDTwo = user.Id;
+                cModel.ProbationStatus = int.Parse(SID);
+
+                dbContext.ProbationProgress.Update(cModel);
+                await dbContext.SaveChangesAsync();
+                // await codeUnitWebService.Client().UpdateEndofContractCardStatusAsync(PID);
+
+                //Mail HR
+                //@email
+
+                //var mailHR = await codeUnitWebService.WSMailer().EmployeeEOCManagerToHRAsync(PID);
+
+
+
+                return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Probation Moved " });
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Proation Move Failed: " + x.Message });
+            }
+        }
+
 
 
 

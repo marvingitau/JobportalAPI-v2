@@ -28,5 +28,17 @@ namespace RPFBE.Model.DBEntity
         public DateTime GrievanceDate { get; set; }
         public DateTime DateofIssue { get; set; }
 
+        public string NextStageStaff { get; set; }
+        public string GeneralRemark { get; set; }
+
+        public string CycletwoInitreason { get; set; }
+        public string Cycletwosteps { get; set; }
+        public string Cycletwooutcome { get; set; }
+        public string Cycletworecommendation { get; set; }
+
+        public string AppealAlternativeRemark { get; set; }
+        public string AppealOutcomeRemark { get; set; }
+
+
     }
 }

@@ -16,6 +16,34 @@ namespace JobRequisition
     public interface JWS_Port
     {
         
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:EmployeeLeaves", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.EmployeeLeaves_Result> EmployeeLeavesAsync(JobRequisition.EmployeeLeaves request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:GetLeaveAttachmentStatus", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.GetLeaveAttachmentStatus_Result> GetLeaveAttachmentStatusAsync(JobRequisition.GetLeaveAttachmentStatus request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:AddExtraDays", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.AddExtraDays_Result> AddExtraDaysAsync(JobRequisition.AddExtraDays request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:GetExtraDays", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.GetExtraDays_Result> GetExtraDaysAsync(JobRequisition.GetExtraDays request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:HasLeaveHasExtraDays", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.HasLeaveHasExtraDays_Result> HasLeaveHasExtraDaysAsync(JobRequisition.HasLeaveHasExtraDays request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:DeleteExtraDays", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.DeleteExtraDays_Result> DeleteExtraDaysAsync(JobRequisition.DeleteExtraDays request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:GetLeaveDashboard", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.GetLeaveDashboard_Result> GetLeaveDashboardAsync(JobRequisition.GetLeaveDashboard request);
+        
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:GetCalenderYear", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.GetCalenderYear_Result> GetCalenderYearAsync(JobRequisition.GetCalenderYear request);
@@ -332,10 +360,6 @@ namespace JobRequisition
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.RejectPerformanceMonitoring_Result> RejectPerformanceMonitoringAsync(JobRequisition.RejectPerformanceMonitoring request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:CreateExitInterview", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<JobRequisition.CreateExitInterview_Result> CreateExitInterviewAsync(JobRequisition.CreateExitInterview request);
-        
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:GetUserRoles", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.GetUserRoles_Result> GetUserRolesAsync(JobRequisition.GetUserRoles request);
@@ -347,6 +371,14 @@ namespace JobRequisition
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:ApproveInterviewForm", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.ApproveInterviewForm_Result> ApproveInterviewFormAsync(JobRequisition.ApproveInterviewForm request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:CreateExitInterview", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.CreateExitInterview_Result> CreateExitInterviewAsync(JobRequisition.CreateExitInterview request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:UpdateExitForm", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.UpdateExitForm_Result> UpdateExitFormAsync(JobRequisition.UpdateExitForm request);
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:CreateClearance", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -520,6 +552,22 @@ namespace JobRequisition
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.CreateGrievance_Result> CreateGrievanceAsync(JobRequisition.CreateGrievance request);
         
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:UpdateGrievance", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.UpdateGrievance_Result> UpdateGrievanceAsync(JobRequisition.UpdateGrievance request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:ReasonForCycleTwoGrievance", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.ReasonForCycleTwoGrievance_Result> ReasonForCycleTwoGrievanceAsync(JobRequisition.ReasonForCycleTwoGrievance request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:UpdateGrievanceCycleTwo", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.UpdateGrievanceCycleTwo_Result> UpdateGrievanceCycleTwoAsync(JobRequisition.UpdateGrievanceCycleTwo request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:UpdateGrievanceAppeal", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.UpdateGrievanceAppeal_Result> UpdateGrievanceAppealAsync(JobRequisition.UpdateGrievanceAppeal request);
+        
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:GrievanceForward", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.GrievanceForward_Result> GrievanceForwardAsync(JobRequisition.GrievanceForward request);
@@ -536,6 +584,14 @@ namespace JobRequisition
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.GrievanceModifyRankRemarks_Result> GrievanceModifyRankRemarksAsync(JobRequisition.GrievanceModifyRankRemarks request);
         
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:DeclineGrievaneAppeal", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.DeclineGrievaneAppeal_Result> DeclineGrievaneAppealAsync(JobRequisition.DeclineGrievaneAppeal request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:UpholdGrievaneAppeal", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.UpholdGrievaneAppeal_Result> UpholdGrievaneAppealAsync(JobRequisition.UpholdGrievaneAppeal request);
+        
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:GetUserPayrollData", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.GetUserPayrollData_Result> GetUserPayrollDataAsync(JobRequisition.GetUserPayrollData request);
@@ -547,34 +603,322 @@ namespace JobRequisition
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:HRDocsList", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.HRDocsList_Result> HRDocsListAsync(JobRequisition.HRDocsList request);
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="EmployeeLeaves", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class EmployeeLeaves
+    {
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:EmployeeLeaves", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<JobRequisition.EmployeeLeaves_Result> EmployeeLeavesAsync(JobRequisition.EmployeeLeaves request);
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string pK;
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:GetLeaveAttachmentStatus", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<JobRequisition.GetLeaveAttachmentStatus_Result> GetLeaveAttachmentStatusAsync(JobRequisition.GetLeaveAttachmentStatus request);
+        public EmployeeLeaves()
+        {
+        }
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:AddExtraDays", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<JobRequisition.AddExtraDays_Result> AddExtraDaysAsync(JobRequisition.AddExtraDays request);
+        public EmployeeLeaves(string pK)
+        {
+            this.pK = pK;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="EmployeeLeaves_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class EmployeeLeaves_Result
+    {
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:GetExtraDays", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<JobRequisition.GetExtraDays_Result> GetExtraDaysAsync(JobRequisition.GetExtraDays request);
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:HasLeaveHasExtraDays", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<JobRequisition.HasLeaveHasExtraDays_Result> HasLeaveHasExtraDaysAsync(JobRequisition.HasLeaveHasExtraDays request);
+        public EmployeeLeaves_Result()
+        {
+        }
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:DeleteExtraDays", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<JobRequisition.DeleteExtraDays_Result> DeleteExtraDaysAsync(JobRequisition.DeleteExtraDays request);
+        public EmployeeLeaves_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetLeaveAttachmentStatus", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GetLeaveAttachmentStatus
+    {
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:GetLeaveDashboard", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<JobRequisition.GetLeaveDashboard_Result> GetLeaveDashboardAsync(JobRequisition.GetLeaveDashboard request);
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string leaveType;
+        
+        public GetLeaveAttachmentStatus()
+        {
+        }
+        
+        public GetLeaveAttachmentStatus(string leaveType)
+        {
+            this.leaveType = leaveType;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetLeaveAttachmentStatus_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GetLeaveAttachmentStatus_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public bool return_value;
+        
+        public GetLeaveAttachmentStatus_Result()
+        {
+        }
+        
+        public GetLeaveAttachmentStatus_Result(bool return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="AddExtraDays", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class AddExtraDays
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string leaveNo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=1)]
+        public string empNo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(DataType="date")]
+        public System.DateTime startDate;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=3)]
+        public decimal days;
+        
+        public AddExtraDays()
+        {
+        }
+        
+        public AddExtraDays(string leaveNo, string empNo, System.DateTime startDate, decimal days)
+        {
+            this.leaveNo = leaveNo;
+            this.empNo = empNo;
+            this.startDate = startDate;
+            this.days = days;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="AddExtraDays_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class AddExtraDays_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public AddExtraDays_Result()
+        {
+        }
+        
+        public AddExtraDays_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetExtraDays", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GetExtraDays
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string lNo;
+        
+        public GetExtraDays()
+        {
+        }
+        
+        public GetExtraDays(string lNo)
+        {
+            this.lNo = lNo;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetExtraDays_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GetExtraDays_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public GetExtraDays_Result()
+        {
+        }
+        
+        public GetExtraDays_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="HasLeaveHasExtraDays", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class HasLeaveHasExtraDays
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string lNo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=1)]
+        public string lType;
+        
+        public HasLeaveHasExtraDays()
+        {
+        }
+        
+        public HasLeaveHasExtraDays(string lNo, string lType)
+        {
+            this.lNo = lNo;
+            this.lType = lType;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="HasLeaveHasExtraDays_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class HasLeaveHasExtraDays_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public bool return_value;
+        
+        public HasLeaveHasExtraDays_Result()
+        {
+        }
+        
+        public HasLeaveHasExtraDays_Result(bool return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="DeleteExtraDays", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class DeleteExtraDays
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string leaveNo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(DataType="date")]
+        public System.DateTime startDate;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=2)]
+        public string empNo;
+        
+        public DeleteExtraDays()
+        {
+        }
+        
+        public DeleteExtraDays(string leaveNo, System.DateTime startDate, string empNo)
+        {
+            this.leaveNo = leaveNo;
+            this.startDate = startDate;
+            this.empNo = empNo;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="DeleteExtraDays_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class DeleteExtraDays_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public bool return_value;
+        
+        public DeleteExtraDays_Result()
+        {
+        }
+        
+        public DeleteExtraDays_Result(bool return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetLeaveDashboard", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GetLeaveDashboard
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string managerNo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(DataType="date")]
+        public System.DateTime startDate;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(DataType="date")]
+        public System.DateTime endDate;
+        
+        public GetLeaveDashboard()
+        {
+        }
+        
+        public GetLeaveDashboard(string managerNo, System.DateTime startDate, System.DateTime endDate)
+        {
+            this.managerNo = managerNo;
+            this.startDate = startDate;
+            this.endDate = endDate;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetLeaveDashboard_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class GetLeaveDashboard_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public GetLeaveDashboard_Result()
+        {
+        }
+        
+        public GetLeaveDashboard_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -3887,72 +4231,6 @@ namespace JobRequisition
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="CreateExitInterview", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
-    public partial class CreateExitInterview
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
-        public string empNo;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=1)]
-        [System.Xml.Serialization.XmlElementAttribute(DataType="date")]
-        public System.DateTime interviewDate;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=2)]
-        public string interviewer;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=3)]
-        public string sepaGround;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=4)]
-        public string otherReason;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=5)]
-        [System.Xml.Serialization.XmlElementAttribute(DataType="date")]
-        public System.DateTime sepaDate;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=6)]
-        public string rEmploy;
-        
-        public CreateExitInterview()
-        {
-        }
-        
-        public CreateExitInterview(string empNo, System.DateTime interviewDate, string interviewer, string sepaGround, string otherReason, System.DateTime sepaDate, string rEmploy)
-        {
-            this.empNo = empNo;
-            this.interviewDate = interviewDate;
-            this.interviewer = interviewer;
-            this.sepaGround = sepaGround;
-            this.otherReason = otherReason;
-            this.sepaDate = sepaDate;
-            this.rEmploy = rEmploy;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="CreateExitInterview_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
-    public partial class CreateExitInterview_Result
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
-        public string return_value;
-        
-        public CreateExitInterview_Result()
-        {
-        }
-        
-        public CreateExitInterview_Result(string return_value)
-        {
-            this.return_value = return_value;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="GetUserRoles", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
     public partial class GetUserRoles
     {
@@ -4049,6 +4327,127 @@ namespace JobRequisition
         }
         
         public ApproveInterviewForm_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="CreateExitInterview", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class CreateExitInterview
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string empNo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(DataType="date")]
+        public System.DateTime interviewDate;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=2)]
+        public string interviewer;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=3)]
+        public string sepaGround;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=4)]
+        public string otherReason;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute(DataType="date")]
+        public System.DateTime sepaDate;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=6)]
+        public string rEmploy;
+        
+        public CreateExitInterview()
+        {
+        }
+        
+        public CreateExitInterview(string empNo, System.DateTime interviewDate, string interviewer, string sepaGround, string otherReason, System.DateTime sepaDate, string rEmploy)
+        {
+            this.empNo = empNo;
+            this.interviewDate = interviewDate;
+            this.interviewer = interviewer;
+            this.sepaGround = sepaGround;
+            this.otherReason = otherReason;
+            this.sepaDate = sepaDate;
+            this.rEmploy = rEmploy;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="CreateExitInterview_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class CreateExitInterview_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public CreateExitInterview_Result()
+        {
+        }
+        
+        public CreateExitInterview_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="UpdateExitForm", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class UpdateExitForm
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string pK;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute("argi")]
+        public int[] argi;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute("argb")]
+        public bool[] argb;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute("args")]
+        public string[] args;
+        
+        public UpdateExitForm()
+        {
+        }
+        
+        public UpdateExitForm(string pK, int[] argi, bool[] argb, string[] args)
+        {
+            this.pK = pK;
+            this.argi = argi;
+            this.argb = argb;
+            this.args = args;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="UpdateExitForm_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class UpdateExitForm_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public UpdateExitForm_Result()
+        {
+        }
+        
+        public UpdateExitForm_Result(string return_value)
         {
             this.return_value = return_value;
         }
@@ -6060,6 +6459,193 @@ namespace JobRequisition
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="UpdateGrievance", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class UpdateGrievance
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute("textArr")]
+        public string[] textArr;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=1)]
+        public string gID;
+        
+        public UpdateGrievance()
+        {
+        }
+        
+        public UpdateGrievance(string[] textArr, string gID)
+        {
+            this.textArr = textArr;
+            this.gID = gID;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="UpdateGrievance_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class UpdateGrievance_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public UpdateGrievance_Result()
+        {
+        }
+        
+        public UpdateGrievance_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ReasonForCycleTwoGrievance", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class ReasonForCycleTwoGrievance
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string gID;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=1)]
+        public string reaxon;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=2)]
+        public string nextStaff;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=3)]
+        public string nextRank;
+        
+        public ReasonForCycleTwoGrievance()
+        {
+        }
+        
+        public ReasonForCycleTwoGrievance(string gID, string reaxon, string nextStaff, string nextRank)
+        {
+            this.gID = gID;
+            this.reaxon = reaxon;
+            this.nextStaff = nextStaff;
+            this.nextRank = nextRank;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ReasonForCycleTwoGrievance_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class ReasonForCycleTwoGrievance_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public ReasonForCycleTwoGrievance_Result()
+        {
+        }
+        
+        public ReasonForCycleTwoGrievance_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="UpdateGrievanceCycleTwo", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class UpdateGrievanceCycleTwo
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute("textArr")]
+        public string[] textArr;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=1)]
+        public string gID;
+        
+        public UpdateGrievanceCycleTwo()
+        {
+        }
+        
+        public UpdateGrievanceCycleTwo(string[] textArr, string gID)
+        {
+            this.textArr = textArr;
+            this.gID = gID;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="UpdateGrievanceCycleTwo_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class UpdateGrievanceCycleTwo_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public UpdateGrievanceCycleTwo_Result()
+        {
+        }
+        
+        public UpdateGrievanceCycleTwo_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="UpdateGrievanceAppeal", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class UpdateGrievanceAppeal
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute("textArr")]
+        public string[] textArr;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=1)]
+        public string gID;
+        
+        public UpdateGrievanceAppeal()
+        {
+        }
+        
+        public UpdateGrievanceAppeal(string[] textArr, string gID)
+        {
+            this.textArr = textArr;
+            this.gID = gID;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="UpdateGrievanceAppeal_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class UpdateGrievanceAppeal_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public UpdateGrievanceAppeal_Result()
+        {
+        }
+        
+        public UpdateGrievanceAppeal_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="GrievanceForward", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
     public partial class GrievanceForward
     {
@@ -6252,6 +6838,118 @@ namespace JobRequisition
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="DeclineGrievaneAppeal", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class DeclineGrievaneAppeal
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string gID;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=1)]
+        public string recommendation;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=2)]
+        public string nextStaff;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=3)]
+        public string nextRank;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=4)]
+        public string moderator;
+        
+        public DeclineGrievaneAppeal()
+        {
+        }
+        
+        public DeclineGrievaneAppeal(string gID, string recommendation, string nextStaff, string nextRank, string moderator)
+        {
+            this.gID = gID;
+            this.recommendation = recommendation;
+            this.nextStaff = nextStaff;
+            this.nextRank = nextRank;
+            this.moderator = moderator;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="DeclineGrievaneAppeal_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class DeclineGrievaneAppeal_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public DeclineGrievaneAppeal_Result()
+        {
+        }
+        
+        public DeclineGrievaneAppeal_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="UpholdGrievaneAppeal", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class UpholdGrievaneAppeal
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string gID;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=1)]
+        public string comment;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=2)]
+        public string nextStaff;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=3)]
+        public string nextRank;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=4)]
+        public string moderator;
+        
+        public UpholdGrievaneAppeal()
+        {
+        }
+        
+        public UpholdGrievaneAppeal(string gID, string comment, string nextStaff, string nextRank, string moderator)
+        {
+            this.gID = gID;
+            this.comment = comment;
+            this.nextStaff = nextStaff;
+            this.nextRank = nextRank;
+            this.moderator = moderator;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="UpholdGrievaneAppeal_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class UpholdGrievaneAppeal_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public UpholdGrievaneAppeal_Result()
+        {
+        }
+        
+        public UpholdGrievaneAppeal_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="GetUserPayrollData", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
     public partial class GetUserPayrollData
     {
@@ -6365,322 +7063,6 @@ namespace JobRequisition
         }
     }
     
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="EmployeeLeaves", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
-    public partial class EmployeeLeaves
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
-        public string pK;
-        
-        public EmployeeLeaves()
-        {
-        }
-        
-        public EmployeeLeaves(string pK)
-        {
-            this.pK = pK;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="EmployeeLeaves_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
-    public partial class EmployeeLeaves_Result
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
-        public string return_value;
-        
-        public EmployeeLeaves_Result()
-        {
-        }
-        
-        public EmployeeLeaves_Result(string return_value)
-        {
-            this.return_value = return_value;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GetLeaveAttachmentStatus", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
-    public partial class GetLeaveAttachmentStatus
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
-        public string leaveType;
-        
-        public GetLeaveAttachmentStatus()
-        {
-        }
-        
-        public GetLeaveAttachmentStatus(string leaveType)
-        {
-            this.leaveType = leaveType;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GetLeaveAttachmentStatus_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
-    public partial class GetLeaveAttachmentStatus_Result
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
-        public bool return_value;
-        
-        public GetLeaveAttachmentStatus_Result()
-        {
-        }
-        
-        public GetLeaveAttachmentStatus_Result(bool return_value)
-        {
-            this.return_value = return_value;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="AddExtraDays", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
-    public partial class AddExtraDays
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
-        public string leaveNo;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=1)]
-        public string empNo;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=2)]
-        [System.Xml.Serialization.XmlElementAttribute(DataType="date")]
-        public System.DateTime startDate;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=3)]
-        public decimal days;
-        
-        public AddExtraDays()
-        {
-        }
-        
-        public AddExtraDays(string leaveNo, string empNo, System.DateTime startDate, decimal days)
-        {
-            this.leaveNo = leaveNo;
-            this.empNo = empNo;
-            this.startDate = startDate;
-            this.days = days;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="AddExtraDays_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
-    public partial class AddExtraDays_Result
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
-        public string return_value;
-        
-        public AddExtraDays_Result()
-        {
-        }
-        
-        public AddExtraDays_Result(string return_value)
-        {
-            this.return_value = return_value;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GetExtraDays", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
-    public partial class GetExtraDays
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
-        public string lNo;
-        
-        public GetExtraDays()
-        {
-        }
-        
-        public GetExtraDays(string lNo)
-        {
-            this.lNo = lNo;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GetExtraDays_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
-    public partial class GetExtraDays_Result
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
-        public string return_value;
-        
-        public GetExtraDays_Result()
-        {
-        }
-        
-        public GetExtraDays_Result(string return_value)
-        {
-            this.return_value = return_value;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="HasLeaveHasExtraDays", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
-    public partial class HasLeaveHasExtraDays
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
-        public string lNo;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=1)]
-        public string lType;
-        
-        public HasLeaveHasExtraDays()
-        {
-        }
-        
-        public HasLeaveHasExtraDays(string lNo, string lType)
-        {
-            this.lNo = lNo;
-            this.lType = lType;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="HasLeaveHasExtraDays_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
-    public partial class HasLeaveHasExtraDays_Result
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
-        public bool return_value;
-        
-        public HasLeaveHasExtraDays_Result()
-        {
-        }
-        
-        public HasLeaveHasExtraDays_Result(bool return_value)
-        {
-            this.return_value = return_value;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="DeleteExtraDays", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
-    public partial class DeleteExtraDays
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
-        public string leaveNo;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=1)]
-        [System.Xml.Serialization.XmlElementAttribute(DataType="date")]
-        public System.DateTime startDate;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=2)]
-        public string empNo;
-        
-        public DeleteExtraDays()
-        {
-        }
-        
-        public DeleteExtraDays(string leaveNo, System.DateTime startDate, string empNo)
-        {
-            this.leaveNo = leaveNo;
-            this.startDate = startDate;
-            this.empNo = empNo;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="DeleteExtraDays_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
-    public partial class DeleteExtraDays_Result
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
-        public bool return_value;
-        
-        public DeleteExtraDays_Result()
-        {
-        }
-        
-        public DeleteExtraDays_Result(bool return_value)
-        {
-            this.return_value = return_value;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GetLeaveDashboard", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
-    public partial class GetLeaveDashboard
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
-        public string managerNo;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=1)]
-        [System.Xml.Serialization.XmlElementAttribute(DataType="date")]
-        public System.DateTime startDate;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=2)]
-        [System.Xml.Serialization.XmlElementAttribute(DataType="date")]
-        public System.DateTime endDate;
-        
-        public GetLeaveDashboard()
-        {
-        }
-        
-        public GetLeaveDashboard(string managerNo, System.DateTime startDate, System.DateTime endDate)
-        {
-            this.managerNo = managerNo;
-            this.startDate = startDate;
-            this.endDate = endDate;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GetLeaveDashboard_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
-    public partial class GetLeaveDashboard_Result
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
-        public string return_value;
-        
-        public GetLeaveDashboard_Result()
-        {
-        }
-        
-        public GetLeaveDashboard_Result(string return_value)
-        {
-            this.return_value = return_value;
-        }
-    }
-    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     public interface JWS_PortChannel : JobRequisition.JWS_Port, System.ServiceModel.IClientChannel
     {
@@ -6729,6 +7111,105 @@ namespace JobRequisition
         public JWS_PortClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress)
         {
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.EmployeeLeaves_Result> JobRequisition.JWS_Port.EmployeeLeavesAsync(JobRequisition.EmployeeLeaves request)
+        {
+            return base.Channel.EmployeeLeavesAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.EmployeeLeaves_Result> EmployeeLeavesAsync(string pK)
+        {
+            JobRequisition.EmployeeLeaves inValue = new JobRequisition.EmployeeLeaves();
+            inValue.pK = pK;
+            return ((JobRequisition.JWS_Port)(this)).EmployeeLeavesAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.GetLeaveAttachmentStatus_Result> JobRequisition.JWS_Port.GetLeaveAttachmentStatusAsync(JobRequisition.GetLeaveAttachmentStatus request)
+        {
+            return base.Channel.GetLeaveAttachmentStatusAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.GetLeaveAttachmentStatus_Result> GetLeaveAttachmentStatusAsync(string leaveType)
+        {
+            JobRequisition.GetLeaveAttachmentStatus inValue = new JobRequisition.GetLeaveAttachmentStatus();
+            inValue.leaveType = leaveType;
+            return ((JobRequisition.JWS_Port)(this)).GetLeaveAttachmentStatusAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.AddExtraDays_Result> JobRequisition.JWS_Port.AddExtraDaysAsync(JobRequisition.AddExtraDays request)
+        {
+            return base.Channel.AddExtraDaysAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.AddExtraDays_Result> AddExtraDaysAsync(string leaveNo, string empNo, System.DateTime startDate, decimal days)
+        {
+            JobRequisition.AddExtraDays inValue = new JobRequisition.AddExtraDays();
+            inValue.leaveNo = leaveNo;
+            inValue.empNo = empNo;
+            inValue.startDate = startDate;
+            inValue.days = days;
+            return ((JobRequisition.JWS_Port)(this)).AddExtraDaysAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.GetExtraDays_Result> JobRequisition.JWS_Port.GetExtraDaysAsync(JobRequisition.GetExtraDays request)
+        {
+            return base.Channel.GetExtraDaysAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.GetExtraDays_Result> GetExtraDaysAsync(string lNo)
+        {
+            JobRequisition.GetExtraDays inValue = new JobRequisition.GetExtraDays();
+            inValue.lNo = lNo;
+            return ((JobRequisition.JWS_Port)(this)).GetExtraDaysAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.HasLeaveHasExtraDays_Result> JobRequisition.JWS_Port.HasLeaveHasExtraDaysAsync(JobRequisition.HasLeaveHasExtraDays request)
+        {
+            return base.Channel.HasLeaveHasExtraDaysAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.HasLeaveHasExtraDays_Result> HasLeaveHasExtraDaysAsync(string lNo, string lType)
+        {
+            JobRequisition.HasLeaveHasExtraDays inValue = new JobRequisition.HasLeaveHasExtraDays();
+            inValue.lNo = lNo;
+            inValue.lType = lType;
+            return ((JobRequisition.JWS_Port)(this)).HasLeaveHasExtraDaysAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.DeleteExtraDays_Result> JobRequisition.JWS_Port.DeleteExtraDaysAsync(JobRequisition.DeleteExtraDays request)
+        {
+            return base.Channel.DeleteExtraDaysAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.DeleteExtraDays_Result> DeleteExtraDaysAsync(string leaveNo, System.DateTime startDate, string empNo)
+        {
+            JobRequisition.DeleteExtraDays inValue = new JobRequisition.DeleteExtraDays();
+            inValue.leaveNo = leaveNo;
+            inValue.startDate = startDate;
+            inValue.empNo = empNo;
+            return ((JobRequisition.JWS_Port)(this)).DeleteExtraDaysAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.GetLeaveDashboard_Result> JobRequisition.JWS_Port.GetLeaveDashboardAsync(JobRequisition.GetLeaveDashboard request)
+        {
+            return base.Channel.GetLeaveDashboardAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.GetLeaveDashboard_Result> GetLeaveDashboardAsync(string managerNo, System.DateTime startDate, System.DateTime endDate)
+        {
+            JobRequisition.GetLeaveDashboard inValue = new JobRequisition.GetLeaveDashboard();
+            inValue.managerNo = managerNo;
+            inValue.startDate = startDate;
+            inValue.endDate = endDate;
+            return ((JobRequisition.JWS_Port)(this)).GetLeaveDashboardAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -7818,25 +8299,6 @@ namespace JobRequisition
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<JobRequisition.CreateExitInterview_Result> JobRequisition.JWS_Port.CreateExitInterviewAsync(JobRequisition.CreateExitInterview request)
-        {
-            return base.Channel.CreateExitInterviewAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<JobRequisition.CreateExitInterview_Result> CreateExitInterviewAsync(string empNo, System.DateTime interviewDate, string interviewer, string sepaGround, string otherReason, System.DateTime sepaDate, string rEmploy)
-        {
-            JobRequisition.CreateExitInterview inValue = new JobRequisition.CreateExitInterview();
-            inValue.empNo = empNo;
-            inValue.interviewDate = interviewDate;
-            inValue.interviewer = interviewer;
-            inValue.sepaGround = sepaGround;
-            inValue.otherReason = otherReason;
-            inValue.sepaDate = sepaDate;
-            inValue.rEmploy = rEmploy;
-            return ((JobRequisition.JWS_Port)(this)).CreateExitInterviewAsync(inValue);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         System.Threading.Tasks.Task<JobRequisition.GetUserRoles_Result> JobRequisition.JWS_Port.GetUserRolesAsync(JobRequisition.GetUserRoles request)
         {
             return base.Channel.GetUserRolesAsync(request);
@@ -7871,6 +8333,41 @@ namespace JobRequisition
             JobRequisition.ApproveInterviewForm inValue = new JobRequisition.ApproveInterviewForm();
             inValue.pK = pK;
             return ((JobRequisition.JWS_Port)(this)).ApproveInterviewFormAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.CreateExitInterview_Result> JobRequisition.JWS_Port.CreateExitInterviewAsync(JobRequisition.CreateExitInterview request)
+        {
+            return base.Channel.CreateExitInterviewAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.CreateExitInterview_Result> CreateExitInterviewAsync(string empNo, System.DateTime interviewDate, string interviewer, string sepaGround, string otherReason, System.DateTime sepaDate, string rEmploy)
+        {
+            JobRequisition.CreateExitInterview inValue = new JobRequisition.CreateExitInterview();
+            inValue.empNo = empNo;
+            inValue.interviewDate = interviewDate;
+            inValue.interviewer = interviewer;
+            inValue.sepaGround = sepaGround;
+            inValue.otherReason = otherReason;
+            inValue.sepaDate = sepaDate;
+            inValue.rEmploy = rEmploy;
+            return ((JobRequisition.JWS_Port)(this)).CreateExitInterviewAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.UpdateExitForm_Result> JobRequisition.JWS_Port.UpdateExitFormAsync(JobRequisition.UpdateExitForm request)
+        {
+            return base.Channel.UpdateExitFormAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.UpdateExitForm_Result> UpdateExitFormAsync(string pK, int[] argi, bool[] argb, string[] args)
+        {
+            JobRequisition.UpdateExitForm inValue = new JobRequisition.UpdateExitForm();
+            inValue.pK = pK;
+            inValue.argi = argi;
+            inValue.argb = argb;
+            inValue.args = args;
+            return ((JobRequisition.JWS_Port)(this)).UpdateExitFormAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -8502,6 +8999,64 @@ namespace JobRequisition
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.UpdateGrievance_Result> JobRequisition.JWS_Port.UpdateGrievanceAsync(JobRequisition.UpdateGrievance request)
+        {
+            return base.Channel.UpdateGrievanceAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.UpdateGrievance_Result> UpdateGrievanceAsync(string[] textArr, string gID)
+        {
+            JobRequisition.UpdateGrievance inValue = new JobRequisition.UpdateGrievance();
+            inValue.textArr = textArr;
+            inValue.gID = gID;
+            return ((JobRequisition.JWS_Port)(this)).UpdateGrievanceAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.ReasonForCycleTwoGrievance_Result> JobRequisition.JWS_Port.ReasonForCycleTwoGrievanceAsync(JobRequisition.ReasonForCycleTwoGrievance request)
+        {
+            return base.Channel.ReasonForCycleTwoGrievanceAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.ReasonForCycleTwoGrievance_Result> ReasonForCycleTwoGrievanceAsync(string gID, string reaxon, string nextStaff, string nextRank)
+        {
+            JobRequisition.ReasonForCycleTwoGrievance inValue = new JobRequisition.ReasonForCycleTwoGrievance();
+            inValue.gID = gID;
+            inValue.reaxon = reaxon;
+            inValue.nextStaff = nextStaff;
+            inValue.nextRank = nextRank;
+            return ((JobRequisition.JWS_Port)(this)).ReasonForCycleTwoGrievanceAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.UpdateGrievanceCycleTwo_Result> JobRequisition.JWS_Port.UpdateGrievanceCycleTwoAsync(JobRequisition.UpdateGrievanceCycleTwo request)
+        {
+            return base.Channel.UpdateGrievanceCycleTwoAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.UpdateGrievanceCycleTwo_Result> UpdateGrievanceCycleTwoAsync(string[] textArr, string gID)
+        {
+            JobRequisition.UpdateGrievanceCycleTwo inValue = new JobRequisition.UpdateGrievanceCycleTwo();
+            inValue.textArr = textArr;
+            inValue.gID = gID;
+            return ((JobRequisition.JWS_Port)(this)).UpdateGrievanceCycleTwoAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.UpdateGrievanceAppeal_Result> JobRequisition.JWS_Port.UpdateGrievanceAppealAsync(JobRequisition.UpdateGrievanceAppeal request)
+        {
+            return base.Channel.UpdateGrievanceAppealAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.UpdateGrievanceAppeal_Result> UpdateGrievanceAppealAsync(string[] textArr, string gID)
+        {
+            JobRequisition.UpdateGrievanceAppeal inValue = new JobRequisition.UpdateGrievanceAppeal();
+            inValue.textArr = textArr;
+            inValue.gID = gID;
+            return ((JobRequisition.JWS_Port)(this)).UpdateGrievanceAppealAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         System.Threading.Tasks.Task<JobRequisition.GrievanceForward_Result> JobRequisition.JWS_Port.GrievanceForwardAsync(JobRequisition.GrievanceForward request)
         {
             return base.Channel.GrievanceForwardAsync(request);
@@ -8562,6 +9117,40 @@ namespace JobRequisition
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.DeclineGrievaneAppeal_Result> JobRequisition.JWS_Port.DeclineGrievaneAppealAsync(JobRequisition.DeclineGrievaneAppeal request)
+        {
+            return base.Channel.DeclineGrievaneAppealAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.DeclineGrievaneAppeal_Result> DeclineGrievaneAppealAsync(string gID, string recommendation, string nextStaff, string nextRank, string moderator)
+        {
+            JobRequisition.DeclineGrievaneAppeal inValue = new JobRequisition.DeclineGrievaneAppeal();
+            inValue.gID = gID;
+            inValue.recommendation = recommendation;
+            inValue.nextStaff = nextStaff;
+            inValue.nextRank = nextRank;
+            inValue.moderator = moderator;
+            return ((JobRequisition.JWS_Port)(this)).DeclineGrievaneAppealAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.UpholdGrievaneAppeal_Result> JobRequisition.JWS_Port.UpholdGrievaneAppealAsync(JobRequisition.UpholdGrievaneAppeal request)
+        {
+            return base.Channel.UpholdGrievaneAppealAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.UpholdGrievaneAppeal_Result> UpholdGrievaneAppealAsync(string gID, string comment, string nextStaff, string nextRank, string moderator)
+        {
+            JobRequisition.UpholdGrievaneAppeal inValue = new JobRequisition.UpholdGrievaneAppeal();
+            inValue.gID = gID;
+            inValue.comment = comment;
+            inValue.nextStaff = nextStaff;
+            inValue.nextRank = nextRank;
+            inValue.moderator = moderator;
+            return ((JobRequisition.JWS_Port)(this)).UpholdGrievaneAppealAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         System.Threading.Tasks.Task<JobRequisition.GetUserPayrollData_Result> JobRequisition.JWS_Port.GetUserPayrollDataAsync(JobRequisition.GetUserPayrollData request)
         {
             return base.Channel.GetUserPayrollDataAsync(request);
@@ -8598,105 +9187,6 @@ namespace JobRequisition
         {
             JobRequisition.HRDocsList inValue = new JobRequisition.HRDocsList();
             return ((JobRequisition.JWS_Port)(this)).HRDocsListAsync(inValue);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<JobRequisition.EmployeeLeaves_Result> JobRequisition.JWS_Port.EmployeeLeavesAsync(JobRequisition.EmployeeLeaves request)
-        {
-            return base.Channel.EmployeeLeavesAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<JobRequisition.EmployeeLeaves_Result> EmployeeLeavesAsync(string pK)
-        {
-            JobRequisition.EmployeeLeaves inValue = new JobRequisition.EmployeeLeaves();
-            inValue.pK = pK;
-            return ((JobRequisition.JWS_Port)(this)).EmployeeLeavesAsync(inValue);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<JobRequisition.GetLeaveAttachmentStatus_Result> JobRequisition.JWS_Port.GetLeaveAttachmentStatusAsync(JobRequisition.GetLeaveAttachmentStatus request)
-        {
-            return base.Channel.GetLeaveAttachmentStatusAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<JobRequisition.GetLeaveAttachmentStatus_Result> GetLeaveAttachmentStatusAsync(string leaveType)
-        {
-            JobRequisition.GetLeaveAttachmentStatus inValue = new JobRequisition.GetLeaveAttachmentStatus();
-            inValue.leaveType = leaveType;
-            return ((JobRequisition.JWS_Port)(this)).GetLeaveAttachmentStatusAsync(inValue);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<JobRequisition.AddExtraDays_Result> JobRequisition.JWS_Port.AddExtraDaysAsync(JobRequisition.AddExtraDays request)
-        {
-            return base.Channel.AddExtraDaysAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<JobRequisition.AddExtraDays_Result> AddExtraDaysAsync(string leaveNo, string empNo, System.DateTime startDate, decimal days)
-        {
-            JobRequisition.AddExtraDays inValue = new JobRequisition.AddExtraDays();
-            inValue.leaveNo = leaveNo;
-            inValue.empNo = empNo;
-            inValue.startDate = startDate;
-            inValue.days = days;
-            return ((JobRequisition.JWS_Port)(this)).AddExtraDaysAsync(inValue);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<JobRequisition.GetExtraDays_Result> JobRequisition.JWS_Port.GetExtraDaysAsync(JobRequisition.GetExtraDays request)
-        {
-            return base.Channel.GetExtraDaysAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<JobRequisition.GetExtraDays_Result> GetExtraDaysAsync(string lNo)
-        {
-            JobRequisition.GetExtraDays inValue = new JobRequisition.GetExtraDays();
-            inValue.lNo = lNo;
-            return ((JobRequisition.JWS_Port)(this)).GetExtraDaysAsync(inValue);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<JobRequisition.HasLeaveHasExtraDays_Result> JobRequisition.JWS_Port.HasLeaveHasExtraDaysAsync(JobRequisition.HasLeaveHasExtraDays request)
-        {
-            return base.Channel.HasLeaveHasExtraDaysAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<JobRequisition.HasLeaveHasExtraDays_Result> HasLeaveHasExtraDaysAsync(string lNo, string lType)
-        {
-            JobRequisition.HasLeaveHasExtraDays inValue = new JobRequisition.HasLeaveHasExtraDays();
-            inValue.lNo = lNo;
-            inValue.lType = lType;
-            return ((JobRequisition.JWS_Port)(this)).HasLeaveHasExtraDaysAsync(inValue);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<JobRequisition.DeleteExtraDays_Result> JobRequisition.JWS_Port.DeleteExtraDaysAsync(JobRequisition.DeleteExtraDays request)
-        {
-            return base.Channel.DeleteExtraDaysAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<JobRequisition.DeleteExtraDays_Result> DeleteExtraDaysAsync(string leaveNo, System.DateTime startDate, string empNo)
-        {
-            JobRequisition.DeleteExtraDays inValue = new JobRequisition.DeleteExtraDays();
-            inValue.leaveNo = leaveNo;
-            inValue.startDate = startDate;
-            inValue.empNo = empNo;
-            return ((JobRequisition.JWS_Port)(this)).DeleteExtraDaysAsync(inValue);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<JobRequisition.GetLeaveDashboard_Result> JobRequisition.JWS_Port.GetLeaveDashboardAsync(JobRequisition.GetLeaveDashboard request)
-        {
-            return base.Channel.GetLeaveDashboardAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<JobRequisition.GetLeaveDashboard_Result> GetLeaveDashboardAsync(string managerNo, System.DateTime startDate, System.DateTime endDate)
-        {
-            JobRequisition.GetLeaveDashboard inValue = new JobRequisition.GetLeaveDashboard();
-            inValue.managerNo = managerNo;
-            inValue.startDate = startDate;
-            inValue.endDate = endDate;
-            return ((JobRequisition.JWS_Port)(this)).GetLeaveDashboardAsync(inValue);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()

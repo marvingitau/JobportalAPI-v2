@@ -136,6 +136,10 @@ namespace RPFBE.Model
         public string Product { get; set; }
         public string Employmentyear { get; set; }
         public string Tenureofservice { get; set; }
+        public string Contractstart { get; set; }
+        public string Contractexpiry { get; set; }
+        public string Probationstart { get; set; }
+        public string Probationexpiry { get; set; }
 
     }
 }

@@ -156,7 +156,7 @@ namespace RPFBE.Controllers
                         {
                             GID = item.GID,
                             Employeeno = grievanceCard.EmpID,
-                            Supervisor = grievanceCard.Supervisor,
+                            Supervisor = item.Supervisorid,
                             Currentstage = grievanceCard.CurrentStage,
                             Nextstage = grievanceCard.NextStage,
 
@@ -367,7 +367,7 @@ namespace RPFBE.Controllers
             try
             {
                 var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
-                var res = await codeUnitWebService.Client().GrievanceResolveAsync(GID);
+                var res = await codeUnitWebService.Client().GrievanceResolveAsync(GID,user.EmployeeId);
                 if (res.return_value=="false")
                 {
                     return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Grievance Resolve Failed D365 " });
@@ -418,6 +418,7 @@ namespace RPFBE.Controllers
 
                 var res = await codeUnitWebService.Client().UpdateGrievanceAsync(textArr, grievanceCard.GID);
 
+                rec.Currentstage = rec.Nextstage;
                 rec.StepTaken = grievanceCard.StepTaken;
                 rec.Outcome = grievanceCard.Outcome;
                 rec.Comment = grievanceCard.Comment;
@@ -467,6 +468,7 @@ namespace RPFBE.Controllers
                 rec.CycletwoInitreason = grievanceCard.CycletwoInitreason;
                 rec.CycleNo = 2;
                 rec.ProgressNo = 3;
+                rec.Currentstage = rec.Nextstage;
                 rec.Nextstage = grievanceCard.NextStage;
                 rec.NextStageStaff = grievanceCard.NextStageStaff;
 
@@ -478,11 +480,6 @@ namespace RPFBE.Controllers
                 await dbContext.SaveChangesAsync();
 
                 return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Grievance Updated/" + res.return_value });
-
-
-
-
-
 
 
             }
@@ -516,12 +513,13 @@ namespace RPFBE.Controllers
                 var res = await codeUnitWebService.Client().UpdateGrievanceCycleTwoAsync(textArr,grievanceCard.GID);
 
                 var rec = dbContext.GrievanceList.Where(x => x.GID == grievanceCard.GID).FirstOrDefault();
+                rec.Currentstage = rec.Nextstage;
                 rec.Cycletwosteps = grievanceCard.Cycletwosteps;
                 rec.Cycletwooutcome = grievanceCard.Cycletwooutcome;
                 rec.Cycletworecommendation = grievanceCard.Cycletworecommendation;
                 rec.CycleNo = 2;
                 rec.ProgressNo = 4;
-                rec.Nextstage = grievanceCard.NextStage;
+                rec.Nextstage = "Employee";
                 rec.NextStageStaff = grievanceCard.NextStageStaff;
 
                 rec.Action = Auth.Action.UPDATED;
@@ -565,6 +563,7 @@ namespace RPFBE.Controllers
  
                 rec.CycleNo = 3;
                 rec.ProgressNo = 5;
+                rec.Currentstage = rec.Nextstage;
                 rec.Nextstage = grievanceCard.NextStage;
                 rec.NextStageStaff = grievanceCard.NextStageStaff;
 
@@ -587,7 +586,7 @@ namespace RPFBE.Controllers
             }
         }
 
-        //Dismis Appeal
+        //Dismis Appeal => Prog 6 cycle 3
         [Authorize]
         [HttpPost]
         [Route("dismissappeal")]
@@ -606,6 +605,7 @@ namespace RPFBE.Controllers
                 rec.Resolved = true;
                 rec.CycleNo = 3;
                 rec.ProgressNo = 6;
+                rec.Currentstage = rec.Nextstage;
                 rec.Nextstage = grievanceCard.NextStage;
                 rec.NextStageStaff = grievanceCard.NextStageStaff;
                 rec.AppealAlternativeRemark = grievanceCard.AppealAlternativeRemark;
@@ -630,7 +630,7 @@ namespace RPFBE.Controllers
         }
 
 
-        //Uphold Appeal
+        //Uphold Appeal => Prog 6 cycle 3
         [Authorize]
         [HttpPost]
         [Route("upholdappeal")]
@@ -648,7 +648,8 @@ namespace RPFBE.Controllers
                 rec.ResolverID = user.EmployeeId;
                 rec.Resolved = true;
                 rec.CycleNo = 3;
-                rec.ProgressNo = 5;
+                rec.ProgressNo = 6;
+                rec.Currentstage = rec.Nextstage;
                 rec.Nextstage = grievanceCard.NextStage;
                 rec.NextStageStaff = grievanceCard.NextStageStaff;
                 rec.AppealOutcomeRemark = grievanceCard.AppealOutcomeRemark;
@@ -731,6 +732,26 @@ namespace RPFBE.Controllers
             {
 
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Get Grievance Approval List Failed: " + x.Message });
+            }
+        }
+
+        //Resolved Record
+        [Authorize]
+        [HttpGet]
+        [Route("getresolvedgrievancelist")]
+        public async Task<IActionResult> GetResolvedGrievanceList()
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                //.Select(x => new { x.Supervisorname, x.Employeename, x.GID, x.Employeeno, x.Supervisor, x.Currentstage, x.Nextstage, x.Resolved }).ToList();
+                var grievancelist = dbContext.GrievanceList.Where(x => x.Employeeno == user.EmployeeId && x.Resolved == true).ToList();
+                return Ok(new { grievancelist });
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Get Grievance Resolved List Failed: " + x.Message });
             }
         }
 

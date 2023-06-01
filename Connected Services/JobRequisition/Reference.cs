@@ -6693,13 +6693,17 @@ namespace JobRequisition
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
         public string pK;
         
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=1)]
+        public string eID;
+        
         public GrievanceResolve()
         {
         }
         
-        public GrievanceResolve(string pK)
+        public GrievanceResolve(string pK, string eID)
         {
             this.pK = pK;
+            this.eID = eID;
         }
     }
     
@@ -9075,10 +9079,11 @@ namespace JobRequisition
             return base.Channel.GrievanceResolveAsync(request);
         }
         
-        public System.Threading.Tasks.Task<JobRequisition.GrievanceResolve_Result> GrievanceResolveAsync(string pK)
+        public System.Threading.Tasks.Task<JobRequisition.GrievanceResolve_Result> GrievanceResolveAsync(string pK, string eID)
         {
             JobRequisition.GrievanceResolve inValue = new JobRequisition.GrievanceResolve();
             inValue.pK = pK;
+            inValue.eID = eID;
             return ((JobRequisition.JWS_Port)(this)).GrievanceResolveAsync(inValue);
         }
         

@@ -49,9 +49,11 @@ namespace RPFBE.Controllers
             this.mailService = mailService;
             this.config = config;
         }
+        [HttpGet]
+        [Route("designer")]
         public IActionResult Index()
         {
-            return Ok("");
+            return Ok("https://github.com/marvingitau");
         }
 
         [Authorize]
@@ -110,108 +112,7 @@ namespace RPFBE.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Dimension get failed: " + x.Message });
             }
         }
-        //Staff create grievance and upload details
-        [Authorize]
-        [HttpPost]
-        [Route("creategrievance")]
-        public async Task<IActionResult> CreateGrievance([FromBody] GrievanceCard grievanceCard)
-        {
-            try
-            {
-
-                string[] textArr = new string[20];
-                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
-
-                textArr[0] = grievanceCard.EmpID;
-                textArr[1] = grievanceCard.Station;
-                textArr[2] = grievanceCard.Section;
-                textArr[3] = grievanceCard.Dept;
-                textArr[4] = grievanceCard.NextStageStaff;
-                textArr[5] = grievanceCard.CurrentStage;
-                textArr[6] = grievanceCard.NextStage;
-                textArr[7] = grievanceCard.GrievanceType;
-                
-                textArr[8] = grievanceCard.Subject;
-                textArr[9] = grievanceCard.Description;
-                textArr[10] = grievanceCard.StepTaken;
-                textArr[11] = grievanceCard.Outcome;
-                textArr[12] = grievanceCard.Comment;
-                textArr[13] = grievanceCard.Recommendation;
-
-
-                var res =await codeUnitWebService.Client().CreateGrievanceAsync(textArr, grievanceCard.GrievanceDate, grievanceCard.DateofIssue, grievanceCard.WorkEnv, grievanceCard.EmployeeRln);
-
-                dynamic resSeria = JsonConvert.DeserializeObject(res.return_value);
-
-               
-                if (res.return_value == "false")
-                {
-                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Grievance Initialization Failed D365 " });
-                }
-                else
-                {
-                    foreach (var item in resSeria)
-                    {
-                        GrievanceList grievanceList = new GrievanceList
-                        {
-                            GID = item.GID,
-                            Employeeno = grievanceCard.EmpID,
-                            Supervisor = item.Supervisorid,
-                            Currentstage = grievanceCard.CurrentStage,
-                            Nextstage = grievanceCard.NextStage,
-
-                            Employeename = item.Employee,
-                            Supervisorname = item.Supervisor,
-                            GrievanceType = grievanceCard.GrievanceType,
-                            Subject = grievanceCard.Subject,
-                            Description = grievanceCard.Description,
-                            StepTaken = grievanceCard.StepTaken,
-                            Outcome = grievanceCard.Outcome,
-                            Comment = grievanceCard.Comment,
-                            Recommendation = grievanceCard.Recommendation,
-                            Resolved = false,
-
-                            CycleNo = 1,
-                            ProgressNo = 1,
-                            NextStageStaff = grievanceCard.NextStageStaff,
-
-                            Action = Auth.Action.CREATED,
-                            Actionuser = user.EmployeeId,
-                            Actiondetails = Auth.Action.CREATED+" Record",
-                        };
-
-                        dbContext.GrievanceList.Add(grievanceList);
-                        await dbContext.SaveChangesAsync();
-                        return StatusCode(StatusCodes.Status200OK, new { grievanceList.GID });
-                    }
-                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Grievance Initialization Foreachloop Failed  " });
-
-                }
-
-
-                //dynamic resSerial = JsonConvert.DeserializeObject(res.return_value);
-                //foreach (var item in resSerial)
-                //{
-                //    GrievanceList grievanceList = new GrievanceList
-                //    {
-                //        GID = item.GID,
-                //        Employeeno = item.Employeeno,
-                //        Supervisor = item.Supervisor,
-                //        Currentstage = item.Currentstage,
-                //        Nextstage = item.Nextstage
-                //    };
-
-                //    dbContext.GrievanceList.Add(grievanceList);
-                //    await dbContext.SaveChangesAsync();
-                //}
-
-            }
-            catch (Exception x)
-            {
-
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Grievance Creation Failed: " + x.Message });
-            }
-        }
+     
         //Grieavance List
         [Authorize]
         [HttpGet]
@@ -391,8 +292,114 @@ namespace RPFBE.Controllers
             }
         }
 
+        //Staff create grievance and upload details   Prog 1 cycle 1
+        [Authorize]
+        [HttpPost]
+        [Route("creategrievance")]
+        public async Task<IActionResult> CreateGrievance([FromBody] GrievanceCard grievanceCard)
+        {
+            try
+            {
 
-        //Upload the Recommendations
+                string[] textArr = new string[20];
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+
+                textArr[0] = grievanceCard.EmpID;
+                textArr[1] = grievanceCard.Station;
+                textArr[2] = grievanceCard.Section;
+                textArr[3] = grievanceCard.Dept;
+                textArr[4] = grievanceCard.NextStageStaff;
+                textArr[5] = grievanceCard.CurrentStage;
+                textArr[6] = grievanceCard.NextStage;
+                textArr[7] = grievanceCard.GrievanceType;
+
+                textArr[8] = grievanceCard.Subject;
+                textArr[9] = grievanceCard.Description;
+                textArr[10] = grievanceCard.StepTaken;
+                textArr[11] = grievanceCard.Outcome;
+                textArr[12] = grievanceCard.Comment;
+                textArr[13] = grievanceCard.Recommendation;
+
+
+                var res = await codeUnitWebService.Client().CreateGrievanceAsync(textArr, grievanceCard.GrievanceDate, grievanceCard.DateofIssue, grievanceCard.WorkEnv, grievanceCard.EmployeeRln);
+
+                dynamic resSeria = JsonConvert.DeserializeObject(res.return_value);
+
+
+                if (res.return_value == "false")
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Grievance Initialization Failed D365 " });
+                }
+                else
+                {
+                    foreach (var item in resSeria)
+                    {
+                        GrievanceList grievanceList = new GrievanceList
+                        {
+                            GID = item.GID,
+                            Employeeno = grievanceCard.EmpID,
+                            Supervisor = item.Supervisorid,
+                            Currentstage = grievanceCard.CurrentStage,
+                            Nextstage = grievanceCard.NextStage,
+
+                            Employeename = item.Employee,
+                            Supervisorname = item.Supervisor,
+                            GrievanceType = grievanceCard.GrievanceType,
+                            Subject = grievanceCard.Subject,
+                            Description = grievanceCard.Description,
+                            StepTaken = grievanceCard.StepTaken,
+                            Outcome = grievanceCard.Outcome,
+                            Comment = grievanceCard.Comment,
+                            Recommendation = grievanceCard.Recommendation,
+                            Resolved = false,
+
+                            CycleNo = 1,
+                            ProgressNo = 1,
+                            NextStageStaff = grievanceCard.NextStageStaff,
+
+                            StepOneEmp = user.EmployeeId,
+                            StepOneRank = user.Rank,
+
+                            Action = Auth.Action.CREATED,
+                            Actionuser = user.EmployeeId,
+                            Actiondetails = Auth.Action.CREATED + " Record",
+                        };
+
+                        dbContext.GrievanceList.Add(grievanceList);
+                        await dbContext.SaveChangesAsync();
+                        return StatusCode(StatusCodes.Status200OK, new { grievanceList.GID });
+                    }
+                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Grievance Initialization Foreachloop Failed  " });
+
+                }
+
+
+                //dynamic resSerial = JsonConvert.DeserializeObject(res.return_value);
+                //foreach (var item in resSerial)
+                //{
+                //    GrievanceList grievanceList = new GrievanceList
+                //    {
+                //        GID = item.GID,
+                //        Employeeno = item.Employeeno,
+                //        Supervisor = item.Supervisor,
+                //        Currentstage = item.Currentstage,
+                //        Nextstage = item.Nextstage
+                //    };
+
+                //    dbContext.GrievanceList.Add(grievanceList);
+                //    await dbContext.SaveChangesAsync();
+                //}
+
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Grievance Creation Failed: " + x.Message });
+            }
+        }
+
+
+        //Upload the Recommendations  Prog 2 cycle 1
         [Authorize]
         [HttpPost]
         [Route("uploadprogressonecycleone")]
@@ -427,6 +434,9 @@ namespace RPFBE.Controllers
                 rec.ProgressNo = 2;
                 rec.Nextstage = "Employee";
                 rec.NextStageStaff = grievanceCard.NextStageStaff;
+
+                rec.StepTwoEmp = user.EmployeeId;
+                rec.StepTwoRank = user.Rank;
 
                 rec.Action = Auth.Action.UPDATED;
                 rec.Actionuser = user.EmployeeId;
@@ -471,6 +481,9 @@ namespace RPFBE.Controllers
                 rec.Currentstage = rec.Nextstage;
                 rec.Nextstage = grievanceCard.NextStage;
                 rec.NextStageStaff = grievanceCard.NextStageStaff;
+
+                rec.StepThreeEmp = user.EmployeeId;
+                rec.StepThreeRank = user.Rank;
 
                 rec.Action = Auth.Action.UPDATED;
                 rec.Actionuser = user.EmployeeId;
@@ -522,6 +535,9 @@ namespace RPFBE.Controllers
                 rec.Nextstage = "Employee";
                 rec.NextStageStaff = grievanceCard.NextStageStaff;
 
+                rec.StepFourEmp = user.EmployeeId;
+                rec.StepFourRank = user.Rank;
+
                 rec.Action = Auth.Action.UPDATED;
                 rec.Actionuser = user.EmployeeId;
                 rec.Actiondetails = Auth.Action.UPDATED + " Record 2nd Cycled 4th Prog";
@@ -567,6 +583,9 @@ namespace RPFBE.Controllers
                 rec.Nextstage = grievanceCard.NextStage;
                 rec.NextStageStaff = grievanceCard.NextStageStaff;
 
+                rec.StepFiveEmp = user.EmployeeId;
+                rec.StepFiveRank = user.Rank;
+
                 rec.Action = Auth.Action.UPDATED;
                 rec.Actionuser = user.EmployeeId;
                 rec.Actiondetails = Auth.Action.UPDATED + " Record 3nd Cycled 5th Prog";
@@ -609,6 +628,9 @@ namespace RPFBE.Controllers
                 rec.Nextstage = grievanceCard.NextStage;
                 rec.NextStageStaff = grievanceCard.NextStageStaff;
                 rec.AppealAlternativeRemark = grievanceCard.AppealAlternativeRemark;
+
+                rec.StepSixEmp = user.EmployeeId;
+                rec.StepSixRank = user.Rank;
 
                 rec.Action = Auth.Action.COMPLETED;
                 rec.Actionuser = user.EmployeeId;
@@ -653,6 +675,9 @@ namespace RPFBE.Controllers
                 rec.Nextstage = grievanceCard.NextStage;
                 rec.NextStageStaff = grievanceCard.NextStageStaff;
                 rec.AppealOutcomeRemark = grievanceCard.AppealOutcomeRemark;
+
+                rec.StepSixEmp = user.EmployeeId;
+                rec.StepSixRank = user.Rank;
 
                 rec.Action = Auth.Action.COMPLETED;
                 rec.Actionuser = user.EmployeeId;
@@ -754,6 +779,58 @@ namespace RPFBE.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Get Grievance Resolved List Failed: " + x.Message });
             }
         }
+
+        //Reverse Grievance
+        [Authorize]
+        [HttpPost]
+        [Route("reversegrievance")]
+        public async Task<IActionResult> ReverseGrievance([FromBody] GrievanceCard grievanceCard)
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+
+                
+                var rec = dbContext.GrievanceList.Where(x => x.GID == grievanceCard.GID).FirstOrDefault();
+
+                if(grievanceCard.Stage == "2")
+                {
+                    rec.CycleNo = 1;
+                    rec.ProgressNo = 1;
+                    rec.ReverseOneReason = grievanceCard.ReverseReason;
+                    rec.Nextstage = rec.StepTwoRank;
+                    rec.NextStageStaff = rec.StepTwoEmp;
+                }
+                else
+                {
+                    rec.CycleNo = 2;
+                    rec.ProgressNo = 3;
+                    rec.ReverseThreeReason = grievanceCard.ReverseReason;
+                    rec.Nextstage = rec.StepFourRank;
+                    rec.NextStageStaff = rec.StepFourEmp;
+                }
+
+                rec.Action = Auth.Action.UPDATED;
+                rec.Actionuser = user.EmployeeId;
+                rec.Actiondetails = Auth.Action.UPDATED + " Record Reversed";
+
+                dbContext.GrievanceList.Update(rec);
+                await dbContext.SaveChangesAsync();
+
+                var res = await codeUnitWebService.Client().ReverseGrievaneAsync(grievanceCard.GID, grievanceCard.ReverseReason, rec.NextStageStaff, rec.Nextstage, user.EmployeeId); ;
+
+                return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Grievance Reversal Success/"+res.return_value });
+
+
+
+            }
+            catch (Exception x)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Grievance Appeal Failed: " + x.Message });
+            }
+        }
+
 
     }
 }

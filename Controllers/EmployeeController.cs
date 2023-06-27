@@ -167,12 +167,14 @@ namespace RPFBE.Controllers
                         boolArr[1] = exitInterview.Workingcondition == "YES";
                         boolArr[2] = exitInterview.Payment == "YES";
                         boolArr[3] = exitInterview.Manager == "YES";
+                        boolArr[4] = exitInterview.OtherReason == "YES";
 
                         textArr[0] = exitInterview.Whatulldosummarydous;
                         textArr[1] = exitInterview.TheJobLeaving;
                         textArr[2] = exitInterview.TheOrgoverla;
                         textArr[3] = exitInterview.YourSupervisorMgr;
                         textArr[4] = exitInterview.AnyOtherSuggetionQ;
+                        textArr[5] = exitInterview.OtherReasonComment;
                         //WS
                         var resWS = await codeUnitWebService.Client().UpdateExitFormAsync(exitcard.ExitNo, intArr, boolArr, textArr);
                         modextform = resWS.return_value;
@@ -186,42 +188,7 @@ namespace RPFBE.Controllers
                     mode.Payment = exitInterview.Payment;
                     mode.Manager = exitInterview.Manager;
 
-                    /*mode.Fairnessofworkload = ((ScaleOne)int.Parse(exitInterview.Fairnessofworkload)).ToString();
-                      mode.Salary = ((ScaleOne)int.Parse(exitInterview.Salary)).ToString();
-                      mode.WorkingconditionOne = ((ScaleOne)int.Parse(exitInterview.WorkingconditionOne)).ToString();
-                      mode.Toolsprovided = ((ScaleOne)int.Parse(exitInterview.Toolsprovided)).ToString();
-                      mode.Trainingreceived = ((ScaleOne)int.Parse(exitInterview.Trainingreceived)).ToString();
-                      mode.Rxtioncoworker = ((ScaleOne)int.Parse(exitInterview.Rxtioncoworker)).ToString();
-                      mode.Typeworkperformed = ((ScaleOne)int.Parse(exitInterview.Typeworkperformed)).ToString();
-                      mode.Supervisonreceived = ((ScaleOne)int.Parse(exitInterview.Supervisonreceived)).ToString();
-                      mode.Decisionaffected = ((ScaleOne)int.Parse(exitInterview.Decisionaffected)).ToString();
-                      mode.Recruitmentprocess = ((ScaleOne)int.Parse(exitInterview.Recruitmentprocess)).ToString();
-                      mode.Employeeorientation = ((ScaleOne)int.Parse(exitInterview.Employeeorientation)).ToString();
-                      mode.Trainingopportunity = ((ScaleOne)int.Parse(exitInterview.Trainingopportunity)).ToString();
-                      mode.Careerdevops = ((ScaleOne)int.Parse(exitInterview.Careerdevops)).ToString();
-                      mode.Employeemorale = ((ScaleOne)int.Parse(exitInterview.Employeemorale)).ToString();
-                      mode.Fairtreatment = ((ScaleOne)int.Parse(exitInterview.Fairtreatment)).ToString();
-                      mode.Recognitionofwelldone = ((ScaleOne)int.Parse(exitInterview.Recognitionofwelldone)).ToString();
-                      mode.Suportofworklifebal = ((ScaleOne)int.Parse(exitInterview.Suportofworklifebal)).ToString();
-                      mode.Cooperationinoffice = ((ScaleOne)int.Parse(exitInterview.Cooperationinoffice)).ToString();
-                      mode.Communicationmgtemp = ((ScaleOne)int.Parse(exitInterview.Communicationmgtemp)).ToString();
-                      mode.Performancedevplan = ((ScaleOne)int.Parse(exitInterview.Performancedevplan)).ToString();
-                      mode.Interestinvemp = ((ScaleOne)int.Parse(exitInterview.Interestinvemp)).ToString();
-                      mode.CommitmentCustServ = ((ScaleOne)int.Parse(exitInterview.CommitmentCustServ)).ToString();
-                      mode.ConcernedQualityExcellence = ((ScaleOne)int.Parse(exitInterview.ConcernedQualityExcellence)).ToString();
-                      mode.AdminPolicy = ((ScaleOne)int.Parse(exitInterview.AdminPolicy)).ToString();
-                      mode.RecognitionAccomp = ((ScaleTwo)int.Parse(exitInterview.RecognitionAccomp)).ToString();
-                      mode.ClearlyCommExpectation = ((ScaleTwo)int.Parse(exitInterview.ClearlyCommExpectation)).ToString();
-                      mode.TreatedFairly = ((ScaleTwo)int.Parse(exitInterview.TreatedFairly)).ToString();
-                      mode.CoarchedTrainedDev = ((ScaleTwo)int.Parse(exitInterview.CoarchedTrainedDev)).ToString();
-                      mode.ProvidedLeadership = ((ScaleTwo)int.Parse(exitInterview.ProvidedLeadership)).ToString();
-                      mode.EncouragedTeamworkCoop = ((ScaleTwo)int.Parse(exitInterview.EncouragedTeamworkCoop)).ToString();
-                      mode.ResolvedConcerns = ((ScaleTwo)int.Parse(exitInterview.ResolvedConcerns)).ToString();
-                      mode.ListeningToSuggetions = ((ScaleTwo)int.Parse(exitInterview.ListeningToSuggetions)).ToString();
-                      mode.KeptTeamInfo = ((ScaleTwo)int.Parse(exitInterview.KeptTeamInfo)).ToString();
-                      mode.SupportedWorkLifeBal = ((ScaleTwo)int.Parse(exitInterview.SupportedWorkLifeBal)).ToString();
-                      mode.AppropriateChallengingAssignments = ((ScaleTwo)int.Parse(exitInterview.AppropriateChallengingAssignments)).ToString();*/
-
+                  
                     mode.Fairnessofworkload = exitInterview.Fairnessofworkload.ToString();
                     mode.Salary = exitInterview.Salary.ToString();
                     mode.WorkingconditionOne = exitInterview.WorkingconditionOne.ToString();
@@ -265,6 +232,8 @@ namespace RPFBE.Controllers
                     mode.AnyOtherSuggetionQ = exitInterview.AnyOtherSuggetionQ;
                     mode.NowDate = exitInterview.NowDate;
                     mode.ExitCardRef = exitInterview.ExitCardRef;
+                    mode.OtherReason = exitInterview.OtherReason;
+                    mode.OtherReasonComment = exitInterview.OtherReasonComment;
 
                     dbContext.ExitInterviewForm.Update(mode);
                     var resp = await dbContext.SaveChangesAsync();
@@ -326,12 +295,14 @@ namespace RPFBE.Controllers
                         boolArr[1] = exitInterview.Workingcondition == "YES";
                         boolArr[2] = exitInterview.Payment == "YES";
                         boolArr[3] = exitInterview.Manager == "YES";
+                        boolArr[4] = exitInterview.OtherReason == "YES";
 
                         textArr[0] = exitInterview.Whatulldosummarydous;
                         textArr[1] = exitInterview.TheJobLeaving;
                         textArr[2] = exitInterview.TheOrgoverla;
                         textArr[3] = exitInterview.YourSupervisorMgr;
                         textArr[4] = exitInterview.AnyOtherSuggetionQ;
+                        textArr[5] = exitInterview.OtherReasonComment;
                         //WS
                         var resWS = await codeUnitWebService.Client().UpdateExitFormAsync(exitcard.ExitNo, intArr, boolArr, textArr);
                         modextform = resWS.return_value;
@@ -425,9 +396,11 @@ namespace RPFBE.Controllers
                         YourSupervisorMgr = exitInterview.YourSupervisorMgr,
                         AnyOtherSuggetionQ = exitInterview.AnyOtherSuggetionQ,
                         NowDate = exitInterview.NowDate,
-                        ExitCardRef = exitInterview.ExitCardRef
+                        ExitCardRef = exitInterview.ExitCardRef,
+                        OtherReason = exitInterview.OtherReason,
+                        OtherReasonComment = exitInterview.OtherReasonComment,
 
-                    };
+                };
 
                     dbContext.ExitInterviewForm.Add(aux);
                     var resp = await dbContext.SaveChangesAsync();

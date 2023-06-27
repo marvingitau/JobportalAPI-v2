@@ -40,5 +40,15 @@ namespace RPFBE.Model.DBEntity
         public string AppealOutcomeRemark { get; set; }
 
 
+        public string ReverseOneEid { get; set; }
+        public string ReverseOneReason { get; set; }
+        public string ReverseThreeEid { get; set; }
+        public string ReverseThreeReason { get; set; }
+
+        public string StageStaff { get; set; }
+        public string Stage { get; set; }
+        public string ReverseReason { get; set; }
+
+
     }
 }

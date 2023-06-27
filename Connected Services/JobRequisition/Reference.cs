@@ -16,6 +16,10 @@ namespace JobRequisition
     public interface JWS_Port
     {
         
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:HRDocsList", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.HRDocsList_Result> HRDocsListAsync(JobRequisition.HRDocsList request);
+        
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:EmployeeLeaves", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.EmployeeLeaves_Result> EmployeeLeavesAsync(JobRequisition.EmployeeLeaves request);
@@ -592,6 +596,10 @@ namespace JobRequisition
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.UpholdGrievaneAppeal_Result> UpholdGrievaneAppealAsync(JobRequisition.UpholdGrievaneAppeal request);
         
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:ReverseGrievane", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.ReverseGrievane_Result> ReverseGrievaneAsync(JobRequisition.ReverseGrievane request);
+        
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:GetUserPayrollData", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.GetUserPayrollData_Result> GetUserPayrollDataAsync(JobRequisition.GetUserPayrollData request);
@@ -599,10 +607,38 @@ namespace JobRequisition
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:IsDocRead", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.IsDocRead_Result> IsDocReadAsync(JobRequisition.IsDocRead request);
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="HRDocsList", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class HRDocsList
+    {
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:HRDocsList", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<JobRequisition.HRDocsList_Result> HRDocsListAsync(JobRequisition.HRDocsList request);
+        public HRDocsList()
+        {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="HRDocsList_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class HRDocsList_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public HRDocsList_Result()
+        {
+        }
+        
+        public HRDocsList_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -1867,13 +1903,17 @@ namespace JobRequisition
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
         public string cNo;
         
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=1)]
+        public string generalComment;
+        
         public CalculateScoresManager()
         {
         }
         
-        public CalculateScoresManager(string cNo)
+        public CalculateScoresManager(string cNo, string generalComment)
         {
             this.cNo = cNo;
+            this.generalComment = generalComment;
         }
     }
     
@@ -6954,6 +6994,62 @@ namespace JobRequisition
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ReverseGrievane", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class ReverseGrievane
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string gID;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=1)]
+        public string comment;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=2)]
+        public string nextStaff;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=3)]
+        public string nextRank;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=4)]
+        public string from;
+        
+        public ReverseGrievane()
+        {
+        }
+        
+        public ReverseGrievane(string gID, string comment, string nextStaff, string nextRank, string from)
+        {
+            this.gID = gID;
+            this.comment = comment;
+            this.nextStaff = nextStaff;
+            this.nextRank = nextRank;
+            this.from = from;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ReverseGrievane_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class ReverseGrievane_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public ReverseGrievane_Result()
+        {
+        }
+        
+        public ReverseGrievane_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="GetUserPayrollData", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
     public partial class GetUserPayrollData
     {
@@ -7035,38 +7131,6 @@ namespace JobRequisition
         }
     }
     
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="HRDocsList", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
-    public partial class HRDocsList
-    {
-        
-        public HRDocsList()
-        {
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="HRDocsList_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
-    public partial class HRDocsList_Result
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
-        public string return_value;
-        
-        public HRDocsList_Result()
-        {
-        }
-        
-        public HRDocsList_Result(string return_value)
-        {
-            this.return_value = return_value;
-        }
-    }
-    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     public interface JWS_PortChannel : JobRequisition.JWS_Port, System.ServiceModel.IClientChannel
     {
@@ -7115,6 +7179,18 @@ namespace JobRequisition
         public JWS_PortClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress)
         {
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.HRDocsList_Result> JobRequisition.JWS_Port.HRDocsListAsync(JobRequisition.HRDocsList request)
+        {
+            return base.Channel.HRDocsListAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.HRDocsList_Result> HRDocsListAsync()
+        {
+            JobRequisition.HRDocsList inValue = new JobRequisition.HRDocsList();
+            return ((JobRequisition.JWS_Port)(this)).HRDocsListAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -7521,10 +7597,11 @@ namespace JobRequisition
             return base.Channel.CalculateScoresManagerAsync(request);
         }
         
-        public System.Threading.Tasks.Task<JobRequisition.CalculateScoresManager_Result> CalculateScoresManagerAsync(string cNo)
+        public System.Threading.Tasks.Task<JobRequisition.CalculateScoresManager_Result> CalculateScoresManagerAsync(string cNo, string generalComment)
         {
             JobRequisition.CalculateScoresManager inValue = new JobRequisition.CalculateScoresManager();
             inValue.cNo = cNo;
+            inValue.generalComment = generalComment;
             return ((JobRequisition.JWS_Port)(this)).CalculateScoresManagerAsync(inValue);
         }
         
@@ -9156,6 +9233,23 @@ namespace JobRequisition
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.ReverseGrievane_Result> JobRequisition.JWS_Port.ReverseGrievaneAsync(JobRequisition.ReverseGrievane request)
+        {
+            return base.Channel.ReverseGrievaneAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.ReverseGrievane_Result> ReverseGrievaneAsync(string gID, string comment, string nextStaff, string nextRank, string from)
+        {
+            JobRequisition.ReverseGrievane inValue = new JobRequisition.ReverseGrievane();
+            inValue.gID = gID;
+            inValue.comment = comment;
+            inValue.nextStaff = nextStaff;
+            inValue.nextRank = nextRank;
+            inValue.from = from;
+            return ((JobRequisition.JWS_Port)(this)).ReverseGrievaneAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         System.Threading.Tasks.Task<JobRequisition.GetUserPayrollData_Result> JobRequisition.JWS_Port.GetUserPayrollDataAsync(JobRequisition.GetUserPayrollData request)
         {
             return base.Channel.GetUserPayrollDataAsync(request);
@@ -9180,18 +9274,6 @@ namespace JobRequisition
             inValue.eID = eID;
             inValue.docName = docName;
             return ((JobRequisition.JWS_Port)(this)).IsDocReadAsync(inValue);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<JobRequisition.HRDocsList_Result> JobRequisition.JWS_Port.HRDocsListAsync(JobRequisition.HRDocsList request)
-        {
-            return base.Channel.HRDocsListAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<JobRequisition.HRDocsList_Result> HRDocsListAsync()
-        {
-            JobRequisition.HRDocsList inValue = new JobRequisition.HRDocsList();
-            return ((JobRequisition.JWS_Port)(this)).HRDocsListAsync(inValue);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()

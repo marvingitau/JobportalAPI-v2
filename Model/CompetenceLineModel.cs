@@ -16,5 +16,6 @@ namespace RPFBE.Model
         public string Employeecomment { get; set; }
         public string Supervisorassesment { get; set; }
         public string Supervisorcomment { get; set; }
+        public string GeneralSupervisorcomment { get; set; }
     }
 }

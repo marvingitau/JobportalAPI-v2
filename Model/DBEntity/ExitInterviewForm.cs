@@ -58,6 +58,9 @@ namespace RPFBE.Model.DBEntity
         public DateTime NowDate { get; set; }
         public int ExitCardRef { get; set; }
         //public ExitInterviewCard ExitInterviewCard { get; set; }
+        public string OtherReason { get; set; }
+        public string OtherReasonComment { get; set; }
+
 
     }
 }

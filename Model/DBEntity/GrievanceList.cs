@@ -43,6 +43,28 @@ namespace RPFBE.Model.DBEntity
         public string AppealAlternativeRemark { get; set; }
         public string AppealOutcomeRemark { get; set; }
 
+        //Progress breadcrumb
+        public string StepOneRank { get; set; }
+        public string StepOneEmp { get; set; }
+        public string StepTwoRank { get; set; }
+        public string StepTwoEmp { get; set; }
+        public string StepThreeRank { get; set; }
+        public string StepThreeEmp { get; set; }
+        public string StepFourRank { get; set; }
+        public string StepFourEmp { get; set; }
+        public string StepFiveRank { get; set; }
+        public string StepFiveEmp { get; set; }
+        public string StepSixRank { get; set; }
+        public string StepSixEmp { get; set; }
+
+        //Revarsal 
+        public string ReverseOneEid { get; set; }
+        public string ReverseOneReason { get; set; }
+        public string ReverseThreeEid { get; set; }
+        public string ReverseThreeReason { get; set; }
+
+
+
 
 
 

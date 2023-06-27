@@ -393,7 +393,7 @@ namespace RPFBE.Controllers
             }
         }
 
-        //Update Leave Card
+        //Update Leave Card & Send leave for approval
         [Authorize]
         [HttpPost]
         [Route("uploadleaveform")]

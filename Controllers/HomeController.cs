@@ -1535,6 +1535,43 @@ namespace RPFBE.Controllers
             }
         }
 
+        //HR Get the list of Job Seekers
+        [Authorize]
+        [HttpGet]
+        [Route("hralljobseekers")]
+
+        public IActionResult HRGetAllJobseeker()
+        {
+            try
+            {
+                var allUsers = dbContext.Users.Where(x => x.EmployeeId == null).ToList();
+                return Ok(new { allUsers });
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = " All Jobseekers failed" + x.Message });
+            }
+        }
+        //HR delete all Jobseekers
+        [Authorize]
+        [HttpGet]
+        [Route("hrdeletealljobseekers")]
+        public async Task<IActionResult> DeleteAllJobseekers()
+        {
+            try
+            {
+                var jseekrs = dbContext.Users.Where(x => x.EmployeeId == null).ToList();
+                dbContext.Users.RemoveRange(jseekrs);
+                await dbContext.SaveChangesAsync();
+                return Ok("Job seekers Deleted");
+
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Jobseekers Deletion failed" + x.Message });
+            }
+        }
+
         //HR User Roles
         [HttpGet]
         [Route("getuserroles")]

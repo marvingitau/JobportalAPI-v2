@@ -348,13 +348,13 @@ namespace RPFBE.Controllers
         }
         //Supervisor Calculate score
         [Authorize]
-        [HttpGet]
-        [Route("supervisorcalculatescore/{cno}")]
-        public async Task<IActionResult> SupervisorCalculateScore(string cno)
+        [HttpPost]
+        [Route("supervisorcalculatescore")]
+        public async Task<IActionResult> SupervisorCalculateScore([FromBody] CompetenceLineModel competenceLineModel)
         {
             try
             {
-                var res = await codeUnitWebService.Client().CalculateScoresManagerAsync(cno);
+                var res = await codeUnitWebService.Client().CalculateScoresManagerAsync(competenceLineModel.Cno, competenceLineModel.GeneralSupervisorcomment);
                 return Ok(res.return_value);
             }
             catch (Exception x)

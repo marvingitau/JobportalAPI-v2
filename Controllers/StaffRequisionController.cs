@@ -72,6 +72,8 @@ namespace RPFBE.Controllers
         public async Task<IActionResult> GetEmpReqCode(string Jobcode)
         {
             var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+
+            //create level 0 at this stage
             try
             {
                 var res = await codeUnitWebService.Client().PostEmpRequisitionAsync(Jobcode, user.EmployeeId);
@@ -95,6 +97,38 @@ namespace RPFBE.Controllers
                 List<EmployeeListModel> employeeListModels = new List<EmployeeListModel>();
                 List<ContractListModel> contractListModels = new List<ContractListModel>();
                 List<DepartmentListModel> departmentListModels = new List<DepartmentListModel>();
+
+                //Req card data
+                var reqcard = await codeUnitWebService.Client().GetRequisitionCardAsync(Reqcode);
+                dynamic reqcardSerial = JsonConvert.DeserializeObject(reqcard.return_value);
+                RequsitionCardModel requsitionGeneral = new RequsitionCardModel
+                {
+                    No = reqcardSerial.No,
+                    Jobno = reqcardSerial.Jobno,
+                    Jobtitle = reqcardSerial.Jobtitle,
+                    Description = reqcardSerial.Description,
+                    Jobgrade = reqcardSerial.Jobgrade,
+                    Maxposition = reqcardSerial.Maxposition,
+                    Occupiedposition = reqcardSerial.Occupiedposition,
+                    Vacantposition = reqcardSerial.Vacantposition,
+                    Requestedemployees = reqcardSerial.Requestedemployees,
+                    Closingdate = reqcardSerial.Closingdate,
+                    Requisitiontype = reqcardSerial.Requisitiontype,
+                    Contractcode = reqcardSerial.Contractcode,
+                    Reason = reqcardSerial.Reason,
+                    Branchcode = reqcardSerial.Branchcode,
+                    Jobadvertised = reqcardSerial.Jobadvertised,
+                    Jobadvertiseddropped = reqcardSerial.Jobadvertiseddropped,
+                    Status = reqcardSerial.Status,
+                    // Userid = reqcardSerial.Userid,
+                    Comments = reqcardSerial.Comments,
+                    Documentdate = reqcardSerial.Documentdate,
+                    Desiredstartdate = reqcardSerial.Desiredstartdate,
+                    Employeetoreplace = reqcardSerial.Employeetoreplace,
+                    HOD = reqcardSerial.HOD,
+                    HR = reqcardSerial.HR,
+                    MD = reqcardSerial.MD
+                };
 
                 //Get Checklist
 
@@ -149,7 +183,7 @@ namespace RPFBE.Controllers
                     employeeListModels.Add(employee);
                 }
 
-                return Ok(new { jobCheckList, employeeListModels,contractListModels, departmentListModels });
+                return Ok(new { jobCheckList, employeeListModels,contractListModels, departmentListModels, requsitionGeneral });
             }
             catch (Exception)
             {
@@ -537,7 +571,7 @@ namespace RPFBE.Controllers
         {
             try
             {
-                var list = dbContext.RequisitionProgress.Where(x => x.ProgressStatus >= 1).ToList();
+                var list = dbContext.RequisitionProgress.Where(x => x.ProgressStatus >= 0).ToList();
                 return Ok(list);
             }
             catch (Exception x)
@@ -559,23 +593,41 @@ namespace RPFBE.Controllers
                 var result = await codeUnitWebService.Client().GetJobDetailsAsync(pushtoHR.Jobno);
                 dynamic resSerial = JsonConvert.DeserializeObject(result.return_value);
 
-                RequisitionProgress requisitionProgress = new RequisitionProgress
+                int exist = dbContext.RequisitionProgress.Where(x => x.ReqID == pushtoHR.Reqno).Count();
+                if(exist == 0) {
+                    RequisitionProgress requisitionProgress = new RequisitionProgress
+                    {
+                        UID = user.Id,
+                        ReqID = pushtoHR.Reqno,
+                        JobNo = resSerial.Jobno,
+                        JobTitle = resSerial.Jobtitle,
+                        JobGrade = resSerial.Jobgrade,
+                        RequestedEmployees = pushtoHR.RequestedEmployees,
+                        ClosingDate = pushtoHR.ClosingDate,
+                        Status = resSerial.Status,
+                        ProgressStatus = 1,
+                        UIDComment = pushtoHR.HODcomment,
+                    };
+
+
+                    dbContext.RequisitionProgress.Add(requisitionProgress);
+                    await dbContext.SaveChangesAsync();
+                }
+                else
                 {
-                    UID = user.Id,
-                    ReqID = pushtoHR.Reqno,
-                    JobNo = resSerial.Jobno,
-                    JobTitle = resSerial.Jobtitle,
-                    JobGrade = resSerial.Jobgrade,
-                    RequestedEmployees = pushtoHR.RequestedEmployees,
-                    ClosingDate = pushtoHR.ClosingDate,
-                    Status = resSerial.Status,
-                    ProgressStatus = 1,
-                    UIDComment = pushtoHR.HODcomment,
-                };
-
-
-                dbContext.RequisitionProgress.Add(requisitionProgress);
-                await dbContext.SaveChangesAsync();
+                    var reqProg = dbContext.RequisitionProgress.Where(x => x.ReqID == pushtoHR.Reqno).FirstOrDefault();
+                    reqProg.JobNo = resSerial.Jobno;
+                    reqProg.JobTitle = resSerial.Jobtitle;
+                    reqProg.JobGrade = resSerial.Jobgrade;
+                    reqProg.RequestedEmployees = pushtoHR.RequestedEmployees;
+                    reqProg.ClosingDate = pushtoHR.ClosingDate;
+                    reqProg.Status = resSerial.Status;
+                    reqProg.ProgressStatus = 1;
+                    reqProg.UIDComment = pushtoHR.HODcomment;
+                    dbContext.RequisitionProgress.Update(reqProg);
+                    await dbContext.SaveChangesAsync();
+                }
+          
 
                 //@email
                 var mailHRRes = await codeUnitWebService.WSMailer().StaffRequisitiontoHRfromHODAsync(pushtoHR.Reqno);
@@ -955,7 +1007,42 @@ namespace RPFBE.Controllers
             }
         }
 
+        //Staff Requsion Reversal
+        [Authorize]
+        [HttpPost]
+        [Route("reverserequisition")]
+        public async Task<IActionResult> ReverseRequision([FromBody] PushtoHRModel reqmodel)
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var reqrec = dbContext.RequisitionProgress.Where(x => x.ReqID == reqmodel.Reqno).FirstOrDefault();
 
+                reqrec.ProgressStatus = int.Parse(reqmodel.Stage);
+                dbContext.RequisitionProgress.Update(reqrec);
+                await dbContext.SaveChangesAsync();
+
+                if (int.Parse(reqmodel.Stage) == 0)
+                {
+                    //1 (HOD)
+                    var hodId = dbContext.Users.Where(x => x.Id == reqrec.UID).First();
+                    var mailresp = await codeUnitWebService.Client().RequsitionReversalAsync(reqmodel.Reqno, reqmodel.HRcomment,hodId.EmployeeId,1);
+                    return Ok(new { mailresp.return_value });
+                }
+                else
+                {
+                    //2 (HR)
+                    var hrId = dbContext.Users.Where(x => x.Id == reqrec.UID).First();
+                    var mailresp = await codeUnitWebService.Client().RequsitionReversalAsync(reqmodel.Reqno, reqmodel.HRcomment, hrId.EmployeeId, 2);
+                    return Ok(new { mailresp.return_value });
+                }
+          
+            }
+            catch (Exception x)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Requsition Reversal Failed " + x.Message });
+            }
+        }
 
         /*
          * ######################################### PERFORMANCE MONITORING
@@ -1495,6 +1582,9 @@ namespace RPFBE.Controllers
         }
     
       
+
+   
+
 
     }
 }

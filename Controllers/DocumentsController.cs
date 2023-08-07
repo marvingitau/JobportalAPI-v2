@@ -102,26 +102,30 @@ namespace RPFBE.Controllers
                     documentList = documentListAll.Where(x => x.Payrollcode == user.Payrollcode || x.Payrollcode == "").ToList();
                     return Ok(new { documentList });
                 }
-                var documentResOut = await codeUnitWebService.HRWS().GetEmployeeDocumentsListAsync(user.EmployeeId);
-                dynamic docOutSerial = JsonConvert.DeserializeObject(documentResOut.return_value);
-                foreach (var item in docOutSerial)
+                else
                 {
-                    DocumentListModel dlm = new DocumentListModel
+                    var documentResOut = await codeUnitWebService.HRWS().GetEmployeeDocumentsListAsync(user.EmployeeId);
+                    dynamic docOutSerial = JsonConvert.DeserializeObject(documentResOut.return_value);
+                    foreach (var item in docOutSerial)
                     {
-                        EmployeeNo = item.EmployeeNo,
-                        DocumentCode = item.DocumentCode,
-                        DocumentName = item.DocumentName,
-                        Read = item.Read,
-                        DateTimeRead = item.DateTimeRead,
-                        Payrollcode = item.Payrollcode,
-                        URL = item.URL
+                        DocumentListModel dlm = new DocumentListModel
+                        {
+                            EmployeeNo = item.EmployeeNo,
+                            DocumentCode = item.DocumentCode,
+                            DocumentName = item.DocumentName,
+                            Read = item.Read,
+                            DateTimeRead = item.DateTimeRead,
+                            Payrollcode = item.Payrollcode,
+                            URL = item.URL
 
-                    };
-                    documentListAll.Add(dlm);
+                        };
+                        documentListAll.Add(dlm);
 
+                    }
+                    documentList = documentListAll.Where(x => x.Payrollcode == user.Payrollcode || x.Payrollcode == "").ToList();
+                    return Ok(new { documentList });
                 }
-                documentList = documentListAll.Where(x => x.Payrollcode == user.Payrollcode || x.Payrollcode == "").ToList();
-                return Ok(new { documentList });
+                
             }
             catch (Exception x)
             {

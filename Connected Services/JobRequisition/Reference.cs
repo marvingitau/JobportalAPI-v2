@@ -16,6 +16,10 @@ namespace JobRequisition
     public interface JWS_Port
     {
         
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:IsDocRead", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.IsDocRead_Result> IsDocReadAsync(JobRequisition.IsDocRead request);
+        
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:HRDocsList", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.HRDocsList_Result> HRDocsListAsync(JobRequisition.HRDocsList request);
@@ -376,6 +380,10 @@ namespace JobRequisition
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.ApproveInterviewForm_Result> ApproveInterviewFormAsync(JobRequisition.ApproveInterviewForm request);
         
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:RequsitionReversal", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<JobRequisition.RequsitionReversal_Result> RequsitionReversalAsync(JobRequisition.RequsitionReversal request);
+        
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:CreateExitInterview", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.CreateExitInterview_Result> CreateExitInterviewAsync(JobRequisition.CreateExitInterview request);
@@ -603,10 +611,50 @@ namespace JobRequisition
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:GetUserPayrollData", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<JobRequisition.GetUserPayrollData_Result> GetUserPayrollDataAsync(JobRequisition.GetUserPayrollData request);
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="IsDocRead", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class IsDocRead
+    {
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/JWS:IsDocRead", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<JobRequisition.IsDocRead_Result> IsDocReadAsync(JobRequisition.IsDocRead request);
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string eID;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=1)]
+        public string docName;
+        
+        public IsDocRead()
+        {
+        }
+        
+        public IsDocRead(string eID, string docName)
+        {
+            this.eID = eID;
+            this.docName = docName;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="IsDocRead_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class IsDocRead_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public bool return_value;
+        
+        public IsDocRead_Result()
+        {
+        }
+        
+        public IsDocRead_Result(bool return_value)
+        {
+            this.return_value = return_value;
+        }
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -4375,6 +4423,58 @@ namespace JobRequisition
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="RequsitionReversal", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class RequsitionReversal
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string reqno;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=1)]
+        public string comment;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=2)]
+        public string rank;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=3)]
+        public int stage;
+        
+        public RequsitionReversal()
+        {
+        }
+        
+        public RequsitionReversal(string reqno, string comment, string rank, int stage)
+        {
+            this.reqno = reqno;
+            this.comment = comment;
+            this.rank = rank;
+            this.stage = stage;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="RequsitionReversal_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
+    public partial class RequsitionReversal_Result
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
+        public string return_value;
+        
+        public RequsitionReversal_Result()
+        {
+        }
+        
+        public RequsitionReversal_Result(string return_value)
+        {
+            this.return_value = return_value;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="CreateExitInterview", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
     public partial class CreateExitInterview
     {
@@ -7087,50 +7187,6 @@ namespace JobRequisition
         }
     }
     
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="IsDocRead", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
-    public partial class IsDocRead
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
-        public string eID;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=1)]
-        public string docName;
-        
-        public IsDocRead()
-        {
-        }
-        
-        public IsDocRead(string eID, string docName)
-        {
-            this.eID = eID;
-            this.docName = docName;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="IsDocRead_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/JWS", IsWrapped=true)]
-    public partial class IsDocRead_Result
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
-        public bool return_value;
-        
-        public IsDocRead_Result()
-        {
-        }
-        
-        public IsDocRead_Result(bool return_value)
-        {
-            this.return_value = return_value;
-        }
-    }
-    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     public interface JWS_PortChannel : JobRequisition.JWS_Port, System.ServiceModel.IClientChannel
     {
@@ -7179,6 +7235,20 @@ namespace JobRequisition
         public JWS_PortClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress)
         {
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.IsDocRead_Result> JobRequisition.JWS_Port.IsDocReadAsync(JobRequisition.IsDocRead request)
+        {
+            return base.Channel.IsDocReadAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.IsDocRead_Result> IsDocReadAsync(string eID, string docName)
+        {
+            JobRequisition.IsDocRead inValue = new JobRequisition.IsDocRead();
+            inValue.eID = eID;
+            inValue.docName = docName;
+            return ((JobRequisition.JWS_Port)(this)).IsDocReadAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -8417,6 +8487,22 @@ namespace JobRequisition
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<JobRequisition.RequsitionReversal_Result> JobRequisition.JWS_Port.RequsitionReversalAsync(JobRequisition.RequsitionReversal request)
+        {
+            return base.Channel.RequsitionReversalAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<JobRequisition.RequsitionReversal_Result> RequsitionReversalAsync(string reqno, string comment, string rank, int stage)
+        {
+            JobRequisition.RequsitionReversal inValue = new JobRequisition.RequsitionReversal();
+            inValue.reqno = reqno;
+            inValue.comment = comment;
+            inValue.rank = rank;
+            inValue.stage = stage;
+            return ((JobRequisition.JWS_Port)(this)).RequsitionReversalAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         System.Threading.Tasks.Task<JobRequisition.CreateExitInterview_Result> JobRequisition.JWS_Port.CreateExitInterviewAsync(JobRequisition.CreateExitInterview request)
         {
             return base.Channel.CreateExitInterviewAsync(request);
@@ -9260,20 +9346,6 @@ namespace JobRequisition
             JobRequisition.GetUserPayrollData inValue = new JobRequisition.GetUserPayrollData();
             inValue.pK = pK;
             return ((JobRequisition.JWS_Port)(this)).GetUserPayrollDataAsync(inValue);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<JobRequisition.IsDocRead_Result> JobRequisition.JWS_Port.IsDocReadAsync(JobRequisition.IsDocRead request)
-        {
-            return base.Channel.IsDocReadAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<JobRequisition.IsDocRead_Result> IsDocReadAsync(string eID, string docName)
-        {
-            JobRequisition.IsDocRead inValue = new JobRequisition.IsDocRead();
-            inValue.eID = eID;
-            inValue.docName = docName;
-            return ((JobRequisition.JWS_Port)(this)).IsDocReadAsync(inValue);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()

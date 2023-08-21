@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using RPFBE.Auth;
 using RPFBE.Model;
@@ -24,18 +25,21 @@ namespace RPFBE.Controllers
         private readonly UserManager<ApplicationUser> userManager;
         private readonly ApplicationDbContext dbContext;
         private readonly IMailService mailService;
+        private readonly ILogger<StaffRequisionController> logger;
 
         public StaffRequisionController( 
             ICodeUnitWebService codeUnitWebService,
             UserManager<ApplicationUser> userManager,
             ApplicationDbContext dbContext,
-            IMailService mailService
+            IMailService mailService,
+            ILogger<StaffRequisionController> logger
         )
         {
             this.codeUnitWebService = codeUnitWebService;
             this.userManager = userManager;
             this.dbContext = dbContext;
             this.mailService = mailService;
+            this.logger = logger;
         }
         [Authorize]
         [Route("jobslist")]
@@ -583,13 +587,14 @@ namespace RPFBE.Controllers
 
         //HOD push to HR
         [Authorize]
-        [Route("pushtohr")]
+        [Route("mdpushtohr")]
         [HttpPost]
-        public async Task<IActionResult> PushtoHR(PushtoHRModel pushtoHR)
+        public async Task<IActionResult> MDPushtoHR(PushtoHRModel pushtoHR)
         {
             try
             {
                 var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var verb = Request.HttpContext.Request.Method;
                 var result = await codeUnitWebService.Client().GetJobDetailsAsync(pushtoHR.Jobno);
                 dynamic resSerial = JsonConvert.DeserializeObject(result.return_value);
 
@@ -631,12 +636,16 @@ namespace RPFBE.Controllers
 
                 //@email
                 var mailHRRes = await codeUnitWebService.WSMailer().StaffRequisitiontoHRfromHODAsync(pushtoHR.Reqno);
+                logger.LogInformation($"User:{user.EmployeeId},Verb:{verb},Path:HOD Pushed Requsition to HEAD-HR Success");
 
-
-               return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Requisition pushed" });
+                return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Requisition pushed" });
             }
             catch (Exception x)
             {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var verb = Request.HttpContext.Request.Method;
+
+                logger.LogError($"User:{user.EmployeeId},Verb:{verb},Action:HOD Pushed Requsition to HEAD-HR failed,Message:{x.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Requsition Progression failed " + x.Message });
             }
         }
@@ -646,17 +655,39 @@ namespace RPFBE.Controllers
          * Get single
          */
         [Authorize]
-        [Route("hrgetreqlist")]
+        [Route("headhrgetreqlist")]
         [HttpGet]
-        public  IActionResult HrReqList()
+        public  async Task<IActionResult> HeadHrReqList()
         {
             try
             {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
                 var list = dbContext.RequisitionProgress.Where(x => x.ProgressStatus == 1 || x.ProgressStatus >= 3).ToList();
+                logger.LogInformation($"User:{user.EmployeeId},Verb:GET,Path:HEAD HR Get Requsition List Success");
                 return Ok(list);
             }
             catch (Exception x)
             {
+                logger.LogError($"User:NAp,Verb:GET,Action:HEAD HR Stage Requsition List failed,Message:{x.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "HEAD HR Stage Requsition List failed " + x.Message });
+            }
+        }
+
+        [Authorize]
+        [Route("hrgetreqlist")]
+        [HttpGet]
+        public async Task<IActionResult> HrReqList()
+        {
+            try
+            {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var list = dbContext.RequisitionProgress.Where(x => x.ProgressStatus >= 3).ToList();
+                logger.LogInformation($"User:{user.EmployeeId},Verb:GET,Path:HR Get Requsition List Success");
+                return Ok(list);
+            }
+            catch (Exception x)
+            {
+                logger.LogError($"User:NAp,Verb:GET,Action:HR Stage Requsition List failed,Message:{x.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "HR Stage Requsition List failed " + x.Message });
             }
         }
@@ -668,6 +699,8 @@ namespace RPFBE.Controllers
         {
             try
             {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var verb = Request.HttpContext.Request.Method;
                 //get all about the req card
                 var statusProgress = dbContext.RequisitionProgress.Where(x => x.ReqID == Reqno).FirstOrDefault().ProgressStatus;
 
@@ -803,14 +836,13 @@ namespace RPFBE.Controllers
                 var HOD = employeeListModels.Where(x => x.Value == requsitionCard.HOD).FirstOrDefault();
                 var MD = employeeListModels.Where(x => x.Value == requsitionCard.MD).FirstOrDefault();
 
-                    
 
+                logger.LogInformation($"User:{user.EmployeeId},Verb:{verb},Path:HR Get Requsition Card Success");
                 return Ok(new { statusProgress, EmployeeReplaced, HR, HOD,MD,qualificationModels, requirementModels, responsibilityModels, checklistModels, checklistInitCodeAux, requsitionCard });
-
-               
             }
             catch (Exception x)
             {
+                logger.LogError($"User:NAp,Verb:GET,Action:HR Stage Requsition Single failed,Message:{x.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Requsition Single failed " + x.Message });
             }
         }
@@ -825,6 +857,8 @@ namespace RPFBE.Controllers
             try
             {
                 var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var verb = Request.HttpContext.Request.Method;
+
                 RequisitionProgress reqModel = dbContext.RequisitionProgress.Where(x => x.ReqID == Reqno).FirstOrDefault();
                 //RequisitionProgress reqModel = new RequisitionProgress
                 //{
@@ -850,11 +884,14 @@ namespace RPFBE.Controllers
                 //};
                 //await mailService.RequisitionRequestAsync(requisitionrequest);
 
-
+                logger.LogInformation($"User:{user.EmployeeId},Verb:{verb},Path:Requisition Card Pushed to MD Success");
                 return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Requisition pushed to MD" });
             }
             catch (Exception x)
             {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var verb = Request.HttpContext.Request.Method;
+                logger.LogError($"User:{user.EmployeeId},Verb:{verb},Action:Head HR Requisition Card Pushed to MD failed,Message:{x.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "HR Send to MD failed " + x.Message });
             }
         }
@@ -869,6 +906,7 @@ namespace RPFBE.Controllers
                 //return Ok(Reqno);
                 var responser = await codeUnitWebService.Client().ApprovePublishAsync(Reqno);
                 var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var verb = Request.HttpContext.Request.Method;
                 if(responser.return_value == "Yes")
                 {
                     RequisitionProgress reqModel = dbContext.RequisitionProgress.Where(x => x.ReqID == Reqno).First();
@@ -880,16 +918,20 @@ namespace RPFBE.Controllers
 
                     //@email
                     var hrApprovalEmail = await codeUnitWebService .WSMailer().StaffRequisitionHRApprovalAsync(Reqno);
+                    logger.LogInformation($"User:{user.EmployeeId},Verb:{verb},Path:Job Publish Success");
                     return Ok(responser.return_value);
                 }
                 else
                 {
+                    logger.LogInformation($"User:{user.EmployeeId},Verb:{verb},Path:Job Publish Failure");
                     return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Approve Publish failed" });
                 }
                
             }
             catch (Exception x)
             {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                logger.LogError($"User:{user.EmployeeId},Verb:POST,Action:Job Publish Failure,Message:{x.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Approve Publish failed: "+x.Message });
             }
         }
@@ -904,6 +946,8 @@ namespace RPFBE.Controllers
             {
                 //return Ok(Reqno);
                 var responser = await codeUnitWebService.Client().RejectRequisitionAsync(Reqno);
+                var verb = Request.HttpContext.Request.Method;
+
                 var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
                 if (responser.return_value == "Yes")
                 {
@@ -918,16 +962,21 @@ namespace RPFBE.Controllers
 
                     //@email
                     var mdRejectMail = await codeUnitWebService.WSMailer().StaffRequisitionMDRejectionAsync(Reqno);
+                    logger.LogInformation($"User:{user.EmployeeId},Verb:{verb},Path:MD Reject Requisition Failure");
                     return Ok(responser.return_value);
                 }
                 else
                 {
+                    logger.LogWarning($"User:{user.EmployeeId},Verb:{verb},Path:MD Reject Requisition Failure");
                     return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Rejection failed" });
                 }
 
             }
             catch (Exception x)
             {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var verb = Request.HttpContext.Request.Method;
+                logger.LogError($"User:{user.EmployeeId},Verb:{verb},Action:MD Reject Requisition Failure,Message:{x.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Rejection  failed"+x.Message });
             }
         }
@@ -979,6 +1028,7 @@ namespace RPFBE.Controllers
             try
             {
                 var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var verb = Request.HttpContext.Request.Method;
                 RequisitionProgress reqModel = dbContext.RequisitionProgress.Where(x => x.ReqID == Reqno).FirstOrDefault();
                 reqModel.ProgressStatus = 3;
                 reqModel.UIDThree = user.Id;
@@ -998,11 +1048,14 @@ namespace RPFBE.Controllers
                 };
                 await mailService.RequisitionRequestAsync(requisitionrequest);*/
 
-
+                logger.LogInformation($"User:{user.EmployeeId},Verb:{verb},Path:MD Requisition Approved & Pushed to HR");
                 return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Requisition Approved & Pushed to HR" });
             }
             catch (Exception x)
             {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var verb = Request.HttpContext.Request.Method;
+                logger.LogError($"User:{user.EmployeeId},Verb:POST,Action:MD Requisition Send to HR failed,Message:{x.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "MD Send to HR failed " + x.Message });
             }
         }
@@ -1027,6 +1080,7 @@ namespace RPFBE.Controllers
                     //1 (HOD)
                     var hodId = dbContext.Users.Where(x => x.Id == reqrec.UID).First();
                     var mailresp = await codeUnitWebService.Client().RequsitionReversalAsync(reqmodel.Reqno, reqmodel.HRcomment,hodId.EmployeeId,1);
+                    logger.LogInformation($"User:{user.EmployeeId},Verb:POST,Path:Requisition Card Reversal to HOD:{hodId.EmployeeId} Success");
                     return Ok(new { mailresp.return_value });
                 }
                 else
@@ -1034,12 +1088,15 @@ namespace RPFBE.Controllers
                     //2 (HR)
                     var hrId = dbContext.Users.Where(x => x.Id == reqrec.UID).First();
                     var mailresp = await codeUnitWebService.Client().RequsitionReversalAsync(reqmodel.Reqno, reqmodel.HRcomment, hrId.EmployeeId, 2);
+                    logger.LogInformation($"User:{user.EmployeeId},Verb:POST,Path:Requisition Card Reversal to HR:{hrId.EmployeeId} Success");
                     return Ok(new { mailresp.return_value });
                 }
           
             }
             catch (Exception x)
             {
+                var user1 = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                logger.LogError($"User:{user1.EmployeeId},Verb:POST,Action:Requisition Card Reversal failed,Message:{x.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Requsition Reversal Failed " + x.Message });
             }
         }

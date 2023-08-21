@@ -24,7 +24,7 @@ namespace RPFBE.Controllers
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly ApplicationDbContext dbContext;
-        private readonly ILogger<HomeController> logger;
+        private readonly ILogger<EndofMonitoringAndContractController> logger;
         private readonly IWebHostEnvironment webHostEnvironment;
         private readonly ICodeUnitWebService codeUnitWebService;
         private readonly IMailService mailService;
@@ -33,7 +33,7 @@ namespace RPFBE.Controllers
         public EndofMonitoringAndContractController(
                 UserManager<ApplicationUser> userManager,
                 ApplicationDbContext dbContext,
-                ILogger<HomeController> logger,
+                ILogger<EndofMonitoringAndContractController> logger,
                 IWebHostEnvironment webHostEnvironment,
                 ICodeUnitWebService codeUnitWebService,
                 IMailService mailService,
@@ -73,11 +73,12 @@ namespace RPFBE.Controllers
                     };
                     employeeListModels.Add(e);
                 }
-
+                logger.LogInformation($"User:{user.EmployeeId},Verb:View,Path:createprobationview");
                 return Ok(new { employeeListModels, EID });
             }
             catch (Exception x)
             {
+                logger.LogInformation($"User:NAp,Verb:View,Path:Probation View Failed,Message:{x.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Create Probation View Failed: "+x.Message });
             }
            
@@ -122,16 +123,17 @@ namespace RPFBE.Controllers
                     };
                     dbContext.ProbationProgress.Add(pp);
                     await dbContext.SaveChangesAsync();
-
+                    logger.LogInformation($"User:{user.EmployeeId},Verb:POST,Path:Create Probation Success");
                     return Ok(true);
 
                 }
+                logger.LogWarning($"User:{user.EmployeeId},Verb:POST,Path:D365 Create Probation Failed");
                 return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "D365 Create Probation Store Failed" });
                
             }
             catch (Exception x)
             {
-
+                logger.LogWarning($"User:NAp,Verb:Create,Path:POST Probation Failed,Message:{x.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Create Probation Store Failed: " + x.Message });
             }
         }
@@ -145,6 +147,7 @@ namespace RPFBE.Controllers
             {
                 List<ProbationProgress> probationProgresses = new List<ProbationProgress>();
                 var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var verb = Request.HttpContext.Request.Method;
                 var res = await codeUnitWebService.Client().UpdateProbationGenSectionAsync(
                     employeeEndofForm.Probationno,
                     employeeEndofForm.SupervisionTime,
@@ -196,6 +199,7 @@ namespace RPFBE.Controllers
                         dbContext.ProbationProgress.Update(probModel);
                         await dbContext.SaveChangesAsync();
 
+                        logger.LogInformation($"User:{user.EmployeeId},Verb:{verb},Path:Update Probation First Section Success");
                         return Ok(true);
                     }
                     else
@@ -203,17 +207,21 @@ namespace RPFBE.Controllers
                         dbContext.ProbationProgress.Add(pp);
                         await dbContext.SaveChangesAsync();
 
+                        logger.LogInformation($"User:{user.EmployeeId},Verb:{verb},Path:Update Probation First Section Success");
                         return Ok(true);
                     }
                   
 
                 }
+                logger.LogWarning($"User:{user.EmployeeId},Verb:{verb},Path:Update Probation First Section Failed");
                 return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "Update Probation First Section Failed" });
 
             }
             catch (Exception x)
             {
-
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var verb = Request.HttpContext.Request.Method;
+                logger.LogError($"User:{user.EmployeeId},Verb:{verb},Action:Update Probation First Section Failed,Message:{x.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Update Probation First Section Failed: " + x.Message });
             }
         }
@@ -250,12 +258,13 @@ namespace RPFBE.Controllers
 
                 //}
                 var employeeEndofs = dbContext.ProbationProgress.Where(x => x.MgrID == user.EmployeeId && x.ProbationStatus==0).ToList();
+                logger.LogInformation($"User:{user.EmployeeId},Verb:GET,Path:Get Probation List Success");
 
                 return Ok(new { employeeEndofs });
             }
             catch (Exception x)
             {
-
+                logger.LogError($"User:NAp,Verb:GET,Action:Get Probation List Failed,Message:{x.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation List Failed: " + x.Message });
             }
         }
@@ -293,12 +302,13 @@ namespace RPFBE.Controllers
                 }
                 List<ProbationProgress> employeeEndofs = dbContext.ProbationProgress.Where(x => x.MgrID == user.EmployeeId && x.ProbationStatus == 0).ToList();
                 PROBs.AddRange(employeeEndofs);
+                logger.LogInformation($"User:{user.EmployeeId},Verb:GET,Path:Get Probation List v1 Success");
 
                 return Ok(new { PROBs });
             }
             catch (Exception x)
             {
-
+                logger.LogError($"User:NAp,Verb:GET,Action:Get Probation List v1 Failed,Message:{x.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation List Failed: " + x.Message });
             }
         }
@@ -315,12 +325,13 @@ namespace RPFBE.Controllers
                 var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
                
                 var employeeProbs = dbContext.ProbationProgress.Where(x => x.HODEid == user.EmployeeId && x.ProbationStatus == 1).ToList();
+                logger.LogInformation($"User:{user.EmployeeId},Verb:GET,Path:Get Probation List Success");
 
                 return Ok(new { employeeProbs });
             }
             catch (Exception x)
             {
-
+                logger.LogError($"User:NAp,Verb:GET,Action:Get Probation List Failed,Message:{x.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation List Failed: " + x.Message });
             }
         }
@@ -333,6 +344,8 @@ namespace RPFBE.Controllers
         {
             try
             {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+
                 var res = await codeUnitWebService.Client().GetProbationProgressGeneralAsync(CardID);
                 dynamic resSerial = JsonConvert.DeserializeObject(res.return_value);
                 List<EmployeeEndofForm> employeeEndofForms = new List<EmployeeEndofForm>();
@@ -358,11 +371,13 @@ namespace RPFBE.Controllers
                     employeeEndofForms.Add(endofForm);
                 }
 
-                    return Ok(new { employeeEndofForms });
+                logger.LogInformation($"User:{user.EmployeeId},Verb:GET,Path:Get Probation Card Success");
+
+                return Ok(new { employeeEndofForms });
             }
             catch (Exception x)
             {
-
+                logger.LogError($"User:NAp,Verb:GET,Action:Get Probation Card Failed,Message:{x.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation Card Failed: " + x.Message });
             }
         }
@@ -375,6 +390,8 @@ namespace RPFBE.Controllers
         {
             try
             {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+
                 bool[] boolData = new bool[100];
                 string[] commentArr = new string[20];
 
@@ -473,13 +490,14 @@ namespace RPFBE.Controllers
                 boolData[62] = probationFirstSection.CantTakePressure;
 
                 var res = await codeUnitWebService.Client().UpdateProbationProgressFirstSectionAsync(PID, boolData, commentArr);
-                
+
+                logger.LogInformation($"User:{user.EmployeeId},Verb:POST,Path:Upload Probation Section One Success");
 
                 return Ok(res.return_value);
             }
             catch (Exception x)
             {
-
+                logger.LogError($"User:NAp,Verb:POST,Action:Probation Section One Upload Failed,Message:{x.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation Section One Upload Failed: " + x.Message });
             }
         }
@@ -491,6 +509,8 @@ namespace RPFBE.Controllers
         {
             try
             {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+
                 string[] textArr = new string[10];
                 bool[] boolArr = new bool[5];
 
@@ -514,12 +534,13 @@ namespace RPFBE.Controllers
                 dbContext.ProbationProgress.Update(probprog);
                 await dbContext.SaveChangesAsync();
 
+                logger.LogInformation($"User:{user.EmployeeId},Verb:POST,Path:Probation Recommendation Upload Success");
                 return Ok(res.return_value);
 
             }
             catch (Exception x)
             {
-
+                logger.LogError($"User:NAp,Verb:POST,Action:Probation Recommendation Upload Failed,Message:{x.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation Recommendation Upload Failed: " + x.Message });
             }
         }
@@ -553,13 +574,13 @@ namespace RPFBE.Controllers
                 //mailService.SendEmail(emailArr, unameArr, PID);
                 var probationMailHR = await codeUnitWebService.WSMailer().EmployeeProbationManagerToHRAsync(PID);
 
-               // return Ok(userList);
-
+                // return Ok(userList);
+                logger.LogInformation($"User:{user.EmployeeId},Verb:GET,Path:Probation Move To HR Success");
                 return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Probation Moved: "});
             }
             catch (Exception x)
             {
-
+                logger.LogError($"User:NAp,Verb:GET,Action:Probation Move To HR Failed,Message:{x.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation Move Failed: " + x.Message });
             }
         }
@@ -606,6 +627,7 @@ namespace RPFBE.Controllers
             try
             {
                 var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var verb = Request.HttpContext.Request.Method;
                 //var immediateManager = await codeUnitWebService.Client().GetImmediateManagerAsync(PID);
                 var probModel = dbContext.ProbationProgress.Where(p => p.ProbationNo == PID && p.ProbationStatus == 0).First();
                 //probModel.UID = user.Id;
@@ -630,12 +652,13 @@ namespace RPFBE.Controllers
                 var probationMailHR = await codeUnitWebService.WSMailer().EmployeeProbationHODToImmediateManagerAsync(PID);
 
                 // return Ok(userList);
-
+                logger.LogInformation($"User:{user.EmployeeId},Verb:{verb},Path:Probation Move To ImmediateMgr From HOD Success");
                 return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Probation Moved: " });
             }
             catch (Exception x)
             {
-
+                var verb = Request.HttpContext.Request.Method;
+                logger.LogError($"User:NAp,Verb:{verb},Action:Probation Move To ImmediateMgr From HOD Failed,Message:{x.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation Move Failed: " + x.Message });
             }
         }
@@ -649,6 +672,7 @@ namespace RPFBE.Controllers
             try
             {
                 var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var verb = Request.HttpContext.Request.Method;
                 var probModel = dbContext.ProbationProgress.Where(p => p.ProbationNo == PID && p.ProbationStatus == 0).First();
                 probModel.ProbationStatus = 1;
 
@@ -658,12 +682,13 @@ namespace RPFBE.Controllers
                 //Mail HOD
 
                 var probationMailHR = await codeUnitWebService.WSMailer().SupervisorToHODProbationAsync(probModel.HODEid, probModel.ProbationNo);
-
+                logger.LogInformation($"User:{user.EmployeeId},Verb:{verb},Path:HR Get Requsition Card Success");
                 return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Probation Moved" });
             }
             catch (Exception x)
             {
-
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                logger.LogError($"User:{user.EmployeeId},Verb:GET,Action:HR Stage Requsition Single failed,Message:{x.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation Move Failed: " + x.Message });
             }
         }
@@ -865,6 +890,7 @@ namespace RPFBE.Controllers
             try
             {
                 var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var verb = Request.HttpContext.Request.Method;
                
                     var probModel = dbContext.ProbationProgress.Where(x => x.ProbationNo == PID).FirstOrDefault();
                     probModel.ProbationStatus = 2;
@@ -891,12 +917,14 @@ namespace RPFBE.Controllers
                 //mailService.SendEmail(emailArr, unameArr, PID);
 
 
-
+                logger.LogInformation($"User:{user.EmployeeId},Verb:{verb},Path:HOD Push to HR Success");
                 return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Probation Card Moved " });
             }
             catch (Exception x)
             {
-
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var verb = Request.HttpContext.Request.Method;
+                logger.LogError($"User:{user.EmployeeId},Verb:{verb},Action:HR Stage Requsition Single failed,Message:{x.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation Card Update Failed: " + x.Message });
             }
         }
@@ -1704,6 +1732,7 @@ namespace RPFBE.Controllers
             try
             {
                 var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var verb = Request.HttpContext.Request.Method;
 
                 var cModel = dbContext.EndofContractProgress.Where(p => p.ContractNo == endofContractProgress.ContractNo && p.ContractStatus == 0).First();
                 cModel.UID = user.Id;
@@ -1718,13 +1747,14 @@ namespace RPFBE.Controllers
                 //@email
 
                 var mailHR = await codeUnitWebService.WSMailer().SupervisorToHODEOCAsync(cModel.ContractNo, cModel.HODEid);
-           
 
+
+                logger.LogInformation($"User:{user.EmployeeId},Verb:{verb},Path:Contract Card Move Success");
                 return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Contract Moved" });
             }
             catch (Exception x)
             {
-
+                logger.LogError($"User:NAp,Verb:POST,Action:Contract Card Move failed,Message:{x.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Contract Move Failed: " + x.Message });
             }
         }
@@ -2846,6 +2876,7 @@ namespace RPFBE.Controllers
             try
             {
                 var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var verb = Request.HttpContext.Request.Method;
                 var contModel = dbContext.ProbationProgress.Where(x => x.ProbationNo == probationProgress.ProbationNo).First();
                 contModel.ProbationStatus = probationProgress.ProbationStatus;
                 contModel.BackTrackingReason = probationProgress.BackTrackingReason;
@@ -2867,23 +2898,25 @@ namespace RPFBE.Controllers
                             probationProgress.BackTrackingReason,
                             "HOD"
                           );
-
+                        logger.LogInformation($"User:{user.EmployeeId},Verb:{verb},Path:Probation Card Reversal To Immediate Supervisor Success");
                         return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Probation Card Reversal Success" });
                     }
-
+                    logger.LogWarning($"User:{user.EmployeeId},Verb:{verb},Path:Probation Card Reversal Failed - Stage not selected");
                     return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation Card Reversal Failed - Stage not selected" });
 
                 }
                 catch (Exception e)
                 {
+                    logger.LogError($"User:{user.EmployeeId},Verb:POST,Action:Probation Card Reversal Failed,Message:{e.Message}");
                     return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation Creator Missing: " + e.Message });
                 }
 
             }
             catch (Exception x)
             {
-
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation Card Update Failed: " + x.Message });
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                logger.LogError($"User:{user.EmployeeId},Verb:POST,Action:Probation Card Reversal Failed,Message:{x.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation Card Reversal Failed: " + x.Message });
             }
         }
         

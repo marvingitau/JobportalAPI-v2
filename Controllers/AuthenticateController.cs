@@ -1,10 +1,12 @@
 ﻿using AdminAccount;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
@@ -36,13 +38,15 @@ namespace RPFBE.Controllers
         private readonly ICodeUnitWebService codeUnitWebService;
         private readonly IOptions<MailSettings> mailSettings;
         private readonly IWebHostEnvironment webHostEnvironment;
+        private readonly ILogger<AuthenticateController> logger;
 
         public AuthenticateController(UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager,
             IConfiguration configuration,
             ICodeUnitWebService codeUnitWebService,
             IOptions<MailSettings> mailSettings,
-             IWebHostEnvironment webHostEnvironment
+             IWebHostEnvironment webHostEnvironment,
+             ILogger<AuthenticateController> logger
             )
         {
             this.userManager = userManager;
@@ -51,6 +55,7 @@ namespace RPFBE.Controllers
             this.codeUnitWebService = codeUnitWebService;
             this.mailSettings = mailSettings;
             this.webHostEnvironment = webHostEnvironment;
+            this.logger = logger;
         }
         public IActionResult Index()
         {
@@ -430,33 +435,38 @@ namespace RPFBE.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet]
         [Route("deleteuser/{EID}")]
         public async Task<IActionResult> DeleteUser(string EID)
         {
             try
             {
+                var uzer = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+
                 var user = await userManager.FindByIdAsync(EID);
                 if (user != null)
                 {
                     IdentityResult result = await userManager.DeleteAsync(user);
                     if (result.Succeeded)
                     {
+                        logger.LogInformation($"User:{uzer.EmployeeId},Verb:GET,Path:User Deletion Success");
                         return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "User Deletion Success " });
-
                     }
                     else
                     {
+                        logger.LogWarning($"User:{uzer.EmployeeId},Verb:GET,Path:User Deletion Failed");
                         return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User Deletion Failed" });
-
                     }
                 }
+                logger.LogError($"User:{uzer.EmployeeId},Verb:GET,Action:User Deletion Failed");
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User Not Found: "});
 
             }
             catch (Exception x)
             {
-
+                var uzer = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                logger.LogError($"User:{uzer.EmployeeId},Verb:GET,Action:User Deletion Failed,Message:{x.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User Deletion Failed: " + x.Message });
             }
         }

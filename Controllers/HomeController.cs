@@ -85,6 +85,7 @@ namespace RPFBE.Controllers
                 }
 
                 //return Content(postedJobs );
+                _logger.LogInformation("Viewing Posted Jobs");
                 return postedJobs;
             }
             catch (Exception)
@@ -256,7 +257,7 @@ namespace RPFBE.Controllers
             }
         }
 
-
+        [Authorize]
         [HttpPost]
         [Route("applyjob")]
         public async Task<IActionResult> ApplyJob([FromBody] AppliedJob appliedJob)
@@ -268,6 +269,7 @@ namespace RPFBE.Controllers
 
                 if (!ModelState.IsValid)
                 {
+                    _logger.LogWarning($"User:{user.Id},Verb:POST,Path:Apply Job Failed");
                     return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Application Failed" });
                 }
                 appliedJob.UserId = user.Id;
@@ -275,6 +277,7 @@ namespace RPFBE.Controllers
                 var profileExist = dbContext.Users.Where(x => x.Id == user.Id && x.ProfileId != 0).Count();
                 if (profileExist == 0)
                 {
+                    _logger.LogInformation($"User:{user.Id},Verb:POST,Path:Please Create your profile first");
                     return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Please Create your profile first" });
                 }
                 var duplicateCheck = dbContext.AppliedJobs.Where(x => x.UserId == user.Id && x.JobReqNo == appliedJob.JobReqNo ).FirstOrDefault();
@@ -282,21 +285,25 @@ namespace RPFBE.Controllers
                 {
                     await dbContext.AppliedJobs.AddAsync(appliedJob);
                     await dbContext.SaveChangesAsync();
+
+                    _logger.LogInformation($"User:{user.Id},Verb:POST,Path:Job Applied");
                     return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Job Applied" });
 
                 }
 
-
+                _logger.LogInformation($"User:{user.Id},Verb:POST,Path:Job Applied Already");
                 return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Job Applied Already" });
             }
-            catch (ArgumentNullException)
+            catch (Exception x)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User Logged out" });
+                _logger.LogError($"User:NAp,Verb:POST,Action:Job Application Failed,Message:{x.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Job Application Failed"+x.Message });
 
             }
 
         }
 
+        [Authorize]
         [HttpPost]
         [Route("applyinternaljob")]
         public async Task<IActionResult> ApplyInternalJob([FromBody] AppliedJob appliedJob)
@@ -315,6 +322,7 @@ namespace RPFBE.Controllers
                 var profileExist = dbContext.Users.Where(x => x.Id == user.Id && x.ProfileId != 0).Count();
                 if (profileExist == 0)
                 {
+                    _logger.LogInformation($"User:{user.EmployeeId},Verb:POST,Path:Please Create your profile first");
                     return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Please Create your profile first" });
                 }
                 var duplicateCheck = dbContext.AppliedJobs.Where(x => x.UserId == user.Id && x.JobReqNo == appliedJob.JobReqNo).FirstOrDefault();
@@ -322,15 +330,18 @@ namespace RPFBE.Controllers
                 {
                     await dbContext.AppliedJobs.AddAsync(appliedJob);
                     await dbContext.SaveChangesAsync();
+
+                    _logger.LogInformation($"User:{user.EmployeeId},Verb:POST,Path:Job Applied");
                     return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Job Applied" });
 
                 }
 
-
+                _logger.LogInformation($"User:{user.EmployeeId},Verb:POST,Path:Job Applied Already");
                 return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Job Applied Already" });
             }
             catch (Exception x)
             {
+                _logger.LogError($"User:NAp,Verb:POST,Action:Job Application Failed,Message:{x.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Apply Job Failed: "+x.Message });
 
             }
@@ -388,6 +399,8 @@ namespace RPFBE.Controllers
                         }
 
                     }
+
+                    _logger.LogInformation($"User:{user.EmployeeId},Verb:POST,Path:File Uploaded");
                     return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "File Uploaded" });
                 }
                 else
@@ -398,6 +411,7 @@ namespace RPFBE.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError($"User:NAp,Verb:POST,Action:File upload Failed,Message:{ex.Message}");
                 return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "File upload failed :"+ex.Message });
                 
             }
@@ -676,6 +690,8 @@ namespace RPFBE.Controllers
                     specificFile.FilePath = path;
                     specificFile.TagName = formFile.FileName;
                     await dbContext.SaveChangesAsync();
+
+                    _logger.LogInformation($"User:{user.EmployeeId},Verb:POST,Path:Justification File Updated");
                     return StatusCode(StatusCodes.Status200OK, new Response { Status = "Succes", Message = "File Updated" });
 
                 }
@@ -691,13 +707,15 @@ namespace RPFBE.Controllers
                     };
                     dbContext.JustificationFiles.Add(specData);
                     dbContext.SaveChanges();
+
+                    _logger.LogInformation($"User:{user.EmployeeId},Verb:POST,Path:Justification File upload");
                     return StatusCode(StatusCodes.Status200OK, new Response { Status = "Succes", Message = "File Uploaded" });
                 }
 
             }
             catch (Exception x)
             {
-
+                _logger.LogError($"User:NAp,Verb:POST,Action:Justification File upload Failed,Message:{x.Message}");
                 return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = x.Message });
             }
 
@@ -755,6 +773,7 @@ namespace RPFBE.Controllers
         public async Task<ActionResult<IEnumerable<AppliedJob>>> AppliedJobs()
         {
             var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+
             return dbContext.AppliedJobs.Where(y => y.UserId == user.Id).Where(x => x.UserId == user.Id).ToList();
         }
         [Authorize]
@@ -1156,33 +1175,47 @@ namespace RPFBE.Controllers
         //Get token
         public async Task<IActionResult> RequestPasswordResetLink(string email)
         {
-            var user = dbContext.Users.Where(x => x.Email == email).FirstOrDefault();
-            string host = HttpContext.Request.Host.ToUriComponent();
-            string protocol = HttpContext.Request.Scheme;
-         
-            if (user != null)
+            try
             {
-                var code = await userManager.GeneratePasswordResetTokenAsync(user);
+                var user = dbContext.Users.Where(x => x.Email == email).FirstOrDefault();
+                string host = HttpContext.Request.Host.ToUriComponent();
+                string protocol = HttpContext.Request.Scheme;
 
-                var link = $"{code}";
-                //var link = $"{protocol}/{host}/forgot?id={code}";
+                if (user != null)
+                {
+                    var code = await userManager.GeneratePasswordResetTokenAsync(user);
 
-                try
-                {
-                    // await mailService.SendEmailPasswordReset(user.Email, link);
-                    await codeUnitWebService.WSMailer().SendEmailPasswordResetAsync(user.Email, link);
-                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Token Mailed" });
+                    var link = $"{code}";
+                    //var link = $"{protocol}/{host}/forgot?id={code}";
+
+                    try
+                    {
+                        // await mailService.SendEmailPasswordReset(user.Email, link);
+                        await codeUnitWebService.WSMailer().SendEmailPasswordResetAsync(user.Email, link);
+
+                        _logger.LogInformation($"User:{user.EmployeeId},Verb:POST,Path:Password Token sent");
+                        return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Token Mailed" });
+                    }
+                    catch (Exception x)
+                    {
+                        _logger.LogError($"User:NAp,Verb:GET,Action:Reset Link email failed,Message:{x.Message}");
+                        return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "Reset Link email failed: " + x.Message });
+                    }
+                    //logger.LogInformation($"An password reset email was sent to {user.Email}");
                 }
-                catch (Exception x)
+                else
                 {
-                    return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "Reset Link email failed: "+x.Message });
+                    _logger.LogError($"User:NAp,Verb:GET,Action:User Not Found");
+                    return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "User not found" });
                 }
-                //logger.LogInformation($"An password reset email was sent to {user.Email}");
             }
-            else
+            catch (Exception x)
             {
-                return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "User not found" });
+                _logger.LogError($"User:NAp,Verb:GET,Action:Password Reset Failed,Message:{x.Message}");
+                return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "User not found"+x.Message });
+
             }
+          
 
         }
 
@@ -1202,10 +1235,12 @@ namespace RPFBE.Controllers
                     var isTokenSet = await codeUnitWebService.EmployeeAccount().ResetEmployeePortalPasswordAsync(user.EmployeeId, Cryptography.Hash(forgottenModel.Password));
                     if (resetPassResult.Succeeded && isTokenSet.return_value)
                     {
+                        _logger.LogInformation($"User:{user.Id},Verb:POST,Path:Passord reset Success");
                         return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Passord reset Success" });
                     }
                     else
                     {
+                        _logger.LogWarning($"User:{user.Id},Verb:POST,Path:Password reset failed ");
                         return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "Password reset failed " });
 
                     }
@@ -1214,10 +1249,12 @@ namespace RPFBE.Controllers
                 {
                     if (resetPassResult.Succeeded)
                     {
+                        _logger.LogInformation($"User:{user.Id},Verb:POST,Path:Passord reset Success Employee Doesnt Exist");
                         return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Passord reset Success" });
                     }
                     else
                     {
+                        _logger.LogWarning($"User:{user.Id},Verb:POST,Path:Password reset failed Employee Doesnt Exist");
                         return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "Password reset failed " });
 
                     }
@@ -1226,6 +1263,7 @@ namespace RPFBE.Controllers
             }
             catch (Exception x)
             {
+                _logger.LogError($"User:NAp,Verb:GET,Action:Password Reset Failed,Message:{x.Message}");
                 return StatusCode(StatusCodes.Status503ServiceUnavailable, new Response { Status = "Error", Message = "Password reset failed "+x.Message });
 
             }
@@ -1331,6 +1369,7 @@ namespace RPFBE.Controllers
         {
             try
             {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
                 List<EmployeeListModel> employeeListModels = new List<EmployeeListModel>();
                 List<EmployeeListModel> separationGrounds = new List<EmployeeListModel>();
 
@@ -1363,14 +1402,15 @@ namespace RPFBE.Controllers
                     separationGrounds.Add(e2);
 
                 }
-
+                _logger.LogInformation($"User:{user.EmployeeId},Verb:GET,Path:Get Exit Form Source Data Sucess");
                 return Ok(new { employeeListModels, separationGrounds });
 
 
             }
-            catch (Exception)
+            catch (Exception x)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Exit source data missing" });
+                _logger.LogError($"User:NAp,Verb:GET,Action:Exit source data missing,Message:{x.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Exit source data missing:"+x.Message });
             }
         }
 
@@ -1458,11 +1498,12 @@ namespace RPFBE.Controllers
                 //Mail Employee.
                 var sendEmpMail = await codeUnitWebService.WSMailer().ExitInterviewAsync(interviewCard.EID);
 
-
+                _logger.LogInformation($"User:{user.EmployeeId},Verb:POST,Path:Exit data upload Sucess");
                 return Ok(new { interviewCard });
             }
             catch (Exception x)
             {
+                _logger.LogError($"User:NAp,Verb:GET,Action:Exit source data missing,Message:{x.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Exit data upload failed: " +x.Message });
             }
         }
@@ -1496,6 +1537,7 @@ namespace RPFBE.Controllers
         {
             try
             {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
                 var res = await codeUnitWebService.Client().ApproveInterviewFormAsync(PK);
                 if(res.return_value == "TRUE")
                 {
@@ -1503,21 +1545,25 @@ namespace RPFBE.Controllers
                     rec.FormUploaded = 2;
                     dbContext.ExitInterviewCard.Update(rec);
                     await dbContext.SaveChangesAsync();
+
+                    _logger.LogInformation($"User:{user.EmployeeId},Verb:GET,Path:Exit Form Approved");
+
                     return StatusCode(StatusCodes.Status200OK, new Response { Status = "Succes", Message = "Exit Form/Card Updated" });
                 }
                 else
                 {
-
+                    _logger.LogInformation($"User:{user.EmployeeId},Verb:GET,Path:Exit Form Approval Failed");
                     return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Exit Form/Card Update Failed" });
                 }
             }
             catch (Exception x)
             {
+                _logger.LogError($"User:NAp,Verb:GET,Action:Exit Form Approval Failed,Message:{x.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Exit data upload failed" + x.Message });
             }
         }
 
-        //HR Gel the list of Users
+        //HR Get the list of Users
         [Authorize]
         [HttpGet]
         [Route("hrallusers")]
@@ -1560,14 +1606,19 @@ namespace RPFBE.Controllers
         {
             try
             {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
                 var jseekrs = dbContext.Users.Where(x => x.EmployeeId == null).ToList();
                 dbContext.Users.RemoveRange(jseekrs);
                 await dbContext.SaveChangesAsync();
+
+                _logger.LogInformation($"User:{user.EmployeeId},Verb:GET,Path:HR Delete All Job Seekers Success");
                 return Ok("Job seekers Deleted");
 
             }
             catch (Exception x)
             {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                _logger.LogError($"User:{user.EmployeeId},Verb:GET,Action:HR Delete All Job Seekers Failed,Message:{x.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Jobseekers Deletion failed" + x.Message });
             }
         }
@@ -1611,6 +1662,7 @@ namespace RPFBE.Controllers
         {
             try
             {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
                 var usr = dbContext.Users.Where(x => x.EmployeeId == uid).First();
 
                 //var roless = await userManager.GetRolesAsync(usr);
@@ -1643,10 +1695,15 @@ namespace RPFBE.Controllers
                 usr.Rank = val;
                 dbContext.Users.Update(usr);
                 await dbContext.SaveChangesAsync();
+
+                _logger.LogInformation($"User:{user.EmployeeId},Verb:GET,Path:User Role Updated to {val}");
+
                 return StatusCode(StatusCodes.Status200OK, new Response { Status = "Succes", Message = "User Role Updated" });
             }
             catch (Exception x)
             {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                _logger.LogError($"User:{user.EmployeeId},Verb:GET,Action:HR User Role Update failed,Message:{x.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User Role Update failed" + x.Message });
             }
         }
@@ -2917,6 +2974,7 @@ namespace RPFBE.Controllers
             try
             {
                 var users = dbContext.Users.Count();
+                var verb = Request.HttpContext.Request.Method;
                 return Ok(new { users });
             }
             catch (Exception x)

@@ -71,10 +71,12 @@ namespace RPFBE.Controllers
                 var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
                 var exitCount = dbContext.ExitInterviewCard.Where(x => x.EID == user.EmployeeId).Count();
 
+                logger.LogInformation($"User:{user.EmployeeId},Verb:GET,Path:View Employee Dasboard Success");
                 return Ok(new { exitCount });
             }
             catch (Exception x)
             {
+                logger.LogError($"User:NAp,Verb:GET,Action:View Employee Dasboard Failed,Message:{x.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Employee Dashboard err" + x.Message });
             }
            
@@ -92,16 +94,19 @@ namespace RPFBE.Controllers
                 var exitModel = dbContext.ExitInterviewCard.Where(x => x.EID == user.EmployeeId).FirstOrDefault();
                 if(exitModel != null)
                 {
+                    logger.LogInformation($"User:{user.EmployeeId},Verb:GET,Path:Get Employee Exit Meta Success");
                     return Ok(new { exitModel });
                 }
                 else
                 {
+                    logger.LogWarning($"User:{user.EmployeeId},Verb:GET,Path:Get Employee Exit Meta Failed/Null");
                     return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Employee Exit Meta Null "});
 
                 }
             }
             catch (Exception x)
             {
+                logger.LogError($"User:NAp,Verb:GET,Action:Get Employee Exit Meta Failed,Message:{x.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Employee Exit Meta err " + x.Message });
             }
         }
@@ -121,6 +126,7 @@ namespace RPFBE.Controllers
                 int[] intArr = new int[40];
 
                 var duplicate = dbContext.ExitInterviewForm.Where(x => x.UID == user.Id).Count();
+                //Update if record exist
                 if (duplicate > 0)
                 {
                     string modextform = "";
@@ -246,7 +252,7 @@ namespace RPFBE.Controllers
                     dbContext.ExitInterviewCard.Update(rec);
                     await dbContext.SaveChangesAsync();
 
-
+                    logger.LogInformation($"User:{user.EmployeeId},Verb:POST,Path:Exit form Update Success");
                     return StatusCode(StatusCodes.Status200OK, new Response { Status = "Succes", Message = "Exit form Updated,"+modextform });
                 }
                 else
@@ -411,12 +417,14 @@ namespace RPFBE.Controllers
                     dbContext.ExitInterviewCard.Update(rec);
                     await dbContext.SaveChangesAsync();
 
+                    logger.LogInformation($"User:{user.EmployeeId},Verb:POST,Path:Exit form Creation Success");
                     return StatusCode(StatusCodes.Status200OK, new Response { Status = "Succes", Message = "Exit form Uploaded," + modextform });
                 }
                
             }
             catch (Exception x)
             {
+                logger.LogError($"User:NAp,Verb:POST,Action:Employee Exit Form Push Failed,Message:{x.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Employee Exit Form Push err " + x.Message });
             }
         }
@@ -426,15 +434,18 @@ namespace RPFBE.Controllers
         [HttpGet]
         [Route("hrgetexitform/{ID}")]
 
-        public IActionResult HRGetExitForm(string ID)
+        public async Task<IActionResult> HRGetExitForm(string ID)
         {
             try
             {
+                var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
                 var formModel = dbContext.ExitInterviewForm.Where(x => x.ExitCardRef == int.Parse(ID)).FirstOrDefault();
+                logger.LogInformation($"User:{user.EmployeeId},Verb:GET,Path:Get Employee Exit Form Success");
                 return Ok(formModel);
             }
             catch (Exception x)
             {
+                logger.LogError($"User:NAp,Verb:GET,Action:Get Employee Exit Form Failed,Message:{x.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Employee Exit Form err " + x.Message });
             }
         }

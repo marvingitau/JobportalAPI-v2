@@ -16,6 +16,7 @@ using RPFBE.Model.Repository;
 using RPFBE.Settings;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -123,16 +124,13 @@ namespace RPFBE
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,ILoggerFactory loggerFactory)
         {
             //app.UseCors(options => options.AllowCredentials().AllowAnyHeader().AllowAnyMethod().WithOrigins(new[] { "http://localhost:3000" }));
             //app.UseCors(options => options.AllowAnyOrigin()
             //                                .AllowAnyMethod()
             //                                .AllowAnyHeader()); 
             
-
-
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -155,6 +153,8 @@ namespace RPFBE
             {
                 endpoints.MapControllers();
             });
+
+            loggerFactory.AddFile($@"{Directory.GetCurrentDirectory()}\Logs\Log.txt");
         }
     }
 }

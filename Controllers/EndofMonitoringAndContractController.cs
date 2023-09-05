@@ -682,13 +682,13 @@ namespace RPFBE.Controllers
                 //Mail HOD
 
                 var probationMailHR = await codeUnitWebService.WSMailer().SupervisorToHODProbationAsync(probModel.HODEid, probModel.ProbationNo);
-                logger.LogInformation($"User:{user.EmployeeId},Verb:{verb},Path:HR Get Requsition Card Success");
+                logger.LogInformation($"User:{user.EmployeeId},Verb:{verb},Path::Probation Movement Success");
                 return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Probation Moved" });
             }
             catch (Exception x)
             {
                 var user = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
-                logger.LogError($"User:{user.EmployeeId},Verb:GET,Action:HR Stage Requsition Single failed,Message:{x.Message}");
+                logger.LogError($"User:{user.EmployeeId},Verb:GET,Action:Probation Movement failed,Message:{x.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Probation Move Failed: " + x.Message });
             }
         }
@@ -1644,7 +1644,7 @@ namespace RPFBE.Controllers
             }
         }
 
-        //Move Probation To HR from HOD
+        //Move EOC To HR from HOD
         [Authorize]
         [HttpGet]
         [Route("movecontractfrommanagertohr/{PID}")]

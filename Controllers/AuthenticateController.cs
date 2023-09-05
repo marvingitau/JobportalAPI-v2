@@ -92,7 +92,7 @@ namespace RPFBE.Controllers
                     var token = new JwtSecurityToken(
                         issuer: configuration["JWT:ValidIssuer"],
                         audience: configuration["JWT:ValidAudience"],
-                        expires: DateTime.Now.AddHours(6),
+                        expires: DateTime.UtcNow.AddHours(3),
                         claims: authClaims,
                         signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
                         );
@@ -102,7 +102,7 @@ namespace RPFBE.Controllers
                     {
                         idToken = new JwtSecurityTokenHandler().WriteToken(token),
                         expiresIn = token.ValidTo.TimeOfDay.TotalMilliseconds,
-                        expireDate = token.ValidTo,
+                        expireDate = token.ValidTo.ToLocalTime(),
                         user = userRoles,
                         Name,
                     });

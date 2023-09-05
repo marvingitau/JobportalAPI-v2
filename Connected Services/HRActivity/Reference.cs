@@ -21787,6 +21787,8 @@ namespace HRActivity
             {
                 System.ServiceModel.BasicHttpBinding result = new System.ServiceModel.BasicHttpBinding();
                 result.MaxBufferSize = int.MaxValue;
+                result.Security.Mode = System.ServiceModel.BasicHttpSecurityMode.TransportCredentialOnly;
+                result.Security.Transport.ClientCredentialType = System.ServiceModel.HttpClientCredentialType.Basic;
                 result.ReaderQuotas = System.Xml.XmlDictionaryReaderQuotas.Max;
                 result.MaxReceivedMessageSize = int.MaxValue;
                 result.AllowCookies = true;

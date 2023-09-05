@@ -3670,13 +3670,17 @@ namespace JobRequisition
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=0)]
         public string jobno;
         
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/JWS", Order=1)]
+        public string empID;
+        
         public GetJobDetails()
         {
         }
         
-        public GetJobDetails(string jobno)
+        public GetJobDetails(string jobno, string empID)
         {
             this.jobno = jobno;
+            this.empID = empID;
         }
     }
     
@@ -8232,10 +8236,11 @@ namespace JobRequisition
             return base.Channel.GetJobDetailsAsync(request);
         }
         
-        public System.Threading.Tasks.Task<JobRequisition.GetJobDetails_Result> GetJobDetailsAsync(string jobno)
+        public System.Threading.Tasks.Task<JobRequisition.GetJobDetails_Result> GetJobDetailsAsync(string jobno, string empID)
         {
             JobRequisition.GetJobDetails inValue = new JobRequisition.GetJobDetails();
             inValue.jobno = jobno;
+            inValue.empID = empID;
             return ((JobRequisition.JWS_Port)(this)).GetJobDetailsAsync(inValue);
         }
         

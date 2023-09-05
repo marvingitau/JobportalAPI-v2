@@ -24,6 +24,8 @@ namespace RPFBE.Model.DBEntity
         public string ClosingDate { get; set; }
         public string Status { get; set; }
         public int ProgressStatus { get; set; } = 0;
+
+        public string HodEID { get; set; }
         
     }
 }

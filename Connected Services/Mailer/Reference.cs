@@ -60,6 +60,11 @@ namespace Mailer
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<Mailer.StaffRequisitiontoMDfromHR_Result> StaffRequisitiontoMDfromHRAsync(Mailer.StaffRequisitiontoMDfromHR request);
         
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:StaffRequisitiontoMDfromSta" +
+            "ff", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<Mailer.StaffRequisitiontoMDfromStaff_Result> StaffRequisitiontoMDfromStaffAsync(Mailer.StaffRequisitiontoMDfromStaff request);
+        
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:StaffRequisitionHRApproval", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<Mailer.StaffRequisitionHRApproval_Result> StaffRequisitionHRApprovalAsync(Mailer.StaffRequisitionHRApproval request);
@@ -76,6 +81,11 @@ namespace Mailer
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:ShortlistedInterviewNotice", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<Mailer.ShortlistedInterviewNotice_Result> ShortlistedInterviewNoticeAsync(Mailer.ShortlistedInterviewNotice request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:StaffRequisitiontoHHRfromHO" +
+            "D", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<Mailer.StaffRequisitiontoHHRfromHOD_Result> StaffRequisitiontoHHRfromHODAsync(Mailer.StaffRequisitiontoHHRfromHOD request);
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/codeunit/Notifications:EmployeeProbationManagerToH" +
             "R", ReplyAction="*")]
@@ -516,6 +526,42 @@ namespace Mailer
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="StaffRequisitiontoMDfromStaff", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", IsWrapped=true)]
+    public partial class StaffRequisitiontoMDfromStaff
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=0)]
+        public string pKey;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=1)]
+        public string from;
+        
+        public StaffRequisitiontoMDfromStaff()
+        {
+        }
+        
+        public StaffRequisitiontoMDfromStaff(string pKey, string from)
+        {
+            this.pKey = pKey;
+            this.from = from;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="StaffRequisitiontoMDfromStaff_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", IsWrapped=true)]
+    public partial class StaffRequisitiontoMDfromStaff_Result
+    {
+        
+        public StaffRequisitiontoMDfromStaff_Result()
+        {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="StaffRequisitionHRApproval", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", IsWrapped=true)]
     public partial class StaffRequisitionHRApproval
     {
@@ -637,6 +683,38 @@ namespace Mailer
     {
         
         public ShortlistedInterviewNotice_Result()
+        {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="StaffRequisitiontoHHRfromHOD", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", IsWrapped=true)]
+    public partial class StaffRequisitiontoHHRfromHOD
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", Order=0)]
+        public string pKey;
+        
+        public StaffRequisitiontoHHRfromHOD()
+        {
+        }
+        
+        public StaffRequisitiontoHHRfromHOD(string pKey)
+        {
+            this.pKey = pKey;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3-preview3.21351.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="StaffRequisitiontoHHRfromHOD_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/codeunit/Notifications", IsWrapped=true)]
+    public partial class StaffRequisitiontoHHRfromHOD_Result
+    {
+        
+        public StaffRequisitiontoHHRfromHOD_Result()
         {
         }
     }
@@ -1887,6 +1965,20 @@ namespace Mailer
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<Mailer.StaffRequisitiontoMDfromStaff_Result> Mailer.Notifications_Port.StaffRequisitiontoMDfromStaffAsync(Mailer.StaffRequisitiontoMDfromStaff request)
+        {
+            return base.Channel.StaffRequisitiontoMDfromStaffAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<Mailer.StaffRequisitiontoMDfromStaff_Result> StaffRequisitiontoMDfromStaffAsync(string pKey, string from)
+        {
+            Mailer.StaffRequisitiontoMDfromStaff inValue = new Mailer.StaffRequisitiontoMDfromStaff();
+            inValue.pKey = pKey;
+            inValue.from = from;
+            return ((Mailer.Notifications_Port)(this)).StaffRequisitiontoMDfromStaffAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         System.Threading.Tasks.Task<Mailer.StaffRequisitionHRApproval_Result> Mailer.Notifications_Port.StaffRequisitionHRApprovalAsync(Mailer.StaffRequisitionHRApproval request)
         {
             return base.Channel.StaffRequisitionHRApprovalAsync(request);
@@ -1936,6 +2028,19 @@ namespace Mailer
             Mailer.ShortlistedInterviewNotice inValue = new Mailer.ShortlistedInterviewNotice();
             inValue.pKey = pKey;
             return ((Mailer.Notifications_Port)(this)).ShortlistedInterviewNoticeAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<Mailer.StaffRequisitiontoHHRfromHOD_Result> Mailer.Notifications_Port.StaffRequisitiontoHHRfromHODAsync(Mailer.StaffRequisitiontoHHRfromHOD request)
+        {
+            return base.Channel.StaffRequisitiontoHHRfromHODAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<Mailer.StaffRequisitiontoHHRfromHOD_Result> StaffRequisitiontoHHRfromHODAsync(string pKey)
+        {
+            Mailer.StaffRequisitiontoHHRfromHOD inValue = new Mailer.StaffRequisitiontoHHRfromHOD();
+            inValue.pKey = pKey;
+            return ((Mailer.Notifications_Port)(this)).StaffRequisitiontoHHRfromHODAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
